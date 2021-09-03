@@ -8,6 +8,11 @@ GNU inetutils NEWS -- history of user-visible changes.
 are 0xff 0xf7 (IAC EC) or 0xff 0xf8 (IAC EL).  Reported in:
 <https://pierrekim.github.io/blog/2022-08-24-2-byte-dos-freebsd-netbsd-telnetd-netkit-telnetd-inetutils-telnetd-kerberos-telnetd.html>.
 
+** telnet
+
+*** Fix a buffer overflow problem.  CVE-2019-0053
+https://cgit.freebsd.org/src/commit/?id=14aab889f4e50072a6b914eb95ebbfa939539dad
+
 * Noteworthy changes in release 2.3 (2022-07-08) [stable]
 
 ** telnet

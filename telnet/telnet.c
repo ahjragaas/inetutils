@@ -1677,8 +1677,8 @@ env_opt (register unsigned char *buf, register int len)
     }
 }
 
-#define OPT_REPLY_SIZE	256
-unsigned char *opt_reply;
+#define OPT_REPLY_SIZE	(2 * SUBBUFSIZE)
+unsigned char *opt_reply = NULL;
 unsigned char *opt_replyp;
 unsigned char *opt_replyend;
 
@@ -1761,6 +1761,8 @@ env_opt_add (register unsigned char *ep)
     {
       while ((c = *ep++))
 	{
+	  if (opt_replyp + (2 + 2) > opt_replyend)
+	    return;
 	  switch (c & 0xff)
 	    {
 	    case IAC:
@@ -1777,6 +1779,8 @@ env_opt_add (register unsigned char *ep)
 	}
       if ((ep = vp))
 	{
+	  if (opt_replyp + (1 + 2 + 2) > opt_replyend)
+	    return;
 #ifdef	OLD_ENVIRON
 	  if (telopt_environ == TELOPT_OLD_ENVIRON)
 	    *opt_replyp++ = old_env_value;
@@ -1807,6 +1811,8 @@ env_opt_end (register int emptyok)
 {
   register int len;
 
+  if (opt_replyp + 2 > opt_replyend)
+    return;
   len = opt_replyp - opt_reply + 2;
   if (emptyok || len > 6)
     {
