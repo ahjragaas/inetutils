@@ -1,5 +1,5 @@
 /* cleansess.c - Clean up the pty and frob utmp/wtmp accordingly after logout
-  Copyright (C) 1996-2021 Free Software Foundation, Inc.
+  Copyright (C) 1996-2022 Free Software Foundation, Inc.
 
   This file is part of GNU Inetutils.
 

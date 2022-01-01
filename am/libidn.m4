@@ -1,5 +1,5 @@
 # libidn.m4 serial 2
-dnl Copyright (C) 2013-2021 Free Software Foundation, Inc.
+dnl Copyright (C) 2013-2022 Free Software Foundation, Inc.
 dnl
 dnl This file is part of GNU Inetutils.
 dnl

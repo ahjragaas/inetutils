@@ -59,7 +59,7 @@
 This manual documents version @value{VERSION} of the @sc{gnu} networking
 utilities.
 
-Copyright @copyright{} 2000--2021 Free Software Foundation, Inc.
+Copyright @copyright{} 2000--2022 Free Software Foundation, Inc.
 
 @quotation
 Permission is granted to copy, distribute and/or modify this document
