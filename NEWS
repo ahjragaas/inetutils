@@ -7,6 +7,10 @@ GNU inetutils NEWS -- history of user-visible changes.
 Don't infloop when (malicious) server sends too large terminal value,
 see: https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=945861
 
+Abort subnegotiation of X Display Location Option with WONT when DISPLAY
+value is too large for buffer.  Reported by Joerg Mayer in
+<https://lists.gnu.org/archive/html/bug-inetutils/2022-01/msg00010.html>.
+
 ** Various bugs fixes, internal improvements and clean ups.
 
 Further cleanup of configure.ac, updates to modern autoconf releases,

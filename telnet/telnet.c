@@ -1008,11 +1008,13 @@ suboption (void)
 	  /* Remote host, and display server must not be corrupted
 	   * by truncation.  In addition, every character of telnet
 	   * protocol must remain unsevered.  Check that DP fits in
-	   * full within TEMP.  Otherwise report buffer error.
+	   * full within TEMP.  Otherwise report buffer error and
+	   * turn off the option.
 	   */
 	  if (strlen ((char *) dp) >= sizeof (temp) - 4 - 2)
 	    {
-	      printf ("lm_will: not enough room in buffer\n");
+	      printf ("lm_will: not enough room in buffer for DISPLAY\n");
+	      send_wont (TELOPT_XDISPLOC, 1);
 	      break;
 	    }
 
