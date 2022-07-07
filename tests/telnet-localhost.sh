@@ -103,6 +103,14 @@ if test "$TEST_IPV4" = "no" && test "$TEST_IPV6" = "no"; then
     exit 77
 fi
 
+# Check regression of crash reported here:
+# https://lists.gnu.org/archive/html/bug-inetutils/2022-02/msg00014.html
+echo 'help z ! ? z ! ? z ! ? z ! ? z ! ? z ! ? z !' | $TELNET > /dev/null
+if test $? -ne 0; then
+    echo "Regression of telnet crash bug." >&2
+    exit 1
+fi
+
 # Portability fix for SVR4
 PWD="${PWD:-`pwd`}"
 
