@@ -1143,6 +1143,11 @@ setcmd (int argc, char *argv[])
       (*ct->handler) (argv[2]);
       printf ("%s set to \"%s\".\n", ct->name, (char *) ct->charp);
     }
+  else if (!ct->charp)
+    {
+      fprintf (stderr, "'%s': invalid argument ('set ?' for help).\n",
+	       argv[1]);
+    }
   else
     {
       if (strcmp ("off", argv[2]))
