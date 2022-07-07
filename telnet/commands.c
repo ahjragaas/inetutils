@@ -1229,6 +1229,12 @@ unsetcmd (int argc, char *argv[])
 	  (*ct->handler) (0);
 	  printf ("%s reset to \"%s\".\n", ct->name, (char *) ct->charp);
 	}
+      else if (!ct->charp)
+	{
+	  fprintf (stderr, "'%s': invalid argument ('unset ?' for help).\n",
+		   name);
+	  return 0;
+	}
       else
 	{
 	  *(ct->charp) = _POSIX_VDISABLE;
