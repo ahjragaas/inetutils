@@ -688,15 +688,15 @@ parse_cmdline (int argc, char *argv[])
 		   "can't get memory for interface configuration");
 	  ifp = &ifs[nifs - 1];
 	  *ifp = ifconfig_initializer;
-	  ifp->name = ifnxp->if_name;
+	  ifp->name = strdup (ifnxp->if_name);
+	  if (!ifs)
+	    error (EXIT_FAILURE, errno,
+		   "can't get memory for interface configuration name");
 	  ifp->valid = IF_VALID_FORMAT;
 	  ifp->format = default_format;
 	  ifnxp++;
 	}
-      /* XXX: We never do if_freenameindex (ifnx), because we are
-	 keeping the names for later instead using strdup
-	 (if->if_name) here.  */
-
+      if_freenameindex (ifnx);
       qsort (ifs, nifs, sizeof (ifs[0]), cmp_if_name);
     }
 }
