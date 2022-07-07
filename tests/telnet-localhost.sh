@@ -111,6 +111,14 @@ if test $? -ne 0; then
     exit 1
 fi
 
+# Check regression of crash reported here:
+# https://lists.gnu.org/archive/html/bug-inetutils/2022-02/msg00009.html
+echo 'help help' | $TELNET > /dev/null
+if test $? -ne 0; then
+    echo "Regression of telnet second crash bug." >&2
+    exit 1
+fi
+
 # Portability fix for SVR4
 PWD="${PWD:-`pwd`}"
 
