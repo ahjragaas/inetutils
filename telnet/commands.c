@@ -2938,7 +2938,7 @@ static char crmodhelp[] = "deprecated command -- use 'toggle crmod' instead";
 static char escapehelp[] = "deprecated command -- use 'set escape' instead";
 
 static Command cmdtab2[] = {
-  {"help", 0, help, 0},
+  {"help", helphelp, help, 0},
   {"escape", escapehelp, setescape, 0},
   {"crmod", crmodhelp, togcrmod, 0},
   {NULL, NULL, NULL, 0}
