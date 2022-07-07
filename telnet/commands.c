@@ -132,10 +132,12 @@ typedef struct
   int needconnect;		/* Do we need to be connected to execute? */
 } Command;
 
+#define TELNET_MAX_ARGS 20
+
 static char line[256];
 static char saveline[256];
 static int margc;
-static char *margv[20];
+static char *margv[TELNET_MAX_ARGS];
 
 static void
 makeargv (void)
@@ -159,6 +161,11 @@ makeargv (void)
 	c = *++cp;
       if (c == '\0')
 	break;
+      if (margc + 1 >= TELNET_MAX_ARGS)
+	{
+	  fprintf (stderr, "Ignoring excess arguments\n.");
+	  break;
+	}
       *argp++ = cp;
       margc += 1;
       for (cp2 = cp; c != '\0'; c = *++cp)
