@@ -3097,7 +3097,7 @@ help (int argc, char *argv[])
 	printf ("?Ambiguous help command %s\n", arg);
       else if (c == (Command *) 0)
 	printf ("?Invalid help command %s\n", arg);
-      else
+      else if (c->help)
 	printf ("%s\n", c->help);
     }
   return 0;
