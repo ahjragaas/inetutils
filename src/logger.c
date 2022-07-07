@@ -326,7 +326,7 @@ send_to_syslog (const char *msg)
       ioptr->iov_base = (char*) msg;
       ioptr->iov_len = msglen;
 
-      if (msg[msglen - 1] != '\n')
+      if (msglen > 0 && msg[msglen - 1] != '\n')
 	{
 	  /* provide a newline */
 	  ioptr++;
