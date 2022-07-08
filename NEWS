@@ -4,17 +4,24 @@ GNU inetutils NEWS -- history of user-visible changes.
 
 ** telnet
 
-Don't infloop when (malicious) server sends too large terminal value,
-see: https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=945861
+*** Don't infloop when (malicious) server sends too large terminal
+value, see: https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=945861
 
-Abort subnegotiation of X Display Location Option with WONT when DISPLAY
-value is too large for buffer.  Reported by Joerg Mayer in
+*** Abort subnegotiation of X Display Location Option with WONT when
+DISPLAY value is too large for buffer.  Reported by Joerg Mayer in
 <https://lists.gnu.org/archive/html/bug-inetutils/2022-01/msg00010.html>.
 
-Fix off-by-one error in Terminal-Type option subnegotiation if the TERM
-variable has exactly 44 bytes.  This concerns the CVE-2019-0053 fixes.
-Reported by Erik Auerswald in
+*** Fix off-by-one error in Terminal-Type option subnegotiation if the
+TERM variable has exactly 44 bytes.  This concerns the CVE-2019-0053
+fixes.  Reported by Erik Auerswald in
 <https://lists.gnu.org/archive/html/bug-inetutils/2022-02/msg00004.html>.
+
+*** Avoid crashing when given unexpected or invalid commands from tty.
+Reported by Peter Kasza in
+<https://lists.gnu.org/archive/html/bug-inetutils/2017-06/msg00000.html>,
+AiDai in <https://savannah.gnu.org/bugs/?61725> and
+<https://savannah.gnu.org/bugs/?61726>, and ZFeiXQ in
+<https://lists.gnu.org/archive/html/bug-inetutils/2021-12/msg00017.html>.
 
 ** Various bugs fixes, internal improvements and clean ups.
 
