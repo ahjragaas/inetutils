@@ -49,7 +49,9 @@ You need the following packages, we don't make any extra effort to
 accommodate older versions of these packages, so please make sure that
 you have the latest stable version.
 
-- shell <https://www.gnu.org/software/bash/>
+- Shell <https://www.gnu.org/software/bash/>
+- Git <https://git-scm.com/>
+- Make <https://www.gnu.org/software/make/>
 - C compiler <https://www.gnu.org/software/gcc/>
 - Autoconf <https://www.gnu.org/software/autoconf/>
 - Automake <https://www.gnu.org/software/automake/>
@@ -60,6 +62,7 @@ you have the latest stable version.
 - help2man <https://www.gnu.org/software/help2man>
 - ncurses <https://www.gnu.org/software/ncurses/> (optional, for talk)
 - xz <https://tukaani.org/xz/> (for 'make dist')
+- Texlive & epsf <http://www.tug.org/texlive/> (for 'make dist')
 
 * Building
 
@@ -71,20 +74,15 @@ you have the latest stable version.
 
    ./bootstrap
 
-Once done, proceed as described in the file INSTALL.
+For more information about `bootstrap', run `bootstrap --help', or see
+the gnulib documentation.
 
-Normally you will have to run bootstrap only once.  However, if you
-intend to hack, you might need to run it again later.  In this case,
-you will probably want to save some time and bandwidth by avoiding
-downloading the same files again.  If so, create in the top level
-directory the file named `.bootstrap' with the following contents:
+3. Configure
 
-   --gnulib-srcdir=$HOME/gnulib --skip-po
+   ./configure
+   make
 
-Replace `$HOME/gnulib' with the actual directory where the gnulib
-sources reside.
-
-For more information about `bootstrap', run `bootstrap --help'.
+See the file INSTALL for standard instructions.
 
 Before running "make dist" in a freshly bootstrapped directory, you
 need to have run "make" at least once to create the binaries which are
@@ -101,46 +99,6 @@ TODO file in the repository, or in our bug tracker
 You can track the development process through the
 <commit-inetutils@gnu.org> mailing list.  This is a medium volume
 moderated list.
-
-** Announcement template
-
-Subject: GNU inetutils VERSION released
-
-The GNU inetutils team is proud to present version VERSION of the GNU
-networking utilities.  The GNU Networking Utilities are the common
-networking utilities, clients and servers of the GNU Operating System.
-
-The following is new in this release:
-
-FIXME: put recent NEWS items here
-
-Please send bug reports to bug-inetutils@gnu.org.
-
-Here are the compressed sources:
-  ftp://ftp.gnu.org/gnu/inetutils/inetutils-VERSION.tar.xz
-
-Here are the GPG detached signatures[*]:
-  ftp://ftp.gnu.org/gnu/inetutils/inetutils-VERSION.tar.xz.sig
-
-To reduce load on the main server, use a mirror listed at:
-  http://www.gnu.org/order/ftp.html
-
-[*] You can use either of the above signature files to verify that the
-corresponding file (without the .sig suffix) is intact.  First, be
-sure to download both the .sig file and the corresponding tarball.
-Then, run a command like this:
-
-  gpg --verify inetutils-VERSION.tar.xz.sig
-
-If that command fails because you don't have the required public key,
-then run this command to import it:
-
-  gpg --keyserver keys.gnupg.net --recv-keys D95A3C35
-
-and rerun the `gpg --verify' command.
-
-Many thanks to all the people who contributed to this release.  Happy
-hacking!
 
 * Copyright information
 
