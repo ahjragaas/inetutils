@@ -152,7 +152,7 @@ kerberos_auth (krb5_context *ctx, int verbose, char **cname,
   krb5_data_free (&cksum_data);
 # endif
 
-  rc = krb5_auth_con_getlocalsubkey (*ctx, auth_ctx, key);
+  rc = krb5_auth_con_getsendsubkey (*ctx, auth_ctx, key);
 
   /* send size of AP-REQ to the server */
 
