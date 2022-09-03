@@ -312,15 +312,21 @@ telrcv (void)
 	    case EC:
 	    case EL:
 	      {
-		cc_t ch;
+		cc_t ch = (cc_t) (_POSIX_VDISABLE);
 
 		DEBUG (debug_options, 1, printoption ("td: recv IAC", c));
 		ptyflush ();	/* half-hearted */
 		init_termbuf ();
 		if (c == EC)
-		  ch = *slctab[SLC_EC].sptr;
+		  {
+		    if (slctab[SLC_EC].sptr)
+		      ch = *slctab[SLC_EC].sptr;
+		  }
 		else
-		  ch = *slctab[SLC_EL].sptr;
+		  {
+		    if (slctab[SLC_EL].sptr)
+		      ch = *slctab[SLC_EL].sptr;
+		  }
 		if (ch != (cc_t) (_POSIX_VDISABLE))
 		  pty_output_byte ((unsigned char) ch);
 		break;
