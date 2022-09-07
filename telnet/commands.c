@@ -163,7 +163,7 @@ makeargv (void)
 	break;
       if (margc + 1 >= TELNET_MAX_ARGS)
 	{
-	  fprintf (stderr, "Ignoring excess arguments\n.");
+	  fprintf (stderr, "Ignoring excess arguments.\n");
 	  break;
 	}
       *argp++ = cp;
