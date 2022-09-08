@@ -4,9 +4,8 @@ GNU inetutils NEWS -- history of user-visible changes.
 
 ** telnetd
 
-*** Avoid crashing when the first two bytes read from a new connection
-are 0xff 0xf7 (IAC EC) or 0xff 0xf8 (IAC EL).  Reported in:
-<https://pierrekim.github.io/blog/2022-08-24-2-byte-dos-freebsd-netbsd-telnetd-netkit-telnetd-inetutils-telnetd-kerberos-telnetd.html>.
+*** Avoid crash on 0xff 0xf7 (IAC EC) or 0xff 0xf8 (IAC EL).  CVE-2022-39028
+https://pierrekim.github.io/blog/2022-08-24-2-byte-dos-freebsd-netbsd-telnetd-netkit-telnetd-inetutils-telnetd-kerberos-telnetd.html
 
 ** telnet
 
