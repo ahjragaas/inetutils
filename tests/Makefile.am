@@ -43,6 +43,9 @@ endif
 if ENABLE_traceroute
 dist_check_SCRIPTS += traceroute-localhost.sh
 endif
+if ENABLE_tftpd
+dist_check_SCRIPTS += tftp-regressions.sh
+endif
 if ENABLE_inetd
 if ENABLE_tftpd
 if ENABLE_tftp
