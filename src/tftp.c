@@ -122,7 +122,10 @@ static int fromatty;
 char mode[32];
 char line[200];
 int margc;
-char *margv[20];
+
+#define TFTP_MAX_ARGS 20
+
+char *margv[TFTP_MAX_ARGS];
 char *prompt = "tftp";
 jmp_buf toplevel;
 void intr (int signo);
@@ -914,6 +917,11 @@ makeargv (void)
 	cp++;
       if (*cp == '\0')
 	break;
+      if (margc + 1 >= TFTP_MAX_ARGS)
+	{
+	  fprintf (stderr, "Ignoring excess arguments.\n");
+	  break;
+	}
       *argp++ = cp;
       margc += 1;
       while (*cp != '\0' && !isspace (*cp))

@@ -12,6 +12,12 @@ https://pierrekim.github.io/blog/2022-08-24-2-byte-dos-freebsd-netbsd-telnetd-ne
 *** Fix a buffer overflow problem.  CVE-2019-0053
 https://cgit.freebsd.org/src/commit/?id=14aab889f4e50072a6b914eb95ebbfa939539dad
 
+** tftp
+
+*** Avoid crashing when given unexpected or invalid commands from tty.
+Reported by AiDai in
+<https://lists.gnu.org/archive/html/bug-inetutils/2021-12/msg00018.html>.
+
 * Noteworthy changes in release 2.3 (2022-07-08) [stable]
 
 ** telnet
