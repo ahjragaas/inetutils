@@ -20,6 +20,8 @@ AM_CPPFLAGS = $(iu_INCLUDES)
 
 LDADD = $(iu_LIBRARIES)
 
+EXTRA_DIST = tools.sh.in ifconfig_modes.sh
+
 noinst_PROGRAMS = identify
 identify_LDADD = $(top_builddir)/lib/libgnu.a $(LIBUTIL) $(PTY_LIB)
 
@@ -44,6 +46,7 @@ if ENABLE_traceroute
 dist_check_SCRIPTS += traceroute-localhost.sh
 endif
 if ENABLE_tftpd
+EXTRA_DIST += crash-tftp-msg2021-12_18
 dist_check_SCRIPTS += tftp-regressions.sh
 endif
 if ENABLE_inetd
@@ -92,8 +95,6 @@ endif
 TESTS = localhost test-snprintf waitdaemon $(dist_check_SCRIPTS)
 
 TESTS_ENVIRONMENT = EXEEXT=$(EXEEXT)
-
-EXTRA_DIST = tools.sh.in ifconfig_modes.sh
 
 BUILT_SOURCES = tools.sh
 

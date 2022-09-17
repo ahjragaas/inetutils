@@ -38,14 +38,6 @@ if [ ! -x $TFTP ]; then
     exit 77
 fi
 
-# This script requires a printf that supports octal escape sequences in the
-# format string.
-# TODO: Use Autoconf to test for a usable printf.
-if [ "`printf '\141'`" != 'a' ]; then
-    echo 'Octal escape sequences do not work with printf.  Skipping test.' >&2
-    exit 77
-fi
-
 # Print version of TFTP client in VERBOSE mode.
 if [ "$VERBOSE" ]; then
     "$TFTP" --version | $SED '1q'
@@ -60,20 +52,7 @@ RESULT=0
 # https://lists.gnu.org/archive/html/bug-inetutils/2021-12/msg00018.html
 EFFORTS=`expr $EFFORTS + 1`
 $silence echo 'Checking crash bug from message 2021-12/18...' >&2
-printf \
-'\077\040\077\040\142\040\377\067\077\040\142\040\020\312\042\040'\
-'\042\040\020\013\040\142\040\312\312\312\040\042\040\020\067\042'\
-'\042\043\042\040\042\040\020\013\040\077\040\142\040\067\004\040'\
-'\040\377\067\043\042\040\042\040\020\013\040\072\273\004\057\036'\
-'\042\024\142\040\312\312\312\312\077\040\077\040\142\040\020\312'\
-'\042\040\042\040\020\067\042\042\043\042\040\042\040\020\013\040'\
-'\077\040\142\040\067\004\040\040\377\067\043\042\040\042\040\020'\
-'\013\040\072\273\004\057\036\042\024\142\040\312\312\312\312\077'\
-'\040\077\040\142\040\020\312\042\040\042\040\020\013\040\142\040'\
-'\312\312\312\040\042\051\020\067\042\040\042\040\020\013\040\142'\
-'\040\312\312\312\040\042\040\020\067\042\042\040\000\100\060\013'\
-'\040'\
- | "$TFTP" >/dev/null 2>&1
+"$TFTP" < crash-tftp-msg2021-12_18 >/dev/null 2>&1
 if test $? -ne 0; then
     $silence echo 'Regression of tftp crash bug from message 2021-12/18.' >&2
     RESULT=1
