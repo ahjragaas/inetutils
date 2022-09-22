@@ -3253,7 +3253,7 @@ minute; the default is 1000.
 
 Upon execution, inetd reads its configuration information from
 configuration files and directories named on the command line.
-By default these are @file{/etc/inetd.conf} and @file{/etc/initd.d}.
+By default these are @file{/etc/inetd.conf} and @file{/etc/inetd.d}.
 If the configuration pathname is a directory, all files in the
 directory are read and interpreted like a configuration file.
 All of the configuration files are read and the results are merged.
