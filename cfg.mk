@@ -64,7 +64,10 @@ exclude_file_name_regexp--sc_obsolete_symbols = \
 	^tests/identify.c$$
 
 exclude_file_name_regexp--sc_trailing_blank = \
-	^gl/top/README-release.diff$$
+	^(tests/crash-tftp-msg2021-12_18.bin|gl/top/README-release.diff)$$
+
+exclude_file_name_regexp--sc_prohibit_empty_lines_at_EOF = \
+	^tests/crash-tftp-msg2021-12_18.bin$$
 
 sc_unsigned_char:
 	@prohibit=u''_char \

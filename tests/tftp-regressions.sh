@@ -52,7 +52,7 @@ RESULT=0
 # https://lists.gnu.org/archive/html/bug-inetutils/2021-12/msg00018.html
 EFFORTS=`expr $EFFORTS + 1`
 $silence echo 'Checking crash bug from message 2021-12/18...' >&2
-"$TFTP" < crash-tftp-msg2021-12_18 >/dev/null 2>&1
+"$TFTP" < $srcdir/crash-tftp-msg2021-12_18.bin >/dev/null 2>&1
 if test $? -ne 0; then
     $silence echo 'Regression of tftp crash bug from message 2021-12/18.' >&2
     RESULT=1
