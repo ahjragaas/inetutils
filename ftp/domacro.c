@@ -48,6 +48,7 @@
 #include <config.h>
 
 #include <ctype.h>
+#include <limits.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -178,9 +179,12 @@ domacro (int argc, char *argv[])
 		      /* Argument expansion.  */
 		      j = 0;
 		      while (isdigit (*++cp1))
-			j = 10 * j + *cp1 - '0';
+			{
+			  if (j <= (INT_MAX - 9) / 10)
+			    j = 10 * j + *cp1 - '0';
+			}
 		      cp1--;
-		      if (argc - 2 >= j)
+		      if (argc - 2 >= j && j >= 0)
 			{
 			  if (lengthen (&line, &cp2, &linelen,
 					strlen (argv[j + 1]) + 2))
