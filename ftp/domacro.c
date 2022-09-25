@@ -266,8 +266,23 @@ domacro (int argc, char *argv[])
 	      /* The arguments set at the time of invoking
 	       * the macro must be recovered, to be used
 	       * in parsing next line of macro definition.
+	       *
+	       * Executing a macro line can change "line"
+	       * to no longer provide sufficient space for
+	       * the saved line2 contents.
 	       */
-	      strcpy (line, line2);	/* Known to fit.  */
+	      if (strlen(line2) >= linelen)
+		{
+		  char *tmp = realloc (line, strlen(line2) + 1);
+		  if (tmp == NULL)
+		    {
+		      allocflg = 1;
+		      goto end_exec;
+		    }
+		  line = tmp;
+		  linelen = strlen(line2) + 1;
+		}
+	      strcpy (line, line2);
 	      makeargv ();		/* Get the arguments.  */
 	      argc = margc;
 	      argv = margv;
