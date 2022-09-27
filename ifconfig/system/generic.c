@@ -53,6 +53,13 @@ system_parse_opt_rest (struct ifconfig **ifp MAYBE_UNUSED,
 }
 
 int
+system_preconfigure (int sfd MAYBE_UNUSED,
+		     struct ifreq *ifr MAYBE_UNUSED)
+{
+  return 0;
+}
+
+int
 system_configure (int sfd MAYBE_UNUSED,
 		  struct ifreq *ifr MAYBE_UNUSED,
 		  struct system_ifconfig *ifs MAYBE_UNUSED)

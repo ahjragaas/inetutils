@@ -404,7 +404,8 @@ configure_if (int sfd, struct ifconfig *ifp)
   strncpy (ifr.ifr_name, ifp->name, IFNAMSIZ);
   ifr.ifr_name[IFNAMSIZ - 1] = '\0';
 
-  if (ifp->valid & IF_VALID_ADDR)
+  err = system_preconfigure (sfd, &ifr);
+  if (!err && ifp->valid & IF_VALID_ADDR)
     err = set_address (sfd, &ifr, ifp->address);
   if (!err && ifp->valid & IF_VALID_NETMASK)
     err = set_netmask (sfd, &ifr, ifp->netmask);

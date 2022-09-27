@@ -24,6 +24,10 @@
 #include <stdlib.h>
 #include <sys/ioctl.h>
 #include <net/if_arp.h>
+#include <hurd.h>
+#include <hurd/paths.h>
+#include <hurd/fsys.h>
+#include <argz.h>
 #include "../ifconfig.h"
 
 #include <attribute.h>
@@ -33,6 +37,107 @@
 
 const char *system_default_format = "gnu";
 
+
+/* Check that pfinet is driving the given interface name.  */
+static int
+check_driving (const char *name)
+{
+  file_t node;
+  fsys_t fsys;
+  error_t err;
+
+  char *argz = 0, *new_argz = 0;
+  size_t argz_len = 0;
+  char *entry = 0;
+  const char *socket = _SERVERS_SOCKET "/2";
+
+  int ret = 0;
+
+  if (strcmp (name, "lo") == 0)
+    /* Always configured.  */
+    return 1;
+
+  node = file_name_lookup (socket, 0, 0666);
+  if (node == MACH_PORT_NULL)
+    {
+      error (0, 0, "Interface name %s does not exist", name);
+      return 0;
+    }
+
+  file_get_fs_options (node, &argz, &argz_len);
+
+  for (entry = argz; entry; entry = argz_next (argz, argz_len, entry))
+    {
+      if (strcmp (entry, "-i") == 0)
+	{
+	  char *ifname = argz_next (argz, argz_len, entry);
+
+	  if (strcmp (ifname, name) == 0)
+	    {
+	      /* Already there.  */
+	      ret = 1;
+	      goto out;
+	    }
+	}
+
+      else if (strncmp (entry, "--interface=", 12) == 0)
+	{
+	  if (strcmp (entry + 12, name) == 0)
+	    {
+	      /* Already there.  */
+	      ret = 1;
+	      goto out;
+	    }
+	}
+    }
+
+  /* Not already there.  */
+
+  err = file_getcontrol (node, &fsys);
+  if (err)
+    {
+      if (err == EPERM)
+	error (0, err, "Could not make pfinet %s drive %s", socket, name);
+      else
+	error (0, err, "Could not get control of %s", socket);
+      goto out;
+    }
+
+  new_argz = malloc (argz_len);
+  memcpy (new_argz, argz, argz_len);
+
+  err = argz_insert (&new_argz, &argz_len, new_argz, name);
+  if (err)
+    {
+      error (0, err, "Could not prepend name %s to '%s' for %s", name, new_argz, socket);
+      goto out;
+    }
+
+  err = argz_insert (&new_argz, &argz_len, new_argz, "-i");
+  if (err)
+    {
+      argz_stringify (new_argz, argz_len, ' ');
+      error (0, err, "Could not prepend -i to '%s' for %s", new_argz, socket);
+      goto out;
+    }
+
+  err = fsys_set_options (fsys, new_argz, argz_len, 1);
+  if (err)
+    {
+      argz_stringify (new_argz, argz_len, ' ');
+      error (0, err, "Could not make pfinet %s drive %s with '%s'", socket, name, new_argz);
+      goto out;
+    }
+
+  ret = 1;
+
+out:
+  free (new_argz);
+  vm_deallocate (mach_task_self (), (vm_offset_t) argz, argz_len);
+  mach_port_deallocate (mach_task_self (), node);
+
+  return ret;
+}
 
 /* Argument parsing stuff.  */
 
@@ -153,6 +258,15 @@ system_parse_opt_rest (struct ifconfig **ifp, int argc, char *argv[])
       return 1;
     }
 
+  return 0;
+}
+
+int
+system_preconfigure (int sfd MAYBE_UNUSED,
+		     struct ifreq *ifr MAYBE_UNUSED)
+{
+  if (!check_driving (ifr->ifr_name))
+    return -1;
   return 0;
 }
 

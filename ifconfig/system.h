@@ -64,6 +64,7 @@ extern const char *system_default_format;
 # undef SYSTEM_FORMAT_HANDLER
 
 
+int system_preconfigure (int sfd, struct ifreq *ifr);
 int system_configure (int sfd, struct ifreq *ifr,
 		      struct system_ifconfig *__ifs);
 

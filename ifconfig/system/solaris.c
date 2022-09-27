@@ -174,6 +174,13 @@ system_parse_opt_rest (struct ifconfig **ifp, int argc, char *argv[])
 }
 
 int
+system_preconfigure (int sfd MAYBE_UNUSED,
+		     struct ifreq *ifr MAYBE_UNUSED)
+{
+  return 0;
+}
+
+int
 system_configure (int sfd, struct ifreq *ifr, struct system_ifconfig *ifs)
 {
 #ifdef IF_VALID_TXQLEN
