@@ -547,8 +547,29 @@ parse_opt (int key, char *arg, struct argp_state *state)
       break;
 
     case 'A':		/* Interface address.  */
-      parse_opt_set_address (ifp, arg);
-      break;
+      {
+	char *netlen = strchr (arg, '/');
+
+	if (netlen)
+	  {
+	    char *end, *str;
+	    unsigned n;
+	    struct in_addr addr;
+
+	    *netlen++ = 0;
+
+	    n = strtol (netlen, &end, 10);
+	    if (end == netlen)
+	      error (EXIT_FAILURE, 0, "Wrong netmask length %s", netlen);
+
+	    addr.s_addr = htonl (INADDR_BROADCAST << (32-n));
+	    str = strdup (inet_ntoa (addr));
+	    parse_opt_set_netmask (ifp, str);
+	  }
+
+	parse_opt_set_address (ifp, arg);
+	break;
+      }
 
     case 'm':		/* Interface netmask.  */
       parse_opt_set_netmask (ifp, arg);
