@@ -89,6 +89,9 @@ tell='bell
 case
 hash
 nmap
+proxy nmap
+ntrans
+proxy ntrans
 runique
 sunique
 epsv4
@@ -108,6 +111,49 @@ test -z "$DIR_STEM" \
 
 test `echo "$reply" | $GREP -c "Local directory is $DIR_STEM/tmp"` -eq 1 \
 || { errno=1; echo >&2 'Failed to set local directory.'; }
+
+# File name mappings can be given in several ways.
+#
+# One line giving both patterns.
+tell='nmap a B
+status'
+reply=`echo "$tell" | $FTP`
+test `echo "$reply" | $FGREP -c 'Nmap: (in) a (out) B'` -eq 1 \
+|| { errno=1; echo >&2 'Failed to set file name mapping using single line.'; }
+
+# Second pattern on a line of its own.
+tell='nmap A
+b
+status'
+reply=`echo "$tell" | $FTP`
+test `echo "$reply" | $FGREP -c 'Nmap: (in) A (out) b'` -eq 1 \
+|| { errno=1; echo >&2 'Failed to set file name mapping using two lines.'; }
+
+# The proxy connection also has a file name mapping.
+#
+# One line giving both patterns.
+tell='proxy nmap c D
+proxy status'
+reply=`echo "$tell" | $FTP`
+test `echo "$reply" | $FGREP -c 'Nmap: (in) c (out) D'` -eq 1 || { errno=1
+  echo >&2 'Failed to set proxy file name mapping using single line.'; }
+
+# Second pattern on a line of its own.
+tell='proxy nmap C
+d
+proxy status'
+reply=`echo "$tell" | $FTP`
+test `echo "$reply" | $FGREP -c 'Nmap: (in) C (out) d'` -eq 1 || { errno=1
+  echo >&2 'Failed to set proxy file name mapping using two lines.'; }
+
+# Both proxy command and second pattern on a line of its own.
+tell='proxy
+nmap e
+F
+proxy status'
+reply=`echo "$tell" | $FTP`
+test `echo "$reply" | $FGREP -c 'Nmap: (in) e (out) F'` -eq 1 || { errno=1
+  echo >&2 'Failed to set proxy file name mapping using three lines.'; }
 
 # Summary of work.
 #
