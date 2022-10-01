@@ -21,7 +21,8 @@ AM_CPPFLAGS = $(iu_INCLUDES)
 LDADD = $(iu_LIBRARIES)
 
 EXTRA_DIST = tools.sh.in ifconfig_modes.sh crash-tftp-msg2021-12_18.bin \
-	crash-ftp-msg2021-12_03.bin crash-ftp-msg2021-12_16.bin
+	crash-ftp-msg2021-12_03.bin crash-ftp-msg2021-12_16.bin \
+	crash-ftp-msg2021-12_04.bin
 
 noinst_PROGRAMS = identify
 identify_LDADD = $(top_builddir)/lib/libgnu.a $(LIBUTIL) $(PTY_LIB)

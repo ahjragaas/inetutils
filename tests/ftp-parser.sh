@@ -121,6 +121,13 @@ reply=`echo "$tell" | $FTP`
 test `echo "$reply" | $FGREP -c 'Nmap: (in) a (out) B'` -eq 1 \
 || { errno=1; echo >&2 'Failed to set file name mapping using single line.'; }
 
+# One line giving both patterns with tab between arguments to nmap.
+tell='nmap x	Y
+status'
+reply=`echo "$tell" | $FTP`
+test `echo "$reply" | $FGREP -c 'Nmap: (in) x (out) Y'` -eq 1 || { errno=1
+  echo >&2 'Failed to set file name mapping using tab between arguments.'; }
+
 # Second pattern on a line of its own.
 tell='nmap A
 b
@@ -138,6 +145,13 @@ reply=`echo "$tell" | $FTP`
 test `echo "$reply" | $FGREP -c 'Nmap: (in) c (out) D'` -eq 1 || { errno=1
   echo >&2 'Failed to set proxy file name mapping using single line.'; }
 
+# One line giving both patterns with tab between arguments to nmap.
+tell='proxy nmap X	y
+proxy status'
+reply=`echo "$tell" | $FTP`
+test `echo "$reply" | $FGREP -c 'Nmap: (in) X (out) y'` -eq 1 || { errno=1
+  echo >&2 'Failed to set proxy file name mapping (one line, tab b/w args).'; }
+
 # Second pattern on a line of its own.
 tell='proxy nmap C
 d
@@ -145,6 +159,14 @@ proxy status'
 reply=`echo "$tell" | $FTP`
 test `echo "$reply" | $FGREP -c 'Nmap: (in) C (out) d'` -eq 1 || { errno=1
   echo >&2 'Failed to set proxy file name mapping using two lines.'; }
+
+# Proxy command on a separate line, tabs between arguments of nmap line.
+tell='proxy
+nmap	u	V
+proxy status'
+reply=`echo "$tell" | $FTP`
+test `echo "$reply" | $FGREP -c 'Nmap: (in) u (out) V'` -eq 1 || { errno=1
+  echo >&2 'Failed to set proxy file name mapping (two lines, tab b/w args).'; }
 
 # Both proxy command and second pattern on a line of its own.
 tell='proxy

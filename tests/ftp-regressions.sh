@@ -92,6 +92,19 @@ else
     $silence echo 'Input from message 2021-12/16 did not crash ftp.' >&2
 fi
 
+# Check regression of crash reported in:
+# https://lists.gnu.org/archive/html/bug-inetutils/2021-12/msg00004.html
+EFFORTS=`expr $EFFORTS + 1`
+$silence echo 'Checking ftp crash bug from message 2021-12/04...' >&2
+"$FTP" < "$srcdir"/crash-ftp-msg2021-12_04.bin >/dev/null 2>&1
+if test $? -ne 0; then
+    $silence echo 'Regression of ftp crash bug from message 2021-12/04.' >&2
+    RESULT=1
+else
+    SUCCESSES=`expr $SUCCESSES + 1`
+    $silence echo 'Input from message 2021-12/04 did not crash ftp.' >&2
+fi
+
 # Print test statistics.
 $silence echo
 test "$RESULT" -eq 0 && test "$SUCCESSES" -eq "$EFFORTS" && $silence false \
