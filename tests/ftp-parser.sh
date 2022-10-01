@@ -155,6 +155,35 @@ reply=`echo "$tell" | $FTP`
 test `echo "$reply" | $FGREP -c 'Nmap: (in) e (out) F'` -eq 1 || { errno=1
   echo >&2 'Failed to set proxy file name mapping using three lines.'; }
 
+# File name translation configuration.
+#
+tell='ntrans a B
+status'
+reply=`echo "$tell" | $FTP`
+test `echo "$reply" | $FGREP -c 'Ntrans: (in) a (out) B'` -eq 1 || { errno=1
+  echo >&2 'Failed to set file name translation (space between arguments).'; }
+
+# Arguments can be separated with space and/or tab characters, so test a tab.
+tell='ntrans A	b
+status'
+reply=`echo "$tell" | $FTP`
+test `echo "$reply" | $FGREP -c 'Ntrans: (in) A (out) b'` -eq 1 || { errno=1
+  echo >&2 'Failed to set file name translation (tab between arguments).'; }
+
+# File name translation can be set for the proxy connection.
+tell='proxy ntrans c D
+proxy status'
+reply=`echo "$tell" | $FTP`
+test `echo "$reply" | $FGREP -c 'Ntrans: (in) c (out) D'` -eq 1 || { errno=1
+  echo >&2 'Failed to set proxy file name translation.'; }
+
+# File name translation can be set for the proxy connection (tab b/w arguments).
+tell='proxy ntrans C	d
+proxy status'
+reply=`echo "$tell" | $FTP`
+test `echo "$reply" | $FGREP -c 'Ntrans: (in) C (out) d'` -eq 1 || { errno=1
+  echo >&2 'Failed to set proxy file name translation (tab b/w arguments).'; }
+
 # Summary of work.
 #
 test $errno -ne 0 || $silence echo "Successful testing".
