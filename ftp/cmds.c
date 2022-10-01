@@ -2292,21 +2292,25 @@ setnmap (int argc, char **argv)
     }
   mapflag = 1;
   code = 1;
-  cp = strchr (altarg, ' ');
+  cp = altarg;
+  while (*cp && !isblank (*cp))
+    cp++;
   if (proxy)
     {
-      while (*++cp == ' ')
-	continue;
+      while (*cp && isblank(*cp))
+	cp++;
       altarg = cp;
-      cp = strchr (altarg, ' ');
+      while (*cp && !isblank (*cp))
+	cp++;
     }
   *cp = '\0';
 
   free (mapin);
   mapin = strdup (altarg);
 
-  while (*++cp == ' ')
-    continue;
+  do
+    cp++;
+  while (*cp && isblank(*cp));
   free (mapout);
   mapout = strdup (cp);
 }
