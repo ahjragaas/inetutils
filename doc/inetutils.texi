@@ -1880,6 +1880,10 @@ A backslash @samp{\} followed by any character is replaced by that
 character.  Use the backslash @samp{\} to prevent special treatment
 of the dollar sign @samp{$}, as was just explained.
 
+A macro can execute a macro, allowing recursion.  In order to avoid
+exhausting the stack and thus crashing @command{ftp}, the nesting
+depth of macro execution is limited to a compile time constant.
+
 @item mdelete [@var{remote-files}]
 Delete all @var{remote-files} on the remote machine.
 

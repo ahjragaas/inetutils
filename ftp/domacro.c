@@ -85,9 +85,12 @@ lengthen (char **start, char **track, size_t *size, size_t add)
   return EXIT_SUCCESS;
 }
 
+#define MAX_MACRO_NESTING_DEPTH 1000
+
 void
 domacro (int argc, char *argv[])
 {
+  static int nesting_depth = 0;
   int i, j, count = 2, loopflg = 0, allocflg = 0;
   char *cp1, *cp2;
   char *line2;		/* Saved original of `line'.  */
@@ -111,6 +114,12 @@ domacro (int argc, char *argv[])
   if (i == macnum)
     {
       printf ("'%s' macro not found.\n", argv[1]);
+      code = -1;
+      return;
+    }
+  if (nesting_depth < 0)
+    {
+      printf ("?Corrupted macro execution state.\n");
       code = -1;
       return;
     }
@@ -141,6 +150,12 @@ domacro (int argc, char *argv[])
   linelen = strlen (line2) + 2;
   line = cp2;
   *line = '\0';
+
+  if (++nesting_depth > MAX_MACRO_NESTING_DEPTH)
+    {
+      printf ("?Maximum macro nesting depth reached, aborting macro.\n");
+      goto end_exec;
+    }
 
   do
     {
@@ -231,7 +246,10 @@ domacro (int argc, char *argv[])
 	  *cp2 = '\0';
 	  makeargv ();
 	  if (margv[0] == NULL)
-	    return;
+	    {
+	      nesting_depth--;
+	      return;
+	    }
 	  c = getcmd (margv[0]);
 
 	  if (c == (struct cmd *) -1)
@@ -302,4 +320,5 @@ end_exec:
   free (line);
   line = line2;
   linelen = line2len;
+  nesting_depth--;
 }

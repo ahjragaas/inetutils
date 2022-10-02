@@ -206,6 +206,25 @@ reply=`echo "$tell" | $FTP`
 test `echo "$reply" | $FGREP -c 'Ntrans: (in) C (out) d'` -eq 1 || { errno=1
   echo >&2 'Failed to set proxy file name translation (tab b/w arguments).'; }
 
+# Test nested macro execution.
+#
+tell='macdef A
+$ B
+
+macdef B
+$ C
+
+macdef C
+$ D
+
+macdef D
+hash
+
+$ A'
+reply=`echo "$tell" | $FTP`
+test `echo "$reply" | $FGREP -c 'Hash mark printing on'` -eq 1 || { errno=1
+  echo >&2 'Failed to execute nested macros.'; }
+
 # Summary of work.
 #
 test $errno -ne 0 || $silence echo "Successful testing".

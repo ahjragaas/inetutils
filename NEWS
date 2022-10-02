@@ -14,6 +14,9 @@ out-of-bounds buffer access.  Reported by AiDai in
 *** Avoid crash caused by NULL pointer dereference.  Reported by AiDai in
 <https://lists.gnu.org/archive/html/bug-inetutils/2021-12/msg00004.html>.
 
+*** Avoid crash caused by infinite macro recursion.  Reported by AiDai in
+<https://lists.gnu.org/archive/html/bug-inetutils/2021-12/msg00005.html>.
+
 ** telnetd
 
 *** Avoid crash on 0xff 0xf7 (IAC EC) or 0xff 0xf8 (IAC EL).  CVE-2022-39028
