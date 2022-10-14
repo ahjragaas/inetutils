@@ -1109,7 +1109,7 @@ rlogind_mainloop (int infd, int outfd)
   struct auth_data auth_data;
   char addrstr[INET6_ADDRSTRLEN];
   const char *reply;
-  int true;
+  int on;
   char c;
   int authenticated;
   pid_t pid;
@@ -1141,16 +1141,16 @@ rlogind_mainloop (int infd, int outfd)
 	  ? ntohs (((struct sockaddr_in6 *) &auth_data.from)->sin6_port)
 	  : ntohs (((struct sockaddr_in *) &auth_data.from)->sin_port));
 
-  true = 1;
+  on = 1;
   if (keepalive
-      && setsockopt (infd, SOL_SOCKET, SO_KEEPALIVE, &true, sizeof true) < 0)
+      && setsockopt (infd, SOL_SOCKET, SO_KEEPALIVE, &on, sizeof on) < 0)
     syslog (LOG_WARNING, "setsockopt (SO_KEEPALIVE): %m");
 
 #if defined IP_TOS && defined IPPROTO_IP && defined IPTOS_LOWDELAY
-  true = IPTOS_LOWDELAY;
+  on = IPTOS_LOWDELAY;
   if (auth_data.from.ss_family == AF_INET &&
       setsockopt (infd, IPPROTO_IP, IP_TOS,
-		  (char *) &true, sizeof true) < 0)
+		  (char *) &on, sizeof on) < 0)
     syslog (LOG_WARNING, "setsockopt (IP_TOS): %m");
 #endif
 
@@ -1197,10 +1197,10 @@ rlogind_mainloop (int infd, int outfd)
     }
 
   /* Parent */
-  true = 1;
-  IF_NOT_ENCRYPT (ioctl (infd, FIONBIO, &true));
-  ioctl (master, FIONBIO, &true);
-  ioctl (master, TIOCPKT, &true);
+  on = 1;
+  IF_NOT_ENCRYPT (ioctl (infd, FIONBIO, &on));
+  ioctl (master, FIONBIO, &on);
+  ioctl (master, TIOCPKT, &on);
   netf = infd;			/* Needed for cleanup() */
   setsig (SIGCHLD, cleanup);
   protocol (infd, master, &auth_data);

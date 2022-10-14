@@ -1115,9 +1115,9 @@ remglob (char **argv, int doswitch)
 }
 
 char *
-onoff (int bool)
+onoff (int val)
 {
-  return (bool ? "on" : "off");
+  return (val ? "on" : "off");
 }
 
 /*

@@ -330,7 +330,7 @@ telnetd_setup (int fd)
   struct sockaddr_in saddr;
   struct hostent *hp;
 #endif
-  int true = 1;
+  int on = 1;
   socklen_t len;
   char uname[256];
    /*FIXME*/ int level;
@@ -484,12 +484,12 @@ telnetd_setup (int fd)
 
   if (keepalive
       && setsockopt (fd, SOL_SOCKET, SO_KEEPALIVE,
-		     (char *) &true, sizeof (true)) < 0)
+		     (char *) &on, sizeof (on)) < 0)
     syslog (LOG_WARNING, "setsockopt (SO_KEEPALIVE): %m");
 
   if (debug_tcp
       && setsockopt (fd, SOL_SOCKET, SO_DEBUG,
-		     (char *) &true, sizeof (true)) < 0)
+		     (char *) &on, sizeof (on)) < 0)
     syslog (LOG_WARNING, "setsockopt (SO_DEBUG): %m");
 
   net = fd;
@@ -520,13 +520,13 @@ telnetd_setup (int fd)
 
 #ifndef HAVE_STREAMSPTY
   /* Turn on packet mode */
-  ioctl (pty, TIOCPKT, (char *) &true);
+  ioctl (pty, TIOCPKT, (char *) &on);
 #endif
-  ioctl (pty, FIONBIO, (char *) &true);
-  ioctl (net, FIONBIO, (char *) &true);
+  ioctl (pty, FIONBIO, (char *) &on);
+  ioctl (net, FIONBIO, (char *) &on);
 
 #if defined SO_OOBINLINE
-  setsockopt (net, SOL_SOCKET, SO_OOBINLINE, (char *) &true, sizeof true);
+  setsockopt (net, SOL_SOCKET, SO_OOBINLINE, (char *) &on, sizeof on);
 #endif
 
 #ifdef SIGTSTP
