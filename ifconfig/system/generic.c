@@ -47,7 +47,7 @@ system_parse_opt (struct ifconfig **ifp MAYBE_UNUSED,
 int
 system_parse_opt_rest (struct ifconfig **ifp MAYBE_UNUSED,
 		       int argc MAYBE_UNUSED,
-		       char *argv[] MAYBE_UNUSED)
+		       MAYBE_UNUSED char *argv[])
 {
   return 0;
 }

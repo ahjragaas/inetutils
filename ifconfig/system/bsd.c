@@ -369,7 +369,7 @@ system_fh_hwaddr_query (format_data_t form, int argc, char *argv[])
 
 void
 system_fh_hwaddr (format_data_t form, int argc MAYBE_UNUSED,
-		  char *argv[] MAYBE_UNUSED)
+		  MAYBE_UNUSED char *argv[])
 {
   ESTABLISH_IFADDRS
   if (!ifp)
@@ -440,7 +440,7 @@ system_fh_hwtype_query (format_data_t form, int argc, char *argv[])
 
 void
 system_fh_hwtype (format_data_t form, int argc MAYBE_UNUSED,
-		  char *argv[] MAYBE_UNUSED)
+		  MAYBE_UNUSED char *argv[])
 {
   int found = 0;
 
@@ -529,7 +529,7 @@ system_fh_media_query (format_data_t form, int argc, char *argv[])
 
 void
 system_fh_media (format_data_t form, int argc MAYBE_UNUSED,
-		 char *argv[] MAYBE_UNUSED)
+		 MAYBE_UNUSED char *argv[])
 {
 #ifdef SIOCGIFMEDIA
   memset (&ifm, 0, sizeof (ifm));

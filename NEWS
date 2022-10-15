@@ -33,6 +33,9 @@ https://cgit.freebsd.org/src/commit/?id=14aab889f4e50072a6b914eb95ebbfa939539dad
 Reported by AiDai in
 <https://lists.gnu.org/archive/html/bug-inetutils/2021-12/msg00018.html>.
 
+** Various bugs fixes, internal improvements and clean ups.
+Update of gnulib and build fixes for C23.
+
 * Noteworthy changes in release 2.3 (2022-07-08) [stable]
 
 ** telnet

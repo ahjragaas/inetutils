@@ -1348,7 +1348,7 @@ slcstate (void)
 }
 
 void
-slc_mode_export (void)
+slc_mode_export (int n)
 {
   slc_mode = SLC_EXPORT;
   if (my_state_is_will (TELOPT_LINEMODE))
@@ -1532,7 +1532,7 @@ slc_start_reply (void)
 }
 
 void
-slc_add_reply (unsigned char func, unsigned char flags, cc_t value)
+slc_add_reply(unsigned int func, unsigned int flags, cc_t value)
 {
   if ((*slc_replyp++ = func) == IAC)
     *slc_replyp++ = IAC;
@@ -2724,7 +2724,7 @@ xmitEC (void)
 
 
 int
-dosynch (void)
+dosynch(const char *s)
 {
   netclear ();			/* clear the path to the network */
   NETADD (IAC);
@@ -2737,7 +2737,7 @@ dosynch (void)
 int want_status_response = 0;
 
 int
-get_status (void)
+get_status(const char *s)
 {
   unsigned char tmp[16];
   register unsigned char *cp;
@@ -2776,7 +2776,7 @@ intp (void)
     }
   if (autosynch)
     {
-      dosynch ();
+      dosynch(NULL);
     }
 }
 
@@ -2792,7 +2792,7 @@ sendbrk (void)
     }
   if (autosynch)
     {
-      dosynch ();
+      dosynch (NULL);
     }
 }
 
@@ -2808,7 +2808,7 @@ sendabort (void)
     }
   if (autosynch)
     {
-      dosynch ();
+      dosynch (NULL);
     }
 }
 
@@ -2824,7 +2824,7 @@ sendsusp (void)
     }
   if (autosynch)
     {
-      dosynch ();
+      dosynch (NULL);
     }
 }
 

@@ -117,9 +117,9 @@ char *hostname = 0;
 
 extern char *getenv (const char *);
 
-extern int isprefix (register char *s1, register char *s2);
-extern char **genget (char *, char **, int);
-extern int Ambiguous ();
+extern int isprefix (register const char *s1, register const char *s2);
+extern char **genget (const char *, char **, int);
+extern int Ambiguous (void *);
 
 typedef int (*intrtn_t) (int, char *[]);
 static int call (intrtn_t, ...);
@@ -128,7 +128,7 @@ typedef struct
 {
   const char *name;		/* command name */
   const char *help;		/* help string (NULL for no help) */
-  int (*handler) ();		/* routine which executes command */
+  int (*handler) (int, char *[]);		/* routine which executes command */
   int needconnect;		/* Do we need to be connected to execute? */
 } Command;
 
@@ -138,6 +138,9 @@ static char line[256];
 static char saveline[256];
 static int margc;
 static char *margv[TELNET_MAX_ARGS];
+
+static struct env_lst *env_help(const char *, char *);
+static void slc_help(int);
 
 static void
 makeargv (void)
@@ -299,17 +302,18 @@ struct sendlist
   const char *help;		/* Help information (0 ==> no help) */
   int needconnect;		/* Need to be connected */
   int narg;			/* Number of arguments */
-  int (*handler) ();		/* Routine to perform (for special ops) */
+  int (*handler) (const char *);	/* Routine to perform (for special ops) */
   int nbyte;			/* Number of bytes to send this command */
   int what;			/* Character to be sent (<0 ==> special) */
 };
 
 
-static int
-send_esc (void),
-send_help (void),
-send_docmd (char *),
-send_dontcmd (char *), send_willcmd (char *), send_wontcmd (char *);
+static int send_esc(const char *);
+static int send_docmd(const char *);
+static int send_dontcmd(const char *);
+static int send_willcmd(const char *);
+static int send_wontcmd(const char *);
+static int send_help(const char *);
 
 static struct sendlist Sendlist[] = {
   {"ao", "Send Telnet Abort output", 1, 0, 0, 2, AO},
@@ -390,7 +394,7 @@ sendcmd (int argc, char **argv)
       count += s->nbyte;
       if (s->handler == send_help)
 	{
-	  send_help ();
+	  send_help (NULL);
 	  return 0;
 	}
 
@@ -419,13 +423,13 @@ sendcmd (int argc, char **argv)
       if ((s = GETSEND (argv[i])) == 0)
 	{
 	  fprintf (stderr, "Telnet 'send' error - argument disappeared!\n");
-	  quit ();
+	  (void) quit(0, NULL);
+	  /*NOTREACHED*/
 	}
       if (s->handler)
 	{
 	  count++;
-	  success += (*s->handler) ((s->narg > 0) ? argv[i + 1] : 0,
-				    (s->narg > 1) ? argv[i + 2] : 0);
+	  success += (*s->handler) ((s->narg > 0) ? argv[i + 1] : 0);
 	  i += s->narg;
 	}
       else
@@ -438,14 +442,14 @@ sendcmd (int argc, char **argv)
 }
 
 static int
-send_esc (void)
+send_esc (const char *name)
 {
   NETADD (escape);
   return 1;
 }
 
 int
-send_tncmd (void (*func) (), char *cmd, char *name)
+send_tncmd (void (*func) (int, int), char *cmd, const char *name)
 {
   char **cpp;
 #if !HAVE_DECL_TELOPTS
@@ -493,7 +497,7 @@ send_tncmd (void (*func) (), char *cmd, char *name)
     }
   else
     {
-      register char *cp = name;
+      register const char *cp = name;
 
       while (*cp >= '0' && *cp <= '9')
 	{
@@ -524,31 +528,31 @@ send_tncmd (void (*func) (), char *cmd, char *name)
 }
 
 static int
-send_docmd (char *name)
+send_docmd (const char *name)
 {
   return (send_tncmd (send_do, "do", name));
 }
 
 static int
-send_dontcmd (char *name)
+send_dontcmd (const char *name)
 {
   return (send_tncmd (send_dont, "dont", name));
 }
 
 static int
-send_willcmd (char *name)
+send_willcmd (const char *name)
 {
   return (send_tncmd (send_will, "will", name));
 }
 
 static int
-send_wontcmd (char *name)
+send_wontcmd (const char *name)
 {
   return (send_tncmd (send_wont, "wont", name));
 }
 
 static int
-send_help (void)
+send_help (const char *name)
 {
   struct sendlist *s;		/* pointer to current command */
   for (s = Sendlist; s->name; s++)
@@ -565,14 +569,14 @@ send_help (void)
  */
 
 static int
-lclchars (void)
+lclchars (int val)
 {
   donelclchars = 1;
   return 1;
 }
 
 static int
-togdebug (void)
+togdebug (int val)
 {
 #ifndef NOT43
   if (net > 0 && (SetSockOpt (net, SOL_SOCKET, SO_DEBUG, debug)) < 0)
@@ -593,7 +597,7 @@ togdebug (void)
 
 
 static int
-togcrlf (void)
+togcrlf (int val)
 {
   if (crlf)
     {
@@ -732,7 +736,7 @@ togxbinary (int val)
 }
 
 
-static int togglehelp (void);
+static int togglehelp (int);
 #if defined AUTHENTICATION
 extern int auth_togdebug (int);
 #endif
@@ -747,7 +751,7 @@ struct togglelist
 {
   const char *name;		/* name of toggle */
   const char *help;		/* help message */
-  int (*handler) ();		/* routine to do actual setting */
+  int (*handler) (int);		/* routine to do actual setting */
   int *variable;
   const char *actionexplanation;
 };
@@ -880,7 +884,7 @@ static struct togglelist Togglelist[] = {
 };
 
 static int
-togglehelp (void)
+togglehelp (int val)
 {
   struct togglelist *c;
 
@@ -983,7 +987,7 @@ struct setlist
 {
   const char *name;		/* name */
   const char *help;		/* help information */
-  void (*handler) ();
+  void (*handler) (const char *);
   cc_t *charp;			/* where it is located at */
 };
 
@@ -1258,7 +1262,7 @@ unsetcmd (int argc, char *argv[])
 extern int kludgelinemode;
 
 static int
-dokludgemode (void)
+dokludgemode (int val)
 {
   kludgelinemode = 1;
   send_wont (TELOPT_LINEMODE, 1);
@@ -1269,7 +1273,7 @@ dokludgemode (void)
 #endif
 
 static int
-dolinemode (void)
+dolinemode (int val)
 {
 #ifdef	KLUDGELINEMODE
   if (kludgelinemode)
@@ -1281,7 +1285,7 @@ dolinemode (void)
 }
 
 static int
-docharmode (void)
+docharmode (int val)
 {
 #ifdef	KLUDGELINEMODE
   if (kludgelinemode)
@@ -1330,12 +1334,12 @@ struct modelist
 {
   const char *name;		/* command name */
   const char *help;		/* help string */
-  int (*handler) ();		/* routine which executes command */
+  int (*handler) (int);		/* routine which executes command */
   int needconnect;		/* Do we need to be connected to execute? */
   int arg1;
 };
 
-extern int modehelp (void);
+extern int modehelp (int val);
 
 static struct modelist ModeList[] = {
   {"character", "Disable LINEMODE option", docharmode, 1, 0},
@@ -1372,7 +1376,7 @@ static struct modelist ModeList[] = {
 
 
 int
-modehelp (void)
+modehelp (int val)
 {
   struct modelist *mt;
 
@@ -1541,7 +1545,7 @@ setescape (int argc, char *argv[])
 }
 
 static int
-togcrmod (void)
+togcrmod (int argc, char *argv[])
 {
   crmod = !crmod;
   printf ("Deprecated usage - please use 'toggle crmod' in the future.\n");
@@ -1551,7 +1555,7 @@ togcrmod (void)
 }
 
 int
-suspend (void)
+suspend (int argc, char *argv[])
 {
 #ifdef	SIGTSTP
   setcommandmode ();
@@ -1582,7 +1586,7 @@ suspend (void)
 
 #if !defined TN3270
 int
-shell (int argc, char *argv[] MAYBE_UNUSED)
+shell (int argc, MAYBE_UNUSED char *argv[])
 {
   long oldrows, oldcols, newrows, newcols, err;
 
@@ -1668,7 +1672,7 @@ bye (int argc, char *argv[])
 }
 
 int
-quit (void)
+quit (int argc, char *argv[])
 {
   call (bye, "bye", "fromquit", 0);
   Exit (0);
@@ -1676,7 +1680,7 @@ quit (void)
 }
 
 int
-logoutcmd (void)
+logoutcmd (int argc, char *argv[])
 {
   send_do (TELOPT_LOGOUT, 1);
   netflush ();
@@ -1692,11 +1696,9 @@ struct slclist
 {
   const char *name;
   const char *help;
-  void (*handler) ();
+  void (*handler) (int);
   int arg;
 };
-
-static void slc_help (void);
 
 struct slclist SlcList[] = {
   {"export", "Use local special character definitions",
@@ -1711,7 +1713,7 @@ struct slclist SlcList[] = {
 };
 
 static void
-slc_help (void)
+slc_help (int n)
 {
   struct slclist *c;
 
@@ -1771,24 +1773,13 @@ struct envlist
 {
   const char *name;
   const char *help;
-  void (*handler) ();
+  struct env_lst *(*handler) (const char *, char *);
   int narg;
 };
 
-extern struct env_lst *env_define (const char *, unsigned char *);
-extern void
-env_undefine (const char *),
-env_export (const char *),
-env_unexport (const char *), env_send (const char *),
-#if defined OLD_ENVIRON && defined ENV_HACK
-  env_varval (const char *),
-#endif
-  env_list (void);
-static void env_help (void);
-
 struct envlist EnvList[] = {
   {"define", "Define an environment variable",
-   (void (*)()) env_define, 2},
+   env_define, 2},
   {"undefine", "Undefine an environment variable",
    env_undefine, 1},
   {"export", "Mark an environment variable for automatic export",
@@ -1807,8 +1798,8 @@ struct envlist EnvList[] = {
   {NULL, NULL, NULL, 0},
 };
 
-static void
-env_help (void)
+static struct env_lst *
+env_help(const char *us1, char *us2)
 {
   struct envlist *c;
 
@@ -1822,6 +1813,7 @@ env_help (void)
 	    printf ("\n");
 	}
     }
+  return NULL;
 }
 
 static struct envlist *
@@ -1908,7 +1900,7 @@ env_init (void)
       if (cp)
 	{
 	  *cp = '\0';
-	  ep = env_define (*epp, (unsigned char *) cp + 1);
+	  ep = env_define (*epp, cp + 1);
 	  ep->export = 0;
 	  *cp = '=';
 	}
@@ -1940,15 +1932,15 @@ env_init (void)
    */
   if ((env_find ("USER") == NULL) && (ep = env_find ("LOGNAME")))
     {
-      env_define ("USER", ep->value);
-      env_unexport ("USER");
+      env_define ("USER", (char*) ep->value);
+      env_unexport ("USER", NULL);
     }
-  env_export ("DISPLAY");
-  env_export ("PRINTER");
+  env_export ("DISPLAY", NULL);
+  env_export ("PRINTER", NULL);
 }
 
 struct env_lst *
-env_define (const char *var, unsigned char *value)
+env_define (const char *var, char *value)
 {
   register struct env_lst *ep = env_find (var);
   if (ep)
@@ -1972,8 +1964,8 @@ env_define (const char *var, unsigned char *value)
   return (ep);
 }
 
-void
-env_undefine (const char *var)
+struct env_lst *
+env_undefine (const char *var, char *d)
 {
   register struct env_lst *ep = env_find (var);
   if (ep)
@@ -1985,26 +1977,29 @@ env_undefine (const char *var)
       free (ep->value);
       free (ep);
     }
+  return NULL;
 }
 
-void
-env_export (const char *var)
+struct env_lst *
+env_export (const char *var, char *d)
 {
   register struct env_lst *ep = env_find (var);
   if (ep)
     ep->export = 1;
+  return NULL;
 }
 
-void
-env_unexport (const char *var)
+struct env_lst *
+env_unexport (const char *var, char *d)
 {
   register struct env_lst *ep = env_find (var);
   if (ep)
     ep->export = 0;
+  return NULL;
 }
 
-void
-env_send (const char *var)
+struct env_lst *
+env_send(const char *var, char *d)
 {
   register struct env_lst *ep;
 
@@ -2016,21 +2011,23 @@ env_send (const char *var)
     {
       fprintf (stderr,
 	       "Cannot send '%s': Telnet ENVIRON option not enabled\n", var);
-      return;
+      return NULL;
     }
   ep = env_find (var);
   if (ep == 0)
     {
       fprintf (stderr, "Cannot send '%s': variable not defined\n", var);
-      return;
+      return NULL;
     }
   env_opt_start_info ();
   env_opt_add (ep->var);
   env_opt_end (0);
+
+  return NULL;
 }
 
-void
-env_list (void)
+struct env_lst *
+env_list(const char *d1, char *d2)
 {
   register struct env_lst *ep;
 
@@ -2038,6 +2035,7 @@ env_list (void)
     {
       printf ("%c %-20s %s\n", ep->export ? '*' : ' ', ep->var, ep->value);
     }
+  return NULL;
 }
 
 unsigned char *
@@ -2072,7 +2070,7 @@ env_getvalue (const char *var)
 
 #if defined OLD_ENVIRON && defined ENV_HACK
 void
-env_varval (const char *what)
+env_varval (const char *what, char *d)
 {
   extern int old_env_var, old_env_value, env_auto;
   int len = strlen (what);
@@ -2860,8 +2858,8 @@ tn (int argc, char *argv[])
     }
   if (user)
     {
-      env_define ("USER", (unsigned char *) user);
-      env_export ("USER");
+      env_define ("USER", user);
+      env_export ("USER", NULL);
     }
   call (status, "status", "notmuch", 0);
   err = 0;
@@ -3031,7 +3029,8 @@ command (int top, char *tbuf, int cnt)
 	      if (feof (stdin) || ferror (stdin))
 		{
 		  printf ("\n");
-		  quit ();
+		  (void) quit(0, NULL);
+		  /*NOTREACHED*/
 		}
 	      break;
 	    }

@@ -516,13 +516,13 @@ modecmd (int argc, char *argv[])
 }
 
 void
-setbinary (int argc MAYBE_UNUSED, char *argv[] MAYBE_UNUSED)
+setbinary (int argc MAYBE_UNUSED, MAYBE_UNUSED char *argv[])
 {
   settftpmode ("octet");
 }
 
 void
-setascii (int argc MAYBE_UNUSED, char *argv[] MAYBE_UNUSED)
+setascii (int argc MAYBE_UNUSED, MAYBE_UNUSED char *argv[])
 {
   settftpmode ("netascii");
 }
@@ -792,7 +792,7 @@ settimeout (int argc, char *argv[])
 }
 
 void
-status (int argc MAYBE_UNUSED, char *argv[] MAYBE_UNUSED)
+status (int argc MAYBE_UNUSED, MAYBE_UNUSED char *argv[])
 {
   if (connected)
     printf ("Connected to %s.\n", hostname);
@@ -934,7 +934,7 @@ makeargv (void)
 }
 
 void
-quit (int argc MAYBE_UNUSED, char *argv[] MAYBE_UNUSED)
+quit (int argc MAYBE_UNUSED, MAYBE_UNUSED char *argv[])
 {
   exit (EXIT_SUCCESS);
 }
@@ -971,14 +971,14 @@ help (int argc, char *argv[])
 }
 
 void
-settrace (int argc MAYBE_UNUSED, char *argv[] MAYBE_UNUSED)
+settrace (int argc MAYBE_UNUSED, MAYBE_UNUSED char *argv[])
 {
   trace = !trace;
   printf ("Packet tracing %s.\n", trace ? "on" : "off");
 }
 
 void
-setverbose (int argc MAYBE_UNUSED, char *argv[] MAYBE_UNUSED)
+setverbose (int argc MAYBE_UNUSED, MAYBE_UNUSED char *argv[])
 {
   verbose = !verbose;
   printf ("Verbose mode %s.\n", verbose ? "on" : "off");

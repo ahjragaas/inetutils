@@ -345,7 +345,7 @@ put_flags (format_data_t form, int argc, char *argv[], int flags)
 
 void
 put_flags_short (format_data_t form, int argc MAYBE_UNUSED,
-		 char *argv[] MAYBE_UNUSED, int flags)
+		 MAYBE_UNUSED char *argv[], int flags)
 {
   char buf[IF_FORMAT_FLAGS_BUFSIZE];
   if_format_flags (flags, buf, sizeof buf);
@@ -378,7 +378,7 @@ format_handler (const char *name, format_data_t form, int argc, char *argv[])
 void
 fh_nothing (format_data_t form MAYBE_UNUSED,
 	    int argc MAYBE_UNUSED,
-	    char *argv[] MAYBE_UNUSED)
+	    MAYBE_UNUSED char *argv[])
 {
 }
 
@@ -438,14 +438,14 @@ fh_foreachformat (format_data_t form, int argc, char *argv[])
 
 void
 fh_newline (format_data_t form, int argc MAYBE_UNUSED,
-	    char *argv[] MAYBE_UNUSED)
+	    MAYBE_UNUSED char *argv[])
 {
   put_char (form, '\n');
 }
 
 void
 fh_tabulator (format_data_t form, int argc MAYBE_UNUSED,
-	      char *argv[] MAYBE_UNUSED)
+	      MAYBE_UNUSED char *argv[])
 {
   put_char (form, '\t');
 }
@@ -613,7 +613,7 @@ fh_error (format_data_t form, int argc, char *argv[])
 
 void
 fh_progname (format_data_t form, int argc MAYBE_UNUSED,
-	     char *argv[] MAYBE_UNUSED)
+	     MAYBE_UNUSED char *argv[])
 {
   put_string (form, program_name);
 }
@@ -632,7 +632,7 @@ fh_exit (format_data_t form MAYBE_UNUSED,
 
 void
 fh_name (format_data_t form, int argc MAYBE_UNUSED,
-	 char *argv[] MAYBE_UNUSED)
+	 MAYBE_UNUSED char *argv[])
 {
   put_string (form, form->name);
 }
@@ -645,7 +645,7 @@ fh_index_query (format_data_t form, int argc, char *argv[])
 
 void
 fh_index (format_data_t form, int argc MAYBE_UNUSED,
-	  char *argv[] MAYBE_UNUSED)
+	  MAYBE_UNUSED char *argv[])
 {
   int indx = if_nametoindex (form->name);
 
@@ -929,7 +929,7 @@ fh_media_query (format_data_t form, int argc, char *argv[])
 
 void
 fh_media (format_data_t form, int argc MAYBE_UNUSED,
-	  char *argv[] MAYBE_UNUSED)
+	  MAYBE_UNUSED char *argv[])
 {
   /* Must be overridden by a system dependent implementation.  */
   put_string (form, "(not known)");
@@ -946,7 +946,7 @@ fh_status_query (format_data_t form, int argc, char *argv[])
 
 void
 fh_status (format_data_t form, int argc MAYBE_UNUSED,
-	   char *argv[] MAYBE_UNUSED)
+	   MAYBE_UNUSED char *argv[])
 {
   /* Must be overridden by a system dependent implementation.  */
   put_string (form, "(not known)");

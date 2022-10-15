@@ -124,7 +124,7 @@ SetSockOpt (int fd, int level, int option, int yesno)
 unsigned char NetTraceFile[256] = "(standard output)";
 
 void
-SetNetTrace (register char *file)
+SetNetTrace (const char *file)
 {
   if (NetTrace && NetTrace != stdout)
     fclose (NetTrace);
