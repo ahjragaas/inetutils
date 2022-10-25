@@ -2,6 +2,14 @@ GNU inetutils NEWS -- history of user-visible changes.
 
 * Noteworthy changes in release ?.? (????-??-??) [?]
 
+** ifconfig
+
+*** Support specifying prefix netmask lengths in -A.
+Patch by Samuel Thibault <samuel.thibault@gnu.org>.
+
+** Hurd: tell pfinet translator interfaces to configure
+Patch by Samuel Thibault <samuel.thibault@gnu.org>.
+
 ** ftp
 
 *** Avoid crash caused by signed integer overflow resulting in
