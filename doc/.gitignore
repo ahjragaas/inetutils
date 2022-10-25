@@ -1,6 +1,11 @@
 /gendocs_template
 /gendocs_template_min
-gendocs_template
-inetutils.info*
-stamp-vti
-version.texi
+/inetutils.aux
+/inetutils.cp
+/inetutils.cps
+/inetutils.info*
+/inetutils.log
+/inetutils.toc
+/manual/
+/stamp-vti
+/version.texi
