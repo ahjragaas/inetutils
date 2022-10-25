@@ -100,7 +100,7 @@ PAM_conv (int num_msg, const struct pam_message **msg,
 	    {
 	      savemsg = 1;
 # ifdef PAM_CONV_AGAIN
-	      retval = PAM_CONV_AGAIN;		/* Linux-PAM */
+	      retval = PAM_CONV_AGAIN;	/* Linux-PAM */
 # elif !defined WITH_LINUX_PAM
 	      /*
 	       * Simulate PAM_CONV_AGAIN.
@@ -108,7 +108,7 @@ PAM_conv (int num_msg, const struct pam_message **msg,
 	       * an expected return value here, so it will
 	       * leave an audit trail.  */
 	      retval = PAM_CRED_INSUFFICIENT;
-# else /* !PAM_CONV_AGAIN && !WITH_LINUX_PAM */
+# else/* !PAM_CONV_AGAIN && !WITH_LINUX_PAM */
 	      retval = PAM_CONV_ERR;
 # endif
 	    }
@@ -213,8 +213,8 @@ pam_doit (struct credentials *pcred)
        * incomplete state reported by our PAM_conv().
        */
       || (error == PAM_CRED_INSUFFICIENT && pcred->pass == NULL)
-# endif /* !WITH_LINUX_PAM */
-     )
+# endif/* !WITH_LINUX_PAM */
+    )
     {
       /* Avoid overly terse passwd messages and let the people
          upstairs do something sane.  */
@@ -255,7 +255,7 @@ pam_doit (struct credentials *pcred)
   return (error != PAM_SUCCESS);
 }
 
-#define TTY_FORMAT "/dev/ftp%d"
+# define TTY_FORMAT "/dev/ftp%d"
 
 /* Non-zero return means failure. */
 int
@@ -275,7 +275,7 @@ pam_user (const char *username, struct credentials *pcred)
   free (pcred->message);
   pcred->message = NULL;
 
-  (void) snprintf (tty_name, sizeof (tty_name), TTY_FORMAT, (int) getpid());
+  (void) snprintf (tty_name, sizeof (tty_name), TTY_FORMAT, (int) getpid ());
 
   /* Arrange our creditive.  */
   PAM_conversation.appdata_ptr = (void *) pcred;
@@ -312,7 +312,7 @@ pam_pass (const char *passwd, struct credentials *pcred)
 }
 
 void
-pam_end_login (struct credentials * pcred MAYBE_UNUSED)
+pam_end_login (struct credentials *pcred MAYBE_UNUSED)
 {
   int error;
 

@@ -206,5 +206,5 @@ des_write (fd, buf, len)
   write (fd, des_outbuf, roundup (len, 8));
   return (len);
 }
-# endif	/* KRB4 */
+# endif/* KRB4 */
 #endif /* CRYPT */

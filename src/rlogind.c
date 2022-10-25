@@ -190,7 +190,6 @@
 #ifndef DEFPORT_EKLOGIN
 # define DEFPORT_EKLOGIN 2105
 #endif
-
 #ifdef HAVE___CHECK_RHOSTS_FILE
 extern int __check_rhosts_file;
 #endif
@@ -215,7 +214,7 @@ struct auth_data
   krb5_ccache ccache;
   krb5_keytab keytab;
 #  endif
-# endif /* KERBEROS */
+# endif				/* KERBEROS */
 };
 #endif /* !SHISHI */
 
@@ -234,7 +233,7 @@ int keepalive = 1;
 static int pam_rc = PAM_AUTH_ERR;
 static pam_handle_t *pam_handle = NULL;
 static int rlogin_conv (int, const struct pam_message **,
-		       struct pam_response **, void *);
+			struct pam_response **, void *);
 static struct pam_conv pam_conv = { rlogin_conv, NULL };
 #endif /* WITH_PAM */
 
@@ -244,7 +243,7 @@ char *servername = NULL;
 
 # ifdef ENCRYPTION
 int encrypt_io = 0;
-# endif	/* ENCRYPTION */
+# endif/* ENCRYPTION */
 #endif /* KERBEROS || SHISHI */
 
 int reverse_required = 0;
@@ -270,7 +269,7 @@ extern int hosts_ctl (char *, char *, char *, char *);
 
 #if defined __GLIBC__ && defined WITH_IRUSEROK
 extern int iruserok (uint32_t raddr, int superuser,
-                     const char *ruser, const char *luser);
+		     const char *ruser, const char *luser);
 #endif
 
 void rlogin_daemon (int maxchildren, int port);
@@ -327,50 +326,47 @@ check_host (struct sockaddr *sa, socklen_t len)
   struct hostent *hp;
   void *addrp;
   char *name;
-# endif /* !HAVE_DECL_NAMEINFO */
+# endif/* !HAVE_DECL_NAMEINFO */
 
   if (sa->sa_family != AF_INET
 # ifdef IPV6
       && sa->sa_family != AF_INET6
 # endif
-     )
+    )
     return 1;
 
 # if HAVE_DECL_GETNAMEINFO
-  (void) getnameinfo(sa, len, addr, sizeof (addr), NULL, 0, NI_NUMERICHOST);
-  rc = getnameinfo(sa, len, name, sizeof (name), NULL, 0, NI_NAMEREQD);
-# else /* !HAVE_DECL_GETNAMEINFO */
+  (void) getnameinfo (sa, len, addr, sizeof (addr), NULL, 0, NI_NUMERICHOST);
+  rc = getnameinfo (sa, len, name, sizeof (name), NULL, 0, NI_NAMEREQD);
+# else/* !HAVE_DECL_GETNAMEINFO */
 
-  (void) len;		/* Silence warning.  */
+  (void) len;			/* Silence warning.  */
 
   switch (sa->sa_family)
     {
 #  ifdef IPV6
     case AF_INET6:
       addrp = (void *) &((struct sockaddr_in6 *) sa)->sin6_addr;
-      hp = gethostbyaddr (addrp, sizeof (struct in6_addr),
-			  sa->sa_family);
+      hp = gethostbyaddr (addrp, sizeof (struct in6_addr), sa->sa_family);
       break;
 #  endif
     case AF_INET:
     default:
       addrp = (void *) &((struct sockaddr_in *) sa)->sin_addr;
-      hp = gethostbyaddr (addrp, sizeof (struct in_addr),
-			  sa->sa_family);
+      hp = gethostbyaddr (addrp, sizeof (struct in_addr), sa->sa_family);
     }
 
   (void) inet_ntop (sa->sa_family, addrp, addr, sizeof (addr));
   if (hp)
     name = hp->h_name;
   rc = (hp == NULL);		/* Translate to getnameinfo style.  */
-# endif /* !HAVE_DECL_GETNAMEINFO */
+# endif/* !HAVE_DECL_GETNAMEINFO */
 
   if (!rc)
     {
       if (!hosts_ctl ("rlogind", name, addr, STRING_UNKNOWN))
 	{
-	  syslog (deny_severity, "tcpd rejects %s [%s]",
-		  name, addr);
+	  syslog (deny_severity, "tcpd rejects %s [%s]", name, addr);
 	  return 0;
 	}
     }
@@ -421,13 +417,13 @@ check_host (struct sockaddr *sa, socklen_t len)
 # define ENC_READ(c, fd, buf, size, ap) c = read (fd, buf, size)
 # define ENC_WRITE(c, fd, buf, size, ap) c = write (fd, buf, size)
 #endif
-
 
+
 const char doc[] =
 #ifdef WITH_PAM
 # ifdef SHISHI
   "Remote login server, using PAM service 'rlogin' and 'krlogin'.";
-# else /* !SHISHI */
+# else/* !SHISHI */
   "Remote login server, using PAM service 'rlogin'.";
 # endif
 #else /* !WITH_PAM */
@@ -441,51 +437,50 @@ const char *program_authors[] = {
 
 static struct argp_option options[] = {
 #define GRP 10
-  { "ipv4", '4', NULL, 0,
-    "daemon mode only accepts IPv4", GRP },
+  {"ipv4", '4', NULL, 0,
+   "daemon mode only accepts IPv4", GRP},
 #ifdef IPV6
-  { "ipv6", '6', NULL, 0,
-    "only IPv6 in daemon mode", GRP },
+  {"ipv6", '6', NULL, 0,
+   "only IPv6 in daemon mode", GRP},
 #endif
-  { "allow-root", 'o', NULL, 0,
-    "allow uid 0 to login, disabled by default", GRP },
-  { "verify-hostname", 'a', NULL, 0,
-    "ask hostname for verification", GRP },
-  { "daemon", 'd', "MAX", OPTION_ARG_OPTIONAL,
-    "daemon mode, with instance limit", GRP },
+  {"allow-root", 'o', NULL, 0,
+   "allow uid 0 to login, disabled by default", GRP},
+  {"verify-hostname", 'a', NULL, 0,
+   "ask hostname for verification", GRP},
+  {"daemon", 'd', "MAX", OPTION_ARG_OPTIONAL,
+   "daemon mode, with instance limit", GRP},
 #ifdef HAVE___CHECK_RHOSTS_FILE
-  { "no-rhosts", 'l', NULL, 0,
-    "ignore .rhosts file", GRP },
+  {"no-rhosts", 'l', NULL, 0,
+   "ignore .rhosts file", GRP},
 #endif
-  { "no-keepalive", 'n', NULL, 0,
-    "do not set SO_KEEPALIVE", GRP },
-  { "local-domain", 'L', "NAME", 0,
-    "set local domain name", GRP },
-  { "debug", 'D', "LEVEL", OPTION_ARG_OPTIONAL,
-    "set debug level", GRP },
-  { "port", 'p', "PORT", 0,
-    "listen on given port (valid only in daemon mode)", GRP },
-  { "reverse-required", 'r', NULL, 0,
-    "require reverse resolving of a remote host IP", GRP },
+  {"no-keepalive", 'n', NULL, 0,
+   "do not set SO_KEEPALIVE", GRP},
+  {"local-domain", 'L', "NAME", 0,
+   "set local domain name", GRP},
+  {"debug", 'D', "LEVEL", OPTION_ARG_OPTIONAL,
+   "set debug level", GRP},
+  {"port", 'p', "PORT", 0,
+   "listen on given port (valid only in daemon mode)", GRP},
+  {"reverse-required", 'r', NULL, 0,
+   "require reverse resolving of a remote host IP", GRP},
 #undef GRP
 #if defined KERBEROS || defined SHISHI
 # define GRP 20
-  { "kerberos", 'k', NULL, 0,
-    "use Kerberos V authentication", GRP },
-  { "server-principal", 'S', "NAME", 0,
-    "set Kerberos server name, overriding canonical hostname", GRP },
+  {"kerberos", 'k', NULL, 0,
+   "use Kerberos V authentication", GRP},
+  {"server-principal", 'S', "NAME", 0,
+   "set Kerberos server name, overriding canonical hostname", GRP},
 # if defined ENCRYPTION
-  { "encrypt", 'x', NULL, 0,
-    "use encryption", GRP },
+  {"encrypt", 'x', NULL, 0,
+   "use encryption", GRP},
 # endif
 # undef GRP
 #endif
-  { NULL, 0, NULL, 0, NULL, 0 }
+  {NULL, 0, NULL, 0, NULL, 0}
 };
 
 static error_t
-parse_opt (int key, char *arg,
-	   struct argp_state *state MAYBE_UNUSED)
+parse_opt (int key, char *arg, struct argp_state *state MAYBE_UNUSED)
 {
   switch (key)
     {
@@ -543,7 +538,7 @@ parse_opt (int key, char *arg,
     case 'x':
       encrypt_io = 1;
       break;
-# endif	/* ENCRYPTION */
+# endif/* ENCRYPTION */
 #endif /* KERBEROS */
 
     case 'o':
@@ -565,9 +560,9 @@ parse_opt (int key, char *arg,
   return 0;
 }
 
-static struct argp argp = { options, parse_opt, NULL, doc, NULL, NULL, NULL};
-
+static struct argp argp = { options, parse_opt, NULL, doc, NULL, NULL, NULL };
 
+
 
 int
 main (int argc, char *argv[])
@@ -617,7 +612,7 @@ main (int argc, char *argv[])
   else
     exit (rlogind_mainloop (fileno (stdin), fileno (stdout)));
 
-  return 0;		/* Not reachable.  */
+  return 0;			/* Not reachable.  */
 }
 
 /* Create a listening socket for the indicated
@@ -710,18 +705,18 @@ rlogin_daemon (int maxchildren, int port)
 	  port = DEFPORT_EKLOGIN;
 	}
       else
-# endif /* ENCRYPTION */
-	if (kerberos)
-	  {
-	    service = "klogin";
-	    port = DEFPORT_KLOGIN;
-	  }
-	else
+# endif/* ENCRYPTION */
+      if (kerberos)
+	{
+	  service = "klogin";
+	  port = DEFPORT_KLOGIN;
+	}
+      else
 #endif /* KERBEROS || SHISHI */
-	  {
-	    service = "login";
-	    port = DEFPORT;
-	  }
+	{
+	  service = "login";
+	  port = DEFPORT;
+	}
 
       svp = getservbyname (service, "tcp");
       if (svp != NULL)
@@ -886,8 +881,7 @@ rlogind_auth (int fd, struct auth_data *ap)
 	  for (ai = res; ai; ai = ai->ai_next)
 	    {
 	      rc = getnameinfo (ai->ai_addr, ai->ai_addrlen,
-				astr, sizeof (astr), NULL, 0,
-				NI_NUMERICHOST);
+				astr, sizeof (astr), NULL, 0, NI_NUMERICHOST);
 	      if (rc)
 		continue;
 	      match = strcmp (astr, ap->hostaddr) == 0;
@@ -928,8 +922,7 @@ rlogind_auth (int fd, struct auth_data *ap)
 #ifndef KERBEROS
 	   && ap->from.ss_family != AF_INET6
 #endif
-	  )
-	  || port >= IPPORT_RESERVED || port < IPPORT_RESERVED / 2)
+	  ) || port >= IPPORT_RESERVED || port < IPPORT_RESERVED / 2)
 	{
 	  syslog (LOG_NOTICE, "Connection from %s on illegal port %d",
 		  ap->hostaddr, port);
@@ -976,7 +969,7 @@ prevent_routing (int fd, struct auth_data *ap)
       && optsize != 0)
     {
       lp = lbuf;
-      for (cp = optbuf; optsize > 0; )
+      for (cp = optbuf; optsize > 0;)
 	{
 	  sprintf (lp, " %2.2x", *cp);
 	  lp += 3;
@@ -1065,12 +1058,12 @@ exec_login (int authenticated, struct auth_data *ap)
 # if defined KERBEROS || defined SHISHI
 	      "-s", (kerberos ? "krlogin" : "rlogin"),
 	      "-u", (ap->rprincipal ? ap->rprincipal : ap->rusername),
-# else /* !KERBEROS && !SHISHI */
+# else/* !KERBEROS && !SHISHI */
 	      "-s", "rlogin",
 # endif
 	      ap->lusername, NULL, ap->env);
 
-#elif defined SOLARIS	/* !SOLARIS10 */
+#elif defined SOLARIS		/* !SOLARIS10 */
       execle (path_login, "login", "-p", "-r", ap->hostname,
 	      "-d", line, ap->lusername, NULL, ap->env);
 
@@ -1126,9 +1119,10 @@ rlogind_mainloop (int infd, int outfd)
 
   reply = inet_ntop (auth_data.from.ss_family,
 		     (auth_data.from.ss_family == AF_INET6)
-		       ? (void *) &((struct sockaddr_in6 *) &auth_data.from)->sin6_addr
-		       : (void *) &((struct sockaddr_in *) &auth_data.from)->sin_addr,
-		     addrstr, sizeof (addrstr));
+		     ? (void *) &((struct sockaddr_in6 *) &auth_data.from)->
+		     sin6_addr : (void *) &((struct sockaddr_in *) &auth_data.
+					    from)->sin_addr, addrstr,
+		     sizeof (addrstr));
   if (reply == NULL)
     {
       syslog (LOG_ERR, "Get numerical address: %m");
@@ -1149,8 +1143,7 @@ rlogind_mainloop (int infd, int outfd)
 #if defined IP_TOS && defined IPPROTO_IP && defined IPTOS_LOWDELAY
   on = IPTOS_LOWDELAY;
   if (auth_data.from.ss_family == AF_INET &&
-      setsockopt (infd, IPPROTO_IP, IP_TOS,
-		  (char *) &on, sizeof on) < 0)
+      setsockopt (infd, IPPROTO_IP, IP_TOS, (char *) &on, sizeof on) < 0)
     syslog (LOG_WARNING, "setsockopt (IP_TOS): %m");
 #endif
 
@@ -1252,8 +1245,8 @@ do_rlogin (int infd, struct auth_data *ap)
     }
 #endif /* WITH_IRUSEROK_AF || WITH_IRUSEROK */
 
-  getstr (infd, &ap->rusername, NULL);		/* Requesting user.  */
-  getstr (infd, &ap->lusername, NULL);		/* Acting user.  */
+  getstr (infd, &ap->rusername, NULL);	/* Requesting user.  */
+  getstr (infd, &ap->lusername, NULL);	/* Acting user.  */
   getstr (infd, &ap->term, "TERM=");
 
   pwd = getpwnam (ap->lusername);
@@ -1282,9 +1275,9 @@ do_rlogin (int infd, struct auth_data *ap)
 # elif defined WITH_IRUSEROK_AF
   rc = iruserok_af (addrp, 0, ap->rusername, ap->lusername,
 		    ap->from.ss_family);
-# else /* WITH_IRUSEROK */
+# else/* WITH_IRUSEROK */
   rc = iruserok (addrp, 0, ap->rusername, ap->lusername);
-# endif /* WITH_IRUSEROK_SA || WITH_IRUSEROK_AF || WITH_IRUSEROK */
+# endif/* WITH_IRUSEROK_SA || WITH_IRUSEROK_AF || WITH_IRUSEROK */
   if (rc)
     syslog (LOG_ERR | LOG_AUTH,
 	    "iruserok failed: rusername=%s, lusername=%s",
@@ -1293,15 +1286,15 @@ do_rlogin (int infd, struct auth_data *ap)
 # ifdef WITH_RUSEROK_AF
   rc = ruserok_af (ap->hostaddr, 0, ap->rusername, ap->lusername,
 		   ap->from.ss_family);
-# else /* WITH_RUSEROK */
+# else/* WITH_RUSEROK */
   rc = ruserok (ap->hostaddr, 0, ap->rusername, ap->lusername);
-# endif /* WITH_RUSEROK_AF || WITH_RUSEROK */
+# endif/* WITH_RUSEROK_AF || WITH_RUSEROK */
   if (rc)
     syslog (LOG_ERR | LOG_AUTH,
 	    "ruserok failed: rusername=%s, lusername=%s",
 	    ap->rusername, ap->lusername);
 #else /* !WITH_IRUSEROK* && !WITH_RUSEROK* */
-#error Unable to use mandatory iruserok/ruserok.  This should not happen.
+# error Unable to use mandatory iruserok/ruserok.  This should not happen.
 #endif /* !WITH_IRUSEROK* && !WITH_RUSEROK* */
 
   return rc;
@@ -1313,7 +1306,7 @@ do_krb_login (int infd, struct auth_data *ap, const char **err_msg)
 {
 # if defined SHISHI
   int rc = SHISHI_VERIFY_FAILED;
-# else /* KERBEROS */
+# else/* KERBEROS */
   int rc = 1;
 # endif
 
@@ -1409,7 +1402,7 @@ do_krb4_login (int infd, struct auth_data *ap, const char **err_msg)
 
   return 0;
 }
-# endif /* KRB4 */
+# endif/* KRB4 */
 
 # ifdef KRB5
 int
@@ -1431,8 +1424,7 @@ do_krb5_login (int infd, struct auth_data *ap, const char **err_msg)
   status = krb5_init_context (&ap->context);
   if (status)
     {
-      syslog (LOG_ERR, "Error initializing krb5: %s",
-	      error_message (status));
+      syslog (LOG_ERR, "Error initializing krb5: %s", error_message (status));
       return status;
     }
 
@@ -1455,8 +1447,7 @@ do_krb5_login (int infd, struct auth_data *ap, const char **err_msg)
       krb5_free_principal (ap->context, server);
       if (status)
 	{
-	  syslog (LOG_ERR, "Setting krb5 realm: %s",
-		  error_message (status));
+	  syslog (LOG_ERR, "Setting krb5 realm: %s", error_message (status));
 	  return status;
 	}
     }
@@ -1531,13 +1522,12 @@ do_krb5_login (int infd, struct auth_data *ap, const char **err_msg)
   syslog (LOG_INFO | LOG_AUTH,
 	  "%sKerberos V login from %s on %s\n",
 	  (pwd->pw_uid == 0) ? "ROOT " : "",
-	  ap->rprincipal ? ap->rprincipal : ap->rusername,
-	  ap->hostname);
+	  ap->rprincipal ? ap->rprincipal : ap->rusername, ap->hostname);
 
   return 0;
 }
 
-# endif /* KRB5 */
+# endif/* KRB5 */
 
 # ifdef SHISHI
 int
@@ -1615,11 +1605,12 @@ do_shishi_login (int infd, struct auth_data *ad, const char **err_msg)
 	    }
 	}
     }
-#  endif /* ENCRYPTION */
+#  endif
+  /* ENCRYPTION */
 
-  getstr (infd, &ad->lusername, NULL);		/* Acting user.  */
+  getstr (infd, &ad->lusername, NULL);	/* Acting user.  */
   getstr (infd, &ad->term, "TERM=");
-  getstr (infd, &ad->rusername, NULL);		/* Requesting user.  */
+  getstr (infd, &ad->rusername, NULL);	/* Requesting user.  */
 
   rc = read (infd, &error, sizeof (int));	/* XXX: not protocol */
   if ((rc != sizeof (int)) || error)
@@ -1653,14 +1644,13 @@ do_shishi_login (int infd, struct auth_data *ad, const char **err_msg)
 
   snprintf (cksumdata, sizeof (cksumdata), "%u:%s%s",
 	    (sock.ss_family == AF_INET6)
-	      ? ntohs (((struct sockaddr_in6 *) &sock)->sin6_port)
-	      : ntohs (((struct sockaddr_in *) &sock)->sin_port),
+	    ? ntohs (((struct sockaddr_in6 *) &sock)->sin6_port)
+	    : ntohs (((struct sockaddr_in *) &sock)->sin_port),
 	    ad->term + 5, ad->lusername);
   rc = shishi_checksum (ad->h, ad->enckey, 0, cksumtype, cksumdata,
 			strlen (cksumdata), &compcksum, &compcksumlen);
   if (rc != SHISHI_OK
-      || compcksumlen != cksumlen
-      || memcmp (compcksum, cksum, cksumlen) != 0)
+      || compcksumlen != cksumlen || memcmp (compcksum, cksum, cksumlen) != 0)
     {
       *err_msg = "Authentication exchange failed.";
       syslog (LOG_ERR, "checksum verify failed: %s", shishi_error (ad->h));
@@ -1685,8 +1675,9 @@ do_shishi_login (int infd, struct auth_data *ad, const char **err_msg)
     }
 
   rc = shishi_encticketpart_clientrealm (ad->h,
-			shishi_tkt_encticketpart (shishi_ap_tkt (ad->ap)),
-			&ad->rprincipal, NULL);
+					 shishi_tkt_encticketpart
+					 (shishi_ap_tkt (ad->ap)),
+					 &ad->rprincipal, NULL);
   if (rc != SHISHI_OK)
     ad->rprincipal = NULL;
 
@@ -1699,18 +1690,18 @@ do_shishi_login (int infd, struct auth_data *ad, const char **err_msg)
       *err_msg = "Permission denied";
       return rc;
     }
-#  endif /* WITH_PAM */
+#  endif
+  /* WITH_PAM */
 
   syslog (LOG_INFO | LOG_AUTH,
 	  "Kerberos V %slogin from %s on %s as `%s'.\n",
 	  ENCRYPT_IO ? "encrypted " : "",
 	  ad->rprincipal ? ad->rprincipal : ad->rusername,
-	  ad->hostname,
-	  ad->lusername);
+	  ad->hostname, ad->lusername);
 
   return SHISHI_OK;
 }
-# endif /* SHISHI */
+# endif/* SHISHI */
 #endif /* KERBEROS || SHISHI */
 
 #define BUFFER_SIZE 128
@@ -1794,7 +1785,7 @@ protocol (int f, int p, struct auth_data *ap)
   char cntl;
 
 #ifndef SHISHI
-  (void) ap;		/* Silence warning.  */
+  (void) ap;			/* Silence warning.  */
 #endif
   /*
    * Must ignore SIGTTOU, otherwise we'll stop
@@ -2011,7 +2002,7 @@ cleanup (int signo)
 
   if (signo == SIGCHLD)
     {
-      (void) waitpid ((pid_t) -1, &status, WNOHANG);
+      (void) waitpid ((pid_t) - 1, &status, WNOHANG);
 
       status = WEXITSTATUS (status);
     }
@@ -2145,7 +2136,7 @@ do_pam_check (int infd, struct auth_data *ap, const char *service)
 	  break;
 
 	default:
-	  break;			/* Non-zero status.  */
+	  break;		/* Non-zero status.  */
 	}
     }
 
@@ -2177,7 +2168,7 @@ do_pam_check (int infd, struct auth_data *ap, const char *service)
 	case PAM_PERM_DENIED:
 	case PAM_USER_UNKNOWN:
 	default:
-	  break;			/* Non-zero status.  */
+	  break;		/* Non-zero status.  */
 	}
     }
 
@@ -2212,10 +2203,10 @@ do_pam_check (int infd, struct auth_data *ap, const char *service)
     {
       syslog (LOG_INFO | LOG_AUTH, "%s@%s as %s: unknown login.",
 	      ap->rusername, ap->hostname, ap->lusername);
-      pam_rc = PAM_AUTH_ERR;		/* Non-zero status.  */
+      pam_rc = PAM_AUTH_ERR;	/* Non-zero status.  */
     }
 
-  pam_end (pam_handle, pam_rc);		/* PAM access is complete.  */
+  pam_end (pam_handle, pam_rc);	/* PAM access is complete.  */
   pam_handle = NULL;
 
   return pam_rc;
@@ -2226,8 +2217,7 @@ do_pam_check (int infd, struct auth_data *ap, const char *service)
  */
 static int
 rlogin_conv (int num, const struct pam_message **pam_msg,
-	     struct pam_response **pam_resp,
-	     void *data MAYBE_UNUSED)
+	     struct pam_response **pam_resp, void *data MAYBE_UNUSED)
 {
   struct pam_response *resp;
 
@@ -2252,14 +2242,13 @@ rlogin_conv (int num, const struct pam_message **pam_msg,
 	  free (resp);
 	  return PAM_BUF_ERR;
 	}
-      syslog (LOG_NOTICE | LOG_AUTH, "PAM message \"%s\".",
-	      (*pam_msg)->msg);
+      syslog (LOG_NOTICE | LOG_AUTH, "PAM message \"%s\".", (*pam_msg)->msg);
       *pam_resp = resp;
       return PAM_SUCCESS;
       break;
 
-    case PAM_TEXT_INFO:		/* Would break protocol.  */
-    case PAM_ERROR_MSG:		/* Likewise.  */
+    case PAM_TEXT_INFO:	/* Would break protocol.  */
+    case PAM_ERROR_MSG:	/* Likewise.  */
     case PAM_PROMPT_ECHO_ON:	/* Interactivity is not supported.  */
     default:
       return PAM_CONV_ERR;

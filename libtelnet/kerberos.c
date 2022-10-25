@@ -100,6 +100,7 @@ extern void printsub (char, unsigned char *, int);
 static unsigned char str_data[1024] = { IAC, SB, TELOPT_AUTHENTICATION, 0,
   AUTHTYPE_KERBEROS_V4,
 };
+
 static unsigned char str_name[1024] = { IAC, SB, TELOPT_AUTHENTICATION,
   TELQUAL_NAME,
 };
@@ -118,9 +119,10 @@ static AUTH_DAT adat = { 0 };
 
 # ifdef	ENCRYPTION
 static Block session_key = { 0 };
+
 static Schedule sched;
 static Block challenge = { 0 };
-# endif	/* ENCRYPTION */
+# endif/* ENCRYPTION */
 
 static int
 Data (ap, type, d, c)
@@ -189,7 +191,7 @@ kerberos4_send (ap)
   KTEXT_ST auth;
 # ifdef	ENCRYPTION
   Block enckey;
-# endif	/* ENCRYPTION */
+# endif/* ENCRYPTION */
   char instance[INST_SZ];
   char *realm;
   char *krb_realmofhost ();
@@ -273,7 +275,7 @@ kerberos4_send (ap)
 	}
       des_ecb_encrypt (challenge, challenge, sched, 1);
     }
-# endif	/* ENCRYPTION */
+# endif/* ENCRYPTION */
 
   if (auth_debug_mode)
     {
@@ -294,7 +296,7 @@ kerberos4_is (ap, data, cnt)
 # ifdef	ENCRYPTION
   Session_Key skey;
   Block datablock;
-# endif	/* ENCRYPTION */
+# endif/* ENCRYPTION */
   char realm[REALM_SZ];
   char instance[INST_SZ];
   int r;
@@ -332,7 +334,7 @@ kerberos4_is (ap, data, cnt)
 	}
 # ifdef	ENCRYPTION
       memmove ((void *) session_key, (void *) adat.session, sizeof (Block));
-# endif	/* ENCRYPTION */
+# endif/* ENCRYPTION */
       krb_kntoln (&adat, name);
 
       if (UserNameRequested && !kuserok (&adat, UserNameRequested))
@@ -345,7 +347,7 @@ kerberos4_is (ap, data, cnt)
     case KRB_CHALLENGE:
 # ifndef ENCRYPTION
       Data (ap, KRB_RESPONSE, (void *) 0, 0);
-# else /* ENCRYPTION */
+# else/* ENCRYPTION */
       if (!VALIDKEY (session_key))
 	{
 	  /*
@@ -389,7 +391,7 @@ kerberos4_is (ap, data, cnt)
 	}
       des_ecb_encrypt (challenge, challenge, sched, 1);
       Data (ap, KRB_RESPONSE, (void *) challenge, sizeof (challenge));
-# endif	/* ENCRYPTION */
+# endif/* ENCRYPTION */
       break;
 
     default:
@@ -408,7 +410,7 @@ kerberos4_reply (ap, data, cnt)
 {
 # ifdef	ENCRYPTION
   Session_Key skey;
-# endif	/* ENCRYPTION */
+# endif/* ENCRYPTION */
 
   if (cnt-- < 1)
     return;
@@ -433,7 +435,7 @@ kerberos4_reply (ap, data, cnt)
 	   */
 # ifndef ENCRYPTION
 	  Data (ap, KRB_CHALLENGE, (void *) 0, 0);
-# else /* ENCRYPTION */
+# else/* ENCRYPTION */
 	  Data (ap, KRB_CHALLENGE, (void *) session_key,
 		sizeof (session_key));
 	  des_ecb_encrypt (session_key, session_key, sched, 1);
@@ -441,7 +443,7 @@ kerberos4_reply (ap, data, cnt)
 	  skey.length = 8;
 	  skey.data = session_key;
 	  encrypt_session_key (&skey, 0);
-# endif	/* ENCRYPTION */
+# endif/* ENCRYPTION */
 	  return;
 	}
       auth_finished (ap, AUTH_USER);
@@ -455,7 +457,7 @@ kerberos4_reply (ap, data, cnt)
 	  (0 != memcmp ((void *) data, (void *) challenge,
 			sizeof (challenge))))
 	{
-# endif	/* ENCRYPTION */
+# endif/* ENCRYPTION */
 	  printf ("[ Kerberos V4 challenge failed!!! ]\r\n");
 	  auth_send_retry ();
 	  return;
@@ -463,7 +465,7 @@ kerberos4_reply (ap, data, cnt)
 	}
       printf ("[ Kerberos V4 challenge successful ]\r\n");
       auth_finished (ap, AUTH_USER);
-# endif	/* ENCRYPTION */
+# endif/* ENCRYPTION */
       break;
     default:
       if (auth_debug_mode)

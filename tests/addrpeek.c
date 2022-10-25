@@ -84,17 +84,17 @@ write_address (int fd)
     {
       sslen = sizeof (ss);
       recvfrom (fd, answer, sizeof (answer), 0,
-                  (struct sockaddr *) &ss, &sslen);
+		(struct sockaddr *) &ss, &sslen);
       shutdown (fd, SHUT_RD);
     }
   else
-      return;
+    return;
 
   getnameinfo ((struct sockaddr *) &ss, sslen, addr, sizeof (addr),
-                NULL, 0, NI_NUMERICHOST);
+	       NULL, 0, NI_NUMERICHOST);
 
   len = snprintf (answer, sizeof (answer),
-                  "Your address is %s." SEPARATOR, addr);
+		  "Your address is %s." SEPARATOR, addr);
 
   sendto (fd, answer, len, 0, (struct sockaddr *) &ss, sslen);
 }
@@ -102,7 +102,7 @@ write_address (int fd)
 void
 write_environment (int fd, char *envp[])
 {
-  for ( ; *envp; ++envp)
+  for (; *envp; ++envp)
     {
       write (fd, *envp, strlen (*envp));
       write (fd, SEPARATOR, strlen (SEPARATOR));
@@ -117,16 +117,16 @@ main (int argc, char *argv[])
   for (j = 1; j < argc; ++j)
     {
       if (strncmp (argv[j], "addr", strlen ("addr")) == 0)
-        {
-          write_address (STDOUT_FILENO);
-          continue;
-        }
+	{
+	  write_address (STDOUT_FILENO);
+	  continue;
+	}
 
       if (strncmp (argv[j], "env", strlen ("env")) == 0)
-        {
-          write_environment (STDOUT_FILENO, environ);
-          continue;
-        }
+	{
+	  write_environment (STDOUT_FILENO, environ);
+	  continue;
+	}
     }
 
   close (STDIN_FILENO);

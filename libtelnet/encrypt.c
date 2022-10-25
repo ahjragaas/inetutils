@@ -118,12 +118,15 @@ static char *Name = "Noname";
 
 /* Only the type ENCTYPE_DES_CFB64 seems universal.  */
 # ifdef ENCTYPE_DES_OFB64
-static long i_support_encrypt = typemask (ENCTYPE_DES_CFB64) | typemask (ENCTYPE_DES_OFB64);
-static long i_support_decrypt = typemask (ENCTYPE_DES_CFB64) | typemask (ENCTYPE_DES_OFB64);
-# else /* !ENCTYPE_DES_OFB64 */
+static long i_support_encrypt =
+typemask (ENCTYPE_DES_CFB64) | typemask (ENCTYPE_DES_OFB64);
+     static long
+       i_support_decrypt =
+       typemask (ENCTYPE_DES_CFB64) | typemask (ENCTYPE_DES_OFB64);
+# else/* !ENCTYPE_DES_OFB64 */
 static long i_support_encrypt = typemask (ENCTYPE_DES_CFB64);
 static long i_support_decrypt = typemask (ENCTYPE_DES_CFB64);
-# endif /* !ENCTYPE_DES_OFB64 */
+# endif/* !ENCTYPE_DES_OFB64 */
 
 static long i_wont_support_encrypt = 0;
 static long i_wont_support_decrypt = 0;
@@ -156,8 +159,9 @@ static Encryptions encryptions[] = {
    ofb64_session,
    ofb64_keyid,
    ofb64_printsub},
-#  endif /* ENCTYPE_DES_OFB64 */
-# endif	/* DES_ENCRYPTION */
+#  endif
+  /* ENCTYPE_DES_OFB64 */
+# endif/* DES_ENCRYPTION */
   {0,},
 };
 
@@ -598,8 +602,7 @@ encrypt_is (unsigned char *data, int cnt)
 	printf ("(*ep->is)(%p, %d) returned %s (%d).\r\n",
 		data, cnt,
 		(ret < 0) ? "FAIL "
-			  : ((ret == 0) ? "SUCCESS " : "MORE_TO_DO "),
-		ret);
+		: ((ret == 0) ? "SUCCESS " : "MORE_TO_DO "), ret);
     }
   if (ret < 0)
     autodecrypt = 0;
@@ -647,8 +650,7 @@ encrypt_reply (unsigned char *data, int cnt)
 	printf ("(*ep->reply)(%p, %d) returned %s (%d).\r\n",
 		data, cnt,
 		(ret < 0) ? "FAIL "
-			  : ((ret == 0) ? "SUCCESS " : "MORE_TO_DO "),
-		ret);
+		: ((ret == 0) ? "SUCCESS " : "MORE_TO_DO "), ret);
     }
   if (encrypt_debug_mode)
     printf (">>>%s: encrypt_reply returned %d\n", Name, ret);
@@ -666,8 +668,7 @@ encrypt_reply (unsigned char *data, int cnt)
  * Called when a ENCRYPT START command is received.
  */
 void
-encrypt_start (unsigned char *data MAYBE_UNUSED,
-	       int cnt MAYBE_UNUSED)
+encrypt_start (unsigned char *data MAYBE_UNUSED, int cnt MAYBE_UNUSED)
 {
   Encryptions *ep;
 
@@ -706,7 +707,7 @@ encrypt_start (unsigned char *data MAYBE_UNUSED,
 }
 
 void
-encrypt_session_key (Session_Key *key, int server)
+encrypt_session_key (Session_Key * key, int server)
 {
   Encryptions *ep = encryptions;
 
@@ -749,8 +750,7 @@ encrypt_request_end (void)
  * can.
  */
 void
-encrypt_request_start (unsigned char *data MAYBE_UNUSED,
-		       int cnt MAYBE_UNUSED)
+encrypt_request_start (unsigned char *data MAYBE_UNUSED, int cnt MAYBE_UNUSED)
 {
   if (encrypt_mode == 0)
     {
@@ -1001,8 +1001,7 @@ encrypt_debug (int mode)
 }
 
 static void
-encrypt_gen_printsub (unsigned char *data, int cnt,
-		      char *buf, int buflen)
+encrypt_gen_printsub (unsigned char *data, int cnt, char *buf, int buflen)
 {
   char tbuf[16], *cp;
 
@@ -1023,8 +1022,7 @@ encrypt_gen_printsub (unsigned char *data, int cnt,
 }
 
 void
-encrypt_printsub (unsigned char *data, int cnt,
-		  char *buf, int buflen)
+encrypt_printsub (unsigned char *data, int cnt, char *buf, int buflen)
 {
   Encryptions *ep;
   int type = data[1];

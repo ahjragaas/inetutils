@@ -54,7 +54,7 @@ _logwtmp (struct utmpx *ut)
 #else /* !HAVE_UTMPX_H */
 static void
 _logwtmp (struct utmp *ut)
-#endif /* !HAVE_UTMP_H */
+#endif				/* !HAVE_UTMP_H */
 {
 #ifdef KEEP_OPEN
   static int fd = -1;
@@ -141,7 +141,7 @@ logwtmp (char *line, char *name, char *host)
       ut.ut_host[sizeof (ut.ut_host) - 1] = '\0';
       ut.ut_syslen = sizeof (ut.ut_host);
     }
-# endif /* UT_SYSLEN */
+# endif/* UT_SYSLEN */
 #endif /* UT_HOST */
 
 #if defined HAVE_STRUCT_UTMP_UT_TV || defined HAVE_STRUCT_UTMPX_UT_TV

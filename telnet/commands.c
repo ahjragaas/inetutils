@@ -67,7 +67,7 @@
 #include <errno.h>
 
 #include <stdlib.h>
-#include <limits.h>	/* LLONG_MAX for Solaris. */
+#include <limits.h>		/* LLONG_MAX for Solaris. */
 
 #include <arpa/inet.h>
 #include <arpa/telnet.h>
@@ -106,7 +106,7 @@
 # endif
 # if (defined vax || defined tahoe || defined hp300) && !defined ultrix
 #  include <machine/endian.h>
-# endif	/* vax */
+# endif/* vax */
 #endif /* !defined(CRAY) && !defined(sysV88) */
 
 #ifdef HAVE_NETINET_IP_H
@@ -128,7 +128,7 @@ typedef struct
 {
   const char *name;		/* command name */
   const char *help;		/* help string (NULL for no help) */
-  int (*handler) (int, char *[]);		/* routine which executes command */
+  int (*handler) (int, char *[]);	/* routine which executes command */
   int needconnect;		/* Do we need to be connected to execute? */
 } Command;
 
@@ -139,8 +139,8 @@ static char saveline[256];
 static int margc;
 static char *margv[TELNET_MAX_ARGS];
 
-static struct env_lst *env_help(const char *, char *);
-static void slc_help(int);
+static struct env_lst *env_help (const char *, char *);
+static void slc_help (int);
 
 static void
 makeargv (void)
@@ -308,12 +308,12 @@ struct sendlist
 };
 
 
-static int send_esc(const char *);
-static int send_docmd(const char *);
-static int send_dontcmd(const char *);
-static int send_willcmd(const char *);
-static int send_wontcmd(const char *);
-static int send_help(const char *);
+static int send_esc (const char *);
+static int send_docmd (const char *);
+static int send_dontcmd (const char *);
+static int send_willcmd (const char *);
+static int send_wontcmd (const char *);
+static int send_help (const char *);
 
 static struct sendlist Sendlist[] = {
   {"ao", "Send Telnet Abort output", 1, 0, 0, 2, AO},
@@ -423,9 +423,8 @@ sendcmd (int argc, char **argv)
       if ((s = GETSEND (argv[i])) == 0)
 	{
 	  fprintf (stderr, "Telnet 'send' error - argument disappeared!\n");
-	  (void) quit(0, NULL);
-	  /*NOTREACHED*/
-	}
+	  (void) quit (0, NULL);
+	 /*NOTREACHED*/}
       if (s->handler)
 	{
 	  count++;
@@ -836,7 +835,7 @@ static struct togglelist Togglelist[] = {
    lclchars,
    &localchars,
    "recognize certain control characters"},
-  {" ", "", 0, NULL, NULL},			/* empty line */
+  {" ", "", 0, NULL, NULL},	/* empty line */
 #if (defined unix || defined __unix || defined __unix__) && defined TN3270
   {"apitrace",
    "(debugging) toggle tracing of API transactions",
@@ -1799,7 +1798,7 @@ struct envlist EnvList[] = {
 };
 
 static struct env_lst *
-env_help(const char *us1, char *us2)
+env_help (const char *us1, char *us2)
 {
   struct envlist *c;
 
@@ -1932,7 +1931,7 @@ env_init (void)
    */
   if ((env_find ("USER") == NULL) && (ep = env_find ("LOGNAME")))
     {
-      env_define ("USER", (char*) ep->value);
+      env_define ("USER", (char *) ep->value);
       env_unexport ("USER", NULL);
     }
   env_export ("DISPLAY", NULL);
@@ -1957,7 +1956,7 @@ env_define (const char *var, char *value)
       if (ep->next)
 	ep->next->prev = ep;
     }
-  ep->welldefined = opt_welldefined ((char *)var);
+  ep->welldefined = opt_welldefined ((char *) var);
   ep->export = 1;
   ep->var = (unsigned char *) strdup ((char *) var);
   ep->value = (unsigned char *) strdup ((char *) value);
@@ -1999,7 +1998,7 @@ env_unexport (const char *var, char *d)
 }
 
 struct env_lst *
-env_send(const char *var, char *d)
+env_send (const char *var, char *d)
 {
   register struct env_lst *ep;
 
@@ -2027,7 +2026,7 @@ env_send(const char *var, char *d)
 }
 
 struct env_lst *
-env_list(const char *d1, char *d2)
+env_list (const char *d1, char *d2)
 {
   register struct env_lst *ep;
 
@@ -2062,7 +2061,7 @@ env_default (int init, int welldefined)
 unsigned char *
 env_getvalue (const char *var)
 {
-  register struct env_lst *ep  = env_find (var);
+  register struct env_lst *ep = env_find (var);
   if (ep)
     return (ep->value);
   return (NULL);
@@ -2434,7 +2433,7 @@ status (int argc, char *argv[])
     {
       printf ("Transparent mode command is '%s'.\n", transcom);
     }
-# endif /* unix || __unix || __unix__ */
+# endif/* unix || __unix || __unix__ */
   fflush (stdout);
   if (In3270)
     {
@@ -2452,7 +2451,7 @@ int
 ayt_status ()
 {
   call (status, "status", "notmuch", 0);
-  return 1;	/* not used */
+  return 1;			/* not used */
 }
 #endif /* SIGINFO */
 
@@ -2492,8 +2491,7 @@ tn (int argc, char *argv[])
     {
       strcpy (line, "open ");
       printf ("(to) ");
-      if (fgets (&line[strlen (line)],
-		 sizeof (line) - strlen (line), stdin))
+      if (fgets (&line[strlen (line)], sizeof (line) - strlen (line), stdin))
 	{
 	  makeargv ();
 	  argc = margc;
@@ -2569,7 +2567,9 @@ tn (int argc, char *argv[])
 	  continue;
 	}
     usage:
-      printf ("usage: %s [-4] [-6] [-l user] [-b addr] [-a] host-name [port]\n", cmd);
+      printf
+	("usage: %s [-4] [-6] [-l user] [-b addr] [-a] host-name [port]\n",
+	 cmd);
       return 0;
     }
   if (hostp == 0)
@@ -2652,8 +2652,7 @@ tn (int argc, char *argv[])
       err = getaddrinfo (srchostp, "0", &hints, &hostaddr);
       if (err < 0)
 	{
-	  printf ("Could not resolve %s: %s\n", srchostp,
-		  gai_strerror (err));
+	  printf ("Could not resolve %s: %s\n", srchostp, gai_strerror (err));
 	  return 0;
 	}
       hints.ai_family = hostaddr->ai_family;
@@ -2706,7 +2705,7 @@ tn (int argc, char *argv[])
 
       if (srchostp)
 	{
-	  err = bind(net, hostaddr->ai_addr, hostaddr->ai_addrlen);
+	  err = bind (net, hostaddr->ai_addr, hostaddr->ai_addrlen);
 	  if (err < 0)
 	    {
 	      perror ("telnet: bind");
@@ -2739,12 +2738,12 @@ tn (int argc, char *argv[])
       connected++;
 # if defined AUTHENTICATION || defined ENCRYPTION
       auth_encrypt_connect (connected);
-# endif	/* defined(AUTHENTICATION) || defined(ENCRYPTION) */
+# endif/* defined(AUTHENTICATION) || defined(ENCRYPTION) */
     }
   while (!connected);
 
   if (srchostp)
-    freeaddrinfo(hostaddr);
+    freeaddrinfo (hostaddr);
   freeaddrinfo (result);
 #else /* !IPV6 */
   temp = inet_addr (hostp);
@@ -2804,7 +2803,7 @@ tn (int argc, char *argv[])
 	if (err < 0 && errno != ENOPROTOOPT)
 	  perror ("telnet: setsockopt (IP_TOS) (ignored)");
       }
-# endif	/* defined(IPPROTO_IP) && defined(IP_TOS) */
+# endif/* defined(IPPROTO_IP) && defined(IP_TOS) */
 
       if (debug
 	  && setsockopt (net, SOL_SOCKET, SO_DEBUG, &on, sizeof (on)) < 0)
@@ -2832,7 +2831,7 @@ tn (int argc, char *argv[])
       connected++;
 # if defined AUTHENTICATION || defined ENCRYPTION
       auth_encrypt_connect (connected);
-# endif	/* defined(AUTHENTICATION) || defined(ENCRYPTION) */
+# endif/* defined(AUTHENTICATION) || defined(ENCRYPTION) */
     }
   while (connected == 0);
 #endif /* !IPV6 */
@@ -2891,7 +2890,8 @@ static char
   displayhelp[] = "display operating parameters",
 #if defined TN3270 && (defined unix || defined __unix || defined __unix__)
   transcomhelp[] = "specify Unix command for transparent mode pipe",
-#endif /* TN3270 && (unix || __unix || __unix__) */
+#endif
+  /* TN3270 && (unix || __unix || __unix__) */
 #if defined AUTHENTICATION
   authhelp[] = "turn on (off) authentication ('auth ?' for more)",
 #endif
@@ -2901,7 +2901,8 @@ static char
   /* ENCRYPTION */
 #if defined unix || defined __unix || defined __unix__
   zhelp[] = "suspend telnet",
-#endif /* unix || __unix || __unix__ */
+#endif
+  /* unix || __unix || __unix__ */
   shellhelp[] = "invoke a subshell",
   envhelp[] = "change environment variables ('environ ?' for more)",
   modestring[] = "try to enter line or character mode ('mode ?' for more)";
@@ -3029,9 +3030,8 @@ command (int top, char *tbuf, int cnt)
 	      if (feof (stdin) || ferror (stdin))
 		{
 		  printf ("\n");
-		  (void) quit(0, NULL);
-		  /*NOTREACHED*/
-		}
+		  (void) quit (0, NULL);
+		 /*NOTREACHED*/}
 	      break;
 	    }
 	}
@@ -3131,9 +3131,9 @@ cmdrc (char *m1, char *m2)
     {
       const char *home = getenv ("HOME");
       if (home)
-        rcname = xasprintf ("%s/.telnetrc", home);
+	rcname = xasprintf ("%s/.telnetrc", home);
       else
-        rcname = xstrdup ("/.telnetrc");
+	rcname = xstrdup ("/.telnetrc");
     }
 
   if ((rcfile = fopen (rcname, "r")) == 0)
@@ -3159,11 +3159,11 @@ cmdrc (char *m1, char *m2)
 	  if (isspace (line[0]))
 	    continue;
 	  if (strncasecmp (line, m1, l1) == 0)
-	    memmove (line, &line[l1], strlen(&line[l1]) + 1);
+	    memmove (line, &line[l1], strlen (&line[l1]) + 1);
 	  else if (strncasecmp (line, m2, l2) == 0)
-	    memmove (line, &line[l2], strlen(&line[l2]) + 1);
+	    memmove (line, &line[l2], strlen (&line[l2]) + 1);
 	  else if (strncasecmp (line, "DEFAULT", 7) == 0)
-	    memmove (line, &line[7], strlen(&line[7]) + 1);
+	    memmove (line, &line[7], strlen (&line[7]) + 1);
 	  else
 	    continue;
 	  if (line[0] != ' ' && line[0] != '\t' && line[0] != '\n')

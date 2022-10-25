@@ -21,7 +21,7 @@
 #ifndef IFCONFIG_FLAGS_H
 # define IFCONFIG_FLAGS_H
 
-#include <sys/types.h>
+# include <sys/types.h>
 
 /* Using these avoid strings with if_flagtoname, the caller can set a
    preference on returned flag names.  If one of the names in the list
@@ -36,12 +36,12 @@
 # define EXPECT_SNAP ":D2/SNAP:D2:"
 
 /* Suppress flags that are not changeable by user.  */
-#ifndef IFF_CANTCHANGE
-# define IFF_CANTCHANGE 0
-#endif /* IFF_CANTCHANGE */
+# ifndef IFF_CANTCHANGE
+#  define IFF_CANTCHANGE 0
+# endif/* IFF_CANTCHANGE */
 
 /* Manually exclude flags that experience tell us be static.  */
-#define IU_IFF_CANTCHANGE \
+# define IU_IFF_CANTCHANGE \
 	(IFF_CANTCHANGE | IFF_LOOPBACK | IFF_RUNNING)
 
 /* Return the name corresponding to the interface flag FLAG.

@@ -32,7 +32,7 @@
 
 # ifndef HAVE_STRUCT_IFREQ_IFR_MTU
 #  define ifr_mtu ifr_metric
-# endif /* !HAVE_STRUCT_IFREQ_IFR_MTU */
+# endif/* !HAVE_STRUCT_IFREQ_IFR_MTU */
 
 
 /* Option support.  */

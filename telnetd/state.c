@@ -52,10 +52,10 @@
 
 #if defined HAVE_STREAMSPTY && defined TIOCSIGNAL \
 	&& defined HAVE_STROPTS_H
-# include <stropts.h>	/* I_FLUSH, FLUSHR */
+# include <stropts.h>		/* I_FLUSH, FLUSHR */
 #endif
 
-#ifndef NTELOPTS	/* OpenSolaris */
+#ifndef NTELOPTS		/* OpenSolaris */
 # define NTELOPTS	(1+TELOPT_NEW_ENVIRON)
 #endif
 
@@ -64,6 +64,7 @@ char doopt[] = { IAC, DO, '%', 'c', 0 };
 char dont[] = { IAC, DONT, '%', 'c', 0 };
 char will[] = { IAC, WILL, '%', 'c', 0 };
 char wont[] = { IAC, WONT, '%', 'c', 0 };
+
 int not42 = 1;
 
 /*
@@ -134,10 +135,10 @@ send_susp (void)
   ptyflush ();			/* half-hearted */
 # ifdef	TCSIG
   ioctl (pty, TCSIG, (char *) SIGTSTP);
-# else /* TCSIG */
+# else/* TCSIG */
   pty_output_byte (slctab[SLC_SUSP].sptr ?
 		   (unsigned char) *slctab[SLC_SUSP].sptr : '\032');
-# endif	/* TCSIG */
+# endif/* TCSIG */
 #endif /* SIGTSTP */
 }
 
@@ -179,11 +180,11 @@ send_intr (void)
 #else
 # ifdef	TCSIG
   ioctl (pty, TCSIG, (char *) SIGINT);
-# else /* TCSIG */
+# else/* TCSIG */
   init_termbuf ();
   pty_output_byte (slctab[SLC_IP].sptr ?
 		   (unsigned char) *slctab[SLC_IP].sptr : '\177');
-# endif	/* TCSIG */
+# endif/* TCSIG */
 #endif
 }
 

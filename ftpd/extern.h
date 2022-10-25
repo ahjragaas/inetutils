@@ -121,7 +121,7 @@ extern off_t restart_point;
 /* Exported from server_mode.c.  */
 extern int usefamily;
 extern int server_mode (const char *pidfile, struct sockaddr *phis_addr,
-			socklen_t *phis_addrlen, char *argv[]);
+			socklen_t * phis_addrlen, char *argv[]);
 
 /* Credential for the request.  */
 struct credentials

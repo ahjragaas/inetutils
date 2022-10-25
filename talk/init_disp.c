@@ -85,7 +85,8 @@ init_display (void)
 #endif
 
   if (initscr () == NULL)
-    error (EXIT_FAILURE, 0, "Terminal type unset or lacking necessary features.");
+    error (EXIT_FAILURE, 0,
+	   "Terminal type unset or lacking necessary features.");
 
 #ifdef HAVE_SIGACTION
   sigaction (SIGTSTP, (struct sigaction *) 0, &siga);
@@ -96,7 +97,7 @@ init_display (void)
   sigvec (SIGTSTP, (struct sigvec *) 0, &sigv);
   sigv.sv_mask |= sigmask (SIGALRM);
   sigvec (SIGTSTP, &sigv, (struct sigvec *) 0);
-# endif	/* HAVE_SIGVEC */
+# endif/* HAVE_SIGVEC */
 #endif /* HAVE_SIGACTION */
 
   curses_initialized = 1;

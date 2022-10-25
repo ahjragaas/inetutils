@@ -67,7 +67,7 @@
 #include <signal.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdint.h>	/* intmax_t */
+#include <stdint.h>		/* intmax_t */
 #include <string.h>
 #include <sys/time.h>
 #include <time.h>
@@ -95,7 +95,7 @@
 #ifndef DEFPORT
 # ifdef IPPORT_FTP
 #  define DEFPORT IPPORT_FTP
-# else /* !IPPORT_FTP */
+# else/* !IPPORT_FTP */
 #  define DEFPORT 21
 # endif
 #endif /* !DEFPORT */
@@ -197,7 +197,7 @@ another (int *pargc, char ***pargv, const char *prompt)
     }
 
   new = realloc (line, sizeof (char) *
-		       ((linelen ? linelen : len) + strlen (arg) + 2));
+		 ((linelen ? linelen : len) + strlen (arg) + 2));
   if (!new)
     {
       free (arg);
@@ -205,8 +205,7 @@ another (int *pargc, char ***pargv, const char *prompt)
     }
 
   line = new;
-  linelen = sizeof (char) *
-	    ((linelen ? linelen : len) + strlen (arg) + 2);
+  linelen = sizeof (char) * ((linelen ? linelen : len) + strlen (arg) + 2);
   line[len++] = ' ';
   strcpy (&line[len], arg);
   free (arg);
@@ -241,11 +240,11 @@ setpeer (int argc, char **argv)
     {
       if (hostname)
 	{
-          host = hostname;
-          argc = 2;
-        }
+	  host = hostname;
+	  argc = 2;
+	}
       else
-        another (&argc, &argv, "to");
+	another (&argc, &argv, "to");
     }
 
   if (argc < 2 || argc > 3)
@@ -260,7 +259,7 @@ setpeer (int argc, char **argv)
 
   if (argc == 3)
     {
-      if (isdigit(argv[2][0]) || argv[2][0] == '-')
+      if (isdigit (argv[2][0]) || argv[2][0] == '-')
 	port = atoi (argv[2]);
       else
 	{
@@ -374,15 +373,14 @@ struct types
   char *t_mode;
   int t_type;
   char *t_arg;
-} types[] =
-  {
-    {"ascii", "A", TYPE_A, 0},
-    {"binary", "I", TYPE_I, 0},
-    {"image", "I", TYPE_I, 0},
-    {"ebcdic", "E", TYPE_E, 0},
-    {"tenex", "L", TYPE_L, bytename},
-    {NULL, NULL, 0, NULL}
-  };
+} types[] = {
+  {"ascii", "A", TYPE_A, 0},
+  {"binary", "I", TYPE_I, 0},
+  {"image", "I", TYPE_I, 0},
+  {"ebcdic", "E", TYPE_E, 0},
+  {"tenex", "L", TYPE_L, bytename},
+  {NULL, NULL, 0, NULL}
+};
 
 /*
  * Set transfer type.
@@ -1134,7 +1132,7 @@ status (int argc MAYBE_UNUSED, char **argv MAYBE_UNUSED)
     printf ("Not connected.\n");
   printf ("Connection addressing: %s\n",
 	  (usefamily == AF_UNSPEC) ? "any"
-	    : (usefamily == AF_INET6) ? "IPv6" : "IPv4");
+	  : (usefamily == AF_INET6) ? "IPv6" : "IPv4");
   if (!proxy)
     {
       pswitch (1);
@@ -1765,7 +1763,7 @@ user (int argc, char **argv)
 	  if (fgets (acct, sizeof (acct) - 1, stdin))
 	    acct[strlen (acct) - 1] = '\0';	/* Erase newline.  */
 	  else
-	    acct[0] = '\0';			/* Set empty name.  */
+	    acct[0] = '\0';	/* Set empty name.  */
 	  argv[3] = acct;
 	  argc++;
 	}
@@ -2297,7 +2295,7 @@ setnmap (int argc, char **argv)
     cp++;
   if (proxy)
     {
-      while (*cp && isblank(*cp))
+      while (*cp && isblank (*cp))
 	cp++;
       altarg = cp;
       while (*cp && !isblank (*cp))
@@ -2310,13 +2308,14 @@ setnmap (int argc, char **argv)
 
   do
     cp++;
-  while (*cp && isblank(*cp));
+  while (*cp && isblank (*cp));
   free (mapout);
   mapout = strdup (cp);
 }
 
 static int
-cp_subst (char **from_p, char **to_p, int *toks, char **tp, char **te, char *tok0, char **buf_p, int *buf_len_p)
+cp_subst (char **from_p, char **to_p, int *toks, char **tp, char **te,
+	  char *tok0, char **buf_p, int *buf_len_p)
 {
   int toknum;
   char *src;
@@ -2460,12 +2459,12 @@ domap (char *name)
 		      cp2++;
 		    }
 		  else if (*cp2 == '$' && isdigit (*(cp2 + 1)))
-                    {
-                      if (cp_subst (&cp2,
-                                    &cp1, toks, tp, te, name, &buf, &buf_len))
-                        match = 1;
-                    }
-                  else if (*cp2)
+		    {
+		      if (cp_subst (&cp2,
+				    &cp1, toks, tp, te, name, &buf, &buf_len))
+			match = 1;
+		    }
+		  else if (*cp2)
 		    *cp1++ = *cp2++;
 		}
 	      if (!*cp2)

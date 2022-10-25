@@ -85,7 +85,7 @@ int system_configure (int sfd, struct ifreq *ifr,
 # endif
 
 
-extern struct if_nameindex* (*system_if_nameindex) (void);
+extern struct if_nameindex *(*system_if_nameindex) (void);
 
 # if defined __linux__
 #  include "system/linux.h"

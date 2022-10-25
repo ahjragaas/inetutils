@@ -26,29 +26,28 @@
 
 # define SERVICE "host"
 
-extern int kerberos_auth (krb5_context *ctx, int verbose, char **cname,
+extern int kerberos_auth (krb5_context * ctx, int verbose, char **cname,
 			  const char *sname, int sock, char *cmd,
-			  unsigned short port, krb5_keyblock **key,
+			  unsigned short port, krb5_keyblock ** key,
 			  const char *realm);
 
-extern int get_auth (int infd, krb5_context *ctx, krb5_auth_context *actx,
-		     krb5_keyblock **key, const char **err_msg,
+extern int get_auth (int infd, krb5_context * ctx, krb5_auth_context * actx,
+		     krb5_keyblock ** key, const char **err_msg,
 		     int *protoversion, int *cksumtype, char **cksum,
 		     size_t *cksumlen, char *srvname);
 
-extern int kcmd (krb5_context *ctx, int *sock, char **ahost,
+extern int kcmd (krb5_context * ctx, int *sock, char **ahost,
 		 unsigned short rport, char *locuser, char **remuser,
 		 char *cmd, int *fd2p, char *service, const char *realm,
-		 krb5_keyblock **key, struct sockaddr_in *laddr,
+		 krb5_keyblock ** key, struct sockaddr_in *laddr,
 		 struct sockaddr_in *raddr, long opts);
 
-extern int krcmd (krb5_context *ctx, char **ahost, unsigned short rport,
-		  char **remuser, char *cmd, int *fd2p,
-		  const char *realm);
+extern int krcmd (krb5_context * ctx, char **ahost, unsigned short rport,
+		  char **remuser, char *cmd, int *fd2p, const char *realm);
 
-extern int krcmd_mutual (krb5_context *ctx, char **ahost,
+extern int krcmd_mutual (krb5_context * ctx, char **ahost,
 			 unsigned short rport, char **remuser,
 			 char *cmd, int *fd2p, const char *realm,
-			 krb5_keyblock **key);
+			 krb5_keyblock ** key);
 
-#endif	/* KRB5 */
+#endif /* KRB5 */

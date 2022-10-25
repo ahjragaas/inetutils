@@ -31,8 +31,7 @@
 int
 shishi_auth (Shishi ** handle, int verbose, char **cname,
 	     const char *sname, int sock, char *cmd,
-	     unsigned short port, Shishi_key ** enckey,
-	     const char *realm)
+	     unsigned short port, Shishi_key ** enckey, const char *realm)
 {
   Shishi_ap *ap;
   Shishi_tkt *tkt;
@@ -101,7 +100,7 @@ shishi_auth (Shishi ** handle, int verbose, char **cname,
       if (n >= 0 && n < (ssize_t) sizeof (errormsg))
 	errormsg[n] = '\0';
       else
-	errormsg[sizeof (errormsg) -1] = '\0';
+	errormsg[sizeof (errormsg) - 1] = '\0';
 
       fprintf (stderr, "Error during server authentication : %s\n", errormsg);
       return SHISHI_VERIFY_FAILED;
@@ -331,8 +330,7 @@ get_auth (int infd, Shishi ** handle, Shishi_ap ** ap,
       if (p && (p != server))
 	sprintf (servername, "%s", server);	/* Non-empty prefix.  */
       else
-	sprintf (servername, "%s/%s", SERVICE,
-		 server + (p ? 1 : 0));	/* Remove initial slash.  */
+	sprintf (servername, "%s/%s", SERVICE, server + (p ? 1 : 0));	/* Remove initial slash.  */
     }
   else
     servername = shishi_server_for_local_service (*handle, SERVICE);
@@ -764,5 +762,5 @@ writeenc (Shishi * h, int sock, char *buf, int wlen, int *len,
 
 
 }
-# endif	/* ENCRYPTION */
+# endif/* ENCRYPTION */
 #endif

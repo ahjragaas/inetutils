@@ -85,8 +85,10 @@ ping_init (int type, int ident)
 	  fd = socket (AF_INET, SOCK_DGRAM, proto->p_proto);
 	  if (fd < 0)
 	    {
-	      if (errno == EPERM || errno == EACCES || errno == EPROTONOSUPPORT)
-		fprintf (stderr, "ping: Lacking privilege for icmp socket.\n");
+	      if (errno == EPERM || errno == EACCES
+		  || errno == EPROTONOSUPPORT)
+		fprintf (stderr,
+			 "ping: Lacking privilege for icmp socket.\n");
 	      else
 		fprintf (stderr, "ping: %s\n", strerror (errno));
 
@@ -173,7 +175,8 @@ ping_xmit (PING * p)
     }
 
   i = sendto (p->ping_fd, (char *) p->ping_buffer, buflen, 0,
-	      (struct sockaddr *) &p->ping_dest.ping_sockaddr, sizeof (struct sockaddr_in));
+	      (struct sockaddr *) &p->ping_dest.ping_sockaddr,
+	      sizeof (struct sockaddr_in));
   if (i < 0)
     return -1;
   else
@@ -300,7 +303,7 @@ ping_set_dest (PING * ping, const char *host)
   if (rc)
     return 1;
   host = rhost;
-#else
+# else
   rhost = NULL;
 # endif
 
@@ -328,7 +331,7 @@ ping_set_dest (PING * ping, const char *host)
   else
 # if defined HAVE_IDN || defined HAVE_IDN2
     ping->ping_hostname = host;
-#else
+# else
     ping->ping_hostname = strdup (host);
 # endif
 
@@ -356,7 +359,7 @@ ping_set_dest (PING * ping, const char *host)
 	return 1;
       hp = gethostbyname (rhost);
       free (rhost);
-# else /* !HAVE_IDN && !HAVE_IDN2 */
+# else/* !HAVE_IDN && !HAVE_IDN2 */
       hp = gethostbyname (host);
 # endif
       if (!hp)

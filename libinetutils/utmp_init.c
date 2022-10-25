@@ -139,11 +139,12 @@ utmp_init (char *line, char *user, char *id, char *host)
   updwtmpx (PATH_WTMPX, &utx);
 #  elif defined HAVE_LOGWTMPX
   logwtmpx (line, user, id, 0, LOGIN_PROCESS);
-#  endif /* wtmp updating */
+#  endif
+  /* wtmp updating */
   endutxent ();
-# elif defined HAVE_LOGINX /* !HAVE_PUTUTXLINE */
+# elif defined HAVE_LOGINX	/* !HAVE_PUTUTXLINE */
   loginx (&utx, 0, LOGIN_PROCESS);
-# endif /* HAVE_LOGINX && !HAVE_PUTUTXLINE */
+# endif/* HAVE_LOGINX && !HAVE_PUTUTXLINE */
 
 #else /* !HAVE_UTMPX_H */
 # ifdef HAVE_PUTUTLINE
@@ -151,14 +152,15 @@ utmp_init (char *line, char *user, char *id, char *host)
   pututline (&utx);
 #  ifdef HAVE_UPDWTMP
   updwtmp (PATH_WTMP, &utx);
-#  elif defined HAVE_LOGWTMP /* !HAVE_UPDWTMP */
+#  elif defined HAVE_LOGWTMP	/* !HAVE_UPDWTMP */
   logwtmp (line, user, id);
-#  endif /* wtmp updating */
+#  endif
+  /* wtmp updating */
   endutent ();
-# elif defined HAVE_LOGIN /* !HAVE_PUTUTLINE */
-  (void) id;		/* Silence warnings.  */
+# elif defined HAVE_LOGIN	/* !HAVE_PUTUTLINE */
+  (void) id;			/* Silence warnings.  */
   login (&utx);
-# endif /* HAVE_LOGIN && !HAVE_PUTUTLINE */
+# endif/* HAVE_LOGIN && !HAVE_PUTUTLINE */
 #endif /* !HAVE_UTMPX_H */
 }
 

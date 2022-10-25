@@ -120,7 +120,7 @@ static int pam_rc = PAM_AUTH_ERR;	/* doit() and die() */
 static char *password_pam = NULL;	/* doit() and rexec_conv() */
 static int pam_flags = PAM_SILENT | PAM_DISALLOW_NULL_AUTHTOK;
 
-static pam_handle_t *pam_handle = NULL;		/* doit() and die() */
+static pam_handle_t *pam_handle = NULL;	/* doit() and die() */
 static int rexec_conv (int, const struct pam_message **,
 		       struct pam_response **, void *);
 static struct pam_conv pam_conv = { rexec_conv, NULL };
@@ -129,8 +129,8 @@ static struct pam_conv pam_conv = { rexec_conv, NULL };
 static int logging = 0;
 
 static struct argp_option options[] = {
-  { "logging", 'l', NULL, 0, "logging of requests and errors", 1 },
-  { NULL, 0, NULL, 0, NULL, 0 }
+  {"logging", 'l', NULL, 0, "logging of requests and errors", 1},
+  {NULL, 0, NULL, 0, NULL, 0}
 };
 
 static error_t
@@ -151,9 +151,9 @@ parse_opt (int key, char *arg MAYBE_UNUSED,
 
 const char doc[] =
 #ifdef WITH_PAM
-		   "Remote execution daemon, using PAM module 'rexec'.";
+  "Remote execution daemon, using PAM module 'rexec'.";
 #else /* !WITH_PAM */
-		   "Remote execution daemon.";
+  "Remote execution daemon.";
 #endif
 
 static struct argp argp = {
@@ -213,7 +213,8 @@ char path[sizeof (PATH_DEFPATH) + sizeof ("PATH=")] = "PATH=";
 char remotehost[128 + sizeof ("RHOST=")] = "RHOST=";
 #ifndef WITH_PAM
 char *envinit[] = { homedir, shell, path, username,
-		    logname, remotehost, NULL };
+  logname, remotehost, NULL
+};
 #endif
 extern char **environ;
 
@@ -224,11 +225,11 @@ static char *
 get_user_password (struct passwd *pwd)
 {
   char *pw_text = pwd->pw_passwd;
-#ifdef HAVE_SHADOW_H
+# ifdef HAVE_SHADOW_H
   struct spwd *spwd = getspnam (pwd->pw_name);
   if (spwd)
     pw_text = spwd->sp_pwdp;
-#endif
+# endif
   return pw_text;
 }
 #endif /* !WITH_PAM */
@@ -259,7 +260,7 @@ doit (int f, struct sockaddr *fromp, socklen_t fromlen)
 #ifdef HAVE_GETPWNAM_R
   pwbuflen = sysconf (_SC_GETPW_R_SIZE_MAX);
   if (pwbuflen <= 0)
-    pwbuflen = 1024;	/* Guessing only.  */
+    pwbuflen = 1024;		/* Guessing only.  */
 
   pwbuf = xmalloc (pwbuflen);
 #endif /* HAVE_GETPWNAM_R */
@@ -377,7 +378,8 @@ doit (int f, struct sockaddr *fromp, socklen_t fromlen)
       if (strcmp (namep, pw_password))
 	{
 	  if (logging)
-	    syslog (LOG_WARNING | LOG_AUTH, "password failure for \"%s\"", user);
+	    syslog (LOG_WARNING | LOG_AUTH, "password failure for \"%s\"",
+		    user);
 	  die (EXIT_FAILURE, "Password incorrect.");
 	}
     }
@@ -552,14 +554,14 @@ doit (int f, struct sockaddr *fromp, socklen_t fromlen)
 	    }
 	  while (FD_ISSET (pv[0], &readfrom) || FD_ISSET (s, &readfrom));
 	  exit (EXIT_SUCCESS);
-	} /* Parent process.  */
+	}			/* Parent process.  */
 
 #ifdef HAVE_SETLOGIN
       /* Not sufficient to call setpgid() on BSD systems.  */
       if (getsid ((pid_t) 0) != getpid ())
 	if (setsid () < 0)
 	  syslog (LOG_ERR, "setsid() failed: %m");
-#elif defined HAVE_SETPGID /* !HAVE_SETLOGIN */
+#elif defined HAVE_SETPGID	/* !HAVE_SETLOGIN */
       setpgid (0, getpid ());
 #endif
 
@@ -596,10 +598,10 @@ doit (int f, struct sockaddr *fromp, socklen_t fromlen)
 # ifdef HAVE_GETPWNAM_R
   ret = getpwnam_r (user, &pwstor, pwbuf, pwbuflen, &pwd);
   if (ret || pwd == NULL)
-# else /* !HAVE_GETPWNAM_R */
+# else/* !HAVE_GETPWNAM_R */
   pwd = getpwnam (user);
   if (pwd == NULL)
-# endif /* HAVE_GETPWNAM_R */
+# endif/* HAVE_GETPWNAM_R */
     {
       syslog (LOG_ERR | LOG_AUTH, "no user named \"%s\"", user);
       die (EXIT_FAILURE, "Login incorrect.");
@@ -668,7 +670,7 @@ die (int code, const char *fmt, ...)
   int n;
 
   va_start (ap, fmt);
-  buf[0] = 1;		/* Error condition.  */
+  buf[0] = 1;			/* Error condition.  */
   n = vsnprintf (buf + 1, sizeof buf - 1, fmt, ap);
   va_end (ap);
   if (n + 1 > (int) sizeof buf)
@@ -726,8 +728,7 @@ getstr (const char *err)
  */
 static int
 rexec_conv (int num, const struct pam_message **pam_msg,
-	    struct pam_response **pam_resp,
-	    void *data MAYBE_UNUSED)
+	    struct pam_response **pam_resp, void *data MAYBE_UNUSED)
 {
   struct pam_response *resp;
 

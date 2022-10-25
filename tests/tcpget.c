@@ -48,7 +48,7 @@ int
 main (int argc, char *argv[])
 {
   int fd, opt, rc;
-  int timeout = 5;	/* Defaulting to five seconds of waiting time.  */
+  int timeout = 5;		/* Defaulting to five seconds of waiting time.  */
   char buffer[256];
   struct addrinfo hints, *ai, *res;
 
@@ -66,7 +66,7 @@ main (int argc, char *argv[])
 	{
 	case 't':
 	  t = atoi (optarg);
-	  if (t > 0 && t <= 3600 /* on hour */)
+	  if (t > 0 && t <= 3600 /* on hour */ )
 	    timeout = t;
 	  break;
 

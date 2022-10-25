@@ -64,7 +64,8 @@ ping_address (char *hostname)
     error (EXIT_FAILURE, 0, "unknown host");
 
   printf ("PING %s (%s): sending address mask request\n",
-	  ping->ping_hostname, inet_ntoa (ping->ping_dest.ping_sockaddr.sin_addr));
+	  ping->ping_hostname,
+	  inet_ntoa (ping->ping_dest.ping_sockaddr.sin_addr));
 
   return ping_run (ping, address_finish);
 }
@@ -92,8 +93,7 @@ void
 print_address (int dupflag, void *closure MAYBE_UNUSED,
 	       struct sockaddr_in *dest MAYBE_UNUSED,
 	       struct sockaddr_in *from,
-	       struct ip *ip MAYBE_UNUSED,
-	       icmphdr_t * icmp, int datalen)
+	       struct ip *ip MAYBE_UNUSED, icmphdr_t * icmp, int datalen)
 {
   struct in_addr addr;
 

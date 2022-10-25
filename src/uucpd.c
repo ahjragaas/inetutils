@@ -107,16 +107,15 @@ extern char **environ;
 
 static struct argp_option argp_options[] = {
 #define GRP 10
-  { "uucico", 'u', "LOCATION", 0,
-    "location of uucico executable, "
-    "replacing default at " PATH_UUCICO, GRP },
+  {"uucico", 'u', "LOCATION", 0,
+   "location of uucico executable, "
+   "replacing default at " PATH_UUCICO, GRP},
 #undef GRP
-  { NULL, 0, NULL, 0, NULL, 0 }
+  {NULL, 0, NULL, 0, NULL, 0}
 };
 
 static error_t
-parse_opt (int key, char *arg,
-	   struct argp_state *state MAYBE_UNUSED)
+parse_opt (int key, char *arg, struct argp_state *state MAYBE_UNUSED)
 {
   switch (key)
     {
@@ -129,12 +128,11 @@ parse_opt (int key, char *arg,
   return 0;
 }
 
-static struct argp argp =
-  {
-    argp_options, parse_opt, NULL,
-    "TCP/IP server for uucico.",
-    NULL, NULL, NULL
-  };
+static struct argp argp = {
+  argp_options, parse_opt, NULL,
+  "TCP/IP server for uucico.",
+  NULL, NULL, NULL
+};
 
 int
 main (int argc, char **argv)
@@ -278,7 +276,7 @@ dologout (void)
   while ((pid = wait3 (0, WNOHANG, 0)) > 0)
 # else
   while ((pid = wait (0)) > 0)
-# endif	/* HAVE_WAIT3 */
+# endif/* HAVE_WAIT3 */
 #endif /* HAVE_WAITPID */
     {
       char line[100];
@@ -310,7 +308,7 @@ dologout (void)
     }
 }
 
-# define SCPYN(a, b)	strncpy(a, b, sizeof (a) - 1); (a)[sizeof (a) - 1] = 0
+#define SCPYN(a, b)	strncpy(a, b, sizeof (a) - 1); (a)[sizeof (a) - 1] = 0
 
 /*
  * Record login in wtmp file.
@@ -318,15 +316,14 @@ dologout (void)
 void
 dologin (struct passwd *pw, struct sockaddr *sap, socklen_t salen)
 {
-  char line[NI_MAXHOST]; /* remote is copied here later on */
+  char line[NI_MAXHOST];	/* remote is copied here later on */
 #if defined PATH_LASTLOG && defined HAVE_STRUCT_LASTLOG
   int f;
 #endif
 #if HAVE_DECL_GETNAMEINFO
   char remotehost[NI_MAXHOST];
 
-  if (getnameinfo (sap, salen, remotehost, sizeof (remotehost),
-		   NULL, 0, 0))
+  if (getnameinfo (sap, salen, remotehost, sizeof (remotehost), NULL, 0, 0))
     (void) getnameinfo (sap, salen, remotehost, sizeof (remotehost),
 			NULL, 0, NI_NUMERICHOST);
 #else
@@ -337,12 +334,12 @@ dologin (struct passwd *pw, struct sockaddr *sap, socklen_t salen)
 
   switch (sap->sa_family)
     {
-#ifdef IPV6
+# ifdef IPV6
     case AF_INET6:
       addr = (void *) &(((struct sockaddr_in6 *) sap)->sin6_addr);
       addrlen = sizeof (struct in6_addr);
       break;
-#endif
+# endif
     case AF_INET:
     default:
       addr = (void *) &(((struct sockaddr_in *) sap)->sin_addr);
@@ -350,7 +347,7 @@ dologin (struct passwd *pw, struct sockaddr *sap, socklen_t salen)
       break;
     }
 
-  (void) salen;		/* Silence warning.  */
+  (void) salen;			/* Silence warning.  */
   hp = gethostbyaddr (addr, addrlen, sap->sa_family);
 
   if (hp)
@@ -379,7 +376,7 @@ dologin (struct passwd *pw, struct sockaddr *sap, socklen_t salen)
     struct timeval now;
 
     ut.ut_type = USER_PROCESS;
-    ut.ut_pid = getpid();
+    ut.ut_pid = getpid ();
     SCPYN (ut.ut_line, line);
     SCPYN (ut.ut_user, pw->pw_name);
     SCPYN (ut.ut_host, remotehost);

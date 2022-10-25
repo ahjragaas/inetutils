@@ -107,7 +107,7 @@ static char *user;
 
 /* Some systems define PKTSIZE in <arpa/tftp.h>.  */
 #ifndef PKTSIZE
-#define PKTSIZE	SEGSIZE+4
+# define PKTSIZE	SEGSIZE+4
 #endif
 static char buf[PKTSIZE];
 static char ackbuf[PKTSIZE];
@@ -135,34 +135,33 @@ static int logging;
 static const char *errtomsg (int);
 static void nak (int);
 static const char *verifyhost (struct sockaddr_storage *, socklen_t);
-
 
+
 
 static struct argp_option options[] = {
 #define GRP 0
-  { "logging", 'l', NULL, 0,
-    "enable logging", GRP+1},
-  { "nonexistent", 'n', NULL, 0,
-    "supress negative acknowledgement of requests for "
-    "nonexistent relative filenames", GRP+1},
+  {"logging", 'l', NULL, 0,
+   "enable logging", GRP + 1},
+  {"nonexistent", 'n', NULL, 0,
+   "supress negative acknowledgement of requests for "
+   "nonexistent relative filenames", GRP + 1},
 #undef GRP
 #define GRP 10
-  { NULL, 0, NULL, 0, "", GRP},
-  { "group", 'g', "GRP", 0,
-    "set explicit group of process owner, used with '-s'", GRP+1},
-  { "secure-dir", 's', "DIR", 0,
-    "change root directory to DIR before searching and "
-    "serving content", GRP+1},
-  { "user", 'u', "USR", 0,
-    "set name of process owner, used with '-s' and "
-    "defaults to 'nobody'", GRP+1},
+  {NULL, 0, NULL, 0, "", GRP},
+  {"group", 'g', "GRP", 0,
+   "set explicit group of process owner, used with '-s'", GRP + 1},
+  {"secure-dir", 's', "DIR", 0,
+   "change root directory to DIR before searching and "
+   "serving content", GRP + 1},
+  {"user", 'u', "USR", 0,
+   "set name of process owner, used with '-s' and "
+   "defaults to 'nobody'", GRP + 1},
 #undef GRP
-  { NULL, 0, NULL, 0, NULL, 0}
+  {NULL, 0, NULL, 0, NULL, 0}
 };
 
 static error_t
-parse_opt (int key, char *arg,
-	   struct argp_state *state MAYBE_UNUSED)
+parse_opt (int key, char *arg, struct argp_state *state MAYBE_UNUSED)
 {
   switch (key)
     {
@@ -195,16 +194,15 @@ parse_opt (int key, char *arg,
   return 0;
 }
 
-static struct argp argp =
-  {
-    options,
-    parse_opt,
-    "directory...",
-    "Trivial File Transfer Protocol server",
-    NULL, NULL, NULL
-  };
-
+static struct argp argp = {
+  options,
+  parse_opt,
+  "directory...",
+  "Trivial File Transfer Protocol server",
+  NULL, NULL, NULL
+};
 
+
 int
 main (int argc, char *argv[])
 {
@@ -342,7 +340,7 @@ main (int argc, char *argv[])
       struct group *grp = NULL;
 
       /* Ignore user and group setting for non-root invocations.  */
-      if (!getuid())
+      if (!getuid ())
 	{
 	  pwd = getpwnam (user);
 	  if (!pwd)
@@ -424,12 +422,11 @@ struct formats
   void (*f_send) (struct formats *);
   void (*f_recv) (struct formats *);
   int f_convert;
-} formats[] =
-  {
-    {"netascii", validate_access, tftpd_sendfile, recvfile, 1},
-    {"octet", validate_access, tftpd_sendfile, recvfile, 0},
-    {0, NULL, NULL, NULL, 0}
-  };
+} formats[] = {
+  {"netascii", validate_access, tftpd_sendfile, recvfile, 1},
+  {"octet", validate_access, tftpd_sendfile, recvfile, 0},
+  {0, NULL, NULL, NULL, 0}
+};
 
 /*
  * Handle initial connection protocol.
@@ -672,7 +669,7 @@ tftpd_sendfile (struct formats *pf)
 
     send_data:
       if (sendto (peer, (const char *) dp, size + 4, 0,
-		 (struct sockaddr *) &from, fromlen) != size + 4)
+		  (struct sockaddr *) &from, fromlen) != size + 4)
 	{
 	  syslog (LOG_ERR, "tftpd: write: %m\n");
 	  goto abort;
@@ -700,7 +697,8 @@ tftpd_sendfile (struct formats *pf)
 		break;
 	      /* Re-synchronize with the other side */
 	      synchnet (peer);
-	      if ((unsigned short) ap->th_block == (unsigned short) (block - 1))
+	      if ((unsigned short) ap->th_block ==
+		  (unsigned short) (block - 1))
 		goto send_data;
 	    }
 
@@ -742,7 +740,8 @@ recvfile (struct formats *pf)
       block++;
       sigsetjmp (timeoutbuf, SIGALRM);
     send_ack:
-      if (sendto (peer, ackbuf, 4, 0, (struct sockaddr *) &from, fromlen) != 4)
+      if (sendto (peer, ackbuf, 4, 0, (struct sockaddr *) &from, fromlen) !=
+	  4)
 	{
 	  syslog (LOG_ERR, "tftpd: write: %m\n");
 	  goto abort;
@@ -811,18 +810,17 @@ struct errmsg
 {
   int e_code;
   const char *e_msg;
-} errmsgs[] =
-  {
-    {EUNDEF, "Undefined error code"},
-    {ENOTFOUND, "File not found"},
-    {EACCESS, "Access violation"},
-    {ENOSPACE, "Disk full or allocation exceeded"},
-    {EBADOP, "Illegal TFTP operation"},
-    {EBADID, "Unknown transfer ID"},
-    {EEXISTS, "File already exists"},
-    {ENOUSER, "No such user"},
-    {-1, 0}
-  };
+} errmsgs[] = {
+  {EUNDEF, "Undefined error code"},
+  {ENOTFOUND, "File not found"},
+  {EACCESS, "Access violation"},
+  {ENOSPACE, "Disk full or allocation exceeded"},
+  {EBADOP, "Illegal TFTP operation"},
+  {EBADID, "Unknown transfer ID"},
+  {EEXISTS, "File already exists"},
+  {ENOUSER, "No such user"},
+  {-1, 0}
+};
 
 static const char *
 errtomsg (int error)
@@ -866,7 +864,8 @@ nak (int error)
   memcpy (tp->th_msg, pe->e_msg, length);
   tp->th_msg[length] = '\0';
   length += 5;
-  if (sendto (peer, buf, length, 0, (struct sockaddr *) &from, fromlen) != length)
+  if (sendto (peer, buf, length, 0, (struct sockaddr *) &from, fromlen) !=
+      length)
     syslog (LOG_ERR, "nak: %m\n");
 }
 
@@ -882,7 +881,7 @@ verifyhost (struct sockaddr_storage *fromp, socklen_t frlen)
     return host;
   else
     {
-      syslog (LOG_ERR, "getnameinfo: %s\n", gai_strerror(rc));
+      syslog (LOG_ERR, "getnameinfo: %s\n", gai_strerror (rc));
       return "0.0.0.0";
     }
 }

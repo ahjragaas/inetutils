@@ -34,7 +34,7 @@
 # elif defined __OpenBSD__
 #  define IU_BSD_TYPE "openbsd"
 #  define ETHERNAME "lladdr"
-# else /* Exotic BSD versions.  */
+# else/* Exotic BSD versions.  */
 #  define IU_BSD_TYPE "unknownbsd"
 # endif
 
@@ -120,8 +120,5 @@ _IU_EXTRN (rx_dropped)
 _IU_EXTRN (tx_dropped)
 _IU_EXTRN (rx_errors)
 _IU_EXTRN (tx_errors)
-_IU_EXTRN (rx_packets)
-_IU_EXTRN (tx_packets)
-_IU_EXTRN (collisions)
-
+_IU_EXTRN (rx_packets) _IU_EXTRN (tx_packets) _IU_EXTRN (collisions)
 #endif /* IFCONFIG_SYSTEM_BSD_H */

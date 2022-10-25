@@ -93,8 +93,8 @@ send_slc (void)
 	    case SLC_RP:
 	    case SLC_LNEXT:
 	      add_slc ((unsigned char) i,
-		       (slctab[i].current.flag & ~SLC_LEVELBITS) | SLC_DEFAULT,
-			0);
+		       (slctab[i].current.
+			flag & ~SLC_LEVELBITS) | SLC_DEFAULT, 0);
 	      break;
 
 	    default:

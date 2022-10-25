@@ -55,7 +55,7 @@ cleanup_session (char *tty, int pty_fd)
   if (strncmp (tty, PATH_TTY_PFX, sizeof PATH_TTY_PFX - 1) == 0)
     line = tty + sizeof PATH_TTY_PFX - 1;
   else
-# endif /* PATH_TTY_PFX */
+# endif/* PATH_TTY_PFX */
     line = tty;
 
   if (logout (line))

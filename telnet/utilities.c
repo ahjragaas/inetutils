@@ -217,9 +217,8 @@ printoption (char *direction, int cmd, int option)
     {
       register char *fmt;
       fmt = (cmd == WILL)
-	    ? "WILL" : (cmd == WONT)
-		       ? "WONT" : (cmd == DO)
-				  ? "DO" : (cmd == DONT) ? "DONT" : 0;
+	? "WILL" : (cmd == WONT)
+	? "WONT" : (cmd == DO) ? "DO" : (cmd == DONT) ? "DONT" : 0;
       if (fmt)
 	{
 	  fprintf (NetTrace, "%s %s ", direction, fmt);
@@ -610,7 +609,8 @@ printsub (char direction, unsigned char *pointer, int length)
 	      fprintf (NetTrace, " SUPPORT ");
 	      while (i < length)
 		{
-		  if (ENCTYPE_NAME_OK (pointer[i]) && ENCTYPE_NAME (pointer[i]))
+		  if (ENCTYPE_NAME_OK (pointer[i])
+		      && ENCTYPE_NAME (pointer[i]))
 		    fprintf (NetTrace, "%s ", ENCTYPE_NAME (pointer[i]));
 		  else
 		    fprintf (NetTrace, "%d ", pointer[i]);
@@ -707,7 +707,7 @@ printsub (char direction, unsigned char *pointer, int length)
 			   (pointer[i + SLC_FLAGS] & SLC_FLUSHIN)
 			   ? "|FLUSHIN" : "",
 			   (pointer[i + SLC_FLAGS] & SLC_FLUSHOUT)
-			   ?  "|FLUSHOUT" : "");
+			   ? "|FLUSHOUT" : "");
 		  if (pointer[i + SLC_FLAGS] &
 		      ~(SLC_ACK | SLC_FLUSHIN | SLC_FLUSHOUT | SLC_LEVELBITS))
 		    fprintf (NetTrace, "(0x%x)", pointer[i + SLC_FLAGS]);
@@ -731,11 +731,11 @@ printsub (char direction, unsigned char *pointer, int length)
 		char tbuf[64];
 
 		snprintf (tbuf, sizeof (tbuf), "%s%s%s%s%s",
-			 pointer[2] & MODE_EDIT ? "|EDIT" : "",
-			 pointer[2] & MODE_TRAPSIG ? "|TRAPSIG" : "",
-			 pointer[2] & MODE_SOFT_TAB ? "|SOFT_TAB" : "",
-			 pointer[2] & MODE_LIT_ECHO ? "|LIT_ECHO" : "",
-			 pointer[2] & MODE_ACK ? "|ACK" : "");
+			  pointer[2] & MODE_EDIT ? "|EDIT" : "",
+			  pointer[2] & MODE_TRAPSIG ? "|TRAPSIG" : "",
+			  pointer[2] & MODE_SOFT_TAB ? "|SOFT_TAB" : "",
+			  pointer[2] & MODE_LIT_ECHO ? "|LIT_ECHO" : "",
+			  pointer[2] & MODE_ACK ? "|ACK" : "");
 		fprintf (NetTrace, "%s", tbuf[0] ? &tbuf[1] : "0");
 	      }
 	      if (pointer[2] & ~(MODE_MASK))

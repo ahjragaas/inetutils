@@ -120,7 +120,7 @@ FTP_EXTERN size_t linelen;	/* allocated length of the same, if known */
 #endif
 
 FTP_EXTERN int margc;		/* count of arguments on input line */
-FTP_EXTERN char *margv[MAXMARGV]; /* args parsed from input line */
+FTP_EXTERN char *margv[MAXMARGV];	/* args parsed from input line */
 FTP_EXTERN int cpend;		/* flag: if != 0, then pending server reply */
 FTP_EXTERN int mflag;		/* flag: if != 0, then active multi command */
 

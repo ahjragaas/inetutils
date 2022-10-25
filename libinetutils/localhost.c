@@ -89,8 +89,7 @@ localhost (void)
 	{
 	  /* Back resolving as official host name.  */
 	  rc = getnameinfo (res->ai_addr, res->ai_addrlen,
-			    fqdn, sizeof (fqdn), NULL, 0,
-			    NI_NAMEREQD);
+			    fqdn, sizeof (fqdn), NULL, 0, NI_NAMEREQD);
 	  if (!rc)
 	    {
 	      free (buf);

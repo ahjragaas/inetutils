@@ -63,7 +63,8 @@ ping_timestamp (char *hostname)
     error (EXIT_FAILURE, 0, "unknown host");
 
   printf ("PING %s (%s): sending timestamp requests\n",
-	  ping->ping_hostname, inet_ntoa (ping->ping_dest.ping_sockaddr.sin_addr));
+	  ping->ping_hostname,
+	  inet_ntoa (ping->ping_dest.ping_sockaddr.sin_addr));
 
   return ping_run (ping, timestamp_finish);
 }
@@ -92,8 +93,7 @@ void
 print_timestamp (int dupflag, void *closure MAYBE_UNUSED,
 		 struct sockaddr_in *dest MAYBE_UNUSED,
 		 struct sockaddr_in *from,
-		 struct ip *ip MAYBE_UNUSED,
-		 icmphdr_t * icmp, int datalen)
+		 struct ip *ip MAYBE_UNUSED, icmphdr_t * icmp, int datalen)
 {
   char timestr[16];
 

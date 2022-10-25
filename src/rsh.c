@@ -115,7 +115,7 @@ int keytype;
 int keylen;
 int rc;
 int wlen;
-# endif /* SHISHI */
+# endif/* SHISHI */
 #endif /* KRB5 || SHISHI */
 
 /*
@@ -136,41 +136,40 @@ const char doc[] = "remote shell";
 
 static struct argp_option options[] = {
 #define GRP 10
-  { "debug", 'd', NULL, 0,
-    "turns on socket debugging (see setsockopt(2))", GRP },
-  { "user", 'l', "USER", 0,
-    "run as USER on the remote system", GRP },
-  { "escape", 'e', "CHAR", 0,
-    "allows user specification of the escape "
-    "character (``~'' by default)", GRP },
-  { "8-bit", '8', NULL, 0,
-    "allows an eight-bit input data path at all times", GRP },
-  { "no-input", 'n', NULL, 0,
-    "use /dev/null as input", GRP },
+  {"debug", 'd', NULL, 0,
+   "turns on socket debugging (see setsockopt(2))", GRP},
+  {"user", 'l', "USER", 0,
+   "run as USER on the remote system", GRP},
+  {"escape", 'e', "CHAR", 0,
+   "allows user specification of the escape "
+   "character (``~'' by default)", GRP},
+  {"8-bit", '8', NULL, 0,
+   "allows an eight-bit input data path at all times", GRP},
+  {"no-input", 'n', NULL, 0,
+   "use /dev/null as input", GRP},
 #if defined WITH_ORCMD_AF || defined WITH_RCMD_AF || defined SHISHI
-  { "ipv4", '4', NULL, 0, "use only IPv4", GRP },
-  { "ipv6", '6', NULL, 0, "use only IPv6", GRP },
+  {"ipv4", '4', NULL, 0, "use only IPv4", GRP},
+  {"ipv6", '6', NULL, 0, "use only IPv6", GRP},
 #endif
 #undef GRP
 #if defined KRB5 || defined SHISHI
 # define GRP 20
-  { "kerberos", 'K', NULL, 0,
-    "turns off all Kerberos authentication", GRP },
-  { "realm", 'k', "REALM", 0,
-    "obtain tickets for a remote host in REALM, "
-    "instead of the remote host's default realm", GRP },
+  {"kerberos", 'K', NULL, 0,
+   "turns off all Kerberos authentication", GRP},
+  {"realm", 'k', "REALM", 0,
+   "obtain tickets for a remote host in REALM, "
+   "instead of the remote host's default realm", GRP},
 # ifdef ENCRYPTION
-  { "encrypt", 'x', NULL, 0,
-    "encrypt all data transfer", GRP },
-# endif /* ENCRYPTION */
+  {"encrypt", 'x', NULL, 0,
+   "encrypt all data transfer", GRP},
+# endif/* ENCRYPTION */
 # undef GRP
 #endif /* KRB5 || SHISHI */
-  { NULL, 0, NULL, 0, NULL, 0 }
+  {NULL, 0, NULL, 0, NULL, 0}
 };
 
 static error_t
-parse_opt (int key, char *arg,
-	   struct argp_state *state MAYBE_UNUSED)
+parse_opt (int key, char *arg, struct argp_state *state MAYBE_UNUSED)
 {
   switch (key)
     {
@@ -182,7 +181,7 @@ parse_opt (int key, char *arg,
       family = AF_INET6;
       break;
 #endif
-    case 'L':		/* -8Lew are ignored to allow rlogin aliases */
+    case 'L':			/* -8Lew are ignored to allow rlogin aliases */
     case 'e':
     case 'w':
     case '8':
@@ -225,8 +224,8 @@ parse_opt (int key, char *arg,
 
 static struct argp argp =
   { options, parse_opt, args_doc, doc, NULL, NULL, NULL };
-
 
+
 int
 main (int argc, char **argv)
 {
@@ -358,8 +357,7 @@ try_connect:
       if (dest_realm == NULL)
 	{
 	  krb_errno = krb5_sname_to_principal (ctx, host, SERVICE,
-					       KRB5_NT_SRV_HST,
-					       &server);
+					       KRB5_NT_SRV_HST, &server);
 	  if (krb_errno)
 	    warning ("cannot assign principal to host %s", host);
 	  else
@@ -384,7 +382,8 @@ try_connect:
 #   ifdef SHISHI
 	  rem = krcmd_mutual (&h, &host, sp->s_port, &user, term, &rfd2,
 			      dest_realm, &enckey, family);
-#   else /* KRB5 && !SHISHI */
+#   else
+	  /* KRB5 && !SHISHI */
 	  rem = krcmd_mutual (&ctx, &host, sp->s_port, &user, args,
 			      &rfd2, dest_realm, &keyblock);
 #   endif
@@ -443,19 +442,21 @@ try_connect:
 		    }
 		}
 	    }
-#   endif /* SHISHI */
-#  endif /* KRB5 || SHISHI */
+#   endif
+	  /* SHISHI */
+#  endif
+	  /* KRB5 || SHISHI */
 	}
       else
-# endif /* ENCRYPTION */
+# endif/* ENCRYPTION */
 	{
 # if defined SHISHI
 	  rem = krcmd (&h, &host, sp->s_port, &user, args, &rfd2,
 		       dest_realm, family);
-# else /* KRB5 && !SHISHI */
+# else/* KRB5 && !SHISHI */
 	  rem = krcmd (&ctx, &host, sp->s_port, &user, args,
 		       &rfd2, dest_realm);
-# endif /* KRB5 */
+# endif/* KRB5 */
 	  krb_errno = errno;
 	}
 
@@ -487,17 +488,20 @@ try_connect:
       if (!user)
 	user = pw->pw_name;
       if (doencrypt)
-	error (EXIT_FAILURE, 0, "the -x flag requires Kerberos authentication");
+	error (EXIT_FAILURE, 0,
+	       "the -x flag requires Kerberos authentication");
       if (p)
-	host = ++p;	/* Skip prefix like `host/'.  */
+	host = ++p;		/* Skip prefix like `host/'.  */
 
 # ifdef WITH_ORCMD_AF
-      rem = orcmd_af (&host, sp->s_port, pw->pw_name, user, args, &rfd2, family);
+      rem =
+	orcmd_af (&host, sp->s_port, pw->pw_name, user, args, &rfd2, family);
 # elif defined WITH_RCMD_AF
-      rem = rcmd_af (&host, sp->s_port, pw->pw_name, user, args, &rfd2, family);
+      rem =
+	rcmd_af (&host, sp->s_port, pw->pw_name, user, args, &rfd2, family);
 # elif defined WITH_ORCMD
       rem = orcmd (&host, sp->s_port, pw->pw_name, user, args, &rfd2);
-# else /* !WITH_ORCMD_AF && !WITH_RCMD_AF && !WITH_ORCMD */
+# else/* !WITH_ORCMD_AF && !WITH_RCMD_AF && !WITH_ORCMD */
       rem = rcmd (&host, sp->s_port, pw->pw_name, user, args, &rfd2);
 # endif
     }
@@ -510,7 +514,7 @@ try_connect:
   rem = rcmd_af (&host, sp->s_port, pw->pw_name, user, args, &rfd2, family);
 # elif defined WITH_ORCMD
   rem = orcmd (&host, sp->s_port, pw->pw_name, user, args, &rfd2);
-# else /* !WITH_ORCMD_AF && !WITH_RCMD_AF && !WITH_ORCMD */
+# else/* !WITH_ORCMD_AF && !WITH_RCMD_AF && !WITH_ORCMD */
   rem = rcmd (&host, sp->s_port, pw->pw_name, user, args, &rfd2);
 # endif
 #endif /* !KRB5 && !SHISHI */

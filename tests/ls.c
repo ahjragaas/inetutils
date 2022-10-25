@@ -23,5 +23,5 @@ extern int ls_main (int, char **);
 int
 main (int argc, char *argv[])
 {
-  return ls_main(argc, argv);
+  return ls_main (argc, argv);
 }

@@ -176,9 +176,8 @@ message (char *string)
       wmove (my_win.x_win, current_line % my_win.x_nlines, 0);
       wrefresh (my_win.x_win);
     }
-  else
-    if (string && string[0])
-      printf ("[%s]\n", string);
+  else if (string && string[0])
+    printf ("[%s]\n", string);
 
   return 0;
 }

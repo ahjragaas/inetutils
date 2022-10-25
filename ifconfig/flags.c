@@ -38,201 +38,200 @@ struct if_flag
   const char *name;
   int mask;
   int rev;
-} if_flags[] =
-  {
-    /* Available on all systems which derive the network interface from
-       BSD. Verified for GNU, Linux 2.4, FreeBSD, Solaris 2.7, HP-UX
-       10.20 and OSF 4.0g.  */
+} if_flags[] = {
+  /* Available on all systems which derive the network interface from
+     BSD. Verified for GNU, Linux 2.4, FreeBSD, Solaris 2.7, HP-UX
+     10.20 and OSF 4.0g.  */
 
 #ifdef IFF_UP			/* Interface is up.  */
-    {"UP", IFF_UP, 0},
+  {"UP", IFF_UP, 0},
 #endif
 #ifdef IFF_BROADCAST		/* Broadcast address is valid.  */
-    {"BROADCAST", IFF_BROADCAST, 0},
+  {"BROADCAST", IFF_BROADCAST, 0},
 #endif
 #ifdef IFF_DEBUG		/* Debugging is turned on.  */
-    {"DEBUG", IFF_DEBUG, 0},
+  {"DEBUG", IFF_DEBUG, 0},
 #endif
 #ifdef IFF_LOOPBACK		/* Is a loopback net.  */
-    {"LOOPBACK", IFF_LOOPBACK, 0},
+  {"LOOPBACK", IFF_LOOPBACK, 0},
 #endif
 #ifdef IFF_POINTOPOINT		/* Interface is a point-to-point link.  */
-    {"POINTOPOINT", IFF_POINTOPOINT, 0},
+  {"POINTOPOINT", IFF_POINTOPOINT, 0},
 #endif
 #ifdef IFF_RUNNING		/* Resources allocated.  */
-    {"RUNNING", IFF_RUNNING, 0},
+  {"RUNNING", IFF_RUNNING, 0},
 #endif
 #ifdef IFF_NOARP		/* No address resolution protocol.  */
-    {"NOARP", IFF_NOARP, 0},
-    {"ARP", IFF_NOARP, 1},
+  {"NOARP", IFF_NOARP, 0},
+  {"ARP", IFF_NOARP, 1},
 #endif
 /* Keep IFF_PPROMISC prior to IFF_PROMISC
  * for precedence in parsing.
  */
 #ifdef IFF_PPROMISC		/* User accessible promiscuous mode.  */
-    {"PROMISC", IFF_PPROMISC, 0},
+  {"PROMISC", IFF_PPROMISC, 0},
 #endif
 #ifdef IFF_PROMISC		/* Receive all packets.  */
-    {"PROMISC", IFF_PROMISC, 0},
+  {"PROMISC", IFF_PROMISC, 0},
 #endif
 #ifdef IFF_ALLMULTI		/* Receive all multicast packets.  */
-    {"ALLMULTI", IFF_ALLMULTI, 0},
+  {"ALLMULTI", IFF_ALLMULTI, 0},
 #endif
 #ifdef IFF_MULTICAST		/* Supports multicast.  */
-    {"MULTICAST", IFF_MULTICAST, 0},
+  {"MULTICAST", IFF_MULTICAST, 0},
 #endif
-    /* Usually available on all systems which derive the network
-       interface from BSD (see above), but with exceptions noted.  */
+  /* Usually available on all systems which derive the network
+     interface from BSD (see above), but with exceptions noted.  */
 #ifdef IFF_NOTRAILERS		/* Avoid use of trailers.  */
-    /* Obsoleted on FreeBSD systems.  */
-    {"NOTRAILERS", IFF_NOTRAILERS, 0},
-    {"TRAILERS", IFF_NOTRAILERS, 1},
+  /* Obsoleted on FreeBSD systems.  */
+  {"NOTRAILERS", IFF_NOTRAILERS, 0},
+  {"TRAILERS", IFF_NOTRAILERS, 1},
 #endif
-    /* Available on GNU and Linux systems.  */
+  /* Available on GNU and Linux systems.  */
 #ifdef IFF_MASTER		/* Master of a load balancer.  */
-    {"MASTER", IFF_MASTER, 0},
+  {"MASTER", IFF_MASTER, 0},
 #endif
 #ifdef IFF_SLAVE		/* Slave of a load balancer.  */
-    {"SLAVE", IFF_SLAVE, 0},
+  {"SLAVE", IFF_SLAVE, 0},
 #endif
 #ifdef IFF_PORTSEL		/* Can set media type.  */
-    {"PORTSEL", IFF_PORTSEL, 0},
+  {"PORTSEL", IFF_PORTSEL, 0},
 #endif
 #ifdef IFF_AUTOMEDIA		/* Auto media select is active.  */
-    {"AUTOMEDIA", IFF_AUTOMEDIA, 0},
+  {"AUTOMEDIA", IFF_AUTOMEDIA, 0},
 #endif
-    /* Available on Linux 2.4 systems (not glibc <= 2.2.1).  */
+  /* Available on Linux 2.4 systems (not glibc <= 2.2.1).  */
 #ifdef IFF_DYNAMIC		/* Dialup service with hanging addresses.  */
-    {"DYNAMIC", IFF_DYNAMIC, 0},
+  {"DYNAMIC", IFF_DYNAMIC, 0},
 #endif
-    /* Available on FreeBSD and OSF 4.0g systems.  */
+  /* Available on FreeBSD and OSF 4.0g systems.  */
 #ifdef IFF_OACTIVE		/* Transmission is in progress.  */
-    {"OACTIVE", IFF_OACTIVE, 0},
+  {"OACTIVE", IFF_OACTIVE, 0},
 #endif
 #ifdef IFF_SIMPLEX		/* Can't hear own transmissions.  */
-    {"SIMPLEX", IFF_SIMPLEX, 0},
+  {"SIMPLEX", IFF_SIMPLEX, 0},
 #endif
-    /* Available on FreeBSD systems.  */
+  /* Available on FreeBSD systems.  */
 #ifdef IFF_LINK0		/* Per link layer defined bit.  */
-    {"LINK0", IFF_LINK0, 0},
+  {"LINK0", IFF_LINK0, 0},
 #endif
 #ifdef IFF_LINK1		/* Per link layer defined bit.  */
-    {"LINK1", IFF_LINK1, 0},
+  {"LINK1", IFF_LINK1, 0},
 #endif
 #if defined IFF_LINK2 && defined IFF_ALTPHYS
 # if IFF_LINK2 == IFF_ALTPHYS
-    /* IFF_ALTPHYS == IFF_LINK2 on FreeBSD.  This entry is used as a
-       fallback for if_flagtoname conversion, if no relevant EXPECT_
-       macro is specified to figure out which one is meant.  */
-    {"LINK2/ALTPHYS", IFF_LINK2, 0},
+  /* IFF_ALTPHYS == IFF_LINK2 on FreeBSD.  This entry is used as a
+     fallback for if_flagtoname conversion, if no relevant EXPECT_
+     macro is specified to figure out which one is meant.  */
+  {"LINK2/ALTPHYS", IFF_LINK2, 0},
 # endif
 #endif
 #ifdef IFF_LINK2		/* Per link layer defined bit.  */
-    {"LINK2", IFF_LINK2, 0},
+  {"LINK2", IFF_LINK2, 0},
 #endif
 #ifdef IFF_ALTPHYS		/* Use alternate physical connection.  */
-    {"ALTPHYS", IFF_ALTPHYS, 0},
+  {"ALTPHYS", IFF_ALTPHYS, 0},
 #endif
-    /* Available on Solaris 2.7 systems.  */
+  /* Available on Solaris 2.7 systems.  */
 #ifdef IFF_INTELLIGENT		/* Protocol code on board.  */
-    {"INTELLIGENT", IFF_INTELLIGENT, 0},
+  {"INTELLIGENT", IFF_INTELLIGENT, 0},
 #endif
 #ifdef IFF_MULTI_BCAST		/* Multicast using broadcast address.  */
-    {"MULTI_BCAST", IFF_MULTI_BCAST, 0},
+  {"MULTI_BCAST", IFF_MULTI_BCAST, 0},
 #endif
 #ifdef IFF_UNNUMBERED		/* Address is not unique.  */
-    {"UNNUMBERED", IFF_UNNUMBERED, 0},
+  {"UNNUMBERED", IFF_UNNUMBERED, 0},
 #endif
 #ifdef IFF_DHCPRUNNING		/* Interface is under control of DHCP.  */
-    {"DHCPRUNNING", IFF_DHCPRUNNING, 0},
+  {"DHCPRUNNING", IFF_DHCPRUNNING, 0},
 #endif
 #ifdef IFF_PRIVATE		/* Do not advertise.  */
-    {"PRIVATE", IFF_PRIVATE, 0},
+  {"PRIVATE", IFF_PRIVATE, 0},
 #endif
-    /* Available on HP-UX 10.20 systems.  */
+  /* Available on HP-UX 10.20 systems.  */
 #ifdef IFF_NOTRAILERS		/* Avoid use of trailers.  */
-    {"NOTRAILERS", IFF_NOTRAILERS, 0},
-    {"TRAILERS", IFF_NOTRAILERS, 1},
+  {"NOTRAILERS", IFF_NOTRAILERS, 0},
+  {"TRAILERS", IFF_NOTRAILERS, 1},
 #endif
 #ifdef IFF_LOCALSUBNETS		/* Subnets of this net are local.  */
-    {"LOCALSUBNETS", IFF_LOCALSUBNETS, 0},
+  {"LOCALSUBNETS", IFF_LOCALSUBNETS, 0},
 #endif
 #ifdef IFF_CKO			/* Interface supports header checksum.  */
-    {"CKO", IFF_CKO, 0},
+  {"CKO", IFF_CKO, 0},
 #endif
 #ifdef IFF_NOACC		/* No data access on outbound.  */
-    {"NOACC", IFF_NOACC, 0},
-    {"ACC", IFF_NOACC, 1},
+  {"NOACC", IFF_NOACC, 0},
+  {"ACC", IFF_NOACC, 1},
 #endif
 #ifdef IFF_NOSR8025		/* No source route 802.5.  */
-    {"NOSR8025", IFF_NOSR8025, 0},
-    {"SR8025", IFF_NOSR8025, 1},
+  {"NOSR8025", IFF_NOSR8025, 0},
+  {"SR8025", IFF_NOSR8025, 1},
 #endif
 #ifdef IFF_CKO_ETC		/* Interface supports trailer checksum.  */
-    {"CKO_ETC", IFF_CKO_ETC, 0},
+  {"CKO_ETC", IFF_CKO_ETC, 0},
 #endif
 #ifdef IFF_AR_SR8025		/* All routes broadcast for ARP 8025.  */
-    {"AR_SR8025", IFF_AR_SR8025, 0},
+  {"AR_SR8025", IFF_AR_SR8025, 0},
 #endif
 #ifdef IFF_ALT_SR8025		/* Alternating no rif, rif for ARP on.  */
-    {"ALT_SR8025", IFF_ALT_SR8025, 0},
+  {"ALT_SR8025", IFF_ALT_SR8025, 0},
 #endif
-    /* Defined on OSF 4.0g systems.  */
+  /* Defined on OSF 4.0g systems.  */
 #ifdef IFF_PFCOPYALL		/* PFILT gets packets to this host.  */
-    {"PFCOPYALL", IFF_PFCOPYALL, 0},
+  {"PFCOPYALL", IFF_PFCOPYALL, 0},
 #endif
 #ifdef IFF_UIOMOVE		/* DART.  */
-    {"UIOMOVE", IFF_UIOMOVE, 0},
+  {"UIOMOVE", IFF_UIOMOVE, 0},
 #endif
 #ifdef IFF_PKTOK		/* DART.  */
-    {"PKTOK", IFF_PKTOK, 0},
+  {"PKTOK", IFF_PKTOK, 0},
 #endif
 #ifdef IFF_SOCKBUF		/* DART.  */
-    {"SOCKBUF", IFF_SOCKBUF, 0},
+  {"SOCKBUF", IFF_SOCKBUF, 0},
 #endif
 #ifdef IFF_VAR_MTU		/* Interface supports variable MTUs.  */
-    {"VAR_MTU", IFF_VAR_MTU, 0},
+  {"VAR_MTU", IFF_VAR_MTU, 0},
 #endif
 #ifdef IFF_NOCHECKSUM		/* No checksums needed (reliable media).  */
-    {"NOCHECKSUM", IFF_NOCHECKSUM, 0},
-    {"CHECKSUM", IFF_NOCHECKSUM, 1},
+  {"NOCHECKSUM", IFF_NOCHECKSUM, 0},
+  {"CHECKSUM", IFF_NOCHECKSUM, 1},
 #endif
 #ifdef IFF_MULTINET		/* Multiple networks on interface.  */
-    {"MULTINET", IFF_MULTINET, 0},
+  {"MULTINET", IFF_MULTINET, 0},
 #endif
 #ifdef IFF_VMIFNET		/* Used to identify a virtual MAC address.  */
-    {"VMIFNET", IFF_VMIFNET, 0},
+  {"VMIFNET", IFF_VMIFNET, 0},
 #endif
 #if defined IFF_D1 && defined IFF_SNAP
 # if IFF_D1 == IFF_SNAP
-    /* IFF_SNAP == IFF_D1 on OSF 4.0g systems.  This entry is used as a
-       fallback for if_flagtoname conversion, if no relevant EXPECT_
-       macro is specified to figure out which one is meant.  */
-    {"D1/SNAP", IFF_D2, 0},
+  /* IFF_SNAP == IFF_D1 on OSF 4.0g systems.  This entry is used as a
+     fallback for if_flagtoname conversion, if no relevant EXPECT_
+     macro is specified to figure out which one is meant.  */
+  {"D1/SNAP", IFF_D2, 0},
 # endif
 #endif
 #ifdef IFF_D2			/* Flag is specific to device.  */
-    {"D2", IFF_D2, 0},
+  {"D2", IFF_D2, 0},
 #endif
 #ifdef IFF_SNAP			/* Ethernet driver outputs SNAP header.  */
-    {"SNAP", IFF_SNAP, 0},
+  {"SNAP", IFF_SNAP, 0},
 #endif
 #ifdef IFF_CANTCONFIG
-    {"CANTCONFIG", IFF_CANTCONFIG, 0},
+  {"CANTCONFIG", IFF_CANTCONFIG, 0},
 #endif
 #ifdef IFF_MONITOR
-    {"MONITOR", IFF_MONITOR, 0},
+  {"MONITOR", IFF_MONITOR, 0},
 #endif
 #ifdef IFF_STATICARP
-    {"STATICARP", IFF_STATICARP, 0},
+  {"STATICARP", IFF_STATICARP, 0},
 #endif
-    { NULL, 0, 0}
-  };
+  {NULL, 0, 0}
+};
 
 static int
 cmpname (const void *a, const void *b)
 {
-  return strcmp (*(const char**)a, *(const char**)b);
+  return strcmp (*(const char **) a, *(const char **) b);
 }
 
 char *
@@ -254,7 +253,7 @@ if_list_flags (const char *prefix)
 
   fcount = sizeof (if_flags) / sizeof (if_flags[0]) - 1;
   fnames = xmalloc (fcount * sizeof (fnames[0]) + len);
-  p = (char*)(fnames + fcount);
+  p = (char *) (fnames + fcount);
 
   for (fp = if_flags, i = 0; fp->name; fp++)
     if (!fp->rev)
@@ -325,7 +324,7 @@ if_flagtoname (int flag, const char *avoid)
   const char *first_match = NULL;
   char *start;
 
-  for (fp = if_flags; ; fp++)
+  for (fp = if_flags;; fp++)
     {
       if (!fp->name)
 	return NULL;
@@ -407,57 +406,57 @@ struct if_flag_char
 */
 static struct if_flag_char flag_char_tab[] = {
 #ifdef IFF_ALLMULTI
-  { IFF_ALLMULTI,    'A' },
+  {IFF_ALLMULTI, 'A'},
 #endif
 #ifdef IFF_BROADCAST
-  { IFF_BROADCAST,   'B' },
+  {IFF_BROADCAST, 'B'},
 #endif
 #ifdef IFF_DEBUG
-  { IFF_DEBUG,       'D' },
+  {IFF_DEBUG, 'D'},
 #endif
 #ifdef IFF_LOOPBACK
-  { IFF_LOOPBACK,    'L' },
+  {IFF_LOOPBACK, 'L'},
 #endif
 #ifdef IFF_MULTICAST
-  { IFF_MULTICAST,   'M' },
+  {IFF_MULTICAST, 'M'},
 #endif
 #ifdef HAVE_DYNAMIC
-  { IFF_DYNAMIC,     'd' },
+  {IFF_DYNAMIC, 'd'},
 #endif
 #ifdef IFF_PROMISC
-  { IFF_PROMISC,     'P' },
+  {IFF_PROMISC, 'P'},
 #endif
 #ifdef IFF_NOTRAILERS
-  { IFF_NOTRAILERS,  'N' },
+  {IFF_NOTRAILERS, 'N'},
 #endif
 #ifdef IFF_NOARP
-  { IFF_NOARP,       'O' },
+  {IFF_NOARP, 'O'},
 #endif
 #ifdef IFF_POINTOPOINT
-  { IFF_POINTOPOINT, 'P' },
+  {IFF_POINTOPOINT, 'P'},
 #endif
 #ifdef IFF_SLAVE
-  { IFF_SLAVE,       's' },	/* Linux */
+  {IFF_SLAVE, 's'},		/* Linux */
 #endif
 #ifdef IFF_STATICARP
-  { IFF_STATICARP,   's' },	/* FreeBSD */
+  {IFF_STATICARP, 's'},		/* FreeBSD */
 #endif
 #ifdef IFF_MASTER
-  { IFF_MASTER,      'm' },	/* Linux */
+  {IFF_MASTER, 'm'},		/* Linux */
 #endif
 #ifdef IFF_MONITOR
-  { IFF_MONITOR,     'm' },	/* FreeBSD */
+  {IFF_MONITOR, 'm'},		/* FreeBSD */
 #endif
 #ifdef IFF_SIMPLEX
-  { IFF_SIMPLEX,     'S' },
+  {IFF_SIMPLEX, 'S'},
 #endif
 #ifdef IFF_RUNNING
-  { IFF_RUNNING,     'R' },
+  {IFF_RUNNING, 'R'},
 #endif
 #ifdef IFF_UP
-  { IFF_UP,          'U' },
+  {IFF_UP, 'U'},
 #endif
-  { 0, 0 }
+  {0, 0}
 };
 
 void

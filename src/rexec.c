@@ -53,25 +53,24 @@
 const char doc[] = "remote execution client";
 static char args_doc[] = "COMMAND";
 
-const char *program_authors[] =
-  {
-    "Giuseppe Scrivano",
-    NULL
-  };
+const char *program_authors[] = {
+  "Giuseppe Scrivano",
+  NULL
+};
 
 static struct argp_option options[] = {
 #define GRP 10
-  {"user",  'u', "user", 0, "Specify the user", GRP},
-  {"host",  'h', "host", 0, "Specify the host", GRP},
-  {"password",  'p', "password", 0, "Specify the password", GRP},
-  {"port",  'P', "port", 0, "Specify the port to connect to", GRP},
+  {"user", 'u', "user", 0, "Specify the user", GRP},
+  {"host", 'h', "host", 0, "Specify the host", GRP},
+  {"password", 'p', "password", 0, "Specify the password", GRP},
+  {"port", 'P', "port", 0, "Specify the port to connect to", GRP},
   {"noerr", 'n', NULL, 0, "Disable the stderr stream", GRP},
-  {"error",  'e', "error", 0, "Specify a TCP port to use for stderr", GRP},
-  {"ipv4",  '4', NULL, 0, "Use IPv4 address space.", GRP},
-  {"ipv6",  '6', NULL, 0, "Use IPv6 address space.", GRP},
-  {"ipany",  'a', NULL, 0, "Allow any address family. (default)", GRP},
+  {"error", 'e', "error", 0, "Specify a TCP port to use for stderr", GRP},
+  {"ipv4", '4', NULL, 0, "Use IPv4 address space.", GRP},
+  {"ipv6", '6', NULL, 0, "Use IPv6 address space.", GRP},
+  {"ipany", 'a', NULL, 0, "Allow any address family. (default)", GRP},
 #undef GRP
-  { NULL, 0, NULL, 0, NULL, 0 }
+  {NULL, 0, NULL, 0, NULL, 0}
 };
 
 struct arguments
@@ -129,7 +128,7 @@ parse_opt (int key, char *arg, struct argp_state *state)
 }
 
 static struct argp argp =
-  {options, parse_opt, args_doc, doc, NULL, NULL, NULL};
+  { options, parse_opt, args_doc, doc, NULL, NULL, NULL };
 
 static void do_rexec (struct arguments *arguments);
 
@@ -276,7 +275,7 @@ do_rexec (struct arguments *arguments)
 	  continue;
 	}
 
-      break;	/* Acceptable.  */
+      break;			/* Acceptable.  */
     }
 
   if (ai == NULL)
@@ -304,7 +303,7 @@ do_rexec (struct arguments *arguments)
       int serv_sock = socket (addr.ss_family, SOCK_STREAM, 0);
 
       if (serv_sock < 0)
-        error (EXIT_FAILURE, errno, "cannot open socket");
+	error (EXIT_FAILURE, errno, "cannot open socket");
 
       setsockopt (serv_sock, SOL_SOCKET, SO_REUSEADDR, &on, sizeof (on));
 
@@ -327,29 +326,32 @@ do_rexec (struct arguments *arguments)
 	  ((struct sockaddr_in6 *) &serv_addr)->sin6_len = addrlen;
 #endif
 	  ((struct sockaddr_in6 *) &serv_addr)->sin6_family = addr.ss_family;
-	  ((struct sockaddr_in6 *) &serv_addr)->sin6_port = arguments->err_port;
+	  ((struct sockaddr_in6 *) &serv_addr)->sin6_port =
+	    arguments->err_port;
 	  break;
 	default:
 	  error (EXIT_FAILURE, EAFNOSUPPORT, "unknown address family");
 	}
 
       if (bind (serv_sock, (struct sockaddr *) &serv_addr, addrlen) < 0)
-        error (EXIT_FAILURE, errno, "cannot bind socket");
+	error (EXIT_FAILURE, errno, "cannot bind socket");
 
       len = sizeof (serv_addr);
       if (getsockname (serv_sock, (struct sockaddr *) &serv_addr, &len))
-        error (EXIT_FAILURE, errno, "error reading socket port");
+	error (EXIT_FAILURE, errno, "error reading socket port");
 
       if (listen (serv_sock, 1))
-        error (EXIT_FAILURE, errno, "error listening on socket");
+	error (EXIT_FAILURE, errno, "error listening on socket");
 
       switch (serv_addr.ss_family)
 	{
 	case AF_INET:
-	  arguments->err_port = ntohs (((struct sockaddr_in *) &serv_addr)->sin_port);
+	  arguments->err_port =
+	    ntohs (((struct sockaddr_in *) &serv_addr)->sin_port);
 	  break;
 	case AF_INET6:
-	  arguments->err_port = ntohs (((struct sockaddr_in6 *) &serv_addr)->sin6_port);
+	  arguments->err_port =
+	    ntohs (((struct sockaddr_in6 *) &serv_addr)->sin6_port);
 	  break;
 	default:
 	  error (EXIT_FAILURE, EAFNOSUPPORT, "unknown address family");
@@ -365,7 +367,7 @@ do_rexec (struct arguments *arguments)
 
       err_sock = accept (serv_sock, (struct sockaddr *) &serv_addr, &len);
       if (err_sock < 0)
-        error (EXIT_FAILURE, errno, "error accepting connection");
+	error (EXIT_FAILURE, errno, "error accepting connection");
 
       alarm (0);
 
@@ -386,79 +388,54 @@ do_rexec (struct arguments *arguments)
 
       /* No other data to read.  */
       if (sock < 0 && err_sock < 0)
-        break;
+	break;
 
       FD_ZERO (&rsocks);
       if (0 <= sock)
-        FD_SET (sock, &rsocks);
+	FD_SET (sock, &rsocks);
       if (0 <= stdin_fd)
 	FD_SET (stdin_fd, &rsocks);
       if (0 <= err_sock)
-        FD_SET (err_sock, &rsocks);
+	FD_SET (err_sock, &rsocks);
 
-      ret = select (MAX3 (sock, stdin_fd, err_sock) + 1, &rsocks, NULL, NULL, NULL);
+      ret =
+	select (MAX3 (sock, stdin_fd, err_sock) + 1, &rsocks, NULL, NULL,
+		NULL);
       if (ret == -1)
-        error (EXIT_FAILURE, errno, "error select");
+	error (EXIT_FAILURE, errno, "error select");
 
       if (0 <= stdin_fd && FD_ISSET (stdin_fd, &rsocks))
-        {
+	{
 	  err = read (stdin_fd, buffer, 1024);
 
-          if (err < 0)
-            error (EXIT_FAILURE, errno, "error reading stdin");
+	  if (err < 0)
+	    error (EXIT_FAILURE, errno, "error reading stdin");
 
-          if (!err)
-            {
-              shutdown (sock, SHUT_WR);
+	  if (!err)
+	    {
+	      shutdown (sock, SHUT_WR);
 	      close (stdin_fd);
 	      stdin_fd = -1;
-              continue;
-            }
+	      continue;
+	    }
 
-          if (write (sock, buffer, err) < 0)
-            error (EXIT_FAILURE, errno, "error writing");
-        }
+	  if (write (sock, buffer, err) < 0)
+	    error (EXIT_FAILURE, errno, "error writing");
+	}
 
       if (0 <= sock && FD_ISSET (sock, &rsocks))
-        {
-          err = read (sock, buffer, 1024);
+	{
+	  err = read (sock, buffer, 1024);
 
-          if (err < 0)
-            error (EXIT_FAILURE, errno, "error reading out stream");
+	  if (err < 0)
+	    error (EXIT_FAILURE, errno, "error reading out stream");
 
-          if (!err)
-            {
-              close (sock);
-              sock = -1;
-              continue;
-            }
-
-	  offset = 0;
-
-	  if ((err > 0) && (consumed < 2))	/* Status can be two chars.  */
-	    while ((err > offset) && (offset < 2)
-		   && (buffer[offset] == 0 || buffer[offset] == 1))
-	      remote_err = buffer[offset++];
-
-          if (write (STDOUT_FILENO, buffer + offset, err - offset) < 0)
-            error (EXIT_FAILURE, errno, "error writing");
-
-	  consumed += err;
-        }
-
-     if (0 <= err_sock && FD_ISSET (err_sock, &rsocks))
-        {
-          err = read (err_sock, buffer, 1024);
-
-          if (err < 0)
-            error (EXIT_FAILURE, errno, "error reading err stream");
-
-          if (!err)
-            {
-              close (err_sock);
-              err_sock = -1;
-              continue;
-            }
+	  if (!err)
+	    {
+	      close (sock);
+	      sock = -1;
+	      continue;
+	    }
 
 	  offset = 0;
 
@@ -467,10 +444,37 @@ do_rexec (struct arguments *arguments)
 		   && (buffer[offset] == 0 || buffer[offset] == 1))
 	      remote_err = buffer[offset++];
 
-          if (write (STDERR_FILENO, buffer + offset, err - offset) < 0)
-            error (EXIT_FAILURE, errno, "error writing to stderr");
+	  if (write (STDOUT_FILENO, buffer + offset, err - offset) < 0)
+	    error (EXIT_FAILURE, errno, "error writing");
 
 	  consumed += err;
-        }
+	}
+
+      if (0 <= err_sock && FD_ISSET (err_sock, &rsocks))
+	{
+	  err = read (err_sock, buffer, 1024);
+
+	  if (err < 0)
+	    error (EXIT_FAILURE, errno, "error reading err stream");
+
+	  if (!err)
+	    {
+	      close (err_sock);
+	      err_sock = -1;
+	      continue;
+	    }
+
+	  offset = 0;
+
+	  if ((err > 0) && (consumed < 2))	/* Status can be two chars.  */
+	    while ((err > offset) && (offset < 2)
+		   && (buffer[offset] == 0 || buffer[offset] == 1))
+	      remote_err = buffer[offset++];
+
+	  if (write (STDERR_FILENO, buffer + offset, err - offset) < 0)
+	    error (EXIT_FAILURE, errno, "error writing to stderr");
+
+	  consumed += err;
+	}
     }
 }

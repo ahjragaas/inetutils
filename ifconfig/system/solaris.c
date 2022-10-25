@@ -57,15 +57,13 @@ const char *system_default_format = "unix";
 /* Argument parsing stuff.  */
 
 const char *system_help = "\
-NAME [ADDR [DSTADDR]] [broadcast BRDADDR] [netmask MASK] "
-"[metric N] [mtu N] [up|down]";
+NAME [ADDR [DSTADDR]] [broadcast BRDADDR] [netmask MASK] " "[metric N] [mtu N] [up|down]";
 
 struct argp_child system_argp_child;
 
 int
 system_parse_opt (struct ifconfig **ifp MAYBE_UNUSED,
-		  char option MAYBE_UNUSED,
-		  char *optarg MAYBE_UNUSED)
+		  char option MAYBE_UNUSED, char *optarg MAYBE_UNUSED)
 {
   return 0;
 }
@@ -174,8 +172,7 @@ system_parse_opt_rest (struct ifconfig **ifp, int argc, char *argv[])
 }
 
 int
-system_preconfigure (int sfd MAYBE_UNUSED,
-		     struct ifreq *ifr MAYBE_UNUSED)
+system_preconfigure (int sfd MAYBE_UNUSED, struct ifreq *ifr MAYBE_UNUSED)
 {
   return 0;
 }
@@ -189,7 +186,7 @@ system_configure (int sfd, struct ifreq *ifr, struct system_ifconfig *ifs)
 # ifndef SIOCSIFTXQLEN
       error (0, 0, "don't know how to set the txqlen on this system");
       return -1;
-# else /* SIOCSIFTXQLEN */
+# else/* SIOCSIFTXQLEN */
       int err = 0;
 
       ifr->ifr_qlen = ifs->txqlen;
@@ -199,7 +196,7 @@ system_configure (int sfd, struct ifreq *ifr, struct system_ifconfig *ifs)
       if (verbose)
 	printf ("Set txqlen value of `%s' to `%i'.\n",
 		ifr->ifr_name, ifr->ifr_qlen);
-# endif /* SIOCSIFTXQLEN */
+# endif/* SIOCSIFTXQLEN */
     }
 #else /* !IF_VALID_TXQLEN */
   (void) sfd;
@@ -208,9 +205,9 @@ system_configure (int sfd, struct ifreq *ifr, struct system_ifconfig *ifs)
 #endif /* !IF_VALID_TXQLEN */
   return 0;
 }
-
 
+
 
 /* System hooks. */
 
-struct if_nameindex* (*system_if_nameindex) (void) = if_nameindex;
+struct if_nameindex *(*system_if_nameindex) (void) = if_nameindex;

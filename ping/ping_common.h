@@ -45,10 +45,10 @@
 
 struct ping_stat
 {
-  double tmin;                  /* minimum round trip time */
-  double tmax;                  /* maximum round trip time */
-  double tsum;                  /* sum of all times, for doing average */
-  double tsumsq;                /* sum of all times squared, for std. dev. */
+  double tmin;			/* minimum round trip time */
+  double tmax;			/* maximum round trip time */
+  double tsum;			/* sum of all times, for doing average */
+  double tsumsq;		/* sum of all times squared, for std. dev. */
 };
 
 #define PEV_RESPONSE 0
@@ -63,10 +63,10 @@ struct ping_stat
 
 #define PING_HEADER_LEN (USE_IPV6 ? sizeof (struct icmp6_hdr) : ICMP_MINLEN)
 #define PING_TIMING(s)  ((s) >= sizeof (struct timeval))
-#define PING_DATALEN    (64 - PING_HEADER_LEN)  /* default data length */
+#define PING_DATALEN    (64 - PING_HEADER_LEN)	/* default data length */
 
-#define PING_DEFAULT_INTERVAL 1000      /* Milliseconds */
-#define PING_PRECISION 1000     /* Millisecond precision */
+#define PING_DEFAULT_INTERVAL 1000	/* Milliseconds */
+#define PING_PRECISION 1000	/* Millisecond precision */
 
 #define PING_SET_INTERVAL(t,i) do {\
   (t).tv_sec = (i)/PING_PRECISION;\
@@ -90,12 +90,14 @@ typedef int (*ping_efp) (int code,
 			 struct sockaddr_in * from,
 			 struct ip * ip, icmphdr_t * icmp, int datalen);
 
-union event {
+union event
+{
   ping_efp6 handler6;
   ping_efp handler;
 };
 
-union ping_address {
+union ping_address
+{
   struct sockaddr_in ping_sockaddr;
   struct sockaddr_in6 ping_sockaddr6;
 };
@@ -104,27 +106,27 @@ typedef struct ping_data PING;
 
 struct ping_data
 {
-  int ping_fd;                 /* Raw socket descriptor */
-  int ping_type;               /* Type of packets to send */
-  size_t ping_count;           /* Number of packets to send */
-  struct timeval ping_start_time; /* Start time */
-  size_t ping_interval;        /* Number of seconds to wait between sending pkts */
-  union ping_address ping_dest;/* whom to ping */
-  char *ping_hostname;         /* Printable hostname */
-  size_t ping_datalen;         /* Length of data */
-  int ping_ident;              /* Our identifier */
-  union event ping_event;      /* User-defined handler */
-  void *ping_closure;          /* User-defined data */
+  int ping_fd;			/* Raw socket descriptor */
+  int ping_type;		/* Type of packets to send */
+  size_t ping_count;		/* Number of packets to send */
+  struct timeval ping_start_time;	/* Start time */
+  size_t ping_interval;		/* Number of seconds to wait between sending pkts */
+  union ping_address ping_dest;	/* whom to ping */
+  char *ping_hostname;		/* Printable hostname */
+  size_t ping_datalen;		/* Length of data */
+  int ping_ident;		/* Our identifier */
+  union event ping_event;	/* User-defined handler */
+  void *ping_closure;		/* User-defined data */
 
   /* Runtime info */
   int ping_cktab_size;
   char *ping_cktab;
 
-  unsigned char *ping_buffer;         /* I/O buffer */
+  unsigned char *ping_buffer;	/* I/O buffer */
   union ping_address ping_from;
-  size_t ping_num_xmit;        /* Number of packets transmitted */
-  size_t ping_num_recv;        /* Number of packets received */
-  size_t ping_num_rept;        /* Number of duplicates received */
+  size_t ping_num_xmit;		/* Number of packets transmitted */
+  size_t ping_num_recv;		/* Number of packets received */
+  size_t ping_num_rept;		/* Number of duplicates received */
 };
 
 #define _C_BIT(p,bit)   (p)->ping_cktab[(bit)>>3]	/* byte in ck array */
@@ -157,19 +159,20 @@ double nsqrt (double a, double prec);
 
 size_t ping_cvt_number (const char *optarg, size_t maxval, int allow_zero);
 int is_normed_time (n_time t);
-const char * ping_cvt_time (char *buf, size_t buflen, n_time t);
+const char *ping_cvt_time (char *buf, size_t buflen, n_time t);
 
 void init_data_buffer (unsigned char *pat, size_t len);
 
 void decode_pattern (const char *text, int *pattern_len,
 		     unsigned char *pattern_data);
 int _ping_setbuf (PING * p, bool use_ipv6);
-int ping_set_data (PING *p, void *data, size_t off, size_t len, bool use_ipv6);
+int ping_set_data (PING * p, void *data, size_t off, size_t len,
+		   bool use_ipv6);
 void ping_set_count (PING * ping, size_t count);
 void ping_set_sockopt (PING * ping, int opt, void *val, int valsize);
 void ping_set_interval (PING * ping, size_t interval);
 void ping_unset_data (PING * p);
 int ping_timeout_p (struct timeval *start_time, int timeout);
 
-char * ipaddr2str (struct sockaddr *from, socklen_t fromlen);
-char * sinaddr2str (struct in_addr ina);
+char *ipaddr2str (struct sockaddr *from, socklen_t fromlen);
+char *sinaddr2str (struct in_addr ina);

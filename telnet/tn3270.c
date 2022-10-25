@@ -71,7 +71,7 @@ int HaveInput,			/* There is input available to scan */
 
 char tline[200];
 char *transcom = 0;		/* transparent mode command (default: none) */
-# endif	/* unix || __unix || __unix__ */
+# endif/* unix || __unix || __unix__ */
 
 char Ibuf[8 * BUFSIZ], *Ifrontp, *Ibackp;
 
@@ -95,7 +95,7 @@ init_3270 (void)
 # if defined unix || defined __unix || defined __unix__
   HaveInput = 0;
   sigiocount = 0;
-# endif	/* unix || __unix || __unix__ */
+# endif/* unix || __unix || __unix__ */
   Sent3270TerminalType = 0;
   Ifrontp = Ibackp = Ibuf;
   init_ctlr ();			/* Initialize some things */
@@ -189,7 +189,7 @@ inputAvailable (int signo)
   HaveInput = 1;
   sigiocount++;
 }
-# endif	/* unix || __unix || __unix__ */
+# endif/* unix || __unix || __unix__ */
 
 void
 outputPurge ()
@@ -228,7 +228,7 @@ DataToTerminal (register char *buffer, register int count)
 	  fd_set o;
 
 	  FD_ZERO (&o);
-# endif	/* unix || __unix || __unix__ */
+# endif/* unix || __unix || __unix__ */
 	  ttyflush (0);
 	  while (TTYROOM () == 0)
 	    {
@@ -236,7 +236,7 @@ DataToTerminal (register char *buffer, register int count)
 	      FD_SET (tout, &o);
 	      select (tout + 1, (fd_set *) 0, &o, (fd_set *) 0,
 		      (struct timeval *) 0);
-# endif	/* unix || __unix || __unix__ */
+# endif/* unix || __unix || __unix__ */
 	      ttyflush (0);
 	    }
 	}
@@ -294,7 +294,7 @@ Finish3270 ()
     {
 # if defined unix || defined __unix || defined __unix__
       HaveInput = 0;
-# endif	/* unix || __unix || __unix__ */
+# endif/* unix || __unix || __unix__ */
       ;
     }
 }
@@ -325,7 +325,8 @@ _putchar (char c)
 {
 #  if defined sun		/* SunOS 4.0 bug */
   c &= 0x7f;
-#  endif /* defined(sun) */
+#  endif
+  /* defined(sun) */
   if (cursesdata)
     {
       Dump ('>', &c, 1);
@@ -339,7 +340,7 @@ _putchar (char c)
       TTYADD (c);
     }
 }
-# endif	/* ((!defined(NOT43)) || defined(PUTCHAR)) */
+# endif/* ((!defined(NOT43)) || defined(PUTCHAR)) */
 
 void
 SetIn3270 ()
@@ -452,6 +453,6 @@ settranscom (int argc, char *argv[])
     }
   return 1;
 }
-# endif	/* unix || __unix || __unix__ */
+# endif/* unix || __unix || __unix__ */
 
 #endif /* defined(TN3270) */

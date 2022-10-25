@@ -33,8 +33,8 @@ struct system_ifconfig
 # define IF_VALID_TXQLEN 0x1
   int txqlen;
 };
-
 
+
 
 /* Output format support.  */
 
@@ -112,7 +112,5 @@ _IU_EXTRN (rx_missed_errors)
 _IU_EXTRN (tx_aborted_errors)
 _IU_EXTRN (tx_carrier_errors)
 _IU_EXTRN (tx_fifo_errors)
-_IU_EXTRN (tx_heartbeat_errors)
-_IU_EXTRN (tx_window_errors)
-
+_IU_EXTRN (tx_heartbeat_errors) _IU_EXTRN (tx_window_errors)
 #endif

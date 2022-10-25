@@ -22,8 +22,7 @@
 
 /* Sometimes we do not know exact author names for a given utility. In such
    cases we use the following "author list": */
-const char *default_program_authors[] =
-  {
-    "many authors",
-    NULL
-  };
+const char *default_program_authors[] = {
+  "many authors",
+  NULL
+};

@@ -51,7 +51,7 @@ startslave (char *host, int autologin, char *autoname)
       exit (EXIT_FAILURE);
     }
 #else /* !AUTHENTICATION */
-  (void) autoname;	/* Silence warnings.  */
+  (void) autoname;		/* Silence warnings.  */
 #endif
 
   pid = forkpty (&master, line, NULL, NULL);
@@ -114,7 +114,7 @@ start_login (char *host, int autologin, char *name)
   int argc;
   char **argv;
 
-  (void) host;		/* Silence warnings.  Diagnostic use?  */
+  (void) host;			/* Silence warnings.  Diagnostic use?  */
   (void) autologin;
   (void) name;
 

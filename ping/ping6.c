@@ -19,7 +19,7 @@
 #include <config.h>
 
 #ifdef __sun
-#  define _XPG4_2	1	/* OpenSolaris: msg_control */
+# define _XPG4_2	1	/* OpenSolaris: msg_control */
 #endif /* __sun */
 
 #include <sys/socket.h>
@@ -70,7 +70,7 @@ int hoplimit = 0;
 unsigned int options;
 static unsigned long preload = 0;
 #ifdef IPV6_TCLASS
-int tclass = -1;	/* Kernel sets default: -1, RFC 3542.  */
+int tclass = -1;		/* Kernel sets default: -1, RFC 3542.  */
 #endif
 #ifdef IPV6_FLOWINFO
 int flowinfo;
@@ -82,47 +82,47 @@ static int send_echo (PING * ping);
 
 const char args_doc[] = "HOST ...";
 const char doc[] = "Send ICMP ECHO_REQUEST packets to network hosts."
-                   "\vOptions marked with (root only) are available only to "
-                   "superuser.";
+  "\vOptions marked with (root only) are available only to " "superuser.";
 const char *program_authors[] = {
-	"Jeroen Dekkers",
-	NULL
+  "Jeroen Dekkers",
+  NULL
 };
 
-enum {
+enum
+{
   ARG_HOPLIMIT = 256,
 };
 
 static struct argp_option argp_options[] = {
 #define GRP 0
   {NULL, 0, NULL, 0, "Options valid for all request types:", GRP},
-  {"count", 'c', "NUMBER", 0, "stop after sending NUMBER packets", GRP+1},
-  {"debug", 'd', NULL, 0, "set the SO_DEBUG option", GRP+1},
+  {"count", 'c', "NUMBER", 0, "stop after sending NUMBER packets", GRP + 1},
+  {"debug", 'd', NULL, 0, "set the SO_DEBUG option", GRP + 1},
 #ifdef IPV6_FLOWINFO
-  {"flowinfo", 'F', "N", 0, "set N as flow identifier", GRP+1},
+  {"flowinfo", 'F', "N", 0, "set N as flow identifier", GRP + 1},
 #endif
-  {"hoplimit", ARG_HOPLIMIT, "N", 0, "specify N as hop-limit", GRP+1},
+  {"hoplimit", ARG_HOPLIMIT, "N", 0, "specify N as hop-limit", GRP + 1},
   {"interval", 'i', "NUMBER", 0, "wait NUMBER seconds between sending each "
-   "packet", GRP+1},
-  {"numeric", 'n', NULL, 0, "do not resolve host addresses", GRP+1},
+   "packet", GRP + 1},
+  {"numeric", 'n', NULL, 0, "do not resolve host addresses", GRP + 1},
   {"ignore-routing", 'r', NULL, 0, "send directly to a host on an attached "
-   "network", GRP+1},
+   "network", GRP + 1},
 #ifdef IPV6_TCLASS
-  {"tos", 'T', "N", 0, "set traffic class to N", GRP+1},
+  {"tos", 'T', "N", 0, "set traffic class to N", GRP + 1},
 #endif
-  {"timeout", 'w', "N", 0, "stop after N seconds", GRP+1},
-  {"ttl", ARG_HOPLIMIT, "N", 0, "synonym for --hoplimit", GRP+1},
-  {"verbose", 'v', NULL, 0, "verbose output", GRP+1},
+  {"timeout", 'w', "N", 0, "stop after N seconds", GRP + 1},
+  {"ttl", ARG_HOPLIMIT, "N", 0, "synonym for --hoplimit", GRP + 1},
+  {"verbose", 'v', NULL, 0, "verbose output", GRP + 1},
 #undef GRP
 #define GRP 10
   {NULL, 0, NULL, 0, "Options valid for --echo requests:", GRP},
-  {"flood", 'f', NULL, 0, "flood ping (root only)", GRP+1},
+  {"flood", 'f', NULL, 0, "flood ping (root only)", GRP + 1},
   {"preload", 'l', "NUMBER", 0, "send NUMBER packets as fast as possible "
-   "before falling into normal mode of behavior (root only)", GRP+1},
+   "before falling into normal mode of behavior (root only)", GRP + 1},
   {"pattern", 'p', "PATTERN", 0, "fill ICMP packet with given pattern (hex)",
-   GRP+1},
-  {"quiet", 'q', NULL, 0, "quiet output", GRP+1},
-  {"size", 's', "NUMBER", 0, "send NUMBER data octets", GRP+1},
+   GRP + 1},
+  {"quiet", 'q', NULL, 0, "quiet output", GRP + 1},
+  {"size", 's', "NUMBER", 0, "send NUMBER data octets", GRP + 1},
 #undef GRP
   {NULL, 0, NULL, 0, NULL, 0}
 };
@@ -145,7 +145,7 @@ parse_opt (int key, char *arg, struct argp_state *state)
 
     case 'f':
       if (!is_root)
-        error (EXIT_FAILURE, 0, "flooding needs root privilege");
+	error (EXIT_FAILURE, 0, "flooding needs root privilege");
 
       options |= OPT_FLOOD;
       setbuf (stdout, (char *) NULL);
@@ -168,11 +168,11 @@ parse_opt (int key, char *arg, struct argp_state *state)
 
     case 'l':
       if (!is_root)
-        error (EXIT_FAILURE, 0, "preloading needs root privilege");
+	error (EXIT_FAILURE, 0, "preloading needs root privilege");
 
       preload = strtoul (arg, &endptr, 0);
       if (*endptr || preload > INT_MAX)
-        error (EXIT_FAILURE, 0, "preload size too large");
+	error (EXIT_FAILURE, 0, "preload size too large");
 
       break;
 
@@ -228,7 +228,7 @@ parse_opt (int key, char *arg, struct argp_state *state)
 }
 
 static struct argp argp =
-  {argp_options, parse_opt, args_doc, doc, NULL, NULL, NULL};
+  { argp_options, parse_opt, args_doc, doc, NULL, NULL, NULL };
 
 int
 main (int argc, char **argv)
@@ -238,9 +238,9 @@ main (int argc, char **argv)
 
   set_program_name (argv[0]);
 
-# ifdef HAVE_SETLOCALE
+#ifdef HAVE_SETLOCALE
   setlocale (LC_ALL, "");
-# endif
+#endif
 
   if (getuid () == 0)
     is_root = true;
@@ -254,7 +254,8 @@ main (int argc, char **argv)
     /* ping_init() prints our error message.  */
     exit (EXIT_FAILURE);
 
-  setsockopt (ping->ping_fd, SOL_SOCKET, SO_BROADCAST, (char *) &one, sizeof (one));
+  setsockopt (ping->ping_fd, SOL_SOCKET, SO_BROADCAST, (char *) &one,
+	      sizeof (one));
 
   /* Reset root privileges */
   if (setuid (getuid ()) != 0)
@@ -545,8 +546,7 @@ ping_reset (PING * p)
 static int
 print_echo (int dupflag, int hops, struct ping_stat *ping_stat,
 	    struct sockaddr_in6 *dest MAYBE_UNUSED,
-	    struct sockaddr_in6 *from,
-	    struct icmp6_hdr *icmp6, int datalen)
+	    struct sockaddr_in6 *from, struct icmp6_hdr *icmp6, int datalen)
 {
   int err;
   char buf[256];
@@ -592,9 +592,9 @@ print_echo (int dupflag, int hops, struct ping_stat *ping_stat,
 #ifdef NI_IDN
 		     : NI_IDN
 #else
-		     : 0
+:		     0
 #endif
-		     );
+    );
   if (err)
     {
       const char *errmsg;
@@ -724,9 +724,9 @@ print_ip_data (struct icmp6_hdr *icmp6)
   (void) inet_ntop (AF_INET6, &ip->ip6_src, src, sizeof (src));
 
   printf ("IP Header Dump:\n ");
-  for (j = 0; j < sizeof (*ip) - sizeof (ip->ip6_src) - sizeof (ip->ip6_dst); ++j)
-    printf ("%02x%s", *((unsigned char *) ip + j),
-	    (j % 2) ? " " : "");	/* Group bytes two by two.  */
+  for (j = 0; j < sizeof (*ip) - sizeof (ip->ip6_src) - sizeof (ip->ip6_dst);
+       ++j)
+    printf ("%02x%s", *((unsigned char *) ip + j), (j % 2) ? " " : "");	/* Group bytes two by two.  */
   printf ("(src) (dst)\n");
 
   printf ("Vr TC Flow Plen Nxt Hop Src\t\t  Dst\n");
@@ -734,8 +734,7 @@ print_ip_data (struct icmp6_hdr *icmp6)
 	  ntohl (ip->ip6_flow) >> 28,
 	  (ntohl (ip->ip6_flow) & 0x0fffffff) >> 20,
 	  ntohl (ip->ip6_flow) & 0x0fffff,
-	  ntohs (ip->ip6_plen), ip->ip6_nxt, ip->ip6_hlim,
-	  src, dst);
+	  ntohs (ip->ip6_plen), ip->ip6_nxt, ip->ip6_hlim, src, dst);
 
   switch (ip->ip6_nxt)
     {
@@ -833,7 +832,7 @@ ping_init (int type MAYBE_UNUSED, int ident)
   if (fd < 0)
     {
       if (errno == EPERM || errno == EACCES)
-        error (EXIT_FAILURE, errno, "raw socket");
+	error (EXIT_FAILURE, errno, "raw socket");
 
       return NULL;
     }
@@ -926,7 +925,8 @@ my_echo_reply (PING * p, struct icmp6_hdr *icmp6)
   struct ip6_hdr *orig_ip = (struct ip6_hdr *) (icmp6 + 1);
   struct icmp6_hdr *orig_icmp = (struct icmp6_hdr *) (orig_ip + 1);
 
-  return IN6_ARE_ADDR_EQUAL (&orig_ip->ip6_dst, &ping->ping_dest.ping_sockaddr6.sin6_addr)
+  return IN6_ARE_ADDR_EQUAL (&orig_ip->ip6_dst,
+			     &ping->ping_dest.ping_sockaddr6.sin6_addr)
     && orig_ip->ip6_nxt == IPPROTO_ICMPV6
     && orig_icmp->icmp6_type == ICMP6_ECHO_REQUEST
     && orig_icmp->icmp6_id == htons (p->ping_ident);
@@ -987,8 +987,9 @@ ping_recv (PING * p)
 	  dupflag = 0;
 	}
 
-      print_echo (dupflag, hops, p->ping_closure, &p->ping_dest.ping_sockaddr6,
-		  &p->ping_from.ping_sockaddr6, icmp6, n);
+      print_echo (dupflag, hops, p->ping_closure,
+		  &p->ping_dest.ping_sockaddr6, &p->ping_from.ping_sockaddr6,
+		  icmp6, n);
 
     }
   else
@@ -1036,7 +1037,8 @@ ping_set_dest (PING * ping, const char *host)
       return 1;
     }
 
-  memcpy (&ping->ping_dest.ping_sockaddr6, result->ai_addr, result->ai_addrlen);
+  memcpy (&ping->ping_dest.ping_sockaddr6, result->ai_addr,
+	  result->ai_addrlen);
 
   if (result->ai_canonname)
     ping->ping_hostname = strdup (result->ai_canonname);
@@ -1044,7 +1046,7 @@ ping_set_dest (PING * ping, const char *host)
 #if defined HAVE_IDN || defined HAVE_IDN2
     ping->ping_hostname = host;
 #else
-  ping->ping_hostname = strdup (host);
+    ping->ping_hostname = strdup (host);
 #endif
   freeaddrinfo (result);
 

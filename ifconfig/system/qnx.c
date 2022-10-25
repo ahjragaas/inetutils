@@ -58,8 +58,7 @@ system_parse_opt_rest (struct ifconfig **ifp, int argc, char *argv[])
 }
 
 int
-system_preconfigure (int sfd MAYBE_UNUSED,
-		     struct ifreq *ifr MAYBE_UNUSED)
+system_preconfigure (int sfd MAYBE_UNUSED, struct ifreq *ifr MAYBE_UNUSED)
 {
   return 0;
 }
@@ -69,9 +68,9 @@ system_configure (int sfd, struct ifreq *ifr, struct system_ifconfig *ifs)
 {
   return 0;
 }
-
 
+
 
 /* System hooks. */
 
-struct if_nameindex* (*system_if_nameindex) (void) = if_nameindex;
+struct if_nameindex *(*system_if_nameindex) (void) = if_nameindex;

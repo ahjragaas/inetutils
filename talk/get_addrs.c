@@ -137,7 +137,7 @@ get_addrs (char *my_machine_name, char *his_machine_name)
 
       /* Attempt binding to this local address.  */
       if (bind (f, ai->ai_addr, ai->ai_addrlen))
-        {
+	{
 	  close (f);
 	  f = -1;
 	  continue;

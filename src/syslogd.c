@@ -128,7 +128,7 @@
 #endif /* LOG_MAKEPRI */
 
 #ifndef LOG_MAKEPRI
-#  define LOG_MAKEPRI(fac, p)	((fac) | (p))
+# define LOG_MAKEPRI(fac, p)	((fac) | (p))
 #endif
 
 #include <error.h>
@@ -303,7 +303,8 @@ char addrname[NI_MAXHOST];	/* Common name lookup.  */
 int usefamily = AF_INET;	/* Address family for INET services.
 				 * Each of the values `AF_INET' and `AF_INET6'
 				 * produces a single-stacked server.  */
-int finet[2] = {-1, -1};	/* Internet datagram socket fd.  */
+int finet[2] = { -1, -1 };	/* Internet datagram socket fd.  */
+
 #define IU_FD_IP4	0	/* Indices for the address families.  */
 #define IU_FD_IP6	1
 int fklog = -1;			/* Kernel log device fd.  */
@@ -332,7 +333,8 @@ const char args_doc[] = "";
 const char doc[] = "Log system messages.";
 
 /* Define keys for long options that do not have short counterparts. */
-enum {
+enum
+{
   OPT_NO_FORWARD = 256,
   OPT_NO_KLOG,
   OPT_NO_UNIXAF,
@@ -342,42 +344,47 @@ enum {
 static struct argp_option argp_options[] = {
 #define GRP 0
   /* Not sure about the long name. Maybe move into conffile even. */
-  {NULL, 'a', "SOCKET", 0, "add unix socket to listen to (up to 19)", GRP+1},
-  {NULL, 'l', "HOSTLIST", 0, "log hosts in HOSTLIST by their hostname", GRP+1},
-  {NULL, 's', "DOMAINLIST", 0, "list of domains which should be stripped "
-   "from the FQDN of hosts before logging their name", GRP+1},
+  {NULL, 'a', "SOCKET", 0, "add unix socket to listen to (up to 19)",
+   GRP + 1},
+  {NULL, 'l', "HOSTLIST", 0, "log hosts in HOSTLIST by their hostname",
+   GRP + 1},
+  {NULL, 's', "DOMAINLIST", 0,
+   "list of domains which should be stripped "
+   "from the FQDN of hosts before logging their name", GRP + 1},
   {"debug", 'd', NULL, 0, "print debug information (implies --no-detach)",
-   GRP+1},
-  {"hop", 'h', NULL, 0, "forward messages from remote hosts", GRP+1},
+   GRP + 1},
+  {"hop", 'h', NULL, 0, "forward messages from remote hosts", GRP + 1},
   {"inet", 'r', NULL, 0, "receive remote messages via internet domain socket",
-   GRP+1},
-  {"ipv4", '4', NULL, 0, "restrict to IPv4 transport (default)", GRP+1},
-  {"ipv6", '6', NULL, 0, "restrict to IPv6 transport", GRP+1},
-  {"ipany", OPT_IPANY, NULL, 0, "allow transport with IPv4 and IPv6", GRP+1},
-  {"bind", 'b', "ADDR", 0, "bind listener to this address/name", GRP+1},
-  {"bind-port", 'B', "PORT", 0, "bind listener to this port", GRP+1},
+   GRP + 1},
+  {"ipv4", '4', NULL, 0, "restrict to IPv4 transport (default)", GRP + 1},
+  {"ipv6", '6', NULL, 0, "restrict to IPv6 transport", GRP + 1},
+  {"ipany", OPT_IPANY, NULL, 0, "allow transport with IPv4 and IPv6",
+   GRP + 1},
+  {"bind", 'b', "ADDR", 0, "bind listener to this address/name", GRP + 1},
+  {"bind-port", 'B', "PORT", 0, "bind listener to this port", GRP + 1},
   {"mark", 'm', "INTVL", 0, "specify timestamp interval in minutes"
-   " (0 for no timestamping)", GRP+1},
-  {"no-detach", 'n', NULL, 0, "do not enter daemon mode", GRP+1},
+   " (0 for no timestamping)", GRP + 1},
+  {"no-detach", 'n', NULL, 0, "do not enter daemon mode", GRP + 1},
   {"no-forward", OPT_NO_FORWARD, NULL, 0, "do not forward any messages "
-   "(overrides --hop)", GRP+1},
+   "(overrides --hop)", GRP + 1},
 #ifdef PATH_KLOG
   {"no-klog", OPT_NO_KLOG, NULL, 0, "do not listen to kernel log device "
-   PATH_KLOG, GRP+1},
+   PATH_KLOG, GRP + 1},
 #endif
   {"no-unixaf", OPT_NO_UNIXAF, NULL, 0, "do not listen on unix domain "
-   "sockets (overrides -a and -p)", GRP+1},
+   "sockets (overrides -a and -p)", GRP + 1},
   {"pidfile", 'P', "FILE", 0, "override pidfile (default: "
-   PATH_LOGPID ")", GRP+1},
+   PATH_LOGPID ")", GRP + 1},
   {"rcfile", 'f', "FILE", 0, "override configuration file (default: "
    PATH_LOGCONF ")",
-   GRP+1},
+   GRP + 1},
   {"rcdir", 'D', "DIR", 0, "override configuration directory (default: "
-   PATH_LOGCONFD ")", GRP+1},
+   PATH_LOGCONFD ")", GRP + 1},
   {"socket", 'p', "FILE", 0, "override default unix domain socket " PATH_LOG,
-   GRP+1},
-  {"sync", 'S', NULL, 0, "force a file sync on every line", GRP+1},
-  {"local-time", 'T', NULL, 0, "set local time on received messages", GRP+1},
+   GRP + 1},
+  {"sync", 'S', NULL, 0, "force a file sync on every line", GRP + 1},
+  {"local-time", 'T', NULL, 0, "set local time on received messages",
+   GRP + 1},
 #undef GRP
   {NULL, 0, NULL, 0, NULL, 0}
 };
@@ -438,7 +445,7 @@ parse_opt (int key, char *arg, struct argp_state *state)
     case 'm':
       v = strtol (arg, &endptr, 10);
       if (*endptr)
-        argp_error (state, "invalid value (`%s' near `%s')", arg, endptr);
+	argp_error (state, "invalid value (`%s' near `%s')", arg, endptr);
       MarkInterval = v * 60;
       break;
 
@@ -491,7 +498,7 @@ parse_opt (int key, char *arg, struct argp_state *state)
 }
 
 static struct argp argp =
-  {argp_options, parse_opt, args_doc, doc, NULL, NULL, NULL};
+  { argp_options, parse_opt, args_doc, doc, NULL, NULL, NULL };
 
 int
 main (int argc, char *argv[])
@@ -535,7 +542,7 @@ main (int argc, char *argv[])
       signal (SIGTERM, doexit);
       ppid = waitdaemon (0, 0, 30);
       if (ppid < 0)
-        error (EXIT_FAILURE, errno, "could not become daemon");
+	error (EXIT_FAILURE, errno, "could not become daemon");
     }
   else
     {
@@ -829,7 +836,8 @@ main (int argc, char *argv[])
 		if (result > 0)
 		  {
 		    line[result] = '\0';
-		    printline (cvthname ((struct sockaddr *) &frominet, len), line);
+		    printline (cvthname ((struct sockaddr *) &frominet, len),
+			       line);
 		  }
 		else if (result < 0 && errno != EINTR)
 		  logerror ("recvfrom inet");
@@ -955,7 +963,8 @@ create_inet_socket (int af, int fd46[2])
       if (ai->ai_family == AF_INET6)
 	{
 	  /* Avoid dual stacked sockets.  Better to use distinct sockets.  */
-	  (void) setsockopt (fd, IPPROTO_IPV6, IPV6_V6ONLY, &yes, sizeof (yes));
+	  (void) setsockopt (fd, IPPROTO_IPV6, IPV6_V6ONLY, &yes,
+			     sizeof (yes));
 	}
 
       if (bind (fd, ai->ai_addr, ai->ai_addrlen) < 0)
@@ -1028,7 +1037,7 @@ crunch_list (char **oldlist, char *list)
     {
       oldlist[count] = (char *) malloc ((q - p + 1) * sizeof (char));
       if (oldlist[count] == NULL)
-        error (EXIT_FAILURE, errno, "can't allocate memory");
+	error (EXIT_FAILURE, errno, "can't allocate memory");
 
       strncpy (oldlist[count], p, q - p);
       oldlist[count][q - p] = '\0';
@@ -1267,8 +1276,7 @@ logmsg (int pri, const char *msg, const char *from, int flags)
 
 	  /* Avoid matching on prefixes.  */
 	  if (isalnum (msg[f->f_prognlen])
-	      || msg[f->f_prognlen] == '-'
-	      || msg[f->f_prognlen] == '_')
+	      || msg[f->f_prognlen] == '-' || msg[f->f_prognlen] == '_')
 	    continue;
 	}
 
@@ -1464,7 +1472,7 @@ fprintlog (struct filed *f, const char *from, int flags, const char *msg)
 
 	  if (f->f_un.f_forw.f_addr.ss_family == AF_INET)
 	    pfinet = &finet[IU_FD_IP4];
-	  else	/* AF_INET6 */
+	  else			/* AF_INET6 */
 	    pfinet = &finet[IU_FD_IP6];
 
 	  temp_finet = *pfinet;
@@ -1485,7 +1493,7 @@ fprintlog (struct filed *f, const char *from, int flags, const char *msg)
 	      if (err)
 		{
 		  dbg_printf ("Not forwarding due to lookup failure: %s.\n",
-			      gai_strerror(err));
+			      gai_strerror (err));
 		  break;
 		}
 	      temp_finet = socket (rp->ai_family, rp->ai_socktype,
@@ -1505,7 +1513,7 @@ fprintlog (struct filed *f, const char *from, int flags, const char *msg)
 			      strerror (errno));
 		  break;
 		}
-	    } /* Creation of temporary outgoing socket since "finet < 0" */
+	    }			/* Creation of temporary outgoing socket since "finet < 0" */
 
 	  f->f_time = now;
 	  snprintf (line, sizeof (line), "<%d>%.15s %s",
@@ -1686,8 +1694,7 @@ cvthname (struct sockaddr *f, socklen_t len)
 		     NULL, 0, NI_NUMERICHOST);
   if (err)
     {
-      dbg_printf ("Malformed from address: %s.\n",
-		  gai_strerror (err));
+      dbg_printf ("Malformed from address: %s.\n", gai_strerror (err));
       return "???";
     }
 
@@ -1815,7 +1822,7 @@ die (int signo)
   if (signo)
     {
       dbg_printf ("%s: exiting on signal %d\n",
-                  program_invocation_name, signo);
+		  program_invocation_name, signo);
       snprintf (buf, sizeof (buf), "exiting on signal %d", signo);
       errno = 0;
       logerror (buf);
@@ -1869,13 +1876,13 @@ load_conffile (const char *filename, struct filed **nextp)
 	{
 	  /* Send LOG_ERR to the system console.  */
 	  f = (struct filed *) calloc (1, sizeof (*f));
-	  cfline ("*.ERR\t" PATH_CONSOLE, f);		/* Erases *f!  */
+	  cfline ("*.ERR\t" PATH_CONSOLE, f);	/* Erases *f!  */
 
 	  /* Below that, send LOG_EMERG to all users.  */
 	  f->f_next = (struct filed *) calloc (1, sizeof (*f));
 	  cfline ("*.PANIC\t*", f->f_next);	/* Erases *(f->f_next)!  */
 
-	  *nextp = f;	/* Return this minimal table to the caller.  */
+	  *nextp = f;		/* Return this minimal table to the caller.  */
 	}
 
       Initialized = 1;
@@ -2023,7 +2030,7 @@ load_conffile (const char *filename, struct filed **nextp)
        * the already existing table.
        */
       f = (struct filed *) calloc (1, sizeof (*f));
-      cfline (cbuf, f);			/* Erases *f!  */
+      cfline (cbuf, f);		/* Erases *f!  */
       f->f_next = *nextp;
       *nextp = f;
     }
@@ -2049,7 +2056,7 @@ load_confdir (const char *dirname, struct filed **nextp)
   if (dir == NULL)
     {
       dbg_printf ("cannot open %s\n", dirname);
-      return 1;		/* Acceptable deviation.  */
+      return 1;			/* Acceptable deviation.  */
     }
 
   while ((dent = readdir (dir)) != NULL)
@@ -2070,7 +2077,7 @@ load_confdir (const char *dirname, struct filed **nextp)
 	}
 
 
-      if (S_ISREG(st.st_mode))
+      if (S_ISREG (st.st_mode))
 	{
 	  found++;
 	  rc += load_conffile (file, nextp);
@@ -2131,7 +2138,7 @@ init (int signo MAYBE_UNUSED)
       free (f);
     }
 
-  Files = NULL;		/* Empty the table.  */
+  Files = NULL;			/* Empty the table.  */
   nextp = &Files;
   facilities_seen = 0;
 
@@ -2139,7 +2146,7 @@ init (int signo MAYBE_UNUSED)
 
   ret = load_confdir (ConfDir, nextp);
   if (!ret)
-    rc = 0;		/* Some allocation errors were found.  */
+    rc = 0;			/* Some allocation errors were found.  */
 
   Initialized = 1;
 
@@ -2205,10 +2212,9 @@ cfline (const char *line, struct filed *f)
   char buf[MAXLINE], ebuf[200];
 
   dbg_printf ("cfline(%s)%s%s\n", line,
-	      selector ? " tagged " : "",
-	      selector ? selector : "");
+	      selector ? " tagged " : "", selector ? selector : "");
 
-  errno = 0;	/* keep strerror() stuff out of logerror messages */
+  errno = 0;			/* keep strerror() stuff out of logerror messages */
 
   /* Clear out file entry.  */
   memset (f, 0, sizeof (*f));
@@ -2335,7 +2341,7 @@ cfline (const char *line, struct filed *f)
       p++;
     }
 
-  if (!strlen(p))
+  if (!strlen (p))
     {
       /* Invalidate an entry with empty action field.  */
       f->f_type = F_UNUSED;
@@ -2363,21 +2369,21 @@ cfline (const char *line, struct filed *f)
 	{
 	  switch (err)
 	    {
-	      case EAI_AGAIN:	/* Known kinds of temporary error.  */
-	      case EAI_MEMORY:
-		f->f_type = F_FORW_UNKN;
-		f->f_prevcount = INET_RETRY_MAX;
-		break;
+	    case EAI_AGAIN:	/* Known kinds of temporary error.  */
+	    case EAI_MEMORY:
+	      f->f_type = F_FORW_UNKN;
+	      f->f_prevcount = INET_RETRY_MAX;
+	      break;
 
-	      case EAI_NONAME:	/* The most probable causes for failure.  */
+	    case EAI_NONAME:	/* The most probable causes for failure.  */
 #if defined EAI_NODATA && (EAI_NODATA != EAI_NONAME)	/* FreeBSD complains.  */
-	      case EAI_NODATA:
+	    case EAI_NODATA:
 #endif
 #ifdef EAI_ADDRFAMILY
-	      case EAI_ADDRFAMILY:
+	    case EAI_ADDRFAMILY:
 #endif
-	      default:		/* Catch system exceptions.  */
-		f->f_type = F_UNUSED;
+	    default:		/* Catch system exceptions.  */
+	      f->f_type = F_UNUSED;
 	    }
 
 	  f->f_time = time ((time_t *) 0);
@@ -2458,14 +2464,14 @@ cfline (const char *line, struct filed *f)
       break;
     }
 
-    /* Set program selector.  */
-    if (selector)
-      {
-	f->f_progname = strdup (selector);
-	f->f_prognlen = strlen (selector);
-      }
-    else
-      f->f_progname = NULL;
+  /* Set program selector.  */
+  if (selector)
+    {
+      f->f_progname = strdup (selector);
+      f->f_prognlen = strlen (selector);
+    }
+  else
+    f->f_progname = NULL;
 }
 
 /* Decode a symbolic name to a numeric value.  */

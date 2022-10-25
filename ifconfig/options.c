@@ -73,8 +73,7 @@ struct format formats[] = {
   /* This is the standard GNU output.  */
   {"gnu",
    "Standard GNU output format.",
-   "${ifdisplay?}{${first?}{}{${\\n}}${format}{gnu-one-entry}}"
-  },
+   "${ifdisplay?}{${first?}{}{${\\n}}${format}{gnu-one-entry}}"},
   {"gnu-one-entry",
    "Same as GNU, but without additional newlines between the entries.",
    "${format}{check-existence}"
@@ -85,9 +84,9 @@ struct format formats[] = {
    "${brdaddr?}{  broadcast ${tab}{16}${brdaddr}${\\n}}"
    "${dstaddr?}{  peer address ${tab}{16}${dstaddr}${\\n}}"
    "${exists?}{tunnel?}{"
-     "${tunnel?}{  tunnel src ${tab}{16}${tunsrc}${\\n}}}"
+   "${tunnel?}{  tunnel src ${tab}{16}${tunsrc}${\\n}}}"
    "${exists?}{tunnel?}{"
-     "${tunnel?}{  tunnel dst ${tab}{16}${tundst}${\\n}}}"
+   "${tunnel?}{  tunnel dst ${tab}{16}${tundst}${\\n}}}"
    "${flags?}{  flags ${tab}{16}${flags}${\\n}}"
    "${mtu?}{  mtu ${tab}{16}${mtu}${\\n}}"
    "${metric?}{  metric ${tab}{16}${metric}${\\n}}"
@@ -96,8 +95,7 @@ struct format formats[] = {
    "${media?}{  link medium ${tab}{16}${media}${\\n}}"
    "${status?}{  link status ${tab}{16}${status}${\\n}}"
    "${exists?}{txqlen?}{${txqlen?}{  tx queue len ${tab}{16}${txqlen}${\\n}}}"
-   "}"
-  },
+   "}"},
   /* Resembles the output of ifconfig 1.39 (1999-03-19) in net-tools 1.52.  */
   {"net-tools",
    "Similar to the output of net-tools.  Default for GNU/Linux.",
@@ -136,26 +134,18 @@ struct format formats[] = {
    "          Interrupt:${irq}"
    "${baseaddr?}{ Base address:0x${baseaddr}{%x}}"
    "${memstart?}{ Memory:${memstart}{%lx}-${memend}{%lx}}"
-   "${dma?}{ DMA chan:${dma}{%x}}"
-   "${newline}"
-   "}}}"
-   "${newline}"
-   "}"
-  },
+   "${dma?}{ DMA chan:${dma}{%x}}" "${newline}" "}}}" "${newline}" "}"},
   {"netstat",
    "Terse output, similar to that of \"netstat -i\".",
    "${first?}{Iface    MTU Met    RX-OK RX-ERR RX-DRP RX-OVR    TX-OK TX-ERR TX-DRP TX-OVR Flg${newline}}"
-   "${format}{check-existence}"
-   "${name}${tab}{6}${mtu}{%6d} ${metric}{%3d}"
+   "${format}{check-existence}" "${name}${tab}{6}${mtu}{%6d} ${metric}{%3d}"
    /* Insert blanks without ifstat.  */
    "${exists?}{ifstat?}{"
    "${ifstat?}{"
    " ${rxpackets}{%8lu} ${rxerrors}{%6lu} ${rxdropped}{%6lu} ${rxfifoerr}{%6lu}"
    " ${txpackets}{%8lu} ${txerrors}{%6lu} ${txdropped}{%6lu} ${txfifoerr}{%6lu}"
    "}{   - no statistics available -}}"
-   "${tab}{76} ${flags?}{${flags}{short}}{[NO FLAGS]}"
-   "${newline}"
-  },
+   "${tab}{76} ${flags?}{${flags}{short}}{[NO FLAGS]}" "${newline}"},
   /* Resembles the output of ifconfig shipped with unix systems like
      Solaris 2.7 or HPUX 10.20.  */
   {"unix",
@@ -163,23 +153,20 @@ struct format formats[] = {
    "${format}{check-existence}"
    "${ifdisplay?}{"
    "${name}: flags=${flags}{number}{%x}<${flags}{string}{,}>"
-   "${metric?}{ metric ${metric}}"
-   "${mtu?}{ mtu ${mtu}}${\\n}"
+   "${metric?}{ metric ${metric}}" "${mtu?}{ mtu ${mtu}}${\\n}"
    /* Print only if hwtype emits something.  */
    "${exists?}{hwtype?}{"
-     "${hwtype?}{${\\t}${hwtype}${exists?}{hwaddr?}{"
-       "${hwaddr?}{ ${hwaddr}}}${\\n}}}"
+   "${hwtype?}{${\\t}${hwtype}${exists?}{hwaddr?}{"
+   "${hwaddr?}{ ${hwaddr}}}${\\n}}}"
    "${exists?}{tunnel?}{"
-     "${tunnel?}{${\\t}tunnel inet ${tunsrc} --> ${tundst}${\\n}}}"
+   "${tunnel?}{${\\t}tunnel inet ${tunsrc} --> ${tundst}${\\n}}}"
    "${addr?}{${\\t}inet ${addr}"
    "${dstaddr?}{ --> ${dstaddr}}"
    " netmask ${netmask}{0}{%#02x}${netmask}{1}{%02x}"
    "${netmask}{2}{%02x}${netmask}{3}{%02x}"
    "${brdaddr?}{ broadcast ${brdaddr}}${\\n}}"
    "${media?}{${\\t}media: ${media}${\\n}}"
-   "${status?}{${\\t}status: ${status}${\\n}}"
-   "}"
-  },
+   "${status?}{${\\t}status: ${status}${\\n}}" "}"},
   /* Resembles the output of ifconfig shipped with OSF 4.0g.  */
   {"osf",
    "OSF-style output.",
@@ -187,21 +174,18 @@ struct format formats[] = {
    "${ifdisplay?}{"
    "${name}: flags=${flags}{number}{%x}<${flags}{string}{,}>${\\n}"
    "${exists?}{tunnel?}{"
-     "${tunnel?}{${\\t}inet tunnel src ${tunsrc} tunnel dst ${tundst}${\\n}}}"
+   "${tunnel?}{${\\t}inet tunnel src ${tunsrc} tunnel dst ${tundst}${\\n}}}"
    "${addr?}{${\\t}inet ${addr}"
    "${dstaddr?}{ --> ${dstaddr}}"
    " netmask ${netmask}{0}{%02x}${netmask}{1}{%02x}"
    "${netmask}{2}{%02x}${netmask}{3}{%02x}"
    "${brdaddr?}{ broadcast ${brdaddr}}" "${mtu?}{ ipmtu ${mtu}}${\\n}}"
    "${exists?}{hwtype?}{"
-     "${hwtype?}{${\\t}${hwtype}${exists?}{hwaddr?}{"
-       "${hwaddr?}{ ${hwaddr}}}${\\n}}}"
-   "}"
-  },
+   "${hwtype?}{${\\t}${hwtype}${exists?}{hwaddr?}{"
+   "${hwaddr?}{ ${hwaddr}}}${\\n}}}" "}"},
   {"check",
    "Shorthand for `check-existence'.",
-   "${format}{check-existence}"
-  },
+   "${format}{check-existence}"},
   /* If interface does not exist, print error message and exit. */
   {"check-existence",
    "If interface does not exist, print error message and exit.",
@@ -210,8 +194,7 @@ struct format formats[] = {
    "${exit}{1}}"},
   {"?",
    "Synonym for `help'.",
-   "${format}{help}"
-  },
+   "${format}{help}"},
   {"help",
    "Display this help output.",
    "${foreachformat}{"
@@ -219,13 +202,7 @@ struct format formats[] = {
    "${verbose?}{"
    "${newline}"
    "${rep}{79}{-}"
-   "${newline}"
-   "${defn}"
-   "${newline}"
-   "}"
-   "${newline}"
-   "}"
-   "${exit}{0}"},
+   "${newline}" "${defn}" "${newline}" "}" "${newline}" "}" "${exit}{0}"},
   {NULL, NULL, NULL}
 };
 
@@ -236,7 +213,8 @@ int all_option;
 /* True if interfaces were given in the command line */
 int ifs_cmdline;
 
-enum {
+enum
+{
   METRIC_OPTION = 256,
   FORMAT_OPTION,
   UP_OPTION,
@@ -245,50 +223,49 @@ enum {
 
 static struct argp_option argp_options[] = {
 #define GRP 10
-  { "verbose", 'v', NULL, 0,
-    "output information when configuring interface", GRP },
-  { "all", 'a', NULL, 0,
-    "display all available interfaces", GRP },
-  { "interface", 'i', "NAME", 0,
-    "configure network interface NAME", GRP },
-  { "address", 'A', "ADDR", 0,
-    "set interface address to ADDR", GRP },
-  { "netmask", 'm', "MASK", 0,
-    "set netmask to MASK", GRP },
-  { "dstaddr", 'd', "ADDR", 0,
-    "set destination (peer) address to ADDR", GRP },
-  { "peer", 'p', "ADDR", OPTION_ALIAS,
-    "synonym for dstaddr", GRP },
-  { "broadcast", 'B', "ADDR", 0,
-    "set broadcast address to ADDR", GRP },
-  { "brdaddr", 'b', NULL, OPTION_ALIAS,
-    "synonym for broadcast", GRP }, /* FIXME: Do we really need it? */
-  { "mtu", 'M', "N", 0,
-    "set mtu of interface to N", GRP },
-  { "metric", METRIC_OPTION, "N", 0,
-    "set metric of interface to N", GRP },
-  { "format", FORMAT_OPTION, "FORMAT", 0,
-    "select output format; set to `help' for info", GRP },
-  { "up", UP_OPTION, NULL, 0,
-    "activate the interface", GRP },
-  { "down", DOWN_OPTION, NULL, 0,
-    "shut the interface down", GRP },
-  { "flags", 'F', "FLAG[,FLAG...]", 0,
-    "set interface flags", GRP },
-  { "list", 'l', NULL, 0,
-    "list available or selected interfaces", GRP },
-  { "short", 's', NULL, 0,
-    "short output format", GRP },
+  {"verbose", 'v', NULL, 0,
+   "output information when configuring interface", GRP},
+  {"all", 'a', NULL, 0,
+   "display all available interfaces", GRP},
+  {"interface", 'i', "NAME", 0,
+   "configure network interface NAME", GRP},
+  {"address", 'A', "ADDR", 0,
+   "set interface address to ADDR", GRP},
+  {"netmask", 'm', "MASK", 0,
+   "set netmask to MASK", GRP},
+  {"dstaddr", 'd', "ADDR", 0,
+   "set destination (peer) address to ADDR", GRP},
+  {"peer", 'p', "ADDR", OPTION_ALIAS,
+   "synonym for dstaddr", GRP},
+  {"broadcast", 'B', "ADDR", 0,
+   "set broadcast address to ADDR", GRP},
+  {"brdaddr", 'b', NULL, OPTION_ALIAS,
+   "synonym for broadcast", GRP},	/* FIXME: Do we really need it? */
+  {"mtu", 'M', "N", 0,
+   "set mtu of interface to N", GRP},
+  {"metric", METRIC_OPTION, "N", 0,
+   "set metric of interface to N", GRP},
+  {"format", FORMAT_OPTION, "FORMAT", 0,
+   "select output format; set to `help' for info", GRP},
+  {"up", UP_OPTION, NULL, 0,
+   "activate the interface", GRP},
+  {"down", DOWN_OPTION, NULL, 0,
+   "shut the interface down", GRP},
+  {"flags", 'F', "FLAG[,FLAG...]", 0,
+   "set interface flags", GRP},
+  {"list", 'l', NULL, 0,
+   "list available or selected interfaces", GRP},
+  {"short", 's', NULL, 0,
+   "short output format", GRP},
 #undef GRP
-  { NULL, 0, NULL, 0, NULL, 0 }
+  {NULL, 0, NULL, 0, NULL, 0}
 };
 
 const char doc[] = "Configure network interfaces.";
-const char *program_authors[] =
-  {
-    "Marcus Brinkmann",
-    NULL
-  };
+const char *program_authors[] = {
+  "Marcus Brinkmann",
+  NULL
+};
 
 struct format *
 format_find (const char *name)
@@ -339,7 +316,6 @@ PARSE_OPT_SET_ADDR (netmask, netmask, NETMASK)
 PARSE_OPT_SET_ADDR (dstaddr, destination / peer address, DSTADDR)
 PARSE_OPT_SET_ADDR (brdaddr, broadcast address, BRDADDR)
 PARSE_OPT_SET_ADDR (hwaddr, hardware address, HWADDR)
-
 #define PARSE_OPT_SET_INT(field, fname, fvalid) \
 void								\
 parse_opt_set_##field (struct ifconfig *ifp, char *arg)		\
@@ -360,9 +336,9 @@ parse_opt_set_##field (struct ifconfig *ifp, char *arg)		\
 	   arg, ifp->name);			                \
   ifp->valid |= IF_VALID_##fvalid;				\
 }
-PARSE_OPT_SET_INT (mtu, mtu value, MTU)
+  PARSE_OPT_SET_INT (mtu, mtu value, MTU)
 PARSE_OPT_SET_INT (metric, metric value, METRIC)
-void parse_opt_set_af (struct ifconfig *ifp, char *af)
+     void parse_opt_set_af (struct ifconfig *ifp, char *af)
 {
   if (!ifp)
     error (EXIT_FAILURE, 0,
@@ -378,8 +354,7 @@ void parse_opt_set_af (struct ifconfig *ifp, char *af)
 }
 
 void
-parse_opt_set_flag (struct ifconfig *ifp MAYBE_UNUSED,
-		    int flag, int rev)
+parse_opt_set_flag (struct ifconfig *ifp MAYBE_UNUSED, int flag, int rev)
 {
   if (ifp)
     ifp->valid |= IF_VALID_FLAGS;
@@ -439,7 +414,8 @@ parse_opt_set_default_format (const char *format)
     format = system_default_format ? system_default_format : "default";
 
   for (frm = formats; frm->name; frm++)
-    if (!strcmp (format, frm->name)) break;
+    if (!strcmp (format, frm->name))
+      break;
   if (frm == NULL || frm->templ == NULL)
     error (EXIT_FAILURE, 0, "%s: unknown output format", format);
   default_format = frm->templ;
@@ -484,7 +460,7 @@ parse_opt_set_default_format_from_file (const char *file)
     {
       size_t len = strlen (buf);
 
-      if (len >= 1 && buf[len-1] == '\n')
+      if (len >= 1 && buf[len - 1] == '\n')
 	len--;
 
       if (len == 0 || is_comment_line (buf, len))
@@ -528,7 +504,7 @@ parse_opt_finalize (struct ifconfig *ifp)
 static error_t
 parse_opt (int key, char *arg, struct argp_state *state)
 {
-  struct ifconfig *ifp = *(struct ifconfig **)state->input;
+  struct ifconfig *ifp = *(struct ifconfig **) state->input;
 
   switch (key)
     {
@@ -536,7 +512,7 @@ parse_opt (int key, char *arg, struct argp_state *state)
       state->child_inputs[0] = state->input;
       break;
 
-    case 'i':		/* Interface name.  */
+    case 'i':			/* Interface name.  */
       parse_opt_finalize (ifp);
       ifp = parse_opt_new_ifs (arg);
       *(struct ifconfig **) state->input = ifp;
@@ -546,7 +522,7 @@ parse_opt (int key, char *arg, struct argp_state *state)
       all_option = 1;
       break;
 
-    case 'A':		/* Interface address.  */
+    case 'A':			/* Interface address.  */
       {
 	char *netlen = strchr (arg, '/');
 
@@ -562,7 +538,7 @@ parse_opt (int key, char *arg, struct argp_state *state)
 	    if (end == netlen)
 	      error (EXIT_FAILURE, 0, "Wrong netmask length %s", netlen);
 
-	    addr.s_addr = htonl (INADDR_BROADCAST << (32-n));
+	    addr.s_addr = htonl (INADDR_BROADCAST << (32 - n));
 	    str = strdup (inet_ntoa (addr));
 	    parse_opt_set_netmask (ifp, str);
 	  }
@@ -571,16 +547,16 @@ parse_opt (int key, char *arg, struct argp_state *state)
 	break;
       }
 
-    case 'm':		/* Interface netmask.  */
+    case 'm':			/* Interface netmask.  */
       parse_opt_set_netmask (ifp, arg);
       break;
 
-    case 'd':		/* Interface dstaddr.  */
+    case 'd':			/* Interface dstaddr.  */
     case 'p':
       parse_opt_set_point_to_point (ifp, arg);
       break;
 
-    case 'b':		/* Interface broadcast address.  */
+    case 'b':			/* Interface broadcast address.  */
     case 'B':
       parse_opt_set_brdaddr (ifp, arg);
       break;
@@ -589,7 +565,7 @@ parse_opt (int key, char *arg, struct argp_state *state)
       parse_opt_flag_list (ifp, arg);
       break;
 
-    case 'M':		/* Interface MTU.  */
+    case 'M':			/* Interface MTU.  */
       parse_opt_set_mtu (ifp, arg);
       break;
 
@@ -605,11 +581,11 @@ parse_opt (int key, char *arg, struct argp_state *state)
       verbose++;
       break;
 
-    case METRIC_OPTION:		/* Interface metric.  */
+    case METRIC_OPTION:	/* Interface metric.  */
       parse_opt_set_metric (ifp, arg);
       break;
 
-    case FORMAT_OPTION:		/* Output format.  */
+    case FORMAT_OPTION:	/* Output format.  */
       if (arg && arg[0] == '@')
 	parse_opt_set_default_format_from_file (arg + 1);
       else
@@ -632,15 +608,14 @@ parse_opt (int key, char *arg, struct argp_state *state)
 }
 
 static char *
-default_help_filter (int key, const char *text,
-		     void *input MAYBE_UNUSED)
+default_help_filter (int key, const char *text, void *input MAYBE_UNUSED)
 {
   char *s;
 
   switch (key)
     {
     default:
-      s = (char*) text;
+      s = (char *) text;
       break;
 
     case ARGP_KEY_HELP_EXTRA:
@@ -650,16 +625,15 @@ default_help_filter (int key, const char *text,
 }
 
 static struct argp_child argp_children[2];
-static struct argp argp =
-  {
-    argp_options,
-    parse_opt,
-    NULL,
-    doc,
-    NULL,
-    default_help_filter,
-    NULL
-  };
+static struct argp argp = {
+  argp_options,
+  parse_opt,
+  NULL,
+  doc,
+  NULL,
+  default_help_filter,
+  NULL
+};
 
 static int
 cmp_if_name (const void *a, const void *b)

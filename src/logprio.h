@@ -53,18 +53,19 @@
  */
 
 #ifndef _IU_LOGPRIO_H
-#  define _IU_LOGPRIO_H	1
+# define _IU_LOGPRIO_H	1
 
-typedef struct _code {
-	char	*c_name;
-	int	c_val;
+typedef struct _code
+{
+  char *c_name;
+  int c_val;
 } CODE;
 
 /* Insert any missing macros.  */
 
-#ifndef LOG_PRI
+# ifndef LOG_PRI
 #  define LOG_PRI(p)	((p) & LOG_PRIMASK)
-#endif
+# endif
 
 /* Glibc prior to 2.17 included a definition of LOG_MAKEPRI
  * that evaluated LOG_MAKEPRI(LOG_USER, 0) to (1 << 9).
@@ -72,82 +73,81 @@ typedef struct _code {
  * the definition LOG_USER = (1 << 3).  Avoid this
  * harmful mistake.
  */
-#ifdef LOG_MAKEPRI
-# if LOG_MAKEPRI (1, 0) > LOG_PRIMASK
-#  undef LOG_MAKEPRI
-# endif
-#endif /* LOG_MAKEPRI */
+# ifdef LOG_MAKEPRI
+#  if LOG_MAKEPRI (1, 0) > LOG_PRIMASK
+#   undef LOG_MAKEPRI
+#  endif
+# endif/* LOG_MAKEPRI */
 
-#ifndef LOG_MAKEPRI
+# ifndef LOG_MAKEPRI
 #  define LOG_MAKEPRI(fac, p)	((fac) | (p))
-#endif
+# endif
 
-#ifndef INTERNAL_NOPRI
+# ifndef INTERNAL_NOPRI
 #  define INTERNAL_NOPRI 0x10	/* the "no priority" priority */
-#endif
+# endif
 
-#ifndef INTERNAL_MARK	/* mark "facility", first unused value */
+# ifndef INTERNAL_MARK		/* mark "facility", first unused value */
 #  define INTERNAL_MARK	LOG_MAKEPRI(LOG_NFACILITIES << 3, 0)
-#endif
+# endif
 
-#ifndef LOG_FACMASK
+# ifndef LOG_FACMASK
 #  define LOG_FACMASK	0x03f8
-#endif
+# endif
 
-#ifndef LOG_FAC
+# ifndef LOG_FAC
 #  define LOG_FAC(p)	(((p) & LOG_FACMASK) >> 3)
-#endif
+# endif
 
 /* OpenSolaris needs the next two.  */
-#ifndef LOG_FTP
-#  define LOG_FTP	(11 << 3)	/* A guess */
-#endif
+# ifndef LOG_FTP
+#  define LOG_FTP	(11 << 3)
+				/* A guess */
+# endif
 
-#ifndef LOG_AUTHPRIV
+# ifndef LOG_AUTHPRIV
 #  define LOG_AUTHPRIV	LOG_AUTH
-#endif
+# endif
 
-CODE prioritynames[] =
-  {
-    { "alert", LOG_ALERT },
-    { "crit", LOG_CRIT },
-    { "debug", LOG_DEBUG },
-    { "emerg", LOG_EMERG },
-    { "err", LOG_ERR },
-    { "error", LOG_ERR },		/* DEPRECATED */
-    { "info", LOG_INFO },
-    { "none", INTERNAL_NOPRI },		/* INTERNAL */
-    { "notice", LOG_NOTICE },
-    { "panic", LOG_EMERG },		/* DEPRECATED */
-    { "warn", LOG_WARNING },		/* DEPRECATED */
-    { "warning", LOG_WARNING },
-    { NULL, -1 }
-  };
+CODE prioritynames[] = {
+  {"alert", LOG_ALERT},
+  {"crit", LOG_CRIT},
+  {"debug", LOG_DEBUG},
+  {"emerg", LOG_EMERG},
+  {"err", LOG_ERR},
+  {"error", LOG_ERR},		/* DEPRECATED */
+  {"info", LOG_INFO},
+  {"none", INTERNAL_NOPRI},	/* INTERNAL */
+  {"notice", LOG_NOTICE},
+  {"panic", LOG_EMERG},		/* DEPRECATED */
+  {"warn", LOG_WARNING},	/* DEPRECATED */
+  {"warning", LOG_WARNING},
+  {NULL, -1}
+};
 
-CODE facilitynames[] =
-  {
-    { "auth", LOG_AUTH },
-    { "authpriv", LOG_AUTHPRIV },
-    { "cron", LOG_CRON },
-    { "daemon", LOG_DAEMON },
-    { "ftp", LOG_FTP },
-    { "kern", LOG_KERN },
-    { "lpr", LOG_LPR },
-    { "mail", LOG_MAIL },
-    { "mark", INTERNAL_MARK },		/* INTERNAL */
-    { "news", LOG_NEWS },
-    { "security", LOG_AUTH },		/* DEPRECATED */
-    { "syslog", LOG_SYSLOG },
-    { "user", LOG_USER },
-    { "uucp", LOG_UUCP },
-    { "local0", LOG_LOCAL0 },
-    { "local1", LOG_LOCAL1 },
-    { "local2", LOG_LOCAL2 },
-    { "local3", LOG_LOCAL3 },
-    { "local4", LOG_LOCAL4 },
-    { "local5", LOG_LOCAL5 },
-    { "local6", LOG_LOCAL6 },
-    { "local7", LOG_LOCAL7 },
-    { NULL, -1 }
-  };
+CODE facilitynames[] = {
+  {"auth", LOG_AUTH},
+  {"authpriv", LOG_AUTHPRIV},
+  {"cron", LOG_CRON},
+  {"daemon", LOG_DAEMON},
+  {"ftp", LOG_FTP},
+  {"kern", LOG_KERN},
+  {"lpr", LOG_LPR},
+  {"mail", LOG_MAIL},
+  {"mark", INTERNAL_MARK},	/* INTERNAL */
+  {"news", LOG_NEWS},
+  {"security", LOG_AUTH},	/* DEPRECATED */
+  {"syslog", LOG_SYSLOG},
+  {"user", LOG_USER},
+  {"uucp", LOG_UUCP},
+  {"local0", LOG_LOCAL0},
+  {"local1", LOG_LOCAL1},
+  {"local2", LOG_LOCAL2},
+  {"local3", LOG_LOCAL3},
+  {"local4", LOG_LOCAL4},
+  {"local5", LOG_LOCAL5},
+  {"local6", LOG_LOCAL6},
+  {"local7", LOG_LOCAL7},
+  {NULL, -1}
+};
 #endif /* _IU_LOGPRIO_H */

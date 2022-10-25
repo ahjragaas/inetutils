@@ -72,17 +72,16 @@ void usage (void);
  *		Modified to run under 4.1c by Peter Moore 3/17/83
  */
 
-const char *program_authors[] =
-  {
-    "Kipp Hickman",
-    "Clem Cole",
-    "Peter Moore",
-    NULL
-  };
+const char *program_authors[] = {
+  "Kipp Hickman",
+  "Clem Cole",
+  "Peter Moore",
+  NULL
+};
 
 const char doc[] = "Talk to another user.";
 const char args_doc[] = "person [ttyname]";
-static struct argp argp = { NULL, NULL, args_doc, doc, NULL, NULL, NULL};
+static struct argp argp = { NULL, NULL, args_doc, doc, NULL, NULL, NULL };
 
 int
 main (int argc, char *argv[])

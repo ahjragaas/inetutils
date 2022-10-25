@@ -149,7 +149,7 @@ read_acl (char *config_file, int system)
 	  syslog (LOG_ERR, "Cannot open config file %s: %m", config_file);
 	  exit (EXIT_FAILURE);
 	}
-      return;	/* User setting may fail to exist.  Just ignore.  */
+      return;			/* User setting may fail to exist.  Just ignore.  */
     }
 
   if (system < 0)
@@ -290,7 +290,7 @@ read_acl (char *config_file, int system)
 static acl_t *
 open_users_acl (char *name)
 {
-  int level = 0;	/* Private file, not mandatory.  */
+  int level = 0;		/* Private file, not mandatory.  */
   int rc;
   char *filename;
   struct passwd *pw;
@@ -320,15 +320,14 @@ open_users_acl (char *name)
   rc = stat (filename, &st);
   if (rc < 0)
     return NULL;
-  if (!S_ISREG(st.st_mode)
+  if (!S_ISREG (st.st_mode)
       || st.st_uid != pw->pw_uid
       || st.st_gid != pw->pw_gid
-      || st.st_mode & S_IWGRP
-      || st.st_mode & S_IWOTH)
+      || st.st_mode & S_IWGRP || st.st_mode & S_IWOTH)
     {
       if (logging || debug)
 	syslog (LOG_WARNING, "Discarding '%s': insecure access.", filename);
-      level = -1;	/* Enforce a deny rule.  */
+      level = -1;		/* Enforce a deny rule.  */
     }
 
   mark = acl_tail;
@@ -428,7 +427,7 @@ acl_match (CTL_MSG * msg, struct sockaddr_in *sa_in)
     return user_action;
 
   if (strict_policy)
-    return ACL_DENY;	/* Equal to `system_action'.  */
+    return ACL_DENY;		/* Equal to `system_action'.  */
 
   /* At this point it is known that last activated site-wide
    * ACL rule has set SYSTEM_ACTION to ACL_DENY.  Do we

@@ -97,7 +97,7 @@
 #   define ENCTYPE_DES_OFB64	2	/* RFC 2953 */
 #  endif
 #  undef ENCTYPE_CNT
-#  define ENCTYPE_CNT	3		/* Up to DES_OFB64.  */
+#  define ENCTYPE_CNT	3	/* Up to DES_OFB64.  */
 
 #  undef ENCTYPE_NAME_OK
 #  define ENCTYPE_NAME_OK(x)	((unsigned int)(x) < ENCTYPE_CNT)
@@ -110,7 +110,8 @@ typedef struct
 {
   Block _;
 } Schedule[16];
-#  endif /* !HAVE_ARPA_TELNET_H_SCHEDULE */
+#  endif
+       /* !HAVE_ARPA_TELNET_H_SCHEDULE */
 
 #  ifndef VALIDKEY
 #   define VALIDKEY(key)	( key[0] | key[1] | key[2] | key[3] | \
@@ -126,7 +127,8 @@ typedef struct
   int length;
   const unsigned char *data;
 } Session_Key;
-#  endif /* !HAVE_ARPA_TELNET_H_SESSION_KEY */
+#  endif
+       /* !HAVE_ARPA_TELNET_H_SESSION_KEY */
 
 typedef struct
 {
@@ -143,7 +145,8 @@ typedef struct
   void (*printsub) (unsigned char *, int, char *, int);
 } Encryptions;
 
-#  define SK_DES		1	/* Matched Kerberos v5 KEYTYPE_DES */
+#  define SK_DES		1
+				/* Matched Kerberos v5 KEYTYPE_DES */
 #  define SK_OTHER	2	/* Non-DES key. */
 
 #  include "enc-proto.h"
@@ -151,5 +154,5 @@ typedef struct
 extern int encrypt_debug_mode;
 extern int (*decrypt_input) (int);
 extern void (*encrypt_output) (unsigned char *, int);
-# endif	/* __ENCRYPTION__ */
+# endif/* __ENCRYPTION__ */
 #endif /* ENCRYPTION */

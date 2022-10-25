@@ -342,8 +342,7 @@ mk_cred (dec_rep, etype, key, sender_addr, recv_addr, outbuf)
 
   krb5_use_cstype (&eblock, etype);
   ret_cred.enc_part.ciphertext.length = krb5_encrypt_size (scratch->length,
-							   eblock.
-							   crypto_entry);
+							   eblock.crypto_entry);
   /* add padding area, and zero it */
   if (!(scratch->data = realloc (scratch->data,
 				 ret_cred.enc_part.ciphertext.length)))

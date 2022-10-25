@@ -64,14 +64,14 @@ tty_setlinemode (int on)
   set_termbuf ();
   ioctl (pty, TIOCEXT, (char *) &on);
   init_termbuf ();
-# else /* !TIOCEXT */
+# else/* !TIOCEXT */
 #  ifdef	EXTPROC
   if (on)
     termbuf.c_lflag |= EXTPROC;
   else
     termbuf.c_lflag &= ~EXTPROC;
 #  endif
-# endif	/* TIOCEXT */
+# endif/* TIOCEXT */
 }
 
 int
@@ -290,7 +290,7 @@ tty_linemode (void)
   return (termbuf.c_lflag & EXTPROC);
 # else
   return 0;			/* Can't ever set it either. */
-# endif	/* EXTPROC */
+# endif/* EXTPROC */
 }
 
 void
@@ -300,16 +300,17 @@ tty_setlinemode (int on)
   set_termbuf ();
   ioctl (pty, TIOCEXT, (char *) &on);
   init_termbuf ();
-# else /* !TIOCEXT */
+# else/* !TIOCEXT */
 #  ifdef	EXTPROC
   if (on)
     termbuf.c_lflag |= EXTPROC;
   else
     termbuf.c_lflag &= ~EXTPROC;
-#  else /* !EXTPROC */
-  (void) on;		/* Silence warnings.  */
+#  else
+  /* !EXTPROC */
+  (void) on;			/* Silence warnings.  */
 #  endif
-# endif	/* TIOCEXT */
+# endif/* TIOCEXT */
 }
 
 int
@@ -699,48 +700,47 @@ struct termspeeds
 {
   int speed;
   int value;
-} termspeeds[] =
-  {
-    {0, B0},
-    {50, B50},
-    {75, B75},
-    {110, B110},
-    {134, B134},
-    {150, B150},
-    {200, B200},
-    {300, B300},
-    {600, B600},
-    {1200, B1200},
-    {1800, B1800},
-    {2400, B2400},
-    {4800, B4800},
+} termspeeds[] = {
+  {0, B0},
+  {50, B50},
+  {75, B75},
+  {110, B110},
+  {134, B134},
+  {150, B150},
+  {200, B200},
+  {300, B300},
+  {600, B600},
+  {1200, B1200},
+  {1800, B1800},
+  {2400, B2400},
+  {4800, B4800},
 # ifdef	B7200
-    {7200, B7200},
+  {7200, B7200},
 # endif
-    {9600, B9600},
+  {9600, B9600},
 # ifdef	B14400
-    {14400, B14400},
+  {14400, B14400},
 # endif
 # ifdef	B19200
-    {19200, B19200},
+  {19200, B19200},
 # endif
 # ifdef	B28800
-    {28800, B28800},
+  {28800, B28800},
 # endif
 # ifdef	B38400
-    {38400, B38400},
+  {38400, B38400},
 # endif
 # ifdef	B57600
-    {57600, B57600},
+  {57600, B57600},
 # endif
 # ifdef	B115200
-    {115200, B115200},
+  {115200, B115200},
 # endif
 # ifdef	B230400
-    {230400, B230400},
+  {230400, B230400},
 # endif
-    {-1, 0}
-  };
+  {-1, 0}
+};
 #endif /* DECODE_BAUD */
 
 void

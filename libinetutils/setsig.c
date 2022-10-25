@@ -49,8 +49,8 @@ setsig (int sig, sighandler_t handler)
   if (sigvec (sig, &sv, &osv) < 0)
     return SIG_ERR;
   return osv.sv_handler;
-# else /* !HAVE_SIGVEC */
+# else/* !HAVE_SIGVEC */
   return signal (sig, handler);
-# endif	/* HAVE_SIGVEC */
+# endif/* HAVE_SIGVEC */
 #endif /* HAVE_SIGACTION */
 }

@@ -54,8 +54,7 @@
 /* ARPHRD stuff.  */
 
 static void
-print_hwaddr_ether (format_data_t form MAYBE_UNUSED,
-		    unsigned char *data)
+print_hwaddr_ether (format_data_t form MAYBE_UNUSED, unsigned char *data)
 {
   *column += printf ("%02X:%02X:%02X:%02X:%02X:%02X",
 		     data[0], data[1], data[2], data[3], data[4], data[5]);
@@ -63,16 +62,14 @@ print_hwaddr_ether (format_data_t form MAYBE_UNUSED,
 }
 
 static void
-print_hwaddr_arcnet (format_data_t form MAYBE_UNUSED,
-		     unsigned char *data)
+print_hwaddr_arcnet (format_data_t form MAYBE_UNUSED, unsigned char *data)
 {
   *column += printf ("%02X", data[0]);
   had_output = 1;
 }
 
 static void
-print_hwaddr_dlci (format_data_t form MAYBE_UNUSED,
-		   unsigned char *data)
+print_hwaddr_dlci (format_data_t form MAYBE_UNUSED, unsigned char *data)
 {
   *column += printf ("%i", *((short *) data));
   had_output = 1;
@@ -97,8 +94,7 @@ print_hwaddr_ax25 (format_data_t form, unsigned char *data)
 }
 
 static void
-print_hwaddr_irda (format_data_t form MAYBE_UNUSED,
-		   unsigned char *data)
+print_hwaddr_irda (format_data_t form MAYBE_UNUSED, unsigned char *data)
 {
   *column += printf ("%02X:%02X:%02X:%02X",
 		     data[3], data[2], data[1], data[0]);
@@ -106,8 +102,7 @@ print_hwaddr_irda (format_data_t form MAYBE_UNUSED,
 }
 
 static void
-print_hwaddr_rose (format_data_t form MAYBE_UNUSED,
-		   unsigned char *data)
+print_hwaddr_rose (format_data_t form MAYBE_UNUSED, unsigned char *data)
 {
   *column += printf ("%02X%02X%02X%02X%02X",
 		     data[0], data[1], data[2], data[3], data[4]);
@@ -120,153 +115,152 @@ struct arphrd_symbol
   const char *title;
   int value;
   void (*print_hwaddr) (format_data_t form, unsigned char *data);
-} arphrd_symbols[] =
-  {
-    /* ARP protocol HARDWARE identifiers. */
+} arphrd_symbols[] = {
+  /* ARP protocol HARDWARE identifiers. */
 #ifdef ARPHRD_NETROM		/* From KA9Q: NET/ROM pseudo.  */
-    {"NETROM", "AMPR NET/ROM", ARPHRD_NETROM, print_hwaddr_ax25},
+  {"NETROM", "AMPR NET/ROM", ARPHRD_NETROM, print_hwaddr_ax25},
 #endif
 #ifdef ARPHRD_ETHER		/* Ethernet 10/100Mbps.  */
-    {"ETHER", "Ethernet", ARPHRD_ETHER, print_hwaddr_ether},
+  {"ETHER", "Ethernet", ARPHRD_ETHER, print_hwaddr_ether},
 #endif
 #ifdef ARPHRD_EETHER		/* Experimental Ethernet.  */
-    {"EETHER", "Experimental Etherner", ARPHRD_EETHER, NULL},
+  {"EETHER", "Experimental Etherner", ARPHRD_EETHER, NULL},
 #endif
 #ifdef ARPHRD_AX25		/* AX.25 Level 2.  */
-    {"AX25", "AMPR AX.25", ARPHRD_AX25, print_hwaddr_ax25},
+  {"AX25", "AMPR AX.25", ARPHRD_AX25, print_hwaddr_ax25},
 #endif
 #ifdef ARPHRD_PRONET		/* PROnet token ring.  */
-    {"PRONET", "PROnet token ring", ARPHRD_PRONET, NULL},
+  {"PRONET", "PROnet token ring", ARPHRD_PRONET, NULL},
 #endif
 #ifdef ARPHRD_CHAOS		/* Chaosnet.  */
-    {"CHAOS", "Chaosnet", ARPHRD_CHAOS, NULL},
+  {"CHAOS", "Chaosnet", ARPHRD_CHAOS, NULL},
 #endif
 #ifdef ARPHRD_IEEE802		/* IEEE 802.2 Ethernet/TR/TB.  */
-    {"IEEE802", "16/4 Mbps Token Ring", ARPHRD_IEEE802, print_hwaddr_ether},
+  {"IEEE802", "16/4 Mbps Token Ring", ARPHRD_IEEE802, print_hwaddr_ether},
 #endif
 #ifdef ARPHRD_ARCNET		/* ARCnet.  */
-    {"ARCNET", "ARCnet", ARPHRD_ARCNET, print_hwaddr_arcnet},
+  {"ARCNET", "ARCnet", ARPHRD_ARCNET, print_hwaddr_arcnet},
 #endif
 #ifdef ARPHRD_APPLETLK		/* APPLEtalk.  */
-    {"APPLETLK", "Appletalk", ARPHRD_APPLETLK, NULL},
+  {"APPLETLK", "Appletalk", ARPHRD_APPLETLK, NULL},
 #endif
 #ifdef ARPHRD_DLCI		/* Frame Relay DLCI.  */
-    {"DLCI", "Frame Relay DLCI", ARPHRD_DLCI, print_hwaddr_dlci},
+  {"DLCI", "Frame Relay DLCI", ARPHRD_DLCI, print_hwaddr_dlci},
 #endif
 #ifdef ARPHRD_ATM		/* ATM.  */
-    {"ATM", "ATM", ARPHRD_ATM, NULL},
+  {"ATM", "ATM", ARPHRD_ATM, NULL},
 #endif
 #ifdef ARPHRD_METRICOM		/* Metricom STRIP (new IANA id).  */
-    {"METRICOM", "Metricom STRIP", ARPHRD_METRICOM, NULL},
+  {"METRICOM", "Metricom STRIP", ARPHRD_METRICOM, NULL},
 #endif
-    /* Dummy types for non ARP hardware.  */
+  /* Dummy types for non ARP hardware.  */
 #ifdef ARPHRD_SLIP
-    {"SLIP", "Serial Line IP", ARPHRD_SLIP, NULL},
+  {"SLIP", "Serial Line IP", ARPHRD_SLIP, NULL},
 #endif
 #ifdef ARPHRD_CSLIP
-    {"CSLIP", "VJ Serial Line IP", ARPHRD_CSLIP, NULL},
+  {"CSLIP", "VJ Serial Line IP", ARPHRD_CSLIP, NULL},
 #endif
 #ifdef ARPHRD_SLIP6
-    {"SLIP6", "6-bit Serial Line IP", ARPHRD_SLIP6, NULL},
+  {"SLIP6", "6-bit Serial Line IP", ARPHRD_SLIP6, NULL},
 #endif
 #ifdef ARPHRD_CSLIP6
-    {"CSLIP6", "VJ 6-bit Serial Line IP", ARPHRD_CSLIP6, NULL},
+  {"CSLIP6", "VJ 6-bit Serial Line IP", ARPHRD_CSLIP6, NULL},
 #endif
 #ifdef ARPHRD_RSRVD		/* Notional KISS type.  */
-    {"SLIP", "Notional KISS type", ARPHRD_SLIP, NULL},
+  {"SLIP", "Notional KISS type", ARPHRD_SLIP, NULL},
 #endif
 #ifdef ARPHRD_ADAPT
-    {"ADAPT", "Adaptive Serial Line IP", ARPHRD_ADAPT, NULL},
+  {"ADAPT", "Adaptive Serial Line IP", ARPHRD_ADAPT, NULL},
 #endif
 #ifdef ARPHRD_ROSE
-    {"ROSE", "AMPR ROSE", ARPHRD_ROSE, print_hwaddr_rose},
+  {"ROSE", "AMPR ROSE", ARPHRD_ROSE, print_hwaddr_rose},
 #endif
 #ifdef ARPHRD_X25		/* CCITT X.25.  */
-    {"X25", "CCITT X.25", ARPHRD_X25, NULL},
+  {"X25", "CCITT X.25", ARPHRD_X25, NULL},
 #endif
 #ifdef ARPHRD_HWX25		/* Boards with X.25 in firmware.  */
-    {"HWX25", "CCITT X.25 in firmware", ARPHRD_HWX25, NULL},
+  {"HWX25", "CCITT X.25 in firmware", ARPHRD_HWX25, NULL},
 #endif
 #ifdef ARPHRD_PPP
-    {"PPP", "Point-to-Point Protocol", ARPHRD_PPP, NULL},
+  {"PPP", "Point-to-Point Protocol", ARPHRD_PPP, NULL},
 #endif
 #ifdef ARPHRD_HDLC		/* (Cisco) HDLC.  */
-    {"HDLC", "(Cisco)-HDLC", ARPHRD_HDLC, NULL},
+  {"HDLC", "(Cisco)-HDLC", ARPHRD_HDLC, NULL},
 #endif
 #ifdef ARPHRD_LAPB		/* LAPB.  */
-    {"LAPB", "LAPB", ARPHRD_LAPB, NULL},
+  {"LAPB", "LAPB", ARPHRD_LAPB, NULL},
 #endif
 #ifdef ARPHRD_DDCMP		/* Digital's DDCMP.  */
-    {"DDCMP", "DDCMP", ARPHRD_DDCMP, NULL},
+  {"DDCMP", "DDCMP", ARPHRD_DDCMP, NULL},
 #endif
 #ifdef ARPHRD_TUNNEL		/* IPIP tunnel.  */
-    {"TUNNEL", "IPIP Tunnel", ARPHRD_TUNNEL, NULL},
+  {"TUNNEL", "IPIP Tunnel", ARPHRD_TUNNEL, NULL},
 #endif
 #ifdef ARPHRD_TUNNEL6		/* IPIP6 tunnel.  */
-    {"TUNNEL", "IPIP6 Tunnel", ARPHRD_TUNNEL6, NULL},
+  {"TUNNEL", "IPIP6 Tunnel", ARPHRD_TUNNEL6, NULL},
 #endif
 #ifdef ARPHRD_FRAD		/* Frame Relay Access Device.  */
-    {"FRAD", "Frame Relay Access Device", ARPHRD_FRAD, NULL},
+  {"FRAD", "Frame Relay Access Device", ARPHRD_FRAD, NULL},
 #endif
 #ifdef ARPHRD_SKIP		/* SKIP vif.  */
-    {"SKIP", "SKIP vif", ARPHRD_SKIP, NULL},
+  {"SKIP", "SKIP vif", ARPHRD_SKIP, NULL},
 #endif
 #ifdef ARPHRD_LOOPBACK		/* Loopback device.  */
-    {"LOOPBACK", "Local Loopback", ARPHRD_LOOPBACK, NULL},
+  {"LOOPBACK", "Local Loopback", ARPHRD_LOOPBACK, NULL},
 #endif
 #ifdef ARPHRD_LOCALTALK		/* Localtalk device.  */
-    {"LOCALTALK", "Localtalk", ARPHRD_LOCALTALK, NULL},
+  {"LOCALTALK", "Localtalk", ARPHRD_LOCALTALK, NULL},
 #endif
 #ifdef ARPHRD_FDDI		/* Fiber Distributed Data Interface. */
-    {"FDDI", "Fiber Distributed Data Interface", ARPHRD_FDDI, NULL},
+  {"FDDI", "Fiber Distributed Data Interface", ARPHRD_FDDI, NULL},
 #endif
 #ifdef ARPHRD_BIF		/* AP1000 BIF.  */
-    {"BIF", "AP1000 BIF", ARPHRD_BIF, NULL},
+  {"BIF", "AP1000 BIF", ARPHRD_BIF, NULL},
 #endif
 #ifdef ARPHRD_SIT		/* sit0 device - IPv6-in-IPv4.  */
-    {"SIT", "IPv6-in-IPv4", ARPHRD_SIT, NULL},
+  {"SIT", "IPv6-in-IPv4", ARPHRD_SIT, NULL},
 #endif
 #ifdef ARPHRD_IPDDP		/* IP-in-DDP tunnel.  */
-    {"IPDDP", "IP-in-DDP", ARPHRD_IPDDP, NULL},
+  {"IPDDP", "IP-in-DDP", ARPHRD_IPDDP, NULL},
 #endif
 #ifdef ARPHRD_IPGRE		/* GRE over IP.  */
-    {"IPGRE", "GRE over IP", ARPHRD_IPGRE, NULL},
+  {"IPGRE", "GRE over IP", ARPHRD_IPGRE, NULL},
 #endif
 #ifdef ARPHRD_PIMREG		/* PIMSM register interface.  */
-    {"PIMREG", "PIMSM register", ARPHRD_PIMREG, NULL},
+  {"PIMREG", "PIMSM register", ARPHRD_PIMREG, NULL},
 #endif
 #ifdef ARPHRD_HIPPI		/* High Performance Parallel I'face. */
-    {"HIPPI", "HIPPI", ARPHRD_HIPPI, print_hwaddr_ether},
+  {"HIPPI", "HIPPI", ARPHRD_HIPPI, print_hwaddr_ether},
 #endif
 #ifdef ARPHRD_ASH		/* (Nexus Electronics) Ash.  */
-    {"ASH", "Ash", ARPHRD_ASH, NULL},
+  {"ASH", "Ash", ARPHRD_ASH, NULL},
 #endif
 #ifdef ARPHRD_ECONET		/* Acorn Econet.  */
-    {"ECONET", "Econet", ARPHRD_ECONET, NULL},
+  {"ECONET", "Econet", ARPHRD_ECONET, NULL},
 #endif
 #ifdef ARPHRD_IRDA		/* Linux-IrDA.  */
-    {"IRDA", "IrLap", ARPHRD_IRDA, print_hwaddr_irda},
+  {"IRDA", "IrLap", ARPHRD_IRDA, print_hwaddr_irda},
 #endif
 #ifdef ARPHRD_FCPP		/* Point to point fibrechanel.  */
-    {"FCPP", "FCPP", ARPHRD_FCPP, NULL},
+  {"FCPP", "FCPP", ARPHRD_FCPP, NULL},
 #endif
 #ifdef ARPHRD_FCAL		/* Fibrechanel arbitrated loop.  */
-    {"FCAL", "FCAL", ARPHRD_FCAL, NULL},
+  {"FCAL", "FCAL", ARPHRD_FCAL, NULL},
 #endif
 #ifdef ARPHRD_FCPL		/* Fibrechanel public loop.  */
-    {"FCPL", "FCPL", ARPHRD_FCPL, NULL},
+  {"FCPL", "FCPL", ARPHRD_FCPL, NULL},
 #endif
 #ifdef ARPHRD_FCPFABRIC		/* Fibrechanel fabric.  */
-    {"FCFABRIC", "FCFABRIC", ARPHRD_FCPFABRIC, NULL},
+  {"FCFABRIC", "FCFABRIC", ARPHRD_FCPFABRIC, NULL},
 #endif
 #ifdef ARPHRD_IEEE802_TR	/* Magic type ident for TR.  */
-    {"IEEE802_TR", "16/4 Mbps Token Ring (New)", ARPHRD_IEEE802_TR,
-     print_hwaddr_ether},
+  {"IEEE802_TR", "16/4 Mbps Token Ring (New)", ARPHRD_IEEE802_TR,
+   print_hwaddr_ether},
 #endif
 #ifdef ARPHRD_VOID
-    {"VOID", "Void (nothing is known)", ARPHRD_VOID, NULL},
+  {"VOID", "Void (nothing is known)", ARPHRD_VOID, NULL},
 #endif
-  };
+};
 
 struct arphrd_symbol *
 arphrd_findvalue (int value)
@@ -283,32 +277,32 @@ arphrd_findvalue (int value)
   else
     return NULL;
 }
-
 
+
 struct pnd_stats
 {
   struct pnd_stats *next;
   char *name;
-  unsigned long long rx_packets;   /* total packets received */
-  unsigned long long tx_packets;   /* total packets transmitted */
-  unsigned long long rx_bytes;     /* total bytes received */
-  unsigned long long tx_bytes;     /* total bytes transmitted */
-  unsigned long rx_errors;         /* packets receive errors */
-  unsigned long tx_errors;         /* packet transmit errors */
-  unsigned long rx_dropped;        /* input packets dropped */
-  unsigned long tx_dropped;        /* transmit packets dropped */
-  unsigned long rx_multicast;      /* multicast packets received */
-  unsigned long rx_compressed;     /* compressed packets received */
-  unsigned long tx_compressed;     /* compressed packets transmitted */
+  unsigned long long rx_packets;	/* total packets received */
+  unsigned long long tx_packets;	/* total packets transmitted */
+  unsigned long long rx_bytes;	/* total bytes received */
+  unsigned long long tx_bytes;	/* total bytes transmitted */
+  unsigned long rx_errors;	/* packets receive errors */
+  unsigned long tx_errors;	/* packet transmit errors */
+  unsigned long rx_dropped;	/* input packets dropped */
+  unsigned long tx_dropped;	/* transmit packets dropped */
+  unsigned long rx_multicast;	/* multicast packets received */
+  unsigned long rx_compressed;	/* compressed packets received */
+  unsigned long tx_compressed;	/* compressed packets transmitted */
   unsigned long collisions;
 
   /* detailed rx_errors: */
   unsigned long rx_length_errors;
-   unsigned long rx_over_errors;    /* receiver ring buffer overflow */
-  unsigned long rx_crc_errors;     /* received packets with crc error */
-  unsigned long rx_frame_errors;   /* received frame alignment errors */
-  unsigned long rx_fifo_errors;    /* recveiver fifo overruns */
-  unsigned long rx_missed_errors;  /* receiver missed packets */
+  unsigned long rx_over_errors;	/* receiver ring buffer overflow */
+  unsigned long rx_crc_errors;	/* received packets with crc error */
+  unsigned long rx_frame_errors;	/* received frame alignment errors */
+  unsigned long rx_fifo_errors;	/* recveiver fifo overruns */
+  unsigned long rx_missed_errors;	/* receiver missed packets */
   /* detailed tx_errors */
   unsigned long tx_aborted_errors;
   unsigned long tx_carrier_errors;
@@ -388,8 +382,7 @@ procnet_parse_fields_v3 (char *buf, struct pnd_stats *stats)
   return n == 16;
 }
 
-static int (*pnd_parser[]) (char *, struct pnd_stats *) =
-{
+static int (*pnd_parser[]) (char *, struct pnd_stats *) = {
   procnet_parse_fields_v1,
   procnet_parse_fields_v2,
   procnet_parse_fields_v3
@@ -400,7 +393,7 @@ pnd_version (char *buf)
 {
   if (strstr (buf, "compressed"))
     return 2;
-  if (strstr(buf, "bytes"))
+  if (strstr (buf, "bytes"))
     return 1;
   return 0;
 }
@@ -421,8 +414,7 @@ pnd_read ()
     }
 
   /* Skip header lines */
-  if (getline (&buf, &bufsize, fp) < 0
-      || getline (&buf, &bufsize, fp) < 0)
+  if (getline (&buf, &bufsize, fp) < 0 || getline (&buf, &bufsize, fp) < 0)
     {
       error (0, errno, "malformed %s", PATH_PROCNET_DEV);
       fclose (fp);
@@ -439,7 +431,8 @@ pnd_read ()
       size_t len;
 
       while (*p
-	     && isascii (*(unsigned char*) p) && isspace (*(unsigned char*) p))
+	     && isascii (*(unsigned char *) p)
+	     && isspace (*(unsigned char *) p))
 	p++;
       q = strchr (p, ':');
       if (!q)
@@ -484,8 +477,8 @@ pnd_stats_locate (const char *name)
       break;
   return stats;
 }
-
 
+
 
 /* Output format stuff.  */
 
@@ -530,11 +523,9 @@ _IU_DECLARE (rx_missed_errors)
 _IU_DECLARE (tx_aborted_errors)
 _IU_DECLARE (tx_carrier_errors)
 _IU_DECLARE (tx_fifo_errors)
-_IU_DECLARE (tx_heartbeat_errors)
-_IU_DECLARE (tx_window_errors)
-
-void
-system_fh_hwaddr_query (format_data_t form, int argc, char *argv[])
+_IU_DECLARE (tx_heartbeat_errors) _IU_DECLARE (tx_window_errors)
+     void
+     system_fh_hwaddr_query (format_data_t form, int argc, char *argv[])
 {
 #ifdef SIOCGIFHWADDR
   struct arphrd_symbol *arp;
@@ -556,8 +547,7 @@ system_fh_hwaddr (format_data_t form, int argc MAYBE_UNUSED,
 #ifdef SIOCGIFHWADDR
   if (ioctl (form->sfd, SIOCGIFHWADDR, form->ifr) < 0)
     error (EXIT_FAILURE, errno,
-	   "SIOCGIFHWADDR failed for interface `%s'",
-	   form->ifr->ifr_name);
+	   "SIOCGIFHWADDR failed for interface `%s'", form->ifr->ifr_name);
   else
     {
       struct arphrd_symbol *arp;
@@ -593,8 +583,7 @@ system_fh_hwtype (format_data_t form, int argc MAYBE_UNUSED,
 #ifdef SIOCGIFHWADDR
   if (ioctl (form->sfd, SIOCGIFHWADDR, form->ifr) < 0)
     error (EXIT_FAILURE, errno,
-	   "SIOCGIFHWADDR failed for interface `%s'",
-	   form->ifr->ifr_name);
+	   "SIOCGIFHWADDR failed for interface `%s'", form->ifr->ifr_name);
   else
     {
       struct arphrd_symbol *arp;
@@ -632,8 +621,7 @@ system_fh_metric (format_data_t form, int argc, char *argv[])
 #ifdef SIOCGIFMETRIC
   if (ioctl (form->sfd, SIOCGIFMETRIC, form->ifr) < 0)
     error (EXIT_FAILURE, errno,
-	   "SIOCGIFMETRIC failed for interface `%s'",
-	   form->ifr->ifr_name);
+	   "SIOCGIFMETRIC failed for interface `%s'", form->ifr->ifr_name);
   else
     put_int (form, argc, argv,
 	     form->ifr->ifr_metric ? form->ifr->ifr_metric : 1);
@@ -660,8 +648,7 @@ system_fh_txqlen (format_data_t form, int argc, char *argv[])
 #ifdef SIOCGIFTXQLEN
   if (ioctl (form->sfd, SIOCGIFTXQLEN, form->ifr) < 0)
     error (EXIT_FAILURE, errno,
-	   "SIOCGIFTXQLEN failed for interface `%s'",
-	   form->ifr->ifr_name);
+	   "SIOCGIFTXQLEN failed for interface `%s'", form->ifr->ifr_name);
   else
     put_int (form, argc, argv, form->ifr->ifr_qlen);
 #else
@@ -685,8 +672,7 @@ system_parse_opt_set_txqlen (struct ifconfig *ifp, char *arg)
   char *end;
 
   if (!ifp)
-    error (EXIT_FAILURE, 0,
-	   "no interface specified for txqlen `%s'", arg);
+    error (EXIT_FAILURE, 0, "no interface specified for txqlen `%s'", arg);
 
   if (!(ifp->valid & IF_VALID_SYSTEM))
     {
@@ -699,8 +685,7 @@ system_parse_opt_set_txqlen (struct ifconfig *ifp, char *arg)
     }
   if (ifp->system->valid & IF_VALID_TXQLEN)
     error (EXIT_FAILURE, 0,
-	   "only one txqlen allowed for interface `%s'",
-	   ifp->name);
+	   "only one txqlen allowed for interface `%s'", ifp->name);
   ifp->system->txqlen = strtol (arg, &end, 0);
   if (*arg == '\0' || *end != '\0')
     error (EXIT_FAILURE, 0,
@@ -710,15 +695,15 @@ system_parse_opt_set_txqlen (struct ifconfig *ifp, char *arg)
 }
 
 static struct argp_option linux_argp_options[] = {
-  { "txqlen", 'T', "N", 0,
-    "set transmit queue length to N", 0 },
-  { NULL, 0, NULL, 0, NULL, 0 }
+  {"txqlen", 'T', "N", 0,
+   "set transmit queue length to N", 0},
+  {NULL, 0, NULL, 0, NULL, 0}
 };
 
 static error_t
 linux_argp_parser (int key, char *arg, struct argp_state *state)
 {
-  struct ifconfig *ifp = *(struct ifconfig **)state->input;
+  struct ifconfig *ifp = *(struct ifconfig **) state->input;
   switch (key)
     {
     case 'T':			/* txqlen */
@@ -836,8 +821,7 @@ system_parse_opt_rest (struct ifconfig **ifp, int argc, char *argv[])
       else if (!strcmp (argv[i], "netmask"))
 	expect = EXPECT_NETMASK;
       else if (!strcmp (argv[i], "ether")
-	       || !strcmp(argv[i], "hwaddr")
-	       || !strcmp(argv[i], "lladdr"))
+	       || !strcmp (argv[i], "hwaddr") || !strcmp (argv[i], "lladdr"))
 	expect = EXPECT_HWADDR;
       else if (!strcmp (argv[i], "metric"))
 	expect = EXPECT_METRIC;
@@ -895,8 +879,7 @@ system_parse_opt_rest (struct ifconfig **ifp, int argc, char *argv[])
 
 
 int
-system_preconfigure (int sfd MAYBE_UNUSED,
-		     struct ifreq *ifr MAYBE_UNUSED)
+system_preconfigure (int sfd MAYBE_UNUSED, struct ifreq *ifr MAYBE_UNUSED)
 {
   return 0;
 }
@@ -947,19 +930,19 @@ linux_if_nameindex (void)
     it = content;
     do
       {
-        it = memchr (it + 1, ':', length - (it - content));
-        n++;
+	it = memchr (it + 1, ':', length - (it - content));
+	n++;
       }
     while (it);
 
     idx = malloc (n * sizeof (*idx));
     if (idx == NULL)
       {
-        int saved_errno = errno;
-        close (fd);
-        free (content);
-        errno = saved_errno;
-        return NULL;
+	int saved_errno = errno;
+	close (fd);
+	free (content);
+	errno = saved_errno;
+	return NULL;
       }
   }
 
@@ -970,29 +953,29 @@ linux_if_nameindex (void)
       *it = '\0';
 
       while (*start != ' ' && *start != '\n')
-        start--;
+	start--;
 
       idx[index].if_name = strdup (start + 1);
       idx[index].if_index = index + 1;
 
-# if defined SIOCGIFINDEX
+#if defined SIOCGIFINDEX
       {
-        struct ifreq cur;
-        strcpy (cur.ifr_name, idx[index].if_name);
-        cur.ifr_index = -1;
-        if (ioctl (fd, SIOCGIFINDEX, &cur) >= 0)
-          idx[index].if_index = cur.ifr_index;
+	struct ifreq cur;
+	strcpy (cur.ifr_name, idx[index].if_name);
+	cur.ifr_index = -1;
+	if (ioctl (fd, SIOCGIFINDEX, &cur) >= 0)
+	  idx[index].if_index = cur.ifr_index;
       }
-# endif
+#endif
 
       if (idx[index].if_name == NULL)
-        {
-          int saved_errno = errno;
-          close (fd);
-          free (content);
-          errno = saved_errno;
-          return NULL;
-        }
+	{
+	  int saved_errno = errno;
+	  close (fd);
+	  free (content);
+	  errno = saved_errno;
+	  return NULL;
+	}
     }
 
   idx[index].if_index = 0;
@@ -1001,9 +984,9 @@ linux_if_nameindex (void)
   free (content);
   return idx;
 }
-
 
+
 
 /* System hooks. */
 
-struct if_nameindex* (*system_if_nameindex) (void) = linux_if_nameindex;
+struct if_nameindex *(*system_if_nameindex) (void) = linux_if_nameindex;

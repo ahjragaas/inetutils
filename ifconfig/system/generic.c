@@ -38,23 +38,20 @@ struct argp_child system_argp_child;
 
 int
 system_parse_opt (struct ifconfig **ifp MAYBE_UNUSED,
-		  char option MAYBE_UNUSED,
-		  char *optarg MAYBE_UNUSED)
+		  char option MAYBE_UNUSED, char *optarg MAYBE_UNUSED)
 {
   return 0;
 }
 
 int
 system_parse_opt_rest (struct ifconfig **ifp MAYBE_UNUSED,
-		       int argc MAYBE_UNUSED,
-		       MAYBE_UNUSED char *argv[])
+		       int argc MAYBE_UNUSED, MAYBE_UNUSED char *argv[])
 {
   return 0;
 }
 
 int
-system_preconfigure (int sfd MAYBE_UNUSED,
-		     struct ifreq *ifr MAYBE_UNUSED)
+system_preconfigure (int sfd MAYBE_UNUSED, struct ifreq *ifr MAYBE_UNUSED)
 {
   return 0;
 }
@@ -67,4 +64,4 @@ system_configure (int sfd MAYBE_UNUSED,
   return 0;
 }
 
-struct if_nameindex* (*system_if_nameindex) (void) = if_nameindex;
+struct if_nameindex *(*system_if_nameindex) (void) = if_nameindex;

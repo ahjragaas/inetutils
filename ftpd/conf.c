@@ -131,13 +131,12 @@ checkuser (const char *filename, const char *name)
 			  }
 		    }
 		}
-	      continue;	/* No match, or failure.  */
+	      continue;		/* No match, or failure.  */
 	    }
 
 	  /* User name ends at the first blank character.  */
 	  if (strncmp (p, name, strlen (name)) == 0
-	      && (p[strlen (name)] == 0
-		  || isblank (p[strlen (name)])))
+	      && (p[strlen (name)] == 0 || isblank (p[strlen (name)])))
 	    {
 	      found = 1;
 	      break;

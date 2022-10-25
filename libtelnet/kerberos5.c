@@ -52,7 +52,7 @@
 int forward_flags = 0;
 extern int net;
  /*FIXME*/ void kerberos5_forward ();
-# endif	/* FORWARD */
+# endif/* FORWARD */
 
 static unsigned char str_data[2048] = { IAC, SB, TELOPT_AUTHENTICATION, 0,
   AUTHTYPE_KERBEROS_V5,
@@ -417,7 +417,7 @@ kerberos5_reply (TN_Authenticator * ap, unsigned char *data, int cnt)
 	("[ Kerberos V5 refuses forwarded credentials because %.*s ]\r\n",
 	 cnt, data);
       break;
-# endif	/* FORWARD */
+# endif/* FORWARD */
 
     default:
       DEBUG (("Unknown Kerberos option %d\r\n", data[-1]));
@@ -507,8 +507,8 @@ kerberos5_is_auth (TN_Authenticator * ap, unsigned char *data, int cnt,
 	       krb5_princ_component (telnet_context, ticket->server, 0)->data,
 	       krb5_princ_component (telnet_context, ticket->server,
 				     0)->length);
-      princ[krb5_princ_component (telnet_context, ticket->server, 0)->
-	    length] = '\0';
+      princ[krb5_princ_component (telnet_context, ticket->server, 0)->length]
+	= '\0';
       if (strcmp ("host", princ))
 	{
 	  snprintf (errbuf, errbuflen,
@@ -560,7 +560,7 @@ kerberos5_is_auth (TN_Authenticator * ap, unsigned char *data, int cnt,
 	  return 1;
 	}
 
-#  if 1
+# if 1
       /* XXX: Obsolete interface.  Remove after investigation.  */
       r = krb5_verify_checksum (telnet_context,
 				cksum->checksum_type, cksum,
@@ -573,14 +573,14 @@ kerberos5_is_auth (TN_Authenticator * ap, unsigned char *data, int cnt,
 		    "checksum verification failed: %s", error_message (r));
 	  return 1;
 	}
-#else
+# else
       /* Incomplete call!
        *
        * XXX: Establish replacement for the preceding call.
        *      It is no longer present in all implementations.
        */
       r = krb5_c_verify_checksum (telnet_context, key,
-				  /* usage */, /* data */,
+				  /* usage */ , /* data */ ,
 				  cksum, &valid);
       krb5_free_keyblock (telnet_context, key);
 
@@ -590,7 +590,7 @@ kerberos5_is_auth (TN_Authenticator * ap, unsigned char *data, int cnt,
 		    "checksum verification failed: %s", error_message (r));
 	  return 1;
 	}
-#endif
+# endif
     }
 
   krb5_free_authenticator (telnet_context, authenticator);
@@ -743,8 +743,7 @@ req_type_str (int type)
 # define ADDC(p,l,c) if ((l) > 0) {*(p)++ = (c); --(l);}
 
 void
-kerberos5_printsub (unsigned char *data, int cnt,
-		    char *buf, int buflen)
+kerberos5_printsub (unsigned char *data, int cnt, char *buf, int buflen)
 {
   char *p;
   int i;

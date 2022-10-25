@@ -81,7 +81,7 @@ net_encrypt ()
     ring_encrypt (&netoring, encrypt_output);
   else
     ring_clearto (&netoring);
-# endif	/* ENCRYPTION */
+# endif/* ENCRYPTION */
 }
 
 int

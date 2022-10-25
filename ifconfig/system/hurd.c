@@ -109,7 +109,8 @@ check_driving (const char *name)
   err = argz_insert (&new_argz, &argz_len, new_argz, name);
   if (err)
     {
-      error (0, err, "Could not prepend name %s to '%s' for %s", name, new_argz, socket);
+      error (0, err, "Could not prepend name %s to '%s' for %s", name,
+	     new_argz, socket);
       goto out;
     }
 
@@ -125,7 +126,8 @@ check_driving (const char *name)
   if (err)
     {
       argz_stringify (new_argz, argz_len, ' ');
-      error (0, err, "Could not make pfinet %s drive %s with '%s'", socket, name, new_argz);
+      error (0, err, "Could not make pfinet %s drive %s with '%s'", socket,
+	     name, new_argz);
       goto out;
     }
 
@@ -149,8 +151,7 @@ struct argp_child system_argp_child;
 
 int
 system_parse_opt (struct ifconfig **ifp MAYBE_UNUSED,
-		  char option MAYBE_UNUSED,
-		  char *optarg MAYBE_UNUSED)
+		  char option MAYBE_UNUSED, char *optarg MAYBE_UNUSED)
 {
   return 0;
 }
@@ -159,7 +160,8 @@ int
 system_parse_opt_rest (struct ifconfig **ifp, int argc, char *argv[])
 {
   int i = 0, mask, rev;
-  enum {
+  enum
+  {
     EXPECT_NOTHING,
     EXPECT_AF,
     EXPECT_BROADCAST,
@@ -186,10 +188,10 @@ system_parse_opt_rest (struct ifconfig **ifp, int argc, char *argv[])
 	  parse_opt_set_mtu (*ifp, argv[i]);
 	  break;
 
-	/* XXX: 2015-07-18, GNU/Hurd does not yet support
-		ioctl(SIOCSIFMETRIC), but we let the code
-		handle this standard ability anyway!
-	 */
+	  /* XXX: 2015-07-18, GNU/Hurd does not yet support
+	     ioctl(SIOCSIFMETRIC), but we let the code
+	     handle this standard ability anyway!
+	   */
 	case EXPECT_METRIC:
 	  parse_opt_set_metric (*ifp, argv[i]);
 	  break;
@@ -262,8 +264,7 @@ system_parse_opt_rest (struct ifconfig **ifp, int argc, char *argv[])
 }
 
 int
-system_preconfigure (int sfd MAYBE_UNUSED,
-		     struct ifreq *ifr MAYBE_UNUSED)
+system_preconfigure (int sfd MAYBE_UNUSED, struct ifreq *ifr MAYBE_UNUSED)
 {
   if (!check_driving (ifr->ifr_name))
     return -1;
@@ -278,11 +279,10 @@ system_configure (int sfd MAYBE_UNUSED,
   return 0;
 }
 
-struct if_nameindex* (*system_if_nameindex) (void) = if_nameindex;
+struct if_nameindex *(*system_if_nameindex) (void) = if_nameindex;
 
 static void
-print_hwaddr_ether (format_data_t form MAYBE_UNUSED,
-		    unsigned char *data)
+print_hwaddr_ether (format_data_t form MAYBE_UNUSED, unsigned char *data)
 {
   *column += printf ("%02X:%02X:%02X:%02X:%02X:%02X",
 		     data[0], data[1], data[2], data[3], data[4], data[5]);
@@ -305,16 +305,15 @@ struct arphrd_symbol
   const char *title;
   int value;
   void (*print_hwaddr) (format_data_t form, unsigned char *data);
-} arphrd_symbols[] =
-  {
+} arphrd_symbols[] = {
 #ifdef ARPHRD_ETHER		/* Ethernet 10/100Mbps.  */
-    { "ETHER", "Ethernet", ARPHRD_ETHER & _ARP_MASK, print_hwaddr_ether},
+  {"ETHER", "Ethernet", ARPHRD_ETHER & _ARP_MASK, print_hwaddr_ether},
 #endif
 #ifdef ARPHRD_LOOPBACK		/* Loopback device.  */
-    { "LOOPBACK", "Local Loopback", ARPHRD_LOOPBACK & _ARP_MASK, NULL},
+  {"LOOPBACK", "Local Loopback", ARPHRD_LOOPBACK & _ARP_MASK, NULL},
 #endif
-    { NULL, NULL, 0, NULL}
-  };
+  {NULL, NULL, 0, NULL}
+};
 
 struct arphrd_symbol *
 arphrd_findvalue (int value)
@@ -355,8 +354,7 @@ system_fh_hwaddr (format_data_t form, int argc MAYBE_UNUSED,
 #ifdef SIOCGIFHWADDR
   if (ioctl (form->sfd, SIOCGIFHWADDR, form->ifr) < 0)
     error (EXIT_FAILURE, errno,
-	   "SIOCGIFHWADDR failed for interface `%s'",
-	   form->ifr->ifr_name);
+	   "SIOCGIFHWADDR failed for interface `%s'", form->ifr->ifr_name);
   else
     {
       struct arphrd_symbol *arp;
@@ -392,8 +390,7 @@ system_fh_hwtype (format_data_t form, int argc MAYBE_UNUSED,
 #ifdef SIOCGIFHWADDR
   if (ioctl (form->sfd, SIOCGIFHWADDR, form->ifr) < 0)
     error (EXIT_FAILURE, errno,
-	   "SIOCGIFHWADDR failed for interface `%s'",
-	   form->ifr->ifr_name);
+	   "SIOCGIFHWADDR failed for interface `%s'", form->ifr->ifr_name);
   else
     {
       struct arphrd_symbol *arp;

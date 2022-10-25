@@ -22,7 +22,7 @@
 #include <unistd.h>
 
 unsigned short
-icmp_cksum (unsigned char * addr, int len)
+icmp_cksum (unsigned char *addr, int len)
 {
   register int sum = 0;
   unsigned short answer = 0;
@@ -34,7 +34,7 @@ icmp_cksum (unsigned char * addr, int len)
   /* Take in an odd byte if present */
   if (len == 1)
     {
-      *(unsigned char *) & answer = *(unsigned char *) wp;
+      *(unsigned char *) &answer = *(unsigned char *) wp;
       sum += answer;
     }
 

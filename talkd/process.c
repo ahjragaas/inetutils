@@ -98,10 +98,9 @@ process_request (CTL_MSG * msg, struct sockaddr_in *sa_in, CTL_RESPONSE * rp)
 	syslog (LOG_INFO, "%s@%s called by %s@%s",
 		msg->r_name,
 		(msg->r_tty[0]
-		  ? msg->r_tty
-		  : inet_ntoa (sa_in->sin_addr)),
-		msg->l_name,
-		inet_ntoa (os2sin_addr (msg->addr)));
+		 ? msg->r_tty
+		 : inet_ntoa (sa_in->sin_addr)),
+		msg->l_name, inet_ntoa (os2sin_addr (msg->addr)));
       break;
 
     case LEAVE_INVITE:
@@ -125,7 +124,7 @@ process_request (CTL_MSG * msg, struct sockaddr_in *sa_in, CTL_RESPONSE * rp)
 	  rp->answer = SUCCESS;
 	  if (logging)
 	    syslog (LOG_INFO, "%s talks to %s@%s",
-		msg->r_name, msg->l_name, inet_ntoa (sa_in->sin_addr));
+		    msg->r_name, msg->l_name, inet_ntoa (sa_in->sin_addr));
 	}
       else
 	rp->answer = NOT_HERE;
@@ -210,6 +209,7 @@ find_user (char *name, char *tty)
   status = NOT_HERE;
   strcpy (ftty, PATH_TTY_PFX);
 
+/* *INDENT-OFF* */
 #ifdef HAVE_GETUTXUSER
   setutxent ();
 
@@ -223,44 +223,46 @@ find_user (char *name, char *tty)
     {
       if (!strncmp (UT_USER (uptr), name, sizeof (UT_USER (uptr))))
 #endif /* !HAVE_GETUTXUSER */
-	{
-	  if (notty)
-	    {
-	      /* no particular tty was requested */
-	      strncpy (ftty + sizeof (PATH_TTY_PFX) - 1,
-		       uptr->ut_line,
-		       sizeof (ftty) - sizeof (PATH_TTY_PFX) - 1);
-	      ftty[sizeof (ftty) - 1] = 0;
+/* *INDENT-ON* */
+  {
+    if (notty)
+      {
+	/* no particular tty was requested */
+	strncpy (ftty + sizeof (PATH_TTY_PFX) - 1,
+		 uptr->ut_line, sizeof (ftty) - sizeof (PATH_TTY_PFX) - 1);
+	ftty[sizeof (ftty) - 1] = 0;
 
-	      if (stat (ftty, &statb) == 0)
-		{
-		  if (!(statb.st_mode & S_IWGRP))
-		    {
-		      if (status != SUCCESS)
-			status = PERMISSION_DENIED;
-		      continue;
-		    }
-		  if (statb.st_atime > last_time)
-		    {
-		      last_time = statb.st_atime;
-		      strcpy (tty, uptr->ut_line);
-		      status = SUCCESS;
-		    }
-		  continue;
-		}
-	    }
-	  if (!strcmp (uptr->ut_line, tty))
-	    {
-	      status = SUCCESS;
-	      break;
-	    }
-	}
+	if (stat (ftty, &statb) == 0)
+	  {
+	    if (!(statb.st_mode & S_IWGRP))
+	      {
+		if (status != SUCCESS)
+		  status = PERMISSION_DENIED;
+		continue;
+	      }
+	    if (statb.st_atime > last_time)
+	      {
+		last_time = statb.st_atime;
+		strcpy (tty, uptr->ut_line);
+		status = SUCCESS;
+	      }
+	    continue;
+	  }
+      }
+    if (!strcmp (uptr->ut_line, tty))
+      {
+	status = SUCCESS;
+	break;
+      }
+  }
+/* *INDENT-OFF* */
 #ifndef HAVE_GETUTXUSER
     }
   free (utmpbuf);
 #else /* HAVE_GETUTXUSER */
   endutxent ();
 #endif
+/* *INDENT-ON* */
 
   return status;
 }

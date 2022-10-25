@@ -68,7 +68,7 @@ size_t data_length = PING_DATALEN;
 unsigned options;
 unsigned int suboptions;
 unsigned long preload = 0;
-int tos = -1;		/* Triggers with non-negative values.  */
+int tos = -1;			/* Triggers with non-negative values.  */
 int ttl = 0;
 int timeout = -1;
 int linger = MAXWAIT;
@@ -80,15 +80,15 @@ static int send_echo (PING * ping);
 
 const char args_doc[] = "HOST ...";
 const char doc[] = "Send ICMP ECHO_REQUEST packets to network hosts."
-                   "\vOptions marked with (root only) are available only to "
-                   "superuser.";
+  "\vOptions marked with (root only) are available only to " "superuser.";
 const char *program_authors[] = {
-	"Sergey Poznyakoff",
-	NULL
+  "Sergey Poznyakoff",
+  NULL
 };
 
 /* Define keys for long options that do not have short counterparts. */
-enum {
+enum
+{
   ARG_ECHO = 256,
   ARG_ADDRESS,
   ARG_TIMESTAMP,
@@ -101,42 +101,43 @@ static struct argp_option argp_options[] = {
 #define GRP 0
   {NULL, 0, NULL, 0, "Options controlling ICMP request types:", GRP},
   {"address", ARG_ADDRESS, NULL, 0, "send ICMP_ADDRESS packets (root only)",
-   GRP+1},
-  {"echo", ARG_ECHO, NULL, 0, "send ICMP_ECHO packets (default)", GRP+1},
-  {"mask", ARG_ADDRESS, NULL, 0, "same as --address", GRP+1},
-  {"timestamp", ARG_TIMESTAMP, NULL, 0, "send ICMP_TIMESTAMP packets", GRP+1},
-  {"type", 't', "TYPE", 0, "send TYPE packets", GRP+1},
+   GRP + 1},
+  {"echo", ARG_ECHO, NULL, 0, "send ICMP_ECHO packets (default)", GRP + 1},
+  {"mask", ARG_ADDRESS, NULL, 0, "same as --address", GRP + 1},
+  {"timestamp", ARG_TIMESTAMP, NULL, 0, "send ICMP_TIMESTAMP packets",
+   GRP + 1},
+  {"type", 't', "TYPE", 0, "send TYPE packets", GRP + 1},
   /* This option is not yet fully implemented, so mark it as hidden. */
   {"router", ARG_ROUTERDISCOVERY, NULL, OPTION_HIDDEN, "send "
-   "ICMP_ROUTERDISCOVERY packets (root only)", GRP+1},
+   "ICMP_ROUTERDISCOVERY packets (root only)", GRP + 1},
 #undef GRP
 #define GRP 10
   {NULL, 0, NULL, 0, "Options valid for all request types:", GRP},
-  {"count", 'c', "NUMBER", 0, "stop after sending NUMBER packets", GRP+1},
-  {"debug", 'd', NULL, 0, "set the SO_DEBUG option", GRP+1},
+  {"count", 'c', "NUMBER", 0, "stop after sending NUMBER packets", GRP + 1},
+  {"debug", 'd', NULL, 0, "set the SO_DEBUG option", GRP + 1},
   {"interval", 'i', "NUMBER", 0, "wait NUMBER seconds between sending each "
-   "packet", GRP+1},
-  {"numeric", 'n', NULL, 0, "do not resolve host addresses", GRP+1},
+   "packet", GRP + 1},
+  {"numeric", 'n', NULL, 0, "do not resolve host addresses", GRP + 1},
   {"ignore-routing", 'r', NULL, 0, "send directly to a host on an attached "
-   "network", GRP+1},
-  {"tos", 'T', "NUM", 0, "set type of service (TOS) to NUM", GRP+1},
-  {"ttl", ARG_TTL, "N", 0, "specify N as time-to-live", GRP+1},
-  {"verbose", 'v', NULL, 0, "verbose output", GRP+1},
-  {"timeout", 'w', "N", 0, "stop after N seconds", GRP+1},
-  {"linger", 'W', "N", 0, "number of seconds to wait for response", GRP+1},
+   "network", GRP + 1},
+  {"tos", 'T', "NUM", 0, "set type of service (TOS) to NUM", GRP + 1},
+  {"ttl", ARG_TTL, "N", 0, "specify N as time-to-live", GRP + 1},
+  {"verbose", 'v', NULL, 0, "verbose output", GRP + 1},
+  {"timeout", 'w', "N", 0, "stop after N seconds", GRP + 1},
+  {"linger", 'W', "N", 0, "number of seconds to wait for response", GRP + 1},
 #undef GRP
 #define GRP 20
   {NULL, 0, NULL, 0, "Options valid for --echo requests:", GRP},
-  {"flood", 'f', NULL, 0, "flood ping (root only)", GRP+1},
+  {"flood", 'f', NULL, 0, "flood ping (root only)", GRP + 1},
   {"preload", 'l', "NUMBER", 0, "send NUMBER packets as fast as possible "
-   "before falling into normal mode of behavior (root only)", GRP+1},
+   "before falling into normal mode of behavior (root only)", GRP + 1},
   {"pattern", 'p', "PATTERN", 0, "fill ICMP packet with given pattern (hex)",
-   GRP+1},
-  {"quiet", 'q', NULL, 0, "quiet output", GRP+1},
-  {"route", 'R', NULL, 0, "record route", GRP+1},
+   GRP + 1},
+  {"quiet", 'q', NULL, 0, "quiet output", GRP + 1},
+  {"route", 'R', NULL, 0, "record route", GRP + 1},
   {"ip-timestamp", ARG_IPTIMESTAMP, "FLAG", 0, "IP timestamp of type FLAG, "
-   "which is one of \"tsonly\" and \"tsaddr\"", GRP+1},
-  {"size", 's', "NUMBER", 0, "send NUMBER data octets", GRP+1},
+   "which is one of \"tsonly\" and \"tsaddr\"", GRP + 1},
+  {"size", 's', "NUMBER", 0, "send NUMBER data octets", GRP + 1},
 #undef GRP
   {NULL, 0, NULL, 0, NULL, 0}
 };
@@ -161,11 +162,11 @@ parse_opt (int key, char *arg, struct argp_state *state)
     case 'i':
       v = strtod (arg, &endptr);
       if (*endptr)
-        argp_error (state, "invalid value (`%s' near `%s')", arg, endptr);
+	argp_error (state, "invalid value (`%s' near `%s')", arg, endptr);
       options |= OPT_INTERVAL;
       interval = v * PING_PRECISION;
       if (!is_root && interval < PING_MIN_USER_INTERVAL)
-        error (EXIT_FAILURE, 0, "option value too small: %s", arg);
+	error (EXIT_FAILURE, 0, "option value too small: %s", arg);
       break;
 
     case 'r':
@@ -212,7 +213,7 @@ parse_opt (int key, char *arg, struct argp_state *state)
     case 'l':
       preload = strtoul (arg, &endptr, 0);
       if (*endptr || preload > INT_MAX)
-        error (EXIT_FAILURE, 0, "invalid preload value (%s)", arg);
+	error (EXIT_FAILURE, 0, "invalid preload value (%s)", arg);
       break;
 
     case 'f':
@@ -260,7 +261,7 @@ parse_opt (int key, char *arg, struct argp_state *state)
 }
 
 static struct argp argp =
-  {argp_options, parse_opt, args_doc, doc, NULL, NULL, NULL};
+  { argp_options, parse_opt, args_doc, doc, NULL, NULL, NULL };
 
 int
 main (int argc, char **argv)
@@ -271,9 +272,9 @@ main (int argc, char **argv)
 
   set_program_name (argv[0]);
 
-# ifdef HAVE_SETLOCALE
-  setlocale(LC_ALL, "");
-# endif
+#ifdef HAVE_SETLOCALE
+  setlocale (LC_ALL, "");
+#endif
 
   if (getuid () == 0)
     is_root = true;
@@ -350,7 +351,7 @@ int (*decode_type (const char *arg)) (char *hostname)
   else
     error (EXIT_FAILURE, 0, "unsupported packet type: %s", arg);
 
- return ping_type;
+  return ping_type;
 }
 
 int
@@ -362,7 +363,7 @@ decode_ip_timestamp (char *arg)
     sopt = SOPT_TSONLY;
   else if (strcasecmp (arg, "tsaddr") == 0)
     sopt = SOPT_TSADDR;
-#if 0	/* Not yet implemented.  */
+#if 0				/* Not yet implemented.  */
   else if (strcasecmp (arg, "prespec") == 0)
     sopt = SOPT_TSPRESPEC;
 #endif

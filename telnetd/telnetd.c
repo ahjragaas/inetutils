@@ -51,11 +51,9 @@ char *login_invocation =
    *       of the authenticating, remote user.
    */
   PATH_LOGIN " -p -h %h %?T{-t %T} -d %L %?u{-u %u}{%U}"
-
 #elif defined SOLARIS
   /* At least for SunOS 5.8.  */
   PATH_LOGIN " -h %h %?T{%T} %?u{-- %u}{%U}"
-
 #else /* !SOLARIS */
   PATH_LOGIN " -p -h %h %?u{-f %u}{%U}"
 #endif
@@ -107,38 +105,38 @@ char *terminaltype;
 
 int SYNCHing;			/* we are in TELNET SYNCH mode */
 struct telnetd_clocks clocks;
-
 
+
 static struct argp_option argp_options[] = {
 #define GRID 10
-  { "debug", 'D', "LEVEL", OPTION_ARG_OPTIONAL,
-    "set debugging level", GRID },
-  { "exec-login", 'E', "STRING", 0,
-    "set program to be executed instead of " PATH_LOGIN, GRID },
-  { "no-hostinfo", 'h', NULL, 0,
-    "do not print host information before login has been completed", GRID },
-  { "linemode", 'l', "MODE", OPTION_ARG_OPTIONAL,
-    "set line mode", GRID },
-  { "no-keepalive", 'n', NULL, 0,
-    "disable TCP keep-alives", GRID },
-  { "reverse-lookup", 'U', NULL, 0,
-    "refuse connections from addresses that "
-    "cannot be mapped back into a symbolic name", GRID },
+  {"debug", 'D', "LEVEL", OPTION_ARG_OPTIONAL,
+   "set debugging level", GRID},
+  {"exec-login", 'E', "STRING", 0,
+   "set program to be executed instead of " PATH_LOGIN, GRID},
+  {"no-hostinfo", 'h', NULL, 0,
+   "do not print host information before login has been completed", GRID},
+  {"linemode", 'l', "MODE", OPTION_ARG_OPTIONAL,
+   "set line mode", GRID},
+  {"no-keepalive", 'n', NULL, 0,
+   "disable TCP keep-alives", GRID},
+  {"reverse-lookup", 'U', NULL, 0,
+   "refuse connections from addresses that "
+   "cannot be mapped back into a symbolic name", GRID},
 #undef GRID
 
 #ifdef AUTHENTICATION
 # define GRID 20
-  { NULL, 0, NULL, 0, "Authentication control:", GRID },
-  { "authmode", 'a', "MODE", 0,
-    "specify what mode to use for authentication", GRID },
-  { "server-principal", 'S', "NAME", 0,
-    "set Kerberos principal name for this server instance, "
-    "with or without explicit realm", GRID },
-  { "disable-auth-type", 'X', "TYPE", 0,
-    "disable the use of given authentication option", GRID },
+  {NULL, 0, NULL, 0, "Authentication control:", GRID},
+  {"authmode", 'a', "MODE", 0,
+   "specify what mode to use for authentication", GRID},
+  {"server-principal", 'S', "NAME", 0,
+   "set Kerberos principal name for this server instance, "
+   "with or without explicit realm", GRID},
+  {"disable-auth-type", 'X', "TYPE", 0,
+   "disable the use of given authentication option", GRID},
 # undef GRID
 #endif /* AUTHENTICATION */
-  { NULL, 0, NULL, 0, NULL, 0 }
+  {NULL, 0, NULL, 0, NULL, 0}
 };
 
 static error_t
@@ -195,16 +193,15 @@ parse_opt (int key, char *arg, struct argp_state *state MAYBE_UNUSED)
   return 0;
 }
 
-static struct argp argp =
-  {
-    argp_options,
-    parse_opt,
-    NULL,
-    "DARPA telnet protocol server",
-    NULL, NULL, NULL
-  };
-
+static struct argp argp = {
+  argp_options,
+  parse_opt,
+  NULL,
+  "DARPA telnet protocol server",
+  NULL, NULL, NULL
+};
 
+
 
 int
 main (int argc, char **argv)
@@ -259,8 +256,7 @@ static struct
 {
   char *name;
   int modnum;
-} debug_mode[debug_max_mode] =
-{
+} debug_mode[debug_max_mode] = {
   {"options", debug_options},
   {"report", debug_report},
   {"netdata", debug_net_data},
@@ -488,8 +484,7 @@ telnetd_setup (int fd)
     syslog (LOG_WARNING, "setsockopt (SO_KEEPALIVE): %m");
 
   if (debug_tcp
-      && setsockopt (fd, SOL_SOCKET, SO_DEBUG,
-		     (char *) &on, sizeof (on)) < 0)
+      && setsockopt (fd, SOL_SOCKET, SO_DEBUG, (char *) &on, sizeof (on)) < 0)
     syslog (LOG_WARNING, "setsockopt (SO_DEBUG): %m");
 
   net = fd;
@@ -708,8 +703,7 @@ telnetd_run (void)
 
 		  sprintf (data, "%c%c%c%c%c%c",
 			   IAC, SB, TELOPT_LFLOW,
-			   flowmode ? LFLOW_ON : LFLOW_OFF,
-			   IAC, SE);
+			   flowmode ? LFLOW_ON : LFLOW_OFF, IAC, SE);
 		  net_output_datalen (data, sizeof (data));
 		  DEBUG (debug_options, 1,
 			 printsub ('>', data + 2, sizeof (data) - 2));
@@ -748,13 +742,14 @@ telnetd_run (void)
        * so as to let pending data be flushed, mainly to the
        * benefit of the remote and expecting client.
        */
-      if (pending_sigchld) {
-	/* Check for pending output, independently of OBITS.  */
-	if (net_output_level () > 0)
-	  netflush ();
+      if (pending_sigchld)
+	{
+	  /* Check for pending output, independently of OBITS.  */
+	  if (net_output_level () > 0)
+	    netflush ();
 
-	cleanup (SIGCHLD);	/* Not returning from this.  */
-      }
+	  cleanup (SIGCHLD);	/* Not returning from this.  */
+	}
     }
 
   cleanup (0);

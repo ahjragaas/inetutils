@@ -62,7 +62,7 @@ Shishi_ap *auth_handle;
 extern void printsub (char, unsigned char *, int);
 
 static int
-Data (TN_Authenticator * ap, int type, void * d, int c)
+Data (TN_Authenticator * ap, int type, void *d, int c)
 {
   unsigned char *p = str_data + 4;
   unsigned char *cd = (unsigned char *) d;
@@ -100,8 +100,7 @@ Shishi *shishi_telnet = NULL;
 
 /* FIXME: Reverse return code! */
 int
-krb5shishi_init (TN_Authenticator * ap MAYBE_UNUSED,
-		 int server)
+krb5shishi_init (TN_Authenticator * ap MAYBE_UNUSED, int server)
 {
   if (server)
     str_data[3] = TELQUAL_REPLY;
@@ -404,8 +403,7 @@ krb5shishi_status (TN_Authenticator * ap MAYBE_UNUSED,
 
   if (UserNameRequested
       && shishi_authorized_p (shishi_handle,
-			      shishi_ap_tkt (auth_handle),
-			      UserNameRequested))
+			      shishi_ap_tkt (auth_handle), UserNameRequested))
     {
       /* FIXME: Check buffer length */
       strncpy (name, UserNameRequested, len);
@@ -500,12 +498,13 @@ krb5shishi_is_auth (TN_Authenticator * a, unsigned char *data, int cnt,
 	}
 
       if (realm)
-	key = shishi_hostkeys_for_serverrealm (shishi_handle,
-					       server, realm);
+	key = shishi_hostkeys_for_serverrealm (shishi_handle, server, realm);
       else
 	/* Enforce a search with the known default realm.  */
 	key = shishi_hostkeys_for_serverrealm (shishi_handle,
-			server, shishi_realm_default (shishi_handle));
+					       server,
+					       shishi_realm_default
+					       (shishi_handle));
 
       free (server);
     }
@@ -566,10 +565,10 @@ krb5shishi_is_auth (TN_Authenticator * a, unsigned char *data, int cnt,
       free (der);
     }
 
-  rc = shishi_encticketpart_clientrealm (
-		shishi_handle,
-		shishi_tkt_encticketpart (shishi_ap_tkt (auth_handle)),
-		&cnamerealm, &cnamerealmlen);
+  rc = shishi_encticketpart_clientrealm (shishi_handle,
+					 shishi_tkt_encticketpart
+					 (shishi_ap_tkt (auth_handle)),
+					 &cnamerealm, &cnamerealmlen);
   if (rc != SHISHI_OK)
     {
       snprintf (errbuf, errbuflen, "Error getting authenticator name: %s",
@@ -683,8 +682,7 @@ req_type_str (int type)
 # define ADDC(p,l,c) if ((l) > 0) {*(p)++ = (c); --(l);}
 
 void
-krb5shishi_printsub (unsigned char *data, int cnt,
-		     char *buf, int buflen)
+krb5shishi_printsub (unsigned char *data, int cnt, char *buf, int buflen)
 {
   char *p;
   int i;

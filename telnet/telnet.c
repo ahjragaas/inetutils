@@ -105,7 +105,7 @@ static unsigned char subbuffer[SUBBUFSIZE], *subpointer, *subend;	/* buffer for 
 #define SB_EOF()	(subpointer >= subend)
 #define SB_LEN()	(subend - subpointer)
 
-char options[256] = { 0 };		/* The combined options */
+char options[256] = { 0 };	/* The combined options */
 char do_dont_resp[256] = { 0 };
 char will_wont_resp[256] = { 0 };
 
@@ -176,8 +176,8 @@ int kludgelinemode = 1;
  */
 
 Clocks clocks;
-
-
+
+
 
 /*
  * Initialize telnet environment.
@@ -663,11 +663,11 @@ mklist (char *buf, char *name)
    */
   argvp = argv + 1;
   *argv = *argvp = 0;
-  n = 0;		/* Positive: name uses white space.  */
+  n = 0;			/* Positive: name uses white space.  */
 
   for (cp = cp2 = buf; (c = *cp); cp++)
     {
-      if (c == '|' || c == ':')		/* Delimiters */
+      if (c == '|' || c == ':')	/* Delimiters */
 	{
 	  *cp++ = '\0';
 	  /*
@@ -863,9 +863,7 @@ suboption (void)
 	  if ((len < NETROOM ()) && (len < (int) sizeof (temp)))
 	    {
 	      snprintf ((char *) temp, sizeof (temp), "%c%c%c%c%s%c%c",
-			IAC, SB, TELOPT_TTYPE, TELQUAL_IS,
-			name,
-			IAC, SE);
+			IAC, SB, TELOPT_TTYPE, TELQUAL_IS, name, IAC, SE);
 	      ring_supply_data (&netoring, temp, len);
 	      printsub ('>', &temp[2], len - 2);
 	    }
@@ -890,8 +888,7 @@ suboption (void)
 
 	  snprintf ((char *) temp, sizeof (temp), "%c%c%c%c%d,%d%c%c",
 		    IAC, SB, TELOPT_TSPEED, TELQUAL_IS,
-		    (int) ospeed, (int) ispeed,
-		    IAC, SE);
+		    (int) ospeed, (int) ispeed, IAC, SE);
 	  len = strlen ((char *) temp + 4) + 4;	/* temp[3] is 0 ... */
 
 	  if (len < NETROOM ())
@@ -1020,9 +1017,7 @@ suboption (void)
 
 	  /* Go ahead safely.  */
 	  snprintf ((char *) temp, sizeof (temp), "%c%c%c%c%s%c%c",
-		    IAC, SB, TELOPT_XDISPLOC, TELQUAL_IS,
-		    dp,
-		    IAC, SE);
+		    IAC, SB, TELOPT_XDISPLOC, TELQUAL_IS, dp, IAC, SE);
 	  len = strlen ((char *) temp + 4) + 4;	/* temp[3] is 0 ... */
 
 	  if (len < NETROOM ())
@@ -1366,6 +1361,7 @@ slc_mode_import (int def)
 unsigned char slc_import_val[] = {
   IAC, SB, TELOPT_LINEMODE, LM_SLC, 0, SLC_VARIABLE, 0, IAC, SE
 };
+
 unsigned char slc_import_def[] = {
   IAC, SB, TELOPT_LINEMODE, LM_SLC, 0, SLC_DEFAULT, 0, IAC, SE
 };
@@ -1532,7 +1528,7 @@ slc_start_reply (void)
 }
 
 void
-slc_add_reply(unsigned int func, unsigned int flags, cc_t value)
+slc_add_reply (unsigned int func, unsigned int flags, cc_t value)
 {
   if ((*slc_replyp++ = func) == IAC)
     *slc_replyp++ = IAC;
@@ -1731,7 +1727,7 @@ env_opt_add (register unsigned char *ep)
 	env_opt_add (ep);
       return;
     }
-  vp = env_getvalue ((char *)ep);
+  vp = env_getvalue ((char *) ep);
   if (opt_replyp + (vp ? strlen ((char *) vp) : 0) +
       strlen ((char *) ep) + 6 > opt_replyend)
     {
@@ -1907,7 +1903,7 @@ telrcv (void)
 # ifdef	ENCRYPTION
 		  if (decrypt_input)
 		    c = (*decrypt_input) (c);
-# endif	/* ENCRYPTION */
+# endif/* ENCRYPTION */
 		  if (c == IAC)
 		    {
 		      telrcv_state = TS_IAC;
@@ -2479,7 +2475,7 @@ telnet (char *user)
 # ifdef	ENCRYPTION
       send_do (TELOPT_ENCRYPT, 1);
       send_will (TELOPT_ENCRYPT, 1);
-# endif	/* ENCRYPTION */
+# endif/* ENCRYPTION */
       send_do (TELOPT_SGA, 1);
       send_will (TELOPT_TTYPE, 1);
       send_will (TELOPT_NAWS, 1);
@@ -2724,7 +2720,7 @@ xmitEC (void)
 
 
 int
-dosynch(const char *s)
+dosynch (const char *s)
 {
   netclear ();			/* clear the path to the network */
   NETADD (IAC);
@@ -2737,7 +2733,7 @@ dosynch(const char *s)
 int want_status_response = 0;
 
 int
-get_status(const char *s)
+get_status (const char *s)
 {
   unsigned char tmp[16];
   register unsigned char *cp;
@@ -2776,7 +2772,7 @@ intp (void)
     }
   if (autosynch)
     {
-      dosynch(NULL);
+      dosynch (NULL);
     }
 }
 

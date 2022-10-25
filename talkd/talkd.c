@@ -45,27 +45,27 @@ char *hostname;
 const char args_doc[] = "";
 const char doc[] = "Talk daemon, using service `ntalk'.";
 const char *program_authors[] = {
-	"Sergey Poznyakoff",
-	NULL
+  "Sergey Poznyakoff",
+  NULL
 };
+
 static struct argp_option argp_options[] = {
 #define GRP 0
-  {"acl", 'a', "FILE", 0, "read site-wide ACLs from FILE", GRP+1},
-  {"debug", 'd', NULL, 0, "enable debugging", GRP+1},
+  {"acl", 'a', "FILE", 0, "read site-wide ACLs from FILE", GRP + 1},
+  {"debug", 'd', NULL, 0, "enable debugging", GRP + 1},
   {"idle-timeout", 'i', "SECONDS", 0, "set idle timeout value to SECONDS",
-   GRP+1},
-  {"logging", 'l', NULL, 0, "enable more syslog reporting", GRP+1},
+   GRP + 1},
+  {"logging", 'l', NULL, 0, "enable more syslog reporting", GRP + 1},
   {"request-ttl", 'r', "SECONDS", 0, "set request time-to-live value to "
-   "SECONDS", GRP+1},
-  {"strict-policy", 'S', NULL, 0, "apply strict ACL policy", GRP+1},
-  {"timeout", 't', "SECONDS", 0, "set timeout value to SECONDS", GRP+1},
+   "SECONDS", GRP + 1},
+  {"strict-policy", 'S', NULL, 0, "apply strict ACL policy", GRP + 1},
+  {"timeout", 't', "SECONDS", 0, "set timeout value to SECONDS", GRP + 1},
 #undef GRP
   {NULL, 0, NULL, 0, NULL, 0}
 };
 
 static error_t
-parse_opt (int key, char *arg,
-	   struct argp_state *state MAYBE_UNUSED)
+parse_opt (int key, char *arg, struct argp_state *state MAYBE_UNUSED)
 {
   switch (key)
     {
@@ -105,7 +105,7 @@ parse_opt (int key, char *arg,
 }
 
 static struct argp argp =
-  {argp_options, parse_opt, args_doc, doc, NULL, NULL, NULL};
+  { argp_options, parse_opt, args_doc, doc, NULL, NULL, NULL };
 
 int
 main (int argc, char *argv[])

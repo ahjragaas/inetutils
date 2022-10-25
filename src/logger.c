@@ -52,7 +52,7 @@
 
 static char *tag = NULL;
 static int logflags = 0;
-static int pri = MAKE_PRI (LOG_USER, LOG_NOTICE);  /* Cf. parse_level */
+static int pri = MAKE_PRI (LOG_USER, LOG_NOTICE);	/* Cf. parse_level */
 /* Only one of `host' and `unixsock' will be non-NULL
  * once option parsing has been completed. */
 static char *host = PATH_LOG;
@@ -66,11 +66,11 @@ static int host_family = AF_UNSPEC;
 /* Fall back to only IPv4.  */
 static int host_family = AF_INET;
 #endif /* !HAVE_IPV6 */
-
 
 
+
 int
-decode (char *name, CODE *codetab, const char *what)
+decode (char *name, CODE * codetab, const char *what)
 {
   CODE *cp;
 
@@ -99,7 +99,7 @@ decode (char *name, CODE *codetab, const char *what)
 	return cp->c_val;
     }
   error (EXIT_FAILURE, 0, "unknown %s name: %s", what, name);
-  return -1; /* to pacify gcc */
+  return -1;			/* to pacify gcc */
 }
 
 int
@@ -118,16 +118,16 @@ parse_level (char *str)
 
   return MAKE_PRI (fac, prio);
 }
-
 
+
 union logger_sockaddr
-  {
-    struct sockaddr sa;
-    struct sockaddr_in sinet;
+{
+  struct sockaddr sa;
+  struct sockaddr_in sinet;
 #if HAVE_IPV6
-    struct sockaddr_in6 sinet6;
+  struct sockaddr_in6 sinet6;
 #endif
-    struct sockaddr_un sunix;
+  struct sockaddr_un sunix;
 };
 
 int fd;
@@ -181,7 +181,7 @@ open_socket (void)
 	    }
 	}
       else
-        {
+	{
 	  /* When no bracket was detected, then seek the
 	   * right-most colon character in order to correctly
 	   * parse IPv6 addresses.  */
@@ -210,10 +210,10 @@ open_socket (void)
        * getaddrinfo() need to be checked in detail.  */
       ret = getaddrinfo (host, p, &hints, &res);
       if (ret < 0)
-	error (EXIT_FAILURE, 0, "%s:%s, %s", host, p, gai_strerror(ret));
+	error (EXIT_FAILURE, 0, "%s:%s, %s", host, p, gai_strerror (ret));
 
       for (ai = res; ai; ai = ai->ai_next)
-        {
+	{
 	  fd = socket (ai->ai_family, ai->ai_socktype, ai->ai_protocol);
 	  if (fd < 0)
 	    continue;
@@ -229,7 +229,7 @@ open_socket (void)
 	      memset (&tips, 0, sizeof (tips));
 	      tips.ai_family = ai->ai_family;
 
-	      ret = getaddrinfo(source, NULL, &tips, &a);
+	      ret = getaddrinfo (source, NULL, &tips, &a);
 	      if (ret)
 		{
 		  close (fd);
@@ -289,7 +289,7 @@ open_socket (void)
 	s.sin_addr.s_addr = INADDR_ANY;
       s.sin_port = 0;
 
-      if (bind(fd, (struct sockaddr*) &s, sizeof(s)) < 0)
+      if (bind (fd, (struct sockaddr *) &s, sizeof (s)) < 0)
 	error (EXIT_FAILURE, errno, "cannot bind to source address");
     }
 
@@ -323,7 +323,7 @@ send_to_syslog (const char *msg)
       size_t msglen = strlen (msg);
 
       ioptr = iov;
-      ioptr->iov_base = (char*) msg;
+      ioptr->iov_base = (char *) msg;
       ioptr->iov_len = msglen;
 
       if (msglen > 0 && msg[msglen - 1] != '\n')
@@ -345,31 +345,31 @@ send_to_syslog (const char *msg)
     error (0, errno, "sent less bytes than expected (%lu vs. %lu)",
 	   (unsigned long) rc, (unsigned long) len);
 }
-
 
+
 const char args_doc[] = "[MESSAGE]";
 const char doc[] = "Send messages to syslog";
 
 static struct argp_option argp_options[] = {
 #define GRP 10
-  {"ipv4", '4', NULL, 0, "use IPv4 for logging to host", GRP },
-  {"ipv6", '6', NULL, 0, "use IPv6 with a host target", GRP },
-  { "host", 'h', "HOST", 0,
-    "log to HOST instead of to the default " PATH_LOG, GRP },
-  { "unix", 'u', "SOCK", 0,
-    "log to UNIX socket SOCK instead of " PATH_LOG, GRP },
-  { "source", 'S', "IP", 0,
-    "set source IP address", GRP },
-  { "id", 'i', "PID", OPTION_ARG_OPTIONAL,
-    "log the process id with every line", GRP },
+  {"ipv4", '4', NULL, 0, "use IPv4 for logging to host", GRP},
+  {"ipv6", '6', NULL, 0, "use IPv6 with a host target", GRP},
+  {"host", 'h', "HOST", 0,
+   "log to HOST instead of to the default " PATH_LOG, GRP},
+  {"unix", 'u', "SOCK", 0,
+   "log to UNIX socket SOCK instead of " PATH_LOG, GRP},
+  {"source", 'S', "IP", 0,
+   "set source IP address", GRP},
+  {"id", 'i', "PID", OPTION_ARG_OPTIONAL,
+   "log the process id with every line", GRP},
 #ifdef LOG_PERROR
-  { "stderr", 's', NULL, 0, "copy the message to stderr", GRP },
+  {"stderr", 's', NULL, 0, "copy the message to stderr", GRP},
 #endif
-  { "file", 'f', "FILE", 0, "log the content of FILE", GRP },
-  { "priority", 'p', "PRI", 0, "log with priority PRI", GRP },
-  { "tag", 't', "TAG", 0, "prepend every line with TAG", GRP },
+  {"file", 'f', "FILE", 0, "log the content of FILE", GRP},
+  {"priority", 'p', "PRI", 0, "log with priority PRI", GRP},
+  {"tag", 't', "TAG", 0, "prepend every line with TAG", GRP},
 #undef GRP
-  {NULL, 0, NULL, 0, NULL, 0 }
+  {NULL, 0, NULL, 0, NULL, 0}
 };
 
 static error_t
@@ -389,19 +389,19 @@ parse_opt (int key, char *arg, struct argp_state *state MAYBE_UNUSED)
 #else /* !HAVE_IPV6 */
       /* Print a warning but continue with IPv4.  */
       error (0, 0, "warning: Falling back to IPv4, "
-		"since IPv6 is disabled");
+	     "since IPv6 is disabled");
       /* AF_INET is set by default in this case.  */
       break;
 #endif /* !HAVE_IPV6 */
 
     case 'h':
       host = arg;
-      unixsock = NULL;	/* Erase any previous `-u'.  */
+      unixsock = NULL;		/* Erase any previous `-u'.  */
       break;
 
     case 'u':
       unixsock = arg;
-      host = NULL;	/* Erase previous `-h'.  */
+      host = NULL;		/* Erase previous `-h'.  */
       break;
 
     case 'S':
@@ -428,7 +428,7 @@ parse_opt (int key, char *arg, struct argp_state *state MAYBE_UNUSED)
 
     case 'f':
       if (strcmp (arg, "-") && freopen (arg, "r", stdin) == NULL)
-        error (EXIT_FAILURE, errno, "%s", arg);
+	error (EXIT_FAILURE, errno, "%s", arg);
       break;
 
     case 'p':
@@ -447,7 +447,7 @@ parse_opt (int key, char *arg, struct argp_state *state MAYBE_UNUSED)
 }
 
 static struct argp argp =
-  {argp_options, parse_opt, args_doc, doc, NULL, NULL, NULL};
+  { argp_options, parse_opt, args_doc, doc, NULL, NULL, NULL };
 
 const char *program_authors[] = {
   "Sergey Poznyakoff",

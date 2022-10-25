@@ -19,7 +19,7 @@
 #include <config.h>
 
 #if defined HAVE_UPDWTMPX && !defined HAVE_LOGWTMP
-# include <utmpx.h>	/* updwtmp() */
+# include <utmpx.h>		/* updwtmp() */
 #endif
 
 #define KEEP_OPEN
@@ -36,22 +36,22 @@ logwtmp (char *line, char *name, char *host)
   struct timeval tv;
 
   memset (&ut, 0, sizeof (ut));
-#ifdef HAVE_STRUCT_UTMPX_UT_TYPE
+# ifdef HAVE_STRUCT_UTMPX_UT_TYPE
   if (name && *name)
     ut.ut_type = USER_PROCESS;
   else
     ut.ut_type = DEAD_PROCESS;
-#endif /* UT_TYPE */
+# endif/* UT_TYPE */
 
   strncpy (ut.ut_line, line, sizeof ut.ut_line);
-#ifdef HAVE_STRUCT_UTMPX_UT_USER
+# ifdef HAVE_STRUCT_UTMPX_UT_USER
   strncpy (ut.ut_user, name, sizeof ut.ut_user);
-#elif defined HAVE_STRUCT_UTMPX_UT_NAME
+# elif defined HAVE_STRUCT_UTMPX_UT_NAME
   strncpy (ut.ut_name, name, sizeof ut.ut_name);
-#endif
-#ifdef HAVE_STRUCT_UTMPX_UT_HOST
+# endif
+# ifdef HAVE_STRUCT_UTMPX_UT_HOST
   strncpy (ut.ut_host, host, sizeof ut.ut_host);
-# ifdef HAVE_STRUCT_UTMPX_UT_SYSLEN
+#  ifdef HAVE_STRUCT_UTMPX_UT_SYSLEN
   if (strlen (host) < sizeof (ut.ut_host))
     ut.ut_syslen = strlen (host) + 1;
   else
@@ -59,11 +59,12 @@ logwtmp (char *line, char *name, char *host)
       ut.ut_host[sizeof (ut.ut_host) - 1] = '\0';
       ut.ut_syslen = sizeof (ut.ut_host);
     }
-# endif /* UT_SYSLEN */
-#endif
-#ifdef HAVE_STRUCT_UTMPX_UT_PID
+#  endif
+  /* UT_SYSLEN */
+# endif
+# ifdef HAVE_STRUCT_UTMPX_UT_PID
   ut.ut_pid = getpid ();
-#endif
+# endif
 
   gettimeofday (&tv, NULL);
   ut.ut_tv.tv_sec = tv.tv_sec;

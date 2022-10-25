@@ -43,15 +43,13 @@ const char *system_default_format = "unix";
 /* Argument parsing stuff.  */
 
 const char *system_help = "\
-NAME [ADDR [DSTADDR]] [broadcast BRDADDR] [netmask MASK] "
-"[metric N] [mtu N] [up|down]";
+NAME [ADDR [DSTADDR]] [broadcast BRDADDR] [netmask MASK] " "[metric N] [mtu N] [up|down]";
 
 struct argp_child system_argp_child;
 
 int
 system_parse_opt (struct ifconfig **ifp MAYBE_UNUSED,
-		  char option MAYBE_UNUSED,
-		  char *optarg MAYBE_UNUSED)
+		  char option MAYBE_UNUSED, char *optarg MAYBE_UNUSED)
 {
   return 0;
 }
@@ -94,7 +92,7 @@ system_parse_opt_rest (struct ifconfig **ifp, int argc, char *argv[])
 	  break;
 
 	case EXPECT_COMMAND:
-	  expect = EXPECT_AF;		/* Applicable at creation.  */
+	  expect = EXPECT_AF;	/* Applicable at creation.  */
 	  if (!strcmp (argv[i], "create"))
 	    {
 	      error (0, 0, "interface creation is not supported");
@@ -178,8 +176,7 @@ system_parse_opt_rest (struct ifconfig **ifp, int argc, char *argv[])
 }
 
 int
-system_preconfigure (int sfd MAYBE_UNUSED,
-		     struct ifreq *ifr MAYBE_UNUSED)
+system_preconfigure (int sfd MAYBE_UNUSED, struct ifreq *ifr MAYBE_UNUSED)
 {
   return 0;
 }
@@ -217,7 +214,7 @@ system_fh_ifstat_query (format_data_t form, int argc, char *argv[])
   select_arg (form, argc, argv, getifaddrs (&ifp) ? 1 : 0);
 }
 
-struct if_nameindex* (*system_if_nameindex) (void) = if_nameindex;
+struct if_nameindex *(*system_if_nameindex) (void) = if_nameindex;
 
 static void
 print_hwaddr_ether (format_data_t form, unsigned char *data)
@@ -232,41 +229,40 @@ struct ift_symbol
   const char *title;
   int value;
   void (*print_hwaddr) (format_data_t form, unsigned char *data);
-} ift_symbols[] =
-  {
+} ift_symbols[] = {
 #ifdef IFT_ETHER		/* Ethernet CSMA/CD */
 # ifdef ETHERNAME
-    { "ETHER", ETHERNAME, IFT_ETHER, print_hwaddr_ether},
+  {"ETHER", ETHERNAME, IFT_ETHER, print_hwaddr_ether},
 # else
-    { "ETHER", "ether", IFT_ETHER, print_hwaddr_ether},
-# endif /* !ETHERNAME */
+  {"ETHER", "ether", IFT_ETHER, print_hwaddr_ether},
+# endif/* !ETHERNAME */
 #endif /* IFT_ETHER */
 #ifdef IFT_GIF			/* Generic tunnel (gif) */
-    { "IPGIF", "IPIP tunnel", IFT_GIF, NULL},
+  {"IPGIF", "IPIP tunnel", IFT_GIF, NULL},
 #endif
 #ifdef IFT_FAITH		/* IPv6-to-IPv4 TCP relay capture */
-    { "FAITH", "TCP relay capture", IFT_FAITH, NULL},
+  {"FAITH", "TCP relay capture", IFT_FAITH, NULL},
 #endif
 #ifdef IFT_LOOP			/* Local loopback */
-    { "LOOPBACK", "Local loopback", IFT_LOOP, NULL},
+  {"LOOPBACK", "Local loopback", IFT_LOOP, NULL},
 #endif
 #ifdef IFT_PFLOG		/* Packet filter logging */
-    { "PFLOG", "Packet filter logger", IFT_PFLOG, NULL},
+  {"PFLOG", "Packet filter logger", IFT_PFLOG, NULL},
 #endif
 #ifdef IFT_PFSYNC		/* Packet filter state synching */
-    { "PFSYNC", "Packet filter state synching", IFT_PFSYNC, NULL},
+  {"PFSYNC", "Packet filter state synching", IFT_PFSYNC, NULL},
 #endif
 #ifdef IFT_PPP			/* Point-to-Point serial protocol */
-    { "PPP", "Point-to-Point over serial", IFT_PPP, NULL},
+  {"PPP", "Point-to-Point over serial", IFT_PPP, NULL},
 #endif
 #ifdef IFT_SLIP			/* IP over generic TTY */
-    { "SLIP", "Serial line IP", IFT_SLIP, NULL},
+  {"SLIP", "Serial line IP", IFT_SLIP, NULL},
 #endif
 #ifdef IFT_TUNNEL		/* Encapsulation (gre) */
-    { "IPGRE", "GRE over IP", IFT_TUNNEL, NULL},
+  {"IPGRE", "GRE over IP", IFT_TUNNEL, NULL},
 #endif
-    { NULL, NULL, 0, NULL}
-  };
+  {NULL, NULL, 0, NULL}
+};
 
 static struct ift_symbol *
 ift_findvalue (int value)
@@ -289,9 +285,8 @@ ift_findvalue (int value)
 void
 system_fh_brdaddr_query (format_data_t form, int argc, char *argv[])
 {
-  ESTABLISH_IFADDRS
-  if (!ifp)
-    select_arg (form, argc, argv, 1);
+  ESTABLISH_IFADDRS if (!ifp)
+      select_arg (form, argc, argv, 1);
   else
     {
       int missing = 1;
@@ -314,9 +309,8 @@ system_fh_brdaddr_query (format_data_t form, int argc, char *argv[])
 void
 system_fh_brdaddr (format_data_t form, int argc, char *argv[])
 {
-  ESTABLISH_IFADDRS
-  if (!ifp)
-    put_string (form, "(unknown)");
+  ESTABLISH_IFADDRS if (!ifp)
+      put_string (form, "(unknown)");
   else
     {
       int missing = 1;
@@ -343,9 +337,8 @@ system_fh_brdaddr (format_data_t form, int argc, char *argv[])
 void
 system_fh_hwaddr_query (format_data_t form, int argc, char *argv[])
 {
-  ESTABLISH_IFADDRS
-  if (!ifp)
-    select_arg (form, argc, argv, 1);
+  ESTABLISH_IFADDRS if (!ifp)
+      select_arg (form, argc, argv, 1);
   else
     {
       int missing = 1;
@@ -378,9 +371,8 @@ void
 system_fh_hwaddr (format_data_t form, int argc MAYBE_UNUSED,
 		  MAYBE_UNUSED char *argv[])
 {
-  ESTABLISH_IFADDRS
-  if (!ifp)
-    put_string (form, "(hwaddr unknown)");
+  ESTABLISH_IFADDRS if (!ifp)
+      put_string (form, "(hwaddr unknown)");
   else
     {
       int missing = 1;
@@ -402,8 +394,7 @@ system_fh_hwaddr (format_data_t form, int argc MAYBE_UNUSED,
 	      if (ift && ift->print_hwaddr)
 		{
 		  missing = 0;
-		  ift->print_hwaddr (form,
-				     (unsigned char *) LLADDR (dl));
+		  ift->print_hwaddr (form, (unsigned char *) LLADDR (dl));
 		}
 	    }
 	  break;
@@ -418,8 +409,7 @@ system_fh_hwtype_query (format_data_t form, int argc, char *argv[])
 {
   int missing = 1;
 
-  ESTABLISH_IFADDRS
-  if (ifp)
+  ESTABLISH_IFADDRS if (ifp)
     {
       struct ifaddrs *fp;
       struct sockaddr_dl *dl = NULL;
@@ -451,8 +441,7 @@ system_fh_hwtype (format_data_t form, int argc MAYBE_UNUSED,
 {
   int found = 0;
 
-  ESTABLISH_IFADDRS
-  if (ifp)
+  ESTABLISH_IFADDRS if (ifp)
     {
       struct ifaddrs *fp;
       struct sockaddr_dl *dl = NULL;
@@ -487,37 +476,36 @@ system_fh_hwtype (format_data_t form, int argc MAYBE_UNUSED,
  *
  * The naming is different in NetBSD and in FreeBSD.
  */
-static const struct ifmedia_description media_descr[] =
-			IFM_TYPE_DESCRIPTIONS;
+static const struct ifmedia_description media_descr[] = IFM_TYPE_DESCRIPTIONS;
 
 #ifdef IFM_SUBTYPE_DESCRIPTIONS
 static const struct ifmedia_description subtype_descr[] =
-			IFM_SUBTYPE_DESCRIPTIONS;
+  IFM_SUBTYPE_DESCRIPTIONS;
 #endif
 
 #ifdef IFM_SUBTYPE_ETHERNET_DESCRIPTIONS
 static const struct ifmedia_description ethernet_descr[] =
-			IFM_SUBTYPE_ETHERNET_DESCRIPTIONS;
+  IFM_SUBTYPE_ETHERNET_DESCRIPTIONS;
 #endif
 
 #ifdef IFM_SUBTYPE_SHARED_DESCRIPTIONS
 static const struct ifmedia_description subtype_shared_descr[] =
-			IFM_SUBTYPE_SHARED_DESCRIPTIONS;
+  IFM_SUBTYPE_SHARED_DESCRIPTIONS;
 #endif
 
 static const struct ifmedia_description option_descr[] =
 #ifdef IFM_OPTION_DESCRIPTIONS
-			IFM_OPTION_DESCRIPTIONS;
+  IFM_OPTION_DESCRIPTIONS;
 #elif defined IFM_SHARED_OPTION_DESCRIPTIONS
-			IFM_SHARED_OPTION_DESCRIPTIONS;
+  IFM_SHARED_OPTION_DESCRIPTIONS;
 #else
-			{ { 0, NULL }, };
+{ {0, NULL}, };
 #endif
 
 
 #ifdef IFM_STATUS_DESCRIPTIONS
 static const struct ifmedia_status_description status_descr[] =
-			IFM_STATUS_DESCRIPTIONS;
+  IFM_STATUS_DESCRIPTIONS;
 #endif
 
 void
@@ -555,7 +543,7 @@ system_fh_media (format_data_t form, int argc MAYBE_UNUSED,
 	    break;
 	  }
 
-#ifdef IFM_SUBTYPE_DESCRIPTIONS
+# ifdef IFM_SUBTYPE_DESCRIPTIONS
       for (item = subtype_descr; item->ifmt_word || item->ifmt_string; item++)
 	{
 	  if (item->ifmt_word == IFM_SUBTYPE (ifm.ifm_current) && !subtype)
@@ -565,7 +553,7 @@ system_fh_media (format_data_t form, int argc MAYBE_UNUSED,
 	      && !active_subtype)
 	    active_subtype = item->ifmt_string;
 	}
-#else /* !IFM_SUBTYPE_DESCRIPTIONS */
+# else/* !IFM_SUBTYPE_DESCRIPTIONS */
       /* Systems like FreeBSD with sub-types split
        * into shared and media specific structures.
        *
@@ -595,7 +583,8 @@ system_fh_media (format_data_t form, int argc MAYBE_UNUSED,
        * One valid instance of 'ifmt_word' is naught,
        * so loop condition needs care.
        */
-      for (item = subtype_shared_descr; item->ifmt_word || item->ifmt_string; item++)
+      for (item = subtype_shared_descr; item->ifmt_word || item->ifmt_string;
+	   item++)
 	{
 	  if (item->ifmt_word == IFM_SUBTYPE (ifm.ifm_current))
 	    subtype = item->ifmt_string;
@@ -603,7 +592,7 @@ system_fh_media (format_data_t form, int argc MAYBE_UNUSED,
 	  if (item->ifmt_word == IFM_SUBTYPE (ifm.ifm_active))
 	    active_subtype = item->ifmt_string;
 	}
-#endif /* !IFM_SUBTYPE_DESCRIPTIONS */
+# endif/* !IFM_SUBTYPE_DESCRIPTIONS */
 
       /* Negotiated mode of operation.  */
       for (item = option_descr; item->ifmt_word; item++)
@@ -612,9 +601,9 @@ system_fh_media (format_data_t form, int argc MAYBE_UNUSED,
 
       /* Print the gathered information.  */
       if (options)
-        printf ("%s %s (%s <%s>)", medium, subtype, active_subtype, options);
+	printf ("%s %s (%s <%s>)", medium, subtype, active_subtype, options);
       else
-        printf ("%s %s (%s)", medium, subtype,
+	printf ("%s %s (%s)", medium, subtype,
 		active_subtype ? active_subtype : "none");
 
       had_output++;
@@ -627,9 +616,8 @@ system_fh_media (format_data_t form, int argc MAYBE_UNUSED,
 void
 system_fh_netmask_query (format_data_t form, int argc, char *argv[])
 {
-  ESTABLISH_IFADDRS
-  if (!ifp)
-    select_arg (form, argc, argv, 1);
+  ESTABLISH_IFADDRS if (!ifp)
+      select_arg (form, argc, argv, 1);
   else
     {
       int missing = 1;
@@ -652,9 +640,8 @@ system_fh_netmask_query (format_data_t form, int argc, char *argv[])
 void
 system_fh_netmask (format_data_t form, int argc, char *argv[])
 {
-  ESTABLISH_IFADDRS
-  if (!ifp)
-    put_string (form, "(unknown)");
+  ESTABLISH_IFADDRS if (!ifp)
+      put_string (form, "(unknown)");
   else
     {
       int missing = 1;
@@ -692,7 +679,7 @@ system_fh_status (format_data_t form, int argc, char *argv[])
   strncpy (ifm.ifm_name, form->ifr->ifr_name, sizeof (ifm.ifm_name));
   if (ioctl (form->sfd, SIOCGIFMEDIA, &ifm) >= 0)
     {
-#ifdef IFM_STATUS_DESCRIPTIONS
+# ifdef IFM_STATUS_DESCRIPTIONS
       const struct ifmedia_status_description *item;
 
       for (item = status_descr; item->ifms_type; item++)
@@ -703,12 +690,12 @@ system_fh_status (format_data_t form, int argc, char *argv[])
 	put_string (form, IFM_STATUS_DESC (item, ifm.ifm_status));
       else
 	put_int (form, argc, argv, ifm.ifm_status);
-#else /* !IFM_STATUS_DESCRIPTIONS */
+# else/* !IFM_STATUS_DESCRIPTIONS */
       if (ifm.ifm_status & IFM_ACTIVE)
 	put_string (form, "active");
       else
 	put_string (form, "no carrier");
-#endif /* IFM_STATUS_DESCRIPTIONS */
+# endif/* IFM_STATUS_DESCRIPTIONS */
     }
   else
 #endif /* SIOCGIFMEDIA */
@@ -723,7 +710,7 @@ system_fh_tunnel_query (format_data_t form, int argc, char *argv[])
     select_arg (form, argc, argv, 0);
   else
 #endif /* SIOCGIFPSRCADDR && SIOCGIFPDSTADDR */
-  select_arg (form, argc, argv, 1);
+    select_arg (form, argc, argv, 1);
 }
 
 void
@@ -754,9 +741,8 @@ get_if_data_by_name (format_data_t form)
   struct ifaddrs *fp;
   struct if_data *data = NULL;
 
-  ESTABLISH_IFADDRS
-  if (!ifp)
-    return NULL;
+  ESTABLISH_IFADDRS if (!ifp)
+      return NULL;
 
   for (fp = ifp; fp; fp = fp->ifa_next)
     {
@@ -798,11 +784,9 @@ _IU_DECLARE2 (rx_errors, ierrors)
 _IU_DECLARE2 (rx_packets, ipackets)
 _IU_DECLARE2 (tx_bytes, obytes)
 _IU_DECLARE2 (tx_errors, oerrors)
-_IU_DECLARE2 (tx_packets, opackets)
-_IU_DECLARE2 (collisions, collisions)
-
-void
-system_fh_tx_dropped (format_data_t form, int argc, char *argv[])
+_IU_DECLARE2 (tx_packets, opackets) _IU_DECLARE2 (collisions, collisions)
+     void
+     system_fh_tx_dropped (format_data_t form, int argc, char *argv[])
 {
 #ifdef _IFI_OQDROPS
   struct if_data *data = get_if_data_by_name (form);

@@ -49,7 +49,7 @@
 
 #include "telnetd.h"
 
-#include <fcntl.h>	/* Solaris */
+#include <fcntl.h>		/* Solaris */
 
 /*
  * local variables
@@ -309,9 +309,7 @@ localstat (void)
 	  send_do (TELOPT_LINEMODE, 1);
 	  /* send along edit modes */
 	  sprintf (data, "%c%c%c%c%c%c%c",
-		   IAC, SB, TELOPT_LINEMODE,
-		   LM_MODE, useeditmode,
-		   IAC, SE);
+		   IAC, SB, TELOPT_LINEMODE, LM_MODE, useeditmode, IAC, SE);
 	  net_output_datalen (data, sizeof (data));
 	  DEBUG (debug_options, 1,
 		 printsub ('>', data + 2, sizeof (data) - 2));
@@ -342,9 +340,7 @@ localstat (void)
 	  char data[8];
 
 	  sprintf (data, "%c%c%c%c%c%c%c",
-		   IAC, SB, TELOPT_LINEMODE,
-		   LM_MODE, useeditmode,
-		   IAC, SE);
+		   IAC, SB, TELOPT_LINEMODE, LM_MODE, useeditmode, IAC, SE);
 	  net_output_datalen (data, sizeof (data));
 	  DEBUG (debug_options, 1,
 		 printsub ('>', data + 2, sizeof (data) - 2));
@@ -398,8 +394,7 @@ flowstat (void)
 	  flowmode = tty_flowmode ();
 	  sprintf (data, "%c%c%c%c%c%c",
 		   IAC, SB, TELOPT_LFLOW,
-		   flowmode ? LFLOW_ON : LFLOW_OFF,
-		   IAC, SE);
+		   flowmode ? LFLOW_ON : LFLOW_OFF, IAC, SE);
 	  net_output_datalen (data, sizeof (data));
 	  DEBUG (debug_options, 1,
 		 printsub ('>', data + 2, sizeof (data) - 2));
@@ -490,8 +485,7 @@ clientstat (register int code, register int parm1, register int parm2)
 
 		sprintf (data, "%c%c%c%c%c%c%c",
 			 IAC, SB, TELOPT_LINEMODE,
-			 LM_MODE, useeditmode,
-			 IAC, SE);
+			 LM_MODE, useeditmode, IAC, SE);
 		net_output_datalen (data, sizeof (data));
 		DEBUG (debug_options, 1,
 		       printsub ('>', data + 2, sizeof (data) - 2));
@@ -557,8 +551,7 @@ clientstat (register int code, register int parm1, register int parm2)
 
 		sprintf (data, "%c%c%c%c%c%c%c",
 			 IAC, SB, TELOPT_LINEMODE,
-			 LM_MODE, useeditmode | MODE_ACK,
-			 IAC, SE);
+			 LM_MODE, useeditmode | MODE_ACK, IAC, SE);
 		net_output_datalen (data, sizeof (data));
 		DEBUG (debug_options, 1,
 		       printsub ('>', data + 2, sizeof (data) - 2));
@@ -594,7 +587,7 @@ clientstat (register int code, register int parm1, register int parm2)
 
 # if !defined SOLARIS && !defined SOLARIS10
 	ioctl (pty, TIOCSWINSZ, (char *) &ws);
-# else /* SOLARIS || SOLARIS10 */
+# else/* SOLARIS || SOLARIS10 */
 	{
 	  int tty = pty;
 	  char *name = ptsname (pty);
@@ -607,7 +600,7 @@ clientstat (register int code, register int parm1, register int parm2)
 	  if (name)
 	    close (tty);
 	}
-# endif /* SOLARIS || SOLARIS10 */
+# endif/* SOLARIS || SOLARIS10 */
       }
 #endif /* TIOCSWINSZ */
 
@@ -701,7 +694,7 @@ defer_terminit (void)
 
 # if !defined SOLARIS && !defined SOLARIS10
       ioctl (pty, TIOCSWINSZ, (char *) &ws);
-# else /* SOLARIS || SOLARIS10 */
+# else/* SOLARIS || SOLARIS10 */
       {
 	int tty = pty;
 	char *name = ptsname (pty);
@@ -714,7 +707,7 @@ defer_terminit (void)
 	if (name)
 	  close (tty);
       }
-# endif /* SOLARIS || SOLARIS10 */
+# endif/* SOLARIS || SOLARIS10 */
     }
 #endif /* TIOCSWINSZ */
 

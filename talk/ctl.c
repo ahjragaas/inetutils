@@ -68,7 +68,7 @@ struct sockaddr_in my_addr;
 struct in_addr my_machine_addr;
 struct in_addr his_machine_addr;
 
-unsigned short daemon_port;		/* port number of the talk daemon */
+unsigned short daemon_port;	/* port number of the talk daemon */
 
 int ctl_sockt;
 int sockt;

@@ -59,7 +59,7 @@ ping_cvt_number (const char *optarg, size_t maxval, int allow_zero)
 }
 
 void
-init_data_buffer (unsigned char * pat, size_t len)
+init_data_buffer (unsigned char *pat, size_t len)
 {
   size_t i = 0;
   unsigned char *p;
@@ -94,7 +94,7 @@ decode_pattern (const char *text, int *pattern_len,
   for (i = 0; *text && i < *pattern_len; i++)
     {
       if (sscanf (text, "%2x%n", &c, &off) != 1)
-        error (EXIT_FAILURE, 0, "error in pattern near %s", text);
+	error (EXIT_FAILURE, 0, "error in pattern near %s", text);
 
       text += off;
       pattern_data[i] = c;
@@ -250,7 +250,7 @@ ping_timeout_p (struct timeval *start_time, int timeout)
     {
       tvsub (&now, start_time);
       if (now.tv_sec >= timeout)
-        return 1;
+	return 1;
     }
   return 0;
 }
@@ -280,14 +280,13 @@ ipaddr2str (struct sockaddr *from, socklen_t fromlen)
   if (options & OPT_NUMERIC)
     return xstrdup (ipstr);
 
-  err = getnameinfo (from, fromlen, hoststr, sizeof (hoststr),
-		     NULL, 0,
+  err = getnameinfo (from, fromlen, hoststr, sizeof (hoststr), NULL, 0,
 #ifdef NI_IDN
 		     NI_IDN | NI_NAMEREQD
 #else
 		     NI_NAMEREQD
 #endif
-		     );
+    );
   if (err)
     return xstrdup (ipstr);
 

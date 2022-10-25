@@ -62,7 +62,8 @@ extern struct format_handle format_handles[];
 void put_char (format_data_t form, char c);
 void put_string (format_data_t form, const char *s);
 void put_int (format_data_t form, int argc, char *argv[], int nr);
-void put_ulong (format_data_t form, int argc, char *argv[], unsigned long val);
+void put_ulong (format_data_t form, int argc, char *argv[],
+		unsigned long val);
 void select_arg (format_data_t form, int argc, char *argv[], int nr);
 void put_addr (format_data_t form, int argc, char *argv[],
 	       struct sockaddr *sa);

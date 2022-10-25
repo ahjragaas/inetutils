@@ -152,7 +152,7 @@ TN_Authenticator authenticators[] = {
    krb5shishi_reply,
    krb5shishi_status,
    krb5shishi_printsub,
-  },
+   },
   {AUTHTYPE_KERBEROS_V5, AUTH_WHO_CLIENT | AUTH_HOW_ONE_WAY,
    krb5shishi_init,
    krb5shishi_send,
@@ -160,7 +160,7 @@ TN_Authenticator authenticators[] = {
    krb5shishi_reply,
    krb5shishi_status,
    krb5shishi_printsub,
-  },
+   },
 # endif
 # ifdef	KRB5
 #  ifdef	ENCRYPTION
@@ -171,7 +171,8 @@ TN_Authenticator authenticators[] = {
    kerberos5_reply,
    kerberos5_status,
    kerberos5_printsub},
-#  endif /* ENCRYPTION */
+#  endif
+  /* ENCRYPTION */
   {AUTHTYPE_KERBEROS_V5, AUTH_WHO_CLIENT | AUTH_HOW_ONE_WAY,
    kerberos5_init,
    kerberos5_send,
@@ -189,7 +190,8 @@ TN_Authenticator authenticators[] = {
    kerberos4_reply,
    kerberos4_status,
    kerberos4_printsub},
-#  endif /* ENCRYPTION */
+#  endif
+  /* ENCRYPTION */
   {AUTHTYPE_KERBEROS_V4, AUTH_WHO_CLIENT | AUTH_HOW_ONE_WAY,
    kerberos4_init,
    kerberos4_send,
@@ -469,7 +471,7 @@ auth_send (unsigned char *data, int cnt)
       data > _auth_send_data + sizeof (_auth_send_data))
     {
       auth_send_cnt = (cnt > (int) sizeof (_auth_send_data))
-		      ? (int) sizeof (_auth_send_data) : cnt;
+	? (int) sizeof (_auth_send_data) : cnt;
       memmove ((void *) _auth_send_data, (void *) data, auth_send_cnt);
       auth_send_data = _auth_send_data;
     }
@@ -491,8 +493,7 @@ auth_send (unsigned char *data, int cnt)
 		? AUTHTYPE_NAME (auth_send_data[0]) : "unknown",
 		auth_send_data[0],
 		(auth_send_data[1] & AUTH_HOW_MASK & AUTH_HOW_MUTUAL)
-		? "MUTUAL" : "ONEWAY",
-		auth_send_data[1]);
+		? "MUTUAL" : "ONEWAY", auth_send_data[1]);
       if ((i_support & ~i_wont_support) & typemask (*auth_send_data))
 	{
 	  ap = findauthenticator (auth_send_data[0], auth_send_data[1]);
@@ -506,8 +507,7 @@ auth_send (unsigned char *data, int cnt)
 			? AUTHTYPE_NAME (auth_send_data[0]) : "unknown",
 			auth_send_data[0],
 			(auth_send_data[1] & AUTH_HOW_MASK & AUTH_HOW_MUTUAL)
-			? "MUTUAL" : "ONEWAY",
-			auth_send_data[1]);
+			? "MUTUAL" : "ONEWAY", auth_send_data[1]);
 	      if ((*ap->send) (ap))
 		{
 		  /*
@@ -545,7 +545,7 @@ auth_send (unsigned char *data, int cnt)
    */
   printf ("Unable to securely authenticate user ... exit\n");
   exit (EXIT_SUCCESS);
-# endif	/* KANNAN */
+# endif/* KANNAN */
 }
 
 void
@@ -614,8 +614,9 @@ auth_name (unsigned char *data, int cnt)
   if (cnt + 1 > (int) sizeof (savename))
     {
       if (auth_debug_mode)
-	printf (">>>%s: Name in NAME (len %d) overflows buffer (len %zu).\r\n",
-		Name, cnt, sizeof (savename) - 1);
+	printf
+	  (">>>%s: Name in NAME (len %d) overflows buffer (len %zu).\r\n",
+	   Name, cnt, sizeof (savename) - 1);
       return;
     }
   memmove ((void *) savename, (void *) data, cnt);
@@ -706,8 +707,7 @@ auth_debug (int mode)
 }
 
 static void
-auth_gen_printsub (unsigned char *data, int cnt, char *buf,
-		   int buflen)
+auth_gen_printsub (unsigned char *data, int cnt, char *buf, int buflen)
 {
   register char *cp;
   char tbuf[16];

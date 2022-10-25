@@ -139,7 +139,7 @@ int keytype;
 int keylen;
 int rc;
 int wlen;
-# endif /* SHISHI */
+# endif/* SHISHI */
 #endif /* KERBEROS || SHISHI */
 
 /*
@@ -175,8 +175,8 @@ int eight = 0, rem;
 
 int dflag = 0;
 int noescape;
-char * host = NULL;
-char * user = NULL;
+char *host = NULL;
+char *user = NULL;
 unsigned char escapechar = '~';
 #if defined WITH_ORCMD_AF || defined WITH_RCMD_AF || defined SHISHI
 sa_family_t family = AF_UNSPEC;
@@ -227,27 +227,29 @@ const char doc[] = "Starts a terminal session on a remote host.";
 static struct argp_option argp_options[] = {
 #define GRP 0
   {"8-bit", '8', NULL, 0, "allows an eight-bit input data path at all times",
-   GRP+1},
-  {"debug", 'd', NULL, 0, "set the SO_DEBUG option", GRP+1},
+   GRP + 1},
+  {"debug", 'd', NULL, 0, "set the SO_DEBUG option", GRP + 1},
   {"escape", 'e', "CHAR", 0, "allows user specification of the escape "
-   "character, which is ``~'' by default", GRP+1},
+   "character, which is ``~'' by default", GRP + 1},
   {"no-escape", 'E', NULL, 0, "stops any character from being recognized as "
-   "an escape character", GRP+1},
-  {"user", 'l', "USER", 0, "run as USER on the remote system", GRP+1},
+   "an escape character", GRP + 1},
+  {"user", 'l', "USER", 0, "run as USER on the remote system", GRP + 1},
 #if defined WITH_ORCMD_AF || defined WITH_RCMD_AF || defined SHISHI
-  { "ipv4", '4', NULL, 0, "use only IPv4", GRP+1 },
-  { "ipv6", '6', NULL, 0, "use only IPv6", GRP+1 },
+  {"ipv4", '4', NULL, 0, "use only IPv4", GRP + 1},
+  {"ipv6", '6', NULL, 0, "use only IPv6", GRP + 1},
 #endif
 #undef GRP
 #if defined KERBEROS || defined SHISHI
 # define GRP 10
 # ifdef ENCRYPTION
   {"encrypt", 'x', NULL, 0, "turns on encryption for all data passed via "
-   "the rlogin session", GRP+1},
+   "the rlogin session", GRP + 1},
 # endif
-  {"kerberos", 'K', NULL, 0, "turns off all Kerberos authentication", GRP+1},
-  {"realm", 'k', "REALM", 0, "obtain tickets for the remote host in REALM "
-   "realm instead of the remote's realm", GRP+1},
+  {"kerberos", 'K', NULL, 0, "turns off all Kerberos authentication",
+   GRP + 1},
+  {"realm", 'k', "REALM", 0,
+   "obtain tickets for the remote host in REALM "
+   "realm instead of the remote's realm", GRP + 1},
 # undef GRP
 #endif /* KERBEROS || SHISHI */
   {NULL, 0, NULL, 0, NULL, 0}
@@ -266,9 +268,9 @@ parse_opt (int key, char *arg, struct argp_state *state)
       family = AF_INET6;
       break;
 #endif
-    /* 8-bit input Specifying this forces us to use RAW mode input from
-       the user's terminal.  Also, in this mode we won't perform any
-       local flow control.  */
+      /* 8-bit input Specifying this forces us to use RAW mode input from
+         the user's terminal.  Also, in this mode we won't perform any
+         local flow control.  */
     case '8':
       eight = 1;
       break;
@@ -316,7 +318,7 @@ parse_opt (int key, char *arg, struct argp_state *state)
 
     case ARGP_KEY_NO_ARGS:
       if (host == NULL)
-        argp_error (state, "missing host operand");
+	argp_error (state, "missing host operand");
 
     default:
       return ARGP_ERR_UNKNOWN;
@@ -326,7 +328,7 @@ parse_opt (int key, char *arg, struct argp_state *state)
 }
 
 static struct argp argp =
-  {argp_options, parse_opt, args_doc, doc, NULL, NULL, NULL};
+  { argp_options, parse_opt, args_doc, doc, NULL, NULL, NULL };
 
 int
 main (int argc, char *argv[])
@@ -343,7 +345,7 @@ main (int argc, char *argv[])
   set_program_name (argv[0]);
 
   /* Traditionally, if a symbolic link was made to the rlogin binary
-         hostname --> rlogin
+     hostname --> rlogin
      then hostname will be used as the name of the server to access.  */
   {
     char *p = strrchr (argv[0], '/');
@@ -381,7 +383,7 @@ main (int argc, char *argv[])
 	  user = host;
 	host = p + 1;
 	if (*host == '\0')
-          error (EXIT_FAILURE, 0, "invalid host operand");
+	  error (EXIT_FAILURE, 0, "invalid host operand");
       }
   }
 
@@ -537,7 +539,8 @@ try_connect:
 	}
 
       else
-#  else /* KERBEROS */
+#  else
+	/* KERBEROS */
 	{
 	  rem = krcmd_mutual (&host, sp->s_port, user, term, 0,
 			      dest_realm, &cred, schedule);
@@ -545,12 +548,12 @@ try_connect:
 	}
       else
 #  endif
-# endif	/* ENCRYPTION */
+# endif/* ENCRYPTION */
 	{
 # if defined SHISHI
 	  rem = krcmd (&handle, &host, sp->s_port, &user, term, 0,
 		       dest_realm, family);
-# else /* KERBEROS */
+# else/* KERBEROS */
 	  rem = krcmd (&host, sp->s_port, user, term, 0, dest_realm);
 # endif
 	  krb_errno = errno;
@@ -578,12 +581,13 @@ try_connect:
 
 # ifdef ENCRYPTION
       if (doencrypt)
-	error (EXIT_FAILURE, 0, "the -x flag requires Kerberos authentication.");
-# endif	/* ENCRYPTION */
+	error (EXIT_FAILURE, 0,
+	       "the -x flag requires Kerberos authentication.");
+# endif/* ENCRYPTION */
       if (!user)
 	user = pw->pw_name;
       if (p)
-	host = ++p;	/* Skip prefix like `host/'.  */
+	host = ++p;		/* Skip prefix like `host/'.  */
 
 # ifdef WITH_ORCMD_AF
       rem = orcmd_af (&host, sp->s_port, pw->pw_name, user, term, 0, family);
@@ -591,7 +595,7 @@ try_connect:
       rem = rcmd_af (&host, sp->s_port, pw->pw_name, user, term, 0, family);
 # elif defined WITH_ORCMD
       rem = orcmd (&host, sp->s_port, pw->pw_name, user, term, 0);
-# else /* !WITH_ORCMD_AF && !WITH_RCMD_AF && !WITH_ORCMD */
+# else/* !WITH_ORCMD_AF && !WITH_RCMD_AF && !WITH_ORCMD */
       rem = rcmd (&host, sp->s_port, pw->pw_name, user, term, 0);
 # endif
     }
@@ -605,14 +609,14 @@ try_connect:
   rem = rcmd_af (&host, sp->s_port, pw->pw_name, user, term, 0, family);
 # elif defined WITH_ORCMD
   rem = orcmd (&host, sp->s_port, pw->pw_name, user, term, 0);
-# else /* !WITH_ORCMD_AF && !WITH_RCMD_AF && !WITH_ORCMD */
+# else/* !WITH_ORCMD_AF && !WITH_RCMD_AF && !WITH_ORCMD */
   rem = rcmd (&host, sp->s_port, pw->pw_name, user, term, 0);
 # endif
 #endif /* KERBEROS */
 
   if (rem < 0)
     {
-      puts ("");	/* Glibc does not close all error strings in rcmd().  */
+      puts ("");		/* Glibc does not close all error strings in rcmd().  */
       /* rcmd() provides its own error messages,
        * but we add a vital addition, caused by
        * insufficient capabilites.
@@ -638,8 +642,7 @@ try_connect:
 
     (void) getpeername (rem, (struct sockaddr *) &ss, &sslen);
     if (ss.ss_family == AF_INET &&
-	setsockopt (rem, IPPROTO_IP, IP_TOS,
-		    (char *) &one, sizeof (int)) < 0)
+	setsockopt (rem, IPPROTO_IP, IP_TOS, (char *) &one, sizeof (int)) < 0)
       error (0, errno, "setsockopt TOS (ignored)");
   }
 #endif
@@ -650,7 +653,7 @@ try_connect:
   seteuid (uid);
   setuid (uid);
 
-  doit (&osmask);	/* The old mask will activate SIGURG and SIGUSR1!  */
+  doit (&osmask);		/* The old mask will activate SIGURG and SIGUSR1!  */
 
   return 0;
 }
@@ -701,32 +704,31 @@ struct termspeeds
 {
   unsigned int speed;
   unsigned int sym;
-} termspeeds[] =
-  {
-    {0, B0},
-    {50, B50},
-    {75, B75},
-    {110, B110},
-    {134, B134},
-    {150, B150},
-    {200, B200},
-    {300, B300},
-    {600, B600},
-    {1200, B1200},
-    {1800, B1800},
-    {2400, B2400},
-    {4800, B4800},
-    {7200, B7200},
-    {9600, B9600},
-    {14400, B14400},
-    {19200, B19200},
-    {28800, B28800},
-    {38400, B38400},
-    {57600, B57600},
-    {115200, B115200},
-    {230400, B230400},
-    {-1, B230400}
-  };
+} termspeeds[] = {
+  {0, B0},
+  {50, B50},
+  {75, B75},
+  {110, B110},
+  {134, B134},
+  {150, B150},
+  {200, B200},
+  {300, B300},
+  {600, B600},
+  {1200, B1200},
+  {1800, B1800},
+  {2400, B2400},
+  {4800, B4800},
+  {7200, B7200},
+  {9600, B9600},
+  {14400, B14400},
+  {19200, B19200},
+  {28800, B28800},
+  {38400, B38400},
+  {57600, B57600},
+  {115200, B115200},
+  {230400, B230400},
+  {-1, B230400}
+};
 
 unsigned int
 speed_translate (unsigned int sym)
@@ -807,18 +809,19 @@ doit (sigset_t * osmask)
 		  free (iv1.iv);
 		  free (iv2.iv);
 		}
-# endif /* ENCRYPTION */
+# endif/* ENCRYPTION */
 	      shishi_done (handle);
 	    }
 #endif /* SHISHI */
-          error (0, 0, "Connection to %s closed normally.\r", host);
-          /* EXIT_SUCCESS is usually zero. So error might not exit.  */
-          exit (EXIT_SUCCESS);
+	  error (0, 0, "Connection to %s closed normally.\r", host);
+	  /* EXIT_SUCCESS is usually zero. So error might not exit.  */
+	  exit (EXIT_SUCCESS);
 	}
       /* If the reader returns non-zero, the socket to the server
          returned an error.  Something went wrong.  */
       sleep (1);
-      error (EXIT_FAILURE, 0, "\007Connection to %s closed with error.\r", host);
+      error (EXIT_FAILURE, 0, "\007Connection to %s closed with error.\r",
+	     host);
     }
 
   /*
@@ -901,11 +904,11 @@ done (int status)
   pid_t w;
   int wstatus;
 
-  mode (0);	/* FIXME: Calls tcgetattr/tcsetattr in signal handler.  */
+  mode (0);			/* FIXME: Calls tcgetattr/tcsetattr in signal handler.  */
   if (child > 0)
     {
       /* make sure catch_child does not snap it up */
-      setsig (SIGCHLD, SIG_DFL);		/* XXX: Replace setsig()?  */
+      setsig (SIGCHLD, SIG_DFL);	/* XXX: Replace setsig()?  */
       if (kill (child, SIGKILL) >= 0)
 	while ((w = waitpid (-1, &wstatus, WNOHANG)) > 0 && w != child)
 	  continue;
@@ -1031,7 +1034,7 @@ writer (void)
 		writeenc (handle, rem, (char *) &escapechar, 1, &wlen,
 			  &iv2, key, 2);
 	      else
-# endif /* SHISHI */
+# endif/* SHISHI */
 #endif /* ENCRYPTION */
 		write (rem, &escapechar, 1);
 	    }
@@ -1043,7 +1046,7 @@ writer (void)
 	{
 	  if (des_write (rem, &c, 1) == 0)
 	    {
-              error (0, 0, "line gone");
+	      error (0, 0, "line gone");
 	      break;
 	    }
 	}
@@ -1054,7 +1057,7 @@ writer (void)
 	  writeenc (handle, rem, &c, 1, &wlen, &iv2, key, 2);
 	  if (wlen == 0)
 	    {
-              error (0, 0, "line gone");
+	      error (0, 0, "line gone");
 	      break;
 	    }
 	}
@@ -1063,7 +1066,7 @@ writer (void)
 #endif
       if (write (rem, &c, 1) == 0)
 	{
-          error (0, 0, "line gone");
+	  error (0, 0, "line gone");
 	  break;
 	}
       bol = c == deftt.c_cc[VKILL] || c == deftt.c_cc[VEOF] ||
@@ -1102,7 +1105,7 @@ void
 stop (char cmdc)
 {
   mode (0);
-  setsig (SIGCHLD, SIG_IGN);		/* XXX: Replace setsig()?  */
+  setsig (SIGCHLD, SIG_IGN);	/* XXX: Replace setsig()?  */
   kill (cmdc == deftt.c_cc[VSUSP] ? 0 : getpid (), SIGTSTP);
   setsig (SIGCHLD, catch_child);
   mode (1);
@@ -1285,10 +1288,10 @@ reader (sigset_t * osmask)
   char *bufp;
   struct sigaction sa;
 
-  pid = getpid ();	/* Modern systems use positive values for pid.  */
+  pid = getpid ();		/* Modern systems use positive values for pid.  */
   ppid = getppid ();
 
-  fcntl (rem, F_SETOWN, pid);		/* Get ownership early.  */
+  fcntl (rem, F_SETOWN, pid);	/* Get ownership early.  */
 
   sa.sa_flags = SA_RESTART;
   sa.sa_handler = SIG_IGN;
@@ -1452,7 +1455,7 @@ getescape (register char *p)
   int len;
 
   len = strlen (p);
-  if (len == 1)		/* use any single char, including '\'.  */
+  if (len == 1)			/* use any single char, including '\'.  */
     return ((u_int) * p);
 
   /* otherwise, \nnn */

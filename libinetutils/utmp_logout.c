@@ -73,7 +73,7 @@ utmp_logout (char *line)
   strncpy (utx.ut_line, line, sizeof (utx.ut_line));
 
 # ifdef HAVE_PUTUTXLINE
-  setutxent();
+  setutxent ();
   ut = getutxline (&utx);
   if (ut)
     {
@@ -96,7 +96,8 @@ utmp_logout (char *line)
 #   ifdef HAVE_STRUCT_UTMPX_UT_SYSLEN
       ut->ut_syslen = 1;	/* Counting NUL.  */
 #   endif
-#  endif /* UT_HOST */
+#  endif
+      /* UT_HOST */
       pututxline (ut);
       /* Some systems perform wtmp updating
        * already in calling pututxline().
@@ -108,10 +109,10 @@ utmp_logout (char *line)
 #  endif
     }
   endutxent ();
-# elif defined HAVE_LOGOUTX /* !HAVE_PUTUTXLINE */
+# elif defined HAVE_LOGOUTX	/* !HAVE_PUTUTXLINE */
   if (logoutx (line, 0, DEAD_PROCESS))
     logwtmpx (line, "", "", 0, DEAD_PROCESS);
-# endif /* HAVE_LOGOUTX */
+# endif/* HAVE_LOGOUTX */
 
 #else /* !HAVE_UTMPX_H */
   struct utmp utx;
@@ -122,7 +123,7 @@ utmp_logout (char *line)
   strncpy (utx.ut_line, line, sizeof (utx.ut_line));
 
 # ifdef HAVE_PUTUTLINE
-  setutent();
+  setutent ();
   ut = getutline (&utx);
   if (ut)
     {
@@ -140,7 +141,8 @@ utmp_logout (char *line)
       gettimeofday (&tv, 0);
       ut->ut_tv.tv_sec = tv.tv_sec;
       ut->ut_tv.tv_usec = tv.tv_usec;
-#  else /* !HAVE_STRUCT_UTMP_UT_TV */
+#  else
+      /* !HAVE_STRUCT_UTMP_UT_TV */
       time (&(ut->ut_time));
 #  endif
 #  ifdef HAVE_STRUCT_UTMP_UT_USER
@@ -154,14 +156,14 @@ utmp_logout (char *line)
       pututline (ut);
 #  ifdef HAVE_UPDWTMP
       updwtmp (WTMP_FILE, ut);
-#  elif defined HAVE_LOGWTMP /* !HAVE_UPDWTMP */
+#  elif defined HAVE_LOGWTMP	/* !HAVE_UPDWTMP */
       logwtmp (ut->ut_line, "", "");
 #  endif
     }
   endutent ();
-# elif defined HAVE_LOGOUT /* !HAVE_PUTUTLINE */
+# elif defined HAVE_LOGOUT	/* !HAVE_PUTUTLINE */
   if (logout (line))
     logwtmp (line, "", "");
-# endif /* HAVE_LOGOUT */
+# endif/* HAVE_LOGOUT */
 #endif
 }

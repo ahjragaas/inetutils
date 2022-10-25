@@ -93,8 +93,8 @@ domacro (int argc, char *argv[])
   static int nesting_depth = 0;
   int i, j, count = 2, loopflg = 0, allocflg = 0;
   char *cp1, *cp2;
-  char *line2;		/* Saved original of `line'.  */
-  size_t line2len;	/* Its allocated length.  */
+  char *line2;			/* Saved original of `line'.  */
+  size_t line2len;		/* Its allocated length.  */
   struct cmd *c;
 
   if (argc < 2 && !another (&argc, &argv, "macro name"))
@@ -105,8 +105,7 @@ domacro (int argc, char *argv[])
     }
   for (i = 0; i < macnum; ++i)
     {
-      if (!strncmp (argv[1], macros[i].mac_name,
-		    sizeof (macros[i].mac_name)))
+      if (!strncmp (argv[1], macros[i].mac_name, sizeof (macros[i].mac_name)))
 	{
 	  break;
 	}
@@ -185,10 +184,10 @@ domacro (int argc, char *argv[])
 		}
 	      switch (*cp1)
 		{
-		case '\\':		/* Escaping character.  */
+		case '\\':	/* Escaping character.  */
 		  *cp2++ = *++cp1;
 		  break;
-		case '$':		/* Substitution.  */
+		case '$':	/* Substitution.  */
 		  if (isdigit (*(cp1 + 1)))
 		    {
 		      /* Argument expansion.  */
@@ -216,7 +215,7 @@ domacro (int argc, char *argv[])
 		    {
 		      /* The loop counter "$i" was detected.  */
 		      loopflg = 1;
-		      cp1++;		/* Back to last used char.  */
+		      cp1++;	/* Back to last used char.  */
 		      if (count < argc)
 			{
 			  if (lengthen (&line, &cp2, &linelen,
@@ -289,19 +288,19 @@ domacro (int argc, char *argv[])
 	       * to no longer provide sufficient space for
 	       * the saved line2 contents.
 	       */
-	      if (strlen(line2) >= linelen)
+	      if (strlen (line2) >= linelen)
 		{
-		  char *tmp = realloc (line, strlen(line2) + 1);
+		  char *tmp = realloc (line, strlen (line2) + 1);
 		  if (tmp == NULL)
 		    {
 		      allocflg = 1;
 		      goto end_exec;
 		    }
 		  line = tmp;
-		  linelen = strlen(line2) + 1;
+		  linelen = strlen (line2) + 1;
 		}
 	      strcpy (line, line2);
-	      makeargv ();		/* Get the arguments.  */
+	      makeargv ();	/* Get the arguments.  */
 	      argc = margc;
 	      argv = margv;
 	    }

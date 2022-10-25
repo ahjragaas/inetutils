@@ -63,10 +63,10 @@
 #   include <krb5.h>
 #  endif
 #  include "kerberos5_def.h"
-# elif defined(SHISHI) /* !KRB5 */
+# elif defined(SHISHI)		/* !KRB5 */
 #  include <shishi.h>
 #  include "shishi_def.h"
-# endif /* SHISHI && !KRB5 */
+# endif/* SHISHI && !KRB5 */
 
 # include <ctype.h>
 # include <errno.h>
@@ -88,26 +88,25 @@ int getport (int *, int);
 
 # if defined KRB5
 int
-kcmd (krb5_context *ctx, int *sock, char **ahost, unsigned short rport,
+kcmd (krb5_context * ctx, int *sock, char **ahost, unsigned short rport,
       char *locuser, char **remuser, char *cmd, int *fd2p,
-      char *service, const char *realm, krb5_keyblock **key,
-      struct sockaddr_in *laddr, struct sockaddr_in *faddr,
-      long authopts)
-# elif defined(SHISHI) /* !KRB5 */
+      char *service, const char *realm, krb5_keyblock ** key,
+      struct sockaddr_in *laddr, struct sockaddr_in *faddr, long authopts)
+# elif defined(SHISHI)		/* !KRB5 */
 int
 kcmd (Shishi ** h, int *sock, char **ahost, unsigned short rport,
       char *locuser, char **remuser, char *cmd, int *fd2p,
       char *service, const char *realm, Shishi_key ** key,
       struct sockaddr_storage *laddr, struct sockaddr_storage *faddr,
       long authopts, int af)
-# endif /* SHISHI && !KRB5 */
+# endif				/* SHISHI && !KRB5 */
 {
   int s, timo = 1, pid;
 # ifdef HAVE_SIGACTION
   sigset_t sigs, osigs;
 # else
   long oldmask;
-# endif /* !HAVE_SIGACTION */
+# endif/* !HAVE_SIGACTION */
   struct sockaddr_storage sin, from;
   socklen_t len;
   char c;
@@ -120,7 +119,7 @@ kcmd (Shishi ** h, int *sock, char **ahost, unsigned short rport,
 # if HAVE_DECL_GETADDRINFO
   struct addrinfo hints, *ai, *res;
   char portstr[8], fqdn[NI_MAXHOST];
-# else /* !HAVE_DECL_GETADDRINFO */
+# else/* !HAVE_DECL_GETADDRINFO */
   struct hostent *hp;
 # endif
   int rc;
@@ -140,7 +139,8 @@ kcmd (Shishi ** h, int *sock, char **ahost, unsigned short rport,
   memset (&hints, 0, sizeof (hints));
 #  ifdef KRB5
   hints.ai_family = AF_INET;
-#  else /* SHISHI && !KRB5 */
+#  else
+  /* SHISHI && !KRB5 */
   hints.ai_family = af;
 #  endif
   hints.ai_socktype = SOCK_STREAM;
@@ -174,7 +174,7 @@ kcmd (Shishi ** h, int *sock, char **ahost, unsigned short rport,
       strcpy (host_save, ai->ai_canonname);
     }
 
-# else /* !HAVE_DECL_GETADDRINFO */
+# else/* !HAVE_DECL_GETADDRINFO */
   /* Often the following rejects non-IPv4.
    * This is dependent on system implementation.  */
   hp = gethostbyname (host);
@@ -188,7 +188,7 @@ kcmd (Shishi ** h, int *sock, char **ahost, unsigned short rport,
   if (host_save == NULL)
     return -1;
   strcpy (host_save, hp->h_name);
-# endif /* !HAVE_DECL_GETADDRINFO */
+# endif/* !HAVE_DECL_GETADDRINFO */
 
   if (host == *ahost)
     *ahost = host_save;		/* Simple host name string.  */
@@ -215,12 +215,12 @@ kcmd (Shishi ** h, int *sock, char **ahost, unsigned short rport,
   sigprocmask (SIG_BLOCK, &sigs, &osigs);
 # else
   oldmask = sigblock (sigmask (SIGURG));
-# endif /* !HAVE_SIGACTION */
+# endif/* !HAVE_SIGACTION */
   for (;;)
     {
 # if HAVE_DECL_GETADDRINFO
       s = getport (&lport, ai->ai_family);
-# else /* !HAVE_DECL_GETADDRINFO */
+# else/* !HAVE_DECL_GETADDRINFO */
       s = getport (&lport, hp->h_addrtype);
 # endif
       if (s < 0)
@@ -233,7 +233,7 @@ kcmd (Shishi ** h, int *sock, char **ahost, unsigned short rport,
 	  sigprocmask (SIG_SETMASK, &osigs, NULL);
 # else
 	  sigsetmask (oldmask);
-# endif /* !HAVE_SIGACTION */
+# endif/* !HAVE_SIGACTION */
 	  return (-1);
 	}
       fcntl (s, F_SETOWN, pid);
@@ -241,7 +241,7 @@ kcmd (Shishi ** h, int *sock, char **ahost, unsigned short rport,
 # if HAVE_DECL_GETADDRINFO
       len = ai->ai_addrlen;
       memcpy (&sin, ai->ai_addr, ai->ai_addrlen);
-# else /* !HAVE_DECL_GETADDRINFO */
+# else/* !HAVE_DECL_GETADDRINFO */
       sin.ss_family = hp->h_addrtype;
       switch (hp->h_addrtype)
 	{
@@ -264,7 +264,7 @@ kcmd (Shishi ** h, int *sock, char **ahost, unsigned short rport,
 		  hp->h_addr, hp->h_length);
 	  ((struct sockaddr_in *) &sin)->sin_port = rport;
 	}
-# endif /* !HAVE_DECL_GETADDRINFO */
+# endif/* !HAVE_DECL_GETADDRINFO */
 
       if (connect (s, (struct sockaddr *) &sin, len) >= 0)
 	break;
@@ -286,7 +286,8 @@ kcmd (Shishi ** h, int *sock, char **ahost, unsigned short rport,
 # if ! defined ultrix || defined sun
 #  if HAVE_DECL_GETADDRINFO
       if (ai->ai_next)
-#  else /* !HAVE_DECL_GETADDRINFO */
+#  else
+      /* !HAVE_DECL_GETADDRINFO */
       if (hp->h_addr_list[1] != NULL)
 #  endif
 	{
@@ -295,17 +296,16 @@ kcmd (Shishi ** h, int *sock, char **ahost, unsigned short rport,
 
 #  if HAVE_DECL_GETADDRINFO
 	  getnameinfo (ai->ai_addr, ai->ai_addrlen,
-		       addrstr, sizeof (addrstr), NULL, 0,
-		       NI_NUMERICHOST);
+		       addrstr, sizeof (addrstr), NULL, 0, NI_NUMERICHOST);
 	  fprintf (stderr, "kcmd: connect to address %s: ", addrstr);
 	  errno = oerrno;
 	  perror (NULL);
 	  ai = ai->ai_next;
 	  getnameinfo (ai->ai_addr, ai->ai_addrlen,
-		       addrstr, sizeof (addrstr), NULL, 0,
-		       NI_NUMERICHOST);
+		       addrstr, sizeof (addrstr), NULL, 0, NI_NUMERICHOST);
 	  fprintf (stderr, "Trying %s...\n", addrstr);
-#  else /* !HAVE_DECL_GETADDRINFO */
+#  else
+	  /* !HAVE_DECL_GETADDRINFO */
 	  fprintf (stderr, "kcmd: connect to address %s: ",
 		   inet_ntop (hp->h_addrtype, hp->h_addr_list[0],
 			      addrstr, sizeof (addrstr)));
@@ -315,17 +315,18 @@ kcmd (Shishi ** h, int *sock, char **ahost, unsigned short rport,
 	  fprintf (stderr, "Trying %s...\n",
 		   inet_ntop (hp->h_addrtype, hp->h_addr_list[0],
 			      addrstr, sizeof (addrstr)));
-#  endif /* !HAVE_DECL_GETADDRINFO */
+#  endif
+	  /* !HAVE_DECL_GETADDRINFO */
 	  continue;
 	}
-# endif	/* !(defined(ultrix) || defined(sun)) */
+# endif/* !(defined(ultrix) || defined(sun)) */
 # if HAVE_DECL_GETADDRINFO
       if (errno != ECONNREFUSED)
 	perror (res->ai_canonname);
 
       if (res)
 	freeaddrinfo (res);
-# else /* !HAVE_DECL_GETADDRINFO */
+# else/* !HAVE_DECL_GETADDRINFO */
       if (errno != ECONNREFUSED)
 	perror (hp->h_name);
 # endif
@@ -334,7 +335,7 @@ kcmd (Shishi ** h, int *sock, char **ahost, unsigned short rport,
       sigprocmask (SIG_SETMASK, &osigs, NULL);
 # else
       sigsetmask (oldmask);
-# endif /* !HAVE_SIGACTION */
+# endif/* !HAVE_SIGACTION */
 
       return (-1);
     }
@@ -382,11 +383,11 @@ kcmd (Shishi ** h, int *sock, char **ahost, unsigned short rport,
 	}
       *fd2p = s3;
       port = (from.ss_family == AF_INET6)
-	     ? ntohs (((struct sockaddr_in6 *) &from)->sin6_port)
-	     : ntohs (((struct sockaddr_in *) &from)->sin_port);
+	? ntohs (((struct sockaddr_in6 *) &from)->sin6_port)
+	: ntohs (((struct sockaddr_in *) &from)->sin_port);
 
       if (port >= IPPORT_RESERVED
-          || (from.ss_family != AF_INET && from.ss_family != AF_INET6))
+	  || (from.ss_family != AF_INET && from.ss_family != AF_INET6))
 	{
 	  fprintf (stderr,
 		   "kcmd(socket): protocol failure in circuit setup.\n");
@@ -404,13 +405,13 @@ kcmd (Shishi ** h, int *sock, char **ahost, unsigned short rport,
   /* set up the needed stuff for mutual auth, but only if necessary */
 # ifdef KRB5
   if (authopts & AP_OPTS_MUTUAL_REQUIRED)
-# elif defined(SHISHI) /* !KRB5 */
+# elif defined(SHISHI)		/* !KRB5 */
   if (authopts & SHISHI_APOPTIONS_MUTUAL_REQUIRED)
 # endif
     {
       socklen_t sin_len;
 
-      memcpy (faddr, &sin, sizeof(*faddr));
+      memcpy (faddr, &sin, sizeof (*faddr));
 
       sin_len = sizeof (*laddr);
       if (getsockname (s, (struct sockaddr *) laddr, &sin_len) < 0)
@@ -421,21 +422,19 @@ kcmd (Shishi ** h, int *sock, char **ahost, unsigned short rport,
 	}
     }
 
-  (void) service;	/* Silence warning.  XXX: Implicit use?  */
+  (void) service;		/* Silence warning.  XXX: Implicit use?  */
 
 # ifdef KRB5
-  status = kerberos_auth (ctx, 0, remuser, *ahost, s,
-			  cmd, rport, key, realm);
+  status = kerberos_auth (ctx, 0, remuser, *ahost, s, cmd, rport, key, realm);
   if (status != 0)
     goto bad2;
 
-# elif defined(SHISHI) /* !KRB5 */
-  status = shishi_auth (h, 0, remuser, *ahost, s,
-			cmd, rport, key, realm);
+# elif defined(SHISHI)		/* !KRB5 */
+  status = shishi_auth (h, 0, remuser, *ahost, s, cmd, rport, key, realm);
   if (status != SHISHI_OK)
     goto bad2;
 
-# endif /* SHISHI && !KRB5 */
+# endif/* SHISHI && !KRB5 */
 
   write (s, *remuser, strlen (*remuser) + 1);
 
@@ -447,7 +446,7 @@ kcmd (Shishi ** h, int *sock, char **ahost, unsigned short rport,
     write (s, *remuser, strlen (*remuser) + 1);
 
   {
-    int zero = 0;	/* No forwarding of credentials.  */
+    int zero = 0;		/* No forwarding of credentials.  */
 
     write (s, &zero, sizeof (zero));
   }
@@ -478,13 +477,13 @@ kcmd (Shishi ** h, int *sock, char **ahost, unsigned short rport,
   sigprocmask (SIG_SETMASK, &osigs, NULL);
 # else
   sigsetmask (oldmask);
-# endif /* !HAVE_SIGACTION */
+# endif/* !HAVE_SIGACTION */
   *sock = s;
 # if defined KRB5
   return (0);
-# elif defined(SHISHI) /* !KRB5 */
+# elif defined(SHISHI)		/* !KRB5 */
   return (SHISHI_OK);
-# endif /* SHISHI && !KRB5 */
+# endif/* SHISHI && !KRB5 */
 bad2:
   if (lport)
     close (*fd2p);
@@ -494,7 +493,7 @@ bad:
   sigprocmask (SIG_SETMASK, &osigs, NULL);
 # else
   sigsetmask (oldmask);
-# endif /* !HAVE_SIGACTION */
+# endif/* !HAVE_SIGACTION */
   return (status);
 }
 
@@ -508,7 +507,7 @@ getport (int *alport, int af)
   memset (&sin, 0, sizeof (sin));
   sin.ss_family = af;
   len = (af == AF_INET6) ? sizeof (struct sockaddr_in6)
-	: sizeof (struct sockaddr_in);
+    : sizeof (struct sockaddr_in);
 # ifdef HAVE_STRUCT_SOCKADDR_STORAGE_SS_LEN
   sin.ss_len = len;
 # endif
@@ -522,12 +521,12 @@ getport (int *alport, int af)
 	{
 	case AF_INET6:
 	  ((struct sockaddr_in6 *) &sin)->sin6_port =
-		htons ((unsigned short) * alport);
+	    htons ((unsigned short) *alport);
 	  break;
 	case AF_INET:
 	default:
 	  ((struct sockaddr_in *) &sin)->sin_port =
-		htons ((unsigned short) * alport);
+	    htons ((unsigned short) *alport);
 	}
 
       if (bind (s, (struct sockaddr *) &sin, len) >= 0)

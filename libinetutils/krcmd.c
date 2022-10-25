@@ -62,15 +62,16 @@
 #  endif
 #  include "kerberos5_def.h"
 
-# elif defined(SHISHI) /* ! KRB5 */
+# elif defined(SHISHI)		/* ! KRB5 */
 #  include <shishi.h>
 #  include "shishi_def.h"
 #  ifdef HAVE_GETPWUID_R
 #   include <stdlib.h>
 #   include <unistd.h>
 #   include <pwd.h>
-#  endif /* HAVE_GETPWUID_R */
-# endif /* SHISHI && !KRB5 */
+#  endif
+       /* HAVE_GETPWUID_R */
+# endif/* SHISHI && !KRB5 */
 
 # include <stdio.h>
 
@@ -79,13 +80,12 @@
 # if defined SHISHI
 int kcmd (Shishi **, int *, char **, unsigned short, char *, char **,
 	  char *, int *, char *, const char *, Shishi_key **,
-	  struct sockaddr_storage *, struct sockaddr_storage *,
-	  long, int);
-# else /* KRB5 && !SHISHI */
+	  struct sockaddr_storage *, struct sockaddr_storage *, long, int);
+# else/* KRB5 && !SHISHI */
 int kcmd (krb5_context *, int *, char **, unsigned short, char *, char **,
 	  char *, int *, char *, const char *, krb5_keyblock **,
 	  struct sockaddr_in *, struct sockaddr_in *, long);
-# endif /* !SHISHI */
+# endif/* !SHISHI */
 
 /*
  * krcmd: simplified version of Athena's "kcmd"
@@ -98,7 +98,8 @@ int kcmd (krb5_context *, int *, char **, unsigned short, char *, char **,
 static int pwbuflen;
 static char *pwbuf = NULL;	/* Reused after first allocation.  */
 static struct passwd pwstor, *pwd;
-#  endif /* HAVE_GETPWUID_R */
+#  endif
+       /* HAVE_GETPWUID_R */
 
 int
 krcmd (Shishi ** h, char **ahost, unsigned short rport, char **remuser,
@@ -119,17 +120,17 @@ krcmd (Shishi ** h, char **ahost, unsigned short rport, char **remuser,
 
   if (pwbuf)
     (void) getpwuid_r (getuid (), &pwstor, pwbuf, pwbuflen, &pwd);
-#  endif /* HAVE_GETPWUID_R */
+#  endif
+  /* HAVE_GETPWUID_R */
 
   err = kcmd (h, &sock, ahost, rport,
 #  ifdef HAVE_GETPWUID_R
 	      pwd ? pwd->pw_name : *remuser,	/* locuser */
-#  else /* !HAVE_GETPWUID_R */
+#  else
+	      /* !HAVE_GETPWUID_R */
 	      NULL,		/* locuser not used */
 #  endif
-	      remuser, cmd, fd2p,
-	      SERVICE_NAME, realm,
-	      NULL,		/* key schedule not used */
+	      remuser, cmd, fd2p, SERVICE_NAME, realm, NULL,	/* key schedule not used */
 	      NULL,		/* local addr not used */
 	      NULL,		/* foreign addr not used */
 	      authopts, af);
@@ -144,20 +145,17 @@ krcmd (Shishi ** h, char **ahost, unsigned short rport, char **remuser,
   return (sock);
 }
 
-# elif defined(KRB5) /* !SHISHI */
+# elif defined(KRB5)		/* !SHISHI */
 int
-krcmd (krb5_context *ctx, char **ahost, unsigned short rport,
+krcmd (krb5_context * ctx, char **ahost, unsigned short rport,
        char **remuser, char *cmd, int *fd2p, const char *realm)
 {
   int sock = -1;
   krb5_error_code err = 0;
   long authopts = 0L;
 
-  err = kcmd (ctx, &sock, ahost, rport,
-	      NULL,	/* locuser not used */
-	      remuser, cmd, fd2p,
-	      SERVICE_NAME, realm,
-	      (krb5_keyblock **) NULL,		/* key not used */
+  err = kcmd (ctx, &sock, ahost, rport, NULL,	/* locuser not used */
+	      remuser, cmd, fd2p, SERVICE_NAME, realm, (krb5_keyblock **) NULL,	/* key not used */
 	      (struct sockaddr_in *) NULL,	/* local addr not used */
 	      (struct sockaddr_in *) NULL,	/* foreign addr not used */
 	      authopts);
@@ -174,14 +172,15 @@ krcmd (krb5_context *ctx, char **ahost, unsigned short rport,
     return (-1);
   return (sock);
 }
-# endif /* KRB5 && !SHISHI */
+# endif/* KRB5 && !SHISHI */
 
 # ifdef ENCRYPTION
 
 #  if defined SHISHI
 int
 krcmd_mutual (Shishi ** h, char **ahost, unsigned short rport, char **remuser,
-	      char *cmd, int *fd2p, const char *realm, Shishi_key ** key, int af)
+	      char *cmd, int *fd2p, const char *realm, Shishi_key ** key,
+	      int af)
 {
   int sock = -1, err = 0;
   struct sockaddr_storage laddr, faddr;
@@ -199,17 +198,17 @@ krcmd_mutual (Shishi ** h, char **ahost, unsigned short rport, char **remuser,
 
   if (pwbuf)
     (void) getpwuid_r (getuid (), &pwstor, pwbuf, pwbuflen, &pwd);
-#   endif /* HAVE_GETPWUID_R */
+#   endif
+  /* HAVE_GETPWUID_R */
 
   err = kcmd (h, &sock, ahost, rport,
 #   ifdef HAVE_GETPWUID_R
 	      pwd ? pwd->pw_name : *remuser,	/* locuser */
-#   else /* !HAVE_GETPWUID_R */
+#   else
+	      /* !HAVE_GETPWUID_R */
 	      NULL,		/* locuser not used */
 #   endif
-	      remuser, cmd, fd2p,
-	      SERVICE_NAME, realm,
-	      key,		/* filled in */
+	      remuser, cmd, fd2p, SERVICE_NAME, realm, key,	/* filled in */
 	      &laddr,		/* filled in */
 	      &faddr,		/* filled in */
 	      authopts, af);
@@ -226,22 +225,19 @@ krcmd_mutual (Shishi ** h, char **ahost, unsigned short rport, char **remuser,
   return (sock);
 }
 
-#  elif defined(KRB5) /* !SHISHI */
+#  elif defined(KRB5)		/* !SHISHI */
 int
-krcmd_mutual (krb5_context *ctx, char **ahost, unsigned short rport,
+krcmd_mutual (krb5_context * ctx, char **ahost, unsigned short rport,
 	      char **remuser, char *cmd, int *fd2p, const char *realm,
-	      krb5_keyblock **key)
+	      krb5_keyblock ** key)
 {
   int sock;
   krb5_error_code err = 0;
   struct sockaddr_in laddr, faddr;
   long authopts = AP_OPTS_MUTUAL_REQUIRED | AP_OPTS_USE_SUBKEY;
 
-  err = kcmd (ctx, &sock, ahost, rport,
-	      NULL,		/* locuser not used */
-	      remuser, cmd, fd2p,
-	      SERVICE_NAME, realm,
-	      key,		/* filled in */
+  err = kcmd (ctx, &sock, ahost, rport, NULL,	/* locuser not used */
+	      remuser, cmd, fd2p, SERVICE_NAME, realm, key,	/* filled in */
 	      &laddr,		/* filled in */
 	      &faddr,		/* filled in */
 	      authopts);
@@ -259,6 +255,7 @@ krcmd_mutual (krb5_context *ctx, char **ahost, unsigned short rport,
     return (-1);
   return (sock);
 }
-#  endif /* KRB5 && !SHISHI */
-# endif /* ENCRYPTION  */
+#  endif
+       /* KRB5 && !SHISHI */
+# endif/* ENCRYPTION  */
 #endif /* KRB5 || SHISHI */

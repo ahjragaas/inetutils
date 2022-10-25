@@ -46,7 +46,7 @@ static void reapchild (int);
 #ifndef DEFPORT
 # ifdef IPPORT_FTP
 #  define DEFPORT IPPORT_FTP
-# else /* !IPPORT_FTP */
+# else/* !IPPORT_FTP */
 #  define DEFPORT 21
 # endif
 #endif /* !DEFPORT */
@@ -67,18 +67,16 @@ check_host (struct sockaddr *sa, socklen_t len)
   char addr[INET6_ADDRSTRLEN];
   char name[NI_MAXHOST];
 
-  if (sa->sa_family != AF_INET
-      && sa->sa_family != AF_INET6)
+  if (sa->sa_family != AF_INET && sa->sa_family != AF_INET6)
     return 1;
 
-  (void) getnameinfo(sa, len, addr, sizeof (addr), NULL, 0, NI_NUMERICHOST);
-  err = getnameinfo(sa, len, name, sizeof (name), NULL, 0, NI_NAMEREQD);
+  (void) getnameinfo (sa, len, addr, sizeof (addr), NULL, 0, NI_NUMERICHOST);
+  err = getnameinfo (sa, len, name, sizeof (name), NULL, 0, NI_NAMEREQD);
   if (!err)
     {
       if (!hosts_ctl ("ftpd", name, addr, STRING_UNKNOWN))
 	{
-	  syslog (deny_severity, "tcpwrappers rejected: %s [%s]",
-		  name, addr);
+	  syslog (deny_severity, "tcpwrappers rejected: %s [%s]", name, addr);
 	  return 0;
 	}
     }
@@ -110,7 +108,7 @@ reapchild (int signo MAYBE_UNUSED)
  */
 int
 server_mode (const char *pidfile, struct sockaddr *phis_addr,
-	     socklen_t *phis_addrlen, char *argv[])
+	     socklen_t * phis_addrlen, char *argv[])
 {
   int ctl_sock, fd;
   struct servent *sv;
@@ -238,7 +236,7 @@ server_mode (const char *pidfile, struct sockaddr *phis_addr,
 #ifndef HAVE_FORK
   _exit (execvp (argv[0], argv));
 #else
-  (void) argv;		/* Silence warnings.  */
+  (void) argv;			/* Silence warnings.  */
 #endif
 
   return fd;

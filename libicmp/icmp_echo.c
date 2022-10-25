@@ -30,8 +30,8 @@
 #include <icmp.h>
 
 int
-icmp_generic_encode (unsigned char * buffer, size_t bufsize, int type, int ident,
-		     int seqno)
+icmp_generic_encode (unsigned char *buffer, size_t bufsize, int type,
+		     int ident, int seqno)
 {
   icmphdr_t *icmp;
 
@@ -49,7 +49,7 @@ icmp_generic_encode (unsigned char * buffer, size_t bufsize, int type, int ident
 }
 
 int
-icmp_generic_decode (unsigned char * buffer, size_t bufsize,
+icmp_generic_decode (unsigned char *buffer, size_t bufsize,
 		     struct ip **ipp, icmphdr_t ** icmpp)
 {
   size_t hlen;
@@ -80,13 +80,13 @@ icmp_generic_decode (unsigned char * buffer, size_t bufsize,
 }
 
 int
-icmp_echo_encode (unsigned char * buffer, size_t bufsize, int ident, int seqno)
+icmp_echo_encode (unsigned char *buffer, size_t bufsize, int ident, int seqno)
 {
   return icmp_generic_encode (buffer, bufsize, ICMP_ECHO, ident, seqno);
 }
 
 int
-icmp_echo_decode (unsigned char * buffer, size_t bufsize,
+icmp_echo_decode (unsigned char *buffer, size_t bufsize,
 		  struct ip **ipp, icmphdr_t ** icmpp)
 {
   return icmp_generic_decode (buffer, bufsize, ipp, icmpp);
