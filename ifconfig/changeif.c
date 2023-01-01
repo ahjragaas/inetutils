@@ -1,5 +1,5 @@
 /* changeif.c -- change the configuration of a network interface
-  Copyright (C) 2001-2022 Free Software Foundation, Inc.
+  Copyright (C) 2001-2023 Free Software Foundation, Inc.
 
   This file is part of GNU Inetutils.
 

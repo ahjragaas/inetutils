@@ -2021,7 +2021,7 @@ Sat Dec 30 06:36:41 1995  Roland McGrath  <roland@churchy.gnu.ai.mit.edu>
 	* ftpd/ftpcmd.y: Allow `SITE IDLE 0' for non-anonymous user to
 	disable idle timer.
 
-    Copyright (C) 1995-2022 Free Software Foundation, Inc.
+    Copyright (C) 1995-2023 Free Software Foundation, Inc.
 
   This file is part of GNU Inetutils.
 

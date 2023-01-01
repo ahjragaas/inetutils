@@ -1,5 +1,5 @@
 dnl
-dnl Copyright (C) 1996-2022 Free Software Foundation, Inc.
+dnl Copyright (C) 1996-2023 Free Software Foundation, Inc.
 dnl
 dnl This file is part of GNU Inetutils.
 dnl

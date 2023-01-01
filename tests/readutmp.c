@@ -1,5 +1,5 @@
 /* readutmp - Basic test of existing utmp/utmpx access.
-  Copyright (C) 2010-2022 Free Software Foundation, Inc.
+  Copyright (C) 2010-2023 Free Software Foundation, Inc.
 
   This file is part of GNU Inetutils.
 

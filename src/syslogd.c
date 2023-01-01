@@ -1,5 +1,5 @@
 /* syslogd - log system messages
-  Copyright (C) 1997-2022 Free Software Foundation, Inc.
+  Copyright (C) 1997-2023 Free Software Foundation, Inc.
 
   This file is part of GNU Inetutils.
 
