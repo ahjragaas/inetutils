@@ -55,6 +55,16 @@
 #include "ping6.h"
 #include "libinetutils.h"
 
+/* RFC 4443 addition not yet available in libc headers */
+#ifndef ICMP6_DST_UNREACH_POLICYFAIL
+#define ICMP6_DST_UNREACH_POLICYFAIL 5
+#endif
+
+/* RFC 4443 addition not yet available in libc headers */
+#ifndef ICMP6_DST_UNREACH_REJECTROUTE
+#define ICMP6_DST_UNREACH_REJECTROUTE 6
+#endif
+
 static PING *ping;
 bool is_root = false;
 unsigned char *data_buffer;
@@ -637,6 +647,8 @@ static struct icmp_code_descr icmp_dest_unreach_desc[] = {
   {ICMP6_DST_UNREACH_BEYONDSCOPE, "Beyond scope of source address"},
   {ICMP6_DST_UNREACH_ADDR, "Address unreachable"},
   {ICMP6_DST_UNREACH_NOPORT, "Port unreachable"},
+  {ICMP6_DST_UNREACH_POLICYFAIL, "Source address failed ingress/egress policy"},
+  {ICMP6_DST_UNREACH_REJECTROUTE, "Reject route to destination"},
 };
 
 static void
