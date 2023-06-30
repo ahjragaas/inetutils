@@ -275,8 +275,17 @@ main (int argc, char **argv)
     {
       if (asrsh)
 	*argv = (char *) "rlogin";
-      seteuid (getuid ());
-      setuid (getuid ());
+
+      if (seteuid (getuid ()) == -1)
+      {
+        error (EXIT_FAILURE, errno, "seteuid() failed");
+      }
+
+      if (setuid (getuid ()) == -1)
+      {
+        error (EXIT_FAILURE, errno, "setuid() failed");
+      }
+
       execv (PATH_RLOGIN, argv);
       error (EXIT_FAILURE, errno, "cannot execute %s", PATH_RLOGIN);
     }
@@ -545,8 +554,16 @@ try_connect:
 	error (0, errno, "setsockopt DEBUG (ignored)");
     }
 
-  seteuid (uid);
-  setuid (uid);
+  if (seteuid (uid) == -1)
+  {
+    error (EXIT_FAILURE, errno, "seteuid() failed");
+  }
+
+  if (setuid (uid) == -1)
+  {
+    error (EXIT_FAILURE, errno, "setuid() failed");
+  }
+
 #ifdef HAVE_SIGACTION
   sigemptyset (&sigs);
   sigaddset (&sigs, SIGINT);

@@ -863,7 +863,9 @@ end_login (struct credentials *pcred)
   char *remotehost = pcred->remotehost;
   int atype = pcred->auth_type;
 
-  seteuid ((uid_t) 0);
+  if (seteuid ((uid_t) 0) == -1)
+    _exit (EXIT_FAILURE);
+
   if (pcred->logged_in)
     {
       logwtmp_keep_open (ttyline, "", "");
@@ -1152,7 +1154,8 @@ getdatasock (const char *mode)
 
   if (data >= 0)
     return fdopen (data, mode);
-  seteuid ((uid_t) 0);
+  if (seteuid ((uid_t) 0) == -1)
+    _exit (EXIT_FAILURE);
   s = socket (ctrl_addr.ss_family, SOCK_STREAM, 0);
   if (s < 0)
     goto bad;
@@ -1977,7 +1980,8 @@ passive (int epsv, int af)
   else				/* !AF_INET6 */
     ((struct sockaddr_in *) &pasv_addr)->sin_port = 0;
 
-  seteuid ((uid_t) 0);
+  if (seteuid ((uid_t) 0) == -1)
+    _exit (EXIT_FAILURE);
   if (bind (pdata, (struct sockaddr *) &pasv_addr, pasv_addrlen) < 0)
     {
       if (seteuid ((uid_t) cred.uid))

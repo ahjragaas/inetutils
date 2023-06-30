@@ -250,7 +250,12 @@ doit (struct sockaddr *sap, socklen_t salen)
   snprintf (Username, sizeof (Username), "USER=%s", user);
   snprintf (Logname, sizeof (Logname), "LOGNAME=%s", user);
   dologin (pw, sap, salen);
-  setgid (pw->pw_gid);
+
+  if (setgid (pw->pw_gid) == -1)
+  {
+    fprintf (stderr, "setgid() failed");
+    return;
+  }
 #ifdef HAVE_INITGROUPS
   initgroups (pw->pw_name, pw->pw_gid);
 #endif
@@ -259,7 +264,13 @@ doit (struct sockaddr *sap, socklen_t salen)
       fprintf (stderr, "Login incorrect.");
       return;
     }
-  setuid (pw->pw_uid);
+
+  if (setuid (pw->pw_uid) == -1)
+  {
+    fprintf (stderr, "setuid() failed");
+    return;
+  }
+
   execl (uucico_location, "uucico", NULL);
   perror ("uucico server: execl");
 }

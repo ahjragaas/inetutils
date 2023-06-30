@@ -1858,8 +1858,18 @@ doit (int sockfd, struct sockaddr *fromp, socklen_t fromlen)
     pwd->pw_shell = PATH_BSHELL;
 
   /* Set the gid, then uid to become the user specified by "locuser" */
-  setegid ((gid_t) pwd->pw_gid);
-  setgid ((gid_t) pwd->pw_gid);
+  if (setegid ((gid_t) pwd->pw_gid) == -1)
+  {
+    rshd_error ("Cannot drop privileges (setegid() failed)\n");
+    exit (EXIT_FAILURE);
+  }
+
+  if (setgid ((gid_t) pwd->pw_gid) == -1)
+  {
+    rshd_error ("Cannot drop privileges (setgid() failed)\n");
+    exit (EXIT_FAILURE);
+  }
+
 #ifdef HAVE_INITGROUPS
   initgroups (pwd->pw_name, pwd->pw_gid);	/* BSD groups */
 #endif
@@ -1881,7 +1891,11 @@ doit (int sockfd, struct sockaddr *fromp, socklen_t fromlen)
     }
 #endif /* WITH_PAM */
 
-  setuid ((uid_t) pwd->pw_uid);
+  if (setuid ((uid_t) pwd->pw_uid) == -1)
+  {
+    rshd_error ("Cannot drop privileges (setuid() failed)\n");
+    exit (EXIT_FAILURE);
+  }
 
   /* We'll execute the client's command in the home directory
    * of locuser. Note, that the chdir must be executed after

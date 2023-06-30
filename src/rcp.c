@@ -347,14 +347,23 @@ main (int argc, char *argv[])
   if (from_option)
     {				/* Follow "protocol", send data. */
       response ();
-      setuid (userid);
+
+      if (setuid (userid) == -1)
+      {
+        error (EXIT_FAILURE, 0, "Could not drop privileges (setuid() failed)");
+      }
+
       source (argc, argv);
       exit (errs);
     }
 
   if (to_option)
     {				/* Receive data. */
-      setuid (userid);
+      if (setuid (userid) == -1)
+      {
+        error (EXIT_FAILURE, 0, "Could not drop privileges (setuid() failed)");
+      }
+
       sink (argc, argv);
       exit (errs);
     }
@@ -536,7 +545,11 @@ toremote (char *targ, int argc, char *argv[])
 	      if (response () < 0)
 		exit (EXIT_FAILURE);
 	      free (bp);
-	      setuid (userid);
+
+	      if (setuid (userid) == -1)
+              {
+                error (EXIT_FAILURE, 0, "Could not drop privileges (setuid() failed)");
+              }
 	    }
 	  source (1, argv + i);
 	  close (rem);
@@ -628,7 +641,12 @@ tolocal (int argc, char *argv[])
 	  ++errs;
 	  continue;
 	}
-      seteuid (userid);
+
+      if (seteuid (userid) == -1)
+      {
+        error (EXIT_FAILURE, 0, "Could not drop privileges (seteuid() failed)");
+      }
+
 #if defined IP_TOS && defined IPPROTO_IP && defined IPTOS_THROUGHPUT
       sslen = sizeof (ss);
       (void) getpeername (rem, (struct sockaddr *) &ss, &sslen);
@@ -641,7 +659,12 @@ tolocal (int argc, char *argv[])
 #endif
       vect[0] = target;
       sink (1, vect);
-      seteuid (effuid);
+
+      if (seteuid (effuid) == -1)
+      {
+        error (EXIT_FAILURE, 0, "Could not drop privileges (seteuid() failed)");
+      }
+
       close (rem);
       rem = -1;
 #ifdef SHISHI
@@ -1443,7 +1466,11 @@ susystem (char *s, int userid)
       return (127);
 
     case 0:
-      setuid (userid);
+      if (setuid (userid) == -1)
+      {
+        error (EXIT_FAILURE, 0, "Could not drop privileges (setuid() failed)");
+      }
+
       execl (PATH_BSHELL, "sh", "-c", s, NULL);
       _exit (127);
     }
