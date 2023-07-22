@@ -32,29 +32,33 @@ update-copyright-env = \
   UPDATE_COPYRIGHT_USE_INTERVALS=2 \
   UPDATE_COPYRIGHT_MAX_LINE_LENGTH=79
 
+# maint.mk's public-submodule-commit breaks on shallow gnulib
+submodule-checks =
+gl_public_submodule_commit =
+
 local-checks-to-skip = \
+	sc_assignment_in_if \
+	sc_bindtextdomain \
 	sc_cast_of_x_alloc_return_value \
 	sc_copyright_check \
-	sc_program_name \
-	sc_prohibit_always_true_header_tests \
-	sc_prohibit_assert_without_use \
-	sc_prohibit_doubled_word \
-	sc_prohibit_error_without_use \
-	sc_prohibit_have_config_h \
-	sc_prohibit_magic_number_exit \
-	sc_prohibit_strncpy \
-	sc_prohibit_undesirable_word_seq \
-	sc_prohibit_xalloc_without_use \
 	sc_error_message_period \
 	sc_error_message_uppercase \
 	sc_m4_quote_check \
+	sc_program_name \
+	sc_prohibit_always_true_header_tests \
+	sc_prohibit_assert_without_use \
 	sc_prohibit_atoi_atof \
+	sc_prohibit_doubled_word \
+	sc_prohibit_error_without_use \
+	sc_prohibit_gnu_make_extensions \
+	sc_prohibit_have_config_h \
+	sc_prohibit_magic_number_exit \
 	sc_prohibit_stat_st_blocks \
 	sc_prohibit_strcmp \
+	sc_prohibit_strncpy \
+	sc_prohibit_undesirable_word_seq \
+	sc_prohibit_xalloc_without_use \
 	sc_unmarked_diagnostics \
-	sc_bindtextdomain \
-	sc_assignment_in_if \
-	sc_prohibit_gnu_make_extensions
 
 exclude_file_name_regexp--sc_prohibit_have_config_h = \
 	^libinetutils/libinetutils.h$$
