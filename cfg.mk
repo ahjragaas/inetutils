@@ -72,6 +72,9 @@ exclude_file_name_regexp--sc_trailing_blank = \
 exclude_file_name_regexp--sc_prohibit_empty_lines_at_EOF = \
 	^tests/crash-.*-msg.*.bin$$
 
+exclude_file_name_regexp--sc_unportable_grep_q = \
+	^gl/top/README-release.diff$$
+
 sc_unsigned_char:
 	@prohibit=u''_char \
 	halt='don'\''t use u''_char; instead use unsigned char'	\
