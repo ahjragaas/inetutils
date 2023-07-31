@@ -252,10 +252,10 @@ doit (struct sockaddr *sap, socklen_t salen)
   dologin (pw, sap, salen);
 
   if (setgid (pw->pw_gid) == -1)
-  {
-    fprintf (stderr, "setgid() failed");
-    return;
-  }
+    {
+      fprintf (stderr, "setgid() failed");
+      return;
+    }
 #ifdef HAVE_INITGROUPS
   initgroups (pw->pw_name, pw->pw_gid);
 #endif
@@ -266,10 +266,10 @@ doit (struct sockaddr *sap, socklen_t salen)
     }
 
   if (setuid (pw->pw_uid) == -1)
-  {
-    fprintf (stderr, "setuid() failed");
-    return;
-  }
+    {
+      fprintf (stderr, "setuid() failed");
+      return;
+    }
 
   execl (uucico_location, "uucico", NULL);
   perror ("uucico server: execl");

@@ -349,9 +349,10 @@ main (int argc, char *argv[])
       response ();
 
       if (setuid (userid) == -1)
-      {
-        error (EXIT_FAILURE, 0, "Could not drop privileges (setuid() failed)");
-      }
+	{
+	  error (EXIT_FAILURE, 0,
+		 "Could not drop privileges (setuid() failed)");
+	}
 
       source (argc, argv);
       exit (errs);
@@ -360,9 +361,10 @@ main (int argc, char *argv[])
   if (to_option)
     {				/* Receive data. */
       if (setuid (userid) == -1)
-      {
-        error (EXIT_FAILURE, 0, "Could not drop privileges (setuid() failed)");
-      }
+	{
+	  error (EXIT_FAILURE, 0,
+		 "Could not drop privileges (setuid() failed)");
+	}
 
       sink (argc, argv);
       exit (errs);
@@ -547,9 +549,10 @@ toremote (char *targ, int argc, char *argv[])
 	      free (bp);
 
 	      if (setuid (userid) == -1)
-              {
-                error (EXIT_FAILURE, 0, "Could not drop privileges (setuid() failed)");
-              }
+		{
+		  error (EXIT_FAILURE, 0,
+			 "Could not drop privileges (setuid() failed)");
+		}
 	    }
 	  source (1, argv + i);
 	  close (rem);
@@ -643,9 +646,10 @@ tolocal (int argc, char *argv[])
 	}
 
       if (seteuid (userid) == -1)
-      {
-        error (EXIT_FAILURE, 0, "Could not drop privileges (seteuid() failed)");
-      }
+	{
+	  error (EXIT_FAILURE, 0,
+		 "Could not drop privileges (seteuid() failed)");
+	}
 
 #if defined IP_TOS && defined IPPROTO_IP && defined IPTOS_THROUGHPUT
       sslen = sizeof (ss);
@@ -661,9 +665,10 @@ tolocal (int argc, char *argv[])
       sink (1, vect);
 
       if (seteuid (effuid) == -1)
-      {
-        error (EXIT_FAILURE, 0, "Could not drop privileges (seteuid() failed)");
-      }
+	{
+	  error (EXIT_FAILURE, 0,
+		 "Could not drop privileges (seteuid() failed)");
+	}
 
       close (rem);
       rem = -1;
@@ -1467,9 +1472,10 @@ susystem (char *s, int userid)
 
     case 0:
       if (setuid (userid) == -1)
-      {
-        error (EXIT_FAILURE, 0, "Could not drop privileges (setuid() failed)");
-      }
+	{
+	  error (EXIT_FAILURE, 0,
+		 "Could not drop privileges (setuid() failed)");
+	}
 
       execl (PATH_BSHELL, "sh", "-c", s, NULL);
       _exit (127);

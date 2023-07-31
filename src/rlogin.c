@@ -651,14 +651,14 @@ try_connect:
      to get the privileged port that rcmd () uses.  We now want, however,
      to run as the real user who invoked us.  */
   if (seteuid (uid) == -1)
-  {
-    error (EXIT_FAILURE, 0, "Could not drop privileges (seteuid() failed)");
-  }
+    {
+      error (EXIT_FAILURE, 0, "Could not drop privileges (seteuid() failed)");
+    }
 
   if (setuid (uid) == -1)
-  {
-    error (EXIT_FAILURE, 0, "Could not drop privileges (setuid() failed)");
-  }
+    {
+      error (EXIT_FAILURE, 0, "Could not drop privileges (setuid() failed)");
+    }
 
   doit (&osmask);		/* The old mask will activate SIGURG and SIGUSR1!  */
 
