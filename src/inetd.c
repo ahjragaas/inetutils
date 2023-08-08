@@ -153,6 +153,7 @@
 #endif
 
 bool debug = false;
+bool foreground = false;
 int nsock, maxsock;
 fd_set allsock;
 int options;
@@ -175,6 +176,7 @@ const char doc[] = "Internet super-server.";
 enum
 {
   OPT_ENVIRON = 256,
+  OPT_FOREGROUND,
   OPT_RESOLVE
 };
 
@@ -187,6 +189,8 @@ const char *program_authors[] = {
 
 static struct argp_option argp_options[] = {
 #define GRP 0
+  {"foreground", OPT_FOREGROUND, NULL, 0,
+   "run in foreground mode", GRP + 1},
   {"debug", 'd', NULL, 0,
    "turn on debugging, run in foreground mode", GRP + 1},
   {"environment", OPT_ENVIRON, NULL, 0,
@@ -214,7 +218,12 @@ parse_opt (int key, char *arg, struct argp_state *state MAYBE_UNUSED)
     {
     case 'd':
       debug = true;
+      foreground = true;
       options |= SO_DEBUG;
+      break;
+
+    case OPT_FOREGROUND:
+      foreground = true;
       break;
 
     case OPT_ENVIRON:
@@ -1957,7 +1966,7 @@ main (int argc, char *argv[], char *envp[])
       config_files[1] = newstr (PATH_INETDDIR);
     }
 
-  if (!debug)
+  if (!foreground)
     {
       if (daemon (0, 0) < 0)
 	{
