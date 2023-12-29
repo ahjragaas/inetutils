@@ -377,7 +377,7 @@ signal_set_handler (int signo, void (*handler) (int))
 }
 
 void
-signal_block (SIGSTATUS * old_status)
+signal_block (SIGSTATUS *old_status)
 {
 #ifdef HAVE_SIGACTION
   sigset_t sigs;
@@ -395,7 +395,7 @@ signal_block (SIGSTATUS * old_status)
 }
 
 void
-signal_unblock (SIGSTATUS * status)
+signal_unblock (SIGSTATUS *status)
 {
 #ifdef HAVE_SIGACTION
   if (status)
@@ -925,7 +925,7 @@ setconfig (const char *file)
 }
 
 void
-endconfig (FILE * fconfig)
+endconfig (FILE *fconfig)
 {
   if (fconfig)
     fclose (fconfig);
@@ -980,7 +980,7 @@ next_node_sep (struct servtab *sep)
 }
 
 struct servtab *
-getconfigent (FILE * fconfig, const char *file, size_t *line)
+getconfigent (FILE *fconfig, const char *file, size_t *line)
 {
   static struct servtab serv;
   struct servtab *sep = &serv;

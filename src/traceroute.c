@@ -353,7 +353,7 @@ main (int argc, char **argv)
 }
 
 void
-do_try (trace_t * trace, const int hop,
+do_try (trace_t *trace, const int hop,
 	const int max_hops MAYBE_UNUSED, const int max_tries)
 {
   fd_set readset;
@@ -466,7 +466,7 @@ get_hostname (struct in_addr *addr)
 }
 
 void
-trace_init (trace_t * t, const struct sockaddr_in to,
+trace_init (trace_t *t, const struct sockaddr_in to,
 	    const enum trace_type type)
 {
   int fd;
@@ -546,7 +546,7 @@ trace_init (trace_t * t, const struct sockaddr_in to,
 }
 
 void
-trace_port (trace_t * t, const unsigned short int port)
+trace_port (trace_t *t, const unsigned short int port)
 {
   assert (t);
   if (port < IPPORT_RESERVED)
@@ -565,7 +565,7 @@ trace_port (trace_t * t, const unsigned short int port)
 #define CAPTURE_LEN (MAXIPLEN + MAXICMPLEN)
 
 int
-trace_read (trace_t * t, int *type, int *code)
+trace_read (trace_t *t, int *type, int *code)
 {
   int len, rc = 0;
   unsigned char data[CAPTURE_LEN];
@@ -667,7 +667,7 @@ trace_read (trace_t * t, int *type, int *code)
 }
 
 int
-trace_write (trace_t * t)
+trace_write (trace_t *t)
 {
   int len;
 
@@ -745,19 +745,19 @@ trace_write (trace_t * t)
 }
 
 int
-trace_udp_sock (trace_t * t)
+trace_udp_sock (trace_t *t)
 {
   return (t != NULL ? t->udpfd : -1);
 }
 
 int
-trace_icmp_sock (trace_t * t)
+trace_icmp_sock (trace_t *t)
 {
   return (t != NULL ? t->icmpfd : -1);
 }
 
 void
-trace_inc_ttl (trace_t * t)
+trace_inc_ttl (trace_t *t)
 {
   int fd;
   const int *ttlp;
@@ -772,7 +772,7 @@ trace_inc_ttl (trace_t * t)
 }
 
 void
-trace_inc_port (trace_t * t)
+trace_inc_port (trace_t *t)
 {
   assert (t);
   if (t->type == TRACE_UDP)

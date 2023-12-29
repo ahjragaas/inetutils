@@ -31,7 +31,7 @@ TERMDESC termbuf, termbuf2;
 #ifdef IOCTL_INTERFACE
 
 void
-_term_setattr (int fd, TERMDESC * tp)
+_term_setattr (int fd, TERMDESC *tp)
 {
   ioctl (fd, TIOCSETN, (char *) &tp->sg);
   ioctl (fd, TIOCSETC, (char *) &tp->tc);
@@ -590,7 +590,7 @@ set_termbuf (void)
 			return SLC_DEFAULT;
 
 int
-spcset (int func, cc_t * valp, cc_t ** valpp)
+spcset (int func, cc_t *valp, cc_t **valpp)
 {
   switch (func)
     {

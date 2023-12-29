@@ -108,7 +108,7 @@ reapchild (int signo MAYBE_UNUSED)
  */
 int
 server_mode (const char *pidfile, struct sockaddr *phis_addr,
-	     socklen_t * phis_addrlen, char *argv[])
+	     socklen_t *phis_addrlen, char *argv[])
 {
   int ctl_sock, fd;
   struct servent *sv;

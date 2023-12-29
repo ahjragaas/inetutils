@@ -154,7 +154,7 @@ ping_echo (char *hostname)
 int
 handler (int code, void *closure,
 	 struct sockaddr_in *dest, struct sockaddr_in *from,
-	 struct ip *ip, icmphdr_t * icmp, int datalen)
+	 struct ip *ip, icmphdr_t *icmp, int datalen)
 {
   switch (code)
     {
@@ -174,7 +174,7 @@ int
 print_echo (int dupflag, struct ping_stat *ping_stat,
 	    struct sockaddr_in *dest MAYBE_UNUSED,
 	    struct sockaddr_in *from,
-	    struct ip *ip, icmphdr_t * icmp, int datalen)
+	    struct ip *ip, icmphdr_t *icmp, int datalen)
 {
   int hlen;
   struct timeval tv;
@@ -336,7 +336,7 @@ print_ip_header (struct ip *ip)
 }
 
 void
-print_ip_data (icmphdr_t * icmp, void *data MAYBE_UNUSED)
+print_ip_data (icmphdr_t *icmp, void *data MAYBE_UNUSED)
 {
   int hlen;
   unsigned char *cp;
@@ -368,7 +368,7 @@ print_ip_data (icmphdr_t * icmp, void *data MAYBE_UNUSED)
 }
 
 static void
-print_icmp (icmphdr_t * icmp, void *data)
+print_icmp (icmphdr_t *icmp, void *data)
 {
   print_icmp_code (icmp->icmp_type, icmp->icmp_code, data);
   if (options & OPT_VERBOSE)
@@ -376,7 +376,7 @@ print_icmp (icmphdr_t * icmp, void *data)
 }
 
 static void
-print_parameterprob (icmphdr_t * icmp, void *data)
+print_parameterprob (icmphdr_t *icmp, void *data)
 {
   printf ("Parameter problem: IP address = %s\n",
 	  inet_ntoa (icmp->icmp_gwaddr));
@@ -403,7 +403,7 @@ struct icmp_diag icmp_diag[] = {
 
 void
 print_icmp_header (struct sockaddr_in *from,
-		   struct ip *ip, icmphdr_t * icmp, int len)
+		   struct ip *ip, icmphdr_t *icmp, int len)
 {
   int hlen;
   struct ip *orig_ip;

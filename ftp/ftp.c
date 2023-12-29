@@ -582,7 +582,7 @@ getreply (int expecteof)
 }
 
 int
-empty (fd_set * mask, int sec)
+empty (fd_set *mask, int sec)
 {
   struct timeval t;
 
@@ -2011,7 +2011,7 @@ gunique (char *local)
 }
 
 void
-abort_remote (FILE * din)
+abort_remote (FILE *din)
 {
   char buf[BUFSIZ];
   int nfnd;

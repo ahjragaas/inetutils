@@ -167,7 +167,7 @@ main (int argc, char *argv[])
 }
 
 static void
-get_name (const hostname_arguments * const args)
+get_name (const hostname_arguments *const args)
 {
   char *sname, *name;
 
@@ -221,7 +221,7 @@ get_name (const hostname_arguments * const args)
 }
 
 static void
-set_name (const hostname_arguments * const args)
+set_name (const hostname_arguments *const args)
 {
   char *hostname_new;
   int status;

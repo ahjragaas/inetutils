@@ -707,7 +707,7 @@ encrypt_start (unsigned char *data MAYBE_UNUSED, int cnt MAYBE_UNUSED)
 }
 
 void
-encrypt_session_key (Session_Key * key, int server)
+encrypt_session_key (Session_Key *key, int server)
 {
   Encryptions *ep = encryptions;
 

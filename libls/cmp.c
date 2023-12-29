@@ -59,19 +59,19 @@
 #include "extern.h"
 
 int
-namecmp (const FTSENT * a, const FTSENT * b)
+namecmp (const FTSENT *a, const FTSENT *b)
 {
   return (strcmp (a->fts_name, b->fts_name));
 }
 
 int
-revnamecmp (const FTSENT * a, const FTSENT * b)
+revnamecmp (const FTSENT *a, const FTSENT *b)
 {
   return (strcmp (b->fts_name, a->fts_name));
 }
 
 int
-modcmp (const FTSENT * a, const FTSENT * b)
+modcmp (const FTSENT *a, const FTSENT *b)
 {
   if (b->fts_statp->st_mtime > a->fts_statp->st_mtime ||
 #ifdef HAVE_STRUCT_STAT_ST_MTIM_TV_NSEC
@@ -102,13 +102,13 @@ modcmp (const FTSENT * a, const FTSENT * b)
 }
 
 int
-revmodcmp (const FTSENT * a, const FTSENT * b)
+revmodcmp (const FTSENT *a, const FTSENT *b)
 {
   return (-modcmp (a, b));
 }
 
 int
-acccmp (const FTSENT * a, const FTSENT * b)
+acccmp (const FTSENT *a, const FTSENT *b)
 {
   if (b->fts_statp->st_atime > a->fts_statp->st_atime ||
 #ifdef HAVE_STRUCT_STAT_ST_ATIM_TV_NSEC
@@ -139,13 +139,13 @@ acccmp (const FTSENT * a, const FTSENT * b)
 }
 
 int
-revacccmp (const FTSENT * a, const FTSENT * b)
+revacccmp (const FTSENT *a, const FTSENT *b)
 {
   return (-acccmp (a, b));
 }
 
 int
-statcmp (const FTSENT * a, const FTSENT * b)
+statcmp (const FTSENT *a, const FTSENT *b)
 {
   if (b->fts_statp->st_ctime > a->fts_statp->st_ctime ||
 #ifdef HAVE_STRUCT_STAT_ST_CTIM_TV_NSEC
@@ -176,13 +176,13 @@ statcmp (const FTSENT * a, const FTSENT * b)
 }
 
 int
-revstatcmp (const FTSENT * a, const FTSENT * b)
+revstatcmp (const FTSENT *a, const FTSENT *b)
 {
   return (-statcmp (a, b));
 }
 
 int
-sizecmp (const FTSENT * a, const FTSENT * b)
+sizecmp (const FTSENT *a, const FTSENT *b)
 {
   if (b->fts_statp->st_size > a->fts_statp->st_size)
     return (1);
@@ -193,7 +193,7 @@ sizecmp (const FTSENT * a, const FTSENT * b)
 }
 
 int
-revsizecmp (const FTSENT * a, const FTSENT * b)
+revsizecmp (const FTSENT *a, const FTSENT *b)
 {
   return (-sizecmp (a, b));
 }

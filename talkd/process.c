@@ -25,7 +25,7 @@ int find_user (char *name, char *tty);
 void do_announce (CTL_MSG * mp, CTL_RESPONSE * rp);
 
 int
-process_request (CTL_MSG * msg, struct sockaddr_in *sa_in, CTL_RESPONSE * rp)
+process_request (CTL_MSG *msg, struct sockaddr_in *sa_in, CTL_RESPONSE *rp)
 {
   CTL_MSG *ptr;
 
@@ -146,7 +146,7 @@ process_request (CTL_MSG * msg, struct sockaddr_in *sa_in, CTL_RESPONSE * rp)
 }
 
 void
-do_announce (CTL_MSG * mp, CTL_RESPONSE * rp)
+do_announce (CTL_MSG *mp, CTL_RESPONSE *rp)
 {
   struct hostent *hp;
   CTL_MSG *ptr;

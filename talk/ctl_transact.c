@@ -66,7 +66,7 @@
  * of time
  */
 int
-ctl_transact (struct in_addr target, CTL_MSG msg, int type, CTL_RESPONSE * rp)
+ctl_transact (struct in_addr target, CTL_MSG msg, int type, CTL_RESPONSE *rp)
 {
   int nready = 0, cc;
   fd_set read_mask, ctl_mask;

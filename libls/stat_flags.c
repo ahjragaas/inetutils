@@ -93,7 +93,7 @@ flags_to_string (u_int flags, char *def)
  *	to the offending token.
  */
 int
-string_to_flags (char **stringp, u_int * setp, u_int * clrp)
+string_to_flags (char **stringp, u_int *setp, u_int *clrp)
 {
   if (setp)
     *setp = 0;

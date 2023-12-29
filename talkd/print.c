@@ -58,7 +58,7 @@ _xlat_num (int num, const char *array[], int size)
 }
 
 int
-print_request (const char *cp, CTL_MSG * mp)
+print_request (const char *cp, CTL_MSG *mp)
 {
   syslog (LOG_DEBUG, "%s: %s: id %d, l_user %s, r_user %s, r_tty %s",
 	  cp, _xlat_num (mp->type, message_types, NITEMS (message_types)),
@@ -67,7 +67,7 @@ print_request (const char *cp, CTL_MSG * mp)
 }
 
 int
-print_response (const char *cp, CTL_RESPONSE * rp)
+print_response (const char *cp, CTL_RESPONSE *rp)
 {
   syslog (LOG_DEBUG, "%s: %s: %s, id %d",
 	  cp,

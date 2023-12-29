@@ -31,9 +31,9 @@
 
 /* authentication, client side */
 int
-kerberos_auth (krb5_context * ctx, int verbose, char **cname,
+kerberos_auth (krb5_context *ctx, int verbose, char **cname,
 	       const char *sname, int sock, char *cmd,
-	       unsigned short port, krb5_keyblock ** key, const char *realm)
+	       unsigned short port, krb5_keyblock **key, const char *realm)
 {
   int rc;
   char *out, *p;
@@ -184,8 +184,8 @@ kerberos_auth (krb5_context * ctx, int verbose, char **cname,
 
 /* authentication, server side */
 int
-get_auth (int infd, krb5_context * ctx, krb5_auth_context * actx,
-	  krb5_keyblock ** key, const char **err_msg,
+get_auth (int infd, krb5_context *ctx, krb5_auth_context *actx,
+	  krb5_keyblock **key, const char **err_msg,
 	  int *protoversion, int *cksumtype,
 	  char **cksum, size_t *cksumlen, char *srvname)
 {

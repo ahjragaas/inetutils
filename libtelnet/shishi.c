@@ -62,7 +62,7 @@ Shishi_ap *auth_handle;
 extern void printsub (char, unsigned char *, int);
 
 static int
-Data (TN_Authenticator * ap, int type, void *d, int c)
+Data (TN_Authenticator *ap, int type, void *d, int c)
 {
   unsigned char *p = str_data + 4;
   unsigned char *cd = (unsigned char *) d;
@@ -100,7 +100,7 @@ Shishi *shishi_telnet = NULL;
 
 /* FIXME: Reverse return code! */
 int
-krb5shishi_init (TN_Authenticator * ap MAYBE_UNUSED, int server)
+krb5shishi_init (TN_Authenticator *ap MAYBE_UNUSED, int server)
 {
   if (server)
     str_data[3] = TELQUAL_REPLY;
@@ -134,7 +134,7 @@ delayed_shishi_init (void)
 }
 
 void
-krb5shishi_cleanup (TN_Authenticator * ap MAYBE_UNUSED)
+krb5shishi_cleanup (TN_Authenticator *ap MAYBE_UNUSED)
 {
   if (shishi_handle == NULL)
     return;
@@ -144,7 +144,7 @@ krb5shishi_cleanup (TN_Authenticator * ap MAYBE_UNUSED)
 }
 
 int
-krb5shishi_send (TN_Authenticator * ap)
+krb5shishi_send (TN_Authenticator *ap)
 {
   int ap_opts;
   char type_check[2];
@@ -294,7 +294,7 @@ krb5shishi_send (TN_Authenticator * ap)
 
 # ifdef ENCRYPTION
 static void
-shishi_init_key (Session_Key * skey, int type)
+shishi_init_key (Session_Key *skey, int type)
 {
   int32_t etype = shishi_key_type (enckey);
 
@@ -311,7 +311,7 @@ shishi_init_key (Session_Key * skey, int type)
 # endif
 
 void
-krb5shishi_reply (TN_Authenticator * ap, unsigned char *data, int cnt)
+krb5shishi_reply (TN_Authenticator *ap, unsigned char *data, int cnt)
 {
   static int mutual_complete = 0;
 # ifdef ENCRYPTION
@@ -393,7 +393,7 @@ krb5shishi_reply (TN_Authenticator * ap, unsigned char *data, int cnt)
 }
 
 int
-krb5shishi_status (TN_Authenticator * ap MAYBE_UNUSED,
+krb5shishi_status (TN_Authenticator *ap MAYBE_UNUSED,
 		   char *name, size_t len, int level)
 {
   int status;
@@ -416,7 +416,7 @@ krb5shishi_status (TN_Authenticator * ap MAYBE_UNUSED,
 }
 
 static int
-krb5shishi_is_auth (TN_Authenticator * a, unsigned char *data, int cnt,
+krb5shishi_is_auth (TN_Authenticator *a, unsigned char *data, int cnt,
 		    char *errbuf, int errbuflen)
 {
   Shishi_key *key;
@@ -628,7 +628,7 @@ krb5shishi_is_auth (TN_Authenticator * a, unsigned char *data, int cnt,
 }
 
 void
-krb5shishi_is (TN_Authenticator * ap, unsigned char *data, int cnt)
+krb5shishi_is (TN_Authenticator *ap, unsigned char *data, int cnt)
 {
   int r = 0;
   char errbuf[512];

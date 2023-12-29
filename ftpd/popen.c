@@ -211,7 +211,7 @@ pfree:for (argc = 1; gargv[argc] != NULL; argc++)
 }
 
 int
-ftpd_pclose (FILE * iop)
+ftpd_pclose (FILE *iop)
 {
   struct file_pid *fpid = file_pids, *prev_fpid = 0;
   int status;

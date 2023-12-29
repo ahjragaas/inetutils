@@ -771,7 +771,7 @@ struct termios ixon_state;
 struct termios nott;
 
 void
-doit (sigset_t * osmask)
+doit (sigset_t *osmask)
 {
   int i;
   struct sigaction sa;
@@ -1288,7 +1288,7 @@ oob (int signo MAYBE_UNUSED)
 
 /* reader: read from remote: line -> 1 */
 int
-reader (sigset_t * osmask)
+reader (sigset_t *osmask)
 {
   pid_t pid;
   int n, remaining;

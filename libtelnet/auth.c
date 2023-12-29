@@ -650,7 +650,7 @@ auth_sendname (char *name, int len)
 }
 
 void
-auth_finished (TN_Authenticator * ap, int result)
+auth_finished (TN_Authenticator *ap, int result)
 {
   if (ap && ap->cleanup)
     (*ap->cleanup) (ap);

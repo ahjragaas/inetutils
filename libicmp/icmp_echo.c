@@ -50,7 +50,7 @@ icmp_generic_encode (unsigned char *buffer, size_t bufsize, int type,
 
 int
 icmp_generic_decode (unsigned char *buffer, size_t bufsize,
-		     struct ip **ipp, icmphdr_t ** icmpp)
+		     struct ip **ipp, icmphdr_t **icmpp)
 {
   size_t hlen;
   unsigned short cksum;
@@ -87,7 +87,7 @@ icmp_echo_encode (unsigned char *buffer, size_t bufsize, int ident, int seqno)
 
 int
 icmp_echo_decode (unsigned char *buffer, size_t bufsize,
-		  struct ip **ipp, icmphdr_t ** icmpp)
+		  struct ip **ipp, icmphdr_t **icmpp)
 {
   return icmp_generic_decode (buffer, bufsize, ipp, icmpp);
 }

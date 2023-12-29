@@ -102,7 +102,7 @@ static struct passwd pwstor, *pwd;
        /* HAVE_GETPWUID_R */
 
 int
-krcmd (Shishi ** h, char **ahost, unsigned short rport, char **remuser,
+krcmd (Shishi **h, char **ahost, unsigned short rport, char **remuser,
        char *cmd, int *fd2p, const char *realm, int af)
 {
   int sock = -1, err = 0;
@@ -147,7 +147,7 @@ krcmd (Shishi ** h, char **ahost, unsigned short rport, char **remuser,
 
 # elif defined(KRB5)		/* !SHISHI */
 int
-krcmd (krb5_context * ctx, char **ahost, unsigned short rport,
+krcmd (krb5_context *ctx, char **ahost, unsigned short rport,
        char **remuser, char *cmd, int *fd2p, const char *realm)
 {
   int sock = -1;
@@ -178,8 +178,8 @@ krcmd (krb5_context * ctx, char **ahost, unsigned short rport,
 
 #  if defined SHISHI
 int
-krcmd_mutual (Shishi ** h, char **ahost, unsigned short rport, char **remuser,
-	      char *cmd, int *fd2p, const char *realm, Shishi_key ** key,
+krcmd_mutual (Shishi **h, char **ahost, unsigned short rport, char **remuser,
+	      char *cmd, int *fd2p, const char *realm, Shishi_key **key,
 	      int af)
 {
   int sock = -1, err = 0;
@@ -227,9 +227,9 @@ krcmd_mutual (Shishi ** h, char **ahost, unsigned short rport, char **remuser,
 
 #  elif defined(KRB5)		/* !SHISHI */
 int
-krcmd_mutual (krb5_context * ctx, char **ahost, unsigned short rport,
+krcmd_mutual (krb5_context *ctx, char **ahost, unsigned short rport,
 	      char **remuser, char *cmd, int *fd2p, const char *realm,
-	      krb5_keyblock ** key)
+	      krb5_keyblock **key)
 {
   int sock;
   krb5_error_code err = 0;

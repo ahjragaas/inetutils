@@ -382,7 +382,7 @@ sig_int (int signal MAYBE_UNUSED)
 }
 
 int
-ping_run (PING * ping, int (*finish) ())
+ping_run (PING *ping, int (*finish) ())
 {
   fd_set fdset;
   int fdmax;
@@ -497,7 +497,7 @@ ping_run (PING * ping, int (*finish) ())
 }
 
 int
-send_echo (PING * ping)
+send_echo (PING *ping)
 {
   size_t off = 0;
   int rc;

@@ -432,7 +432,7 @@ traverse (int argc, char **argv, int options)
  * points to the parent directory of the display list.
  */
 static void
-display (FTSENT * p, FTSENT * list)
+display (FTSENT *p, FTSENT *list)
 {
   struct stat *sp;
   DISPLAY d;
@@ -611,7 +611,7 @@ display (FTSENT * p, FTSENT * list)
  * All other levels use the sort function.  Error entries remain unsorted.
  */
 static int
-mastercmp (const FTSENT ** a, const FTSENT ** b)
+mastercmp (const FTSENT **a, const FTSENT **b)
 {
   int a_info, b_info;
 

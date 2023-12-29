@@ -74,7 +74,7 @@ ping_address (char *hostname)
 int
 recv_address (int code, void *closure,
 	      struct sockaddr_in *dest, struct sockaddr_in *from,
-	      struct ip *ip, icmphdr_t * icmp, int datalen)
+	      struct ip *ip, icmphdr_t *icmp, int datalen)
 {
   switch (code)
     {
@@ -93,7 +93,7 @@ void
 print_address (int dupflag, void *closure MAYBE_UNUSED,
 	       struct sockaddr_in *dest MAYBE_UNUSED,
 	       struct sockaddr_in *from,
-	       struct ip *ip MAYBE_UNUSED, icmphdr_t * icmp, int datalen)
+	       struct ip *ip MAYBE_UNUSED, icmphdr_t *icmp, int datalen)
 {
   struct in_addr addr;
 

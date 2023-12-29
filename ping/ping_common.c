@@ -168,7 +168,7 @@ ping_cvt_time (char *buf, size_t buflen, n_time t)
 }
 
 int
-_ping_setbuf (PING * p, bool use_ipv6)
+_ping_setbuf (PING *p, bool use_ipv6)
 {
   if (!p->ping_buffer)
     {
@@ -187,7 +187,7 @@ _ping_setbuf (PING * p, bool use_ipv6)
 }
 
 int
-ping_set_data (PING * p, void *data, size_t off, size_t len, bool use_ipv6)
+ping_set_data (PING *p, void *data, size_t off, size_t len, bool use_ipv6)
 {
   icmphdr_t *icmp;
 
@@ -203,25 +203,25 @@ ping_set_data (PING * p, void *data, size_t off, size_t len, bool use_ipv6)
 }
 
 void
-ping_set_count (PING * ping, size_t count)
+ping_set_count (PING *ping, size_t count)
 {
   ping->ping_count = count;
 }
 
 void
-ping_set_sockopt (PING * ping, int opt, void *val, int valsize)
+ping_set_sockopt (PING *ping, int opt, void *val, int valsize)
 {
   setsockopt (ping->ping_fd, SOL_SOCKET, opt, (char *) &val, valsize);
 }
 
 void
-ping_set_interval (PING * ping, size_t interval)
+ping_set_interval (PING *ping, size_t interval)
 {
   ping->ping_interval = interval;
 }
 
 void
-_ping_freebuf (PING * p)
+_ping_freebuf (PING *p)
 {
   if (p->ping_buffer)
     {
@@ -236,7 +236,7 @@ _ping_freebuf (PING * p)
 }
 
 void
-ping_unset_data (PING * p)
+ping_unset_data (PING *p)
 {
   _ping_freebuf (p);
 }

@@ -95,7 +95,7 @@ static int compute_columns (DISPLAY *, int *);
 #define IS_NOPRINT(p)	((p)->fts_number == NO_PRINT)
 
 void
-printscol (DISPLAY * dp)
+printscol (DISPLAY *dp)
 {
   FTSENT *p;
 
@@ -109,7 +109,7 @@ printscol (DISPLAY * dp)
 }
 
 void
-printlong (DISPLAY * dp)
+printlong (DISPLAY *dp)
 {
   struct stat *sp;
   FTSENT *p;
@@ -160,7 +160,7 @@ printlong (DISPLAY * dp)
 }
 
 static int
-compute_columns (DISPLAY * dp, int *pnum)
+compute_columns (DISPLAY *dp, int *pnum)
 {
   int colwidth;
   extern int termwidth;
@@ -188,7 +188,7 @@ compute_columns (DISPLAY * dp, int *pnum)
 }
 
 void
-printcol (DISPLAY * dp)
+printcol (DISPLAY *dp)
 {
   static FTSENT **array;
   static int lastentries = -1;
@@ -246,7 +246,7 @@ printcol (DISPLAY * dp)
  * return # of characters printed, no trailing characters.
  */
 static int
-printaname (FTSENT * p, unsigned long inodefield, unsigned long sizefield)
+printaname (FTSENT *p, unsigned long inodefield, unsigned long sizefield)
 {
   struct stat *sp;
   int chcnt;
@@ -292,7 +292,7 @@ printtime (time_t ftime)
 }
 
 void
-printacol (DISPLAY * dp)
+printacol (DISPLAY *dp)
 {
   FTSENT *p;
   int chcnt, col, colwidth;
@@ -323,7 +323,7 @@ printacol (DISPLAY * dp)
 }
 
 void
-printstream (DISPLAY * dp)
+printstream (DISPLAY *dp)
 {
   extern int termwidth;
   FTSENT *p;
@@ -382,7 +382,7 @@ printtype (u_int mode)
 }
 
 static void
-printlink (FTSENT * p)
+printlink (FTSENT *p)
 {
   int lnklen;
 #ifndef MAXPATHLEN

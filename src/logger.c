@@ -70,7 +70,7 @@ static int host_family = AF_INET;
 
 
 int
-decode (char *name, CODE * codetab, const char *what)
+decode (char *name, CODE *codetab, const char *what)
 {
   CODE *cp;
 

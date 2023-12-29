@@ -151,7 +151,7 @@ static int des_set_parity (Block b);
 
 #   ifdef SHISHI
 static void
-shishi_des_ecb_encrypt (Shishi * h, const unsigned char key[sizeof (Block)],
+shishi_des_ecb_encrypt (Shishi *h, const unsigned char key[sizeof (Block)],
 			const unsigned char *in, unsigned char *out)
 {
   char *tmp;
@@ -446,14 +446,14 @@ fb64_reply (unsigned char *data, int cnt, struct fb *fbp)
 }
 
 void
-cfb64_session (Session_Key * key, int server)
+cfb64_session (Session_Key *key, int server)
 {
   fb64_session (key, server, &fb[CFB]);
 }
 
 #   ifdef ENCTYPE_DES_OFB64
 void
-ofb64_session (Session_Key * key, int server)
+ofb64_session (Session_Key *key, int server)
 {
   fb64_session (key, server, &fb[OFB]);
 }
@@ -461,7 +461,7 @@ ofb64_session (Session_Key * key, int server)
        /* ENCTYPE_DES_OFB64 */
 
 static void
-fb64_session (Session_Key * key, int server, struct fb *fbp)
+fb64_session (Session_Key *key, int server, struct fb *fbp)
 {
   size_t offset;
   unsigned char *derived_key;

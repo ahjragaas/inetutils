@@ -76,7 +76,7 @@ max (int a, int b)
  * Read the character at the indicated position in win
  */
 static int
-readwin (WINDOW * win, int line, int col)
+readwin (WINDOW *win, int line, int col)
 {
   int oldline, oldcol;
   register int c;
@@ -93,7 +93,7 @@ readwin (WINDOW * win, int line, int col)
  * so that the current position is obvious
  */
 static void
-xscroll (register xwin_t * win, int flag)
+xscroll (register xwin_t *win, int flag)
 {
   if (flag == -1)
     {
@@ -116,7 +116,7 @@ xscroll (register xwin_t * win, int flag)
  * characters while we are at it.
  */
 int
-display (register xwin_t * win, register char *text, int size)
+display (register xwin_t *win, register char *text, int size)
 {
   register int i;
   unsigned char cch;

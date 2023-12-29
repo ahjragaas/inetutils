@@ -29,9 +29,9 @@
 
 /* shishi authentication, client side */
 int
-shishi_auth (Shishi ** handle, int verbose, char **cname,
+shishi_auth (Shishi **handle, int verbose, char **cname,
 	     const char *sname, int sock, char *cmd,
-	     unsigned short port, Shishi_key ** enckey, const char *realm)
+	     unsigned short port, Shishi_key **enckey, const char *realm)
 {
   Shishi_ap *ap;
   Shishi_tkt *tkt;
@@ -272,8 +272,8 @@ senderror (int s, char type, char *buf)
 
 /* shishi authentication, server side */
 int
-get_auth (int infd, Shishi ** handle, Shishi_ap ** ap,
-	  Shishi_key ** enckey, const char **err_msg, int *protoversion,
+get_auth (int infd, Shishi **handle, Shishi_ap **ap,
+	  Shishi_key **enckey, const char **err_msg, int *protoversion,
 	  int *cksumtype, char **cksum, size_t *cksumlen, char *srvname)
 {
   Shishi_key *key;
@@ -569,8 +569,8 @@ get_auth (int infd, Shishi ** handle, Shishi_ap ** ap,
 
 /* read encrypted data on socket */
 int
-readenc (Shishi * h, int sock, char *buf, int *len, shishi_ivector * iv,
-	 Shishi_key * enckey, int proto)
+readenc (Shishi *h, int sock, char *buf, int *len, shishi_ivector *iv,
+	 Shishi_key *enckey, int proto)
 {
   char *out;
   char *outbis;
@@ -695,8 +695,8 @@ readenc (Shishi * h, int sock, char *buf, int *len, shishi_ivector * iv,
 
 /* write encrypted data to socket */
 int
-writeenc (Shishi * h, int sock, char *buf, int wlen, int *len,
-	  shishi_ivector * iv, Shishi_key * enckey, int proto)
+writeenc (Shishi *h, int sock, char *buf, int wlen, int *len,
+	  shishi_ivector *iv, Shishi_key *enckey, int proto)
 {
   char *out;
   char *bufbis;

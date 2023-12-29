@@ -62,7 +62,7 @@
  * Look for an invitation on 'machine'
  */
 static int
-look_for_invite (CTL_RESPONSE * rp)
+look_for_invite (CTL_RESPONSE *rp)
 {
   current_state = "Checking for invitation on caller's machine";
   ctl_transact (his_machine_addr, msg, LOOK_UP, rp);

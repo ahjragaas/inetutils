@@ -2476,7 +2476,7 @@ cfline (const char *line, struct filed *f)
 
 /* Decode a symbolic name to a numeric value.  */
 int
-decode (const char *name, CODE * codetab)
+decode (const char *name, CODE *codetab)
 {
   CODE *c;
 

@@ -338,7 +338,7 @@ open_users_acl (char *name)
 }
 
 static void
-netdef_free (netdef_t * netdef)
+netdef_free (netdef_t *netdef)
 {
   netdef_t *next;
 
@@ -351,7 +351,7 @@ netdef_free (netdef_t * netdef)
 }
 
 static void
-acl_free (acl_t * acl)
+acl_free (acl_t *acl)
 {
   acl_t *next;
 
@@ -366,7 +366,7 @@ acl_free (acl_t * acl)
 }
 
 static void
-discard_acl (acl_t * mark)
+discard_acl (acl_t *mark)
 {
   if (mark)
     {
@@ -379,7 +379,7 @@ discard_acl (acl_t * mark)
 }
 
 int
-acl_match (CTL_MSG * msg, struct sockaddr_in *sa_in)
+acl_match (CTL_MSG *msg, struct sockaddr_in *sa_in)
 {
   acl_t *acl, *mark;
   in_addr_t ip;

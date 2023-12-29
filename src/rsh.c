@@ -632,7 +632,7 @@ try_connect:
 }
 
 void
-talk (int null_input_option, sigset_t * osigs, pid_t pid, int rem)
+talk (int null_input_option, sigset_t *osigs, pid_t pid, int rem)
 {
   int cc, wc;
   fd_set readfrom, ready, rembits;

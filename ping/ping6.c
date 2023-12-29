@@ -325,7 +325,7 @@ sig_int (int signal MAYBE_UNUSED)
 }
 
 static int
-ping_run (PING * ping, int (*finish) ())
+ping_run (PING *ping, int (*finish) ())
 {
   fd_set fdset;
   int fdmax;
@@ -443,7 +443,7 @@ ping_run (PING * ping, int (*finish) ())
 }
 
 static int
-send_echo (PING * ping)
+send_echo (PING *ping)
 {
   size_t off = 0;
   int rc;
@@ -546,7 +546,7 @@ ping_echo (char *hostname)
 }
 
 static void
-ping_reset (PING * p)
+ping_reset (PING *p)
 {
   p->ping_num_xmit = 0;
   p->ping_num_recv = 0;
@@ -895,7 +895,7 @@ ping_init (int type MAYBE_UNUSED, int ident)
 }
 
 static int
-ping_xmit (PING * p)
+ping_xmit (PING *p)
 {
   int i, buflen;
   struct icmp6_hdr *icmp6;
@@ -933,7 +933,7 @@ ping_xmit (PING * p)
 }
 
 static int
-my_echo_reply (PING * p, struct icmp6_hdr *icmp6)
+my_echo_reply (PING *p, struct icmp6_hdr *icmp6)
 {
   struct ip6_hdr *orig_ip = (struct ip6_hdr *) (icmp6 + 1);
   struct icmp6_hdr *orig_icmp = (struct icmp6_hdr *) (orig_ip + 1);
@@ -946,7 +946,7 @@ my_echo_reply (PING * p, struct icmp6_hdr *icmp6)
 }
 
 static int
-ping_recv (PING * p)
+ping_recv (PING *p)
 {
   int dupflag, n;
   int hops = -1;
@@ -1018,7 +1018,7 @@ ping_recv (PING * p)
 }
 
 static int
-ping_set_dest (PING * ping, const char *host)
+ping_set_dest (PING *ping, const char *host)
 {
   int err;
   struct addrinfo *result, hints;

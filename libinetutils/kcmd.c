@@ -88,15 +88,15 @@ int getport (int *, int);
 
 # if defined KRB5
 int
-kcmd (krb5_context * ctx, int *sock, char **ahost, unsigned short rport,
+kcmd (krb5_context *ctx, int *sock, char **ahost, unsigned short rport,
       char *locuser, char **remuser, char *cmd, int *fd2p,
-      char *service, const char *realm, krb5_keyblock ** key,
+      char *service, const char *realm, krb5_keyblock **key,
       struct sockaddr_in *laddr, struct sockaddr_in *faddr, long authopts)
 # elif defined(SHISHI)		/* !KRB5 */
 int
-kcmd (Shishi ** h, int *sock, char **ahost, unsigned short rport,
+kcmd (Shishi **h, int *sock, char **ahost, unsigned short rport,
       char *locuser, char **remuser, char *cmd, int *fd2p,
-      char *service, const char *realm, Shishi_key ** key,
+      char *service, const char *realm, Shishi_key **key,
       struct sockaddr_storage *laddr, struct sockaddr_storage *faddr,
       long authopts, int af)
 # endif				/* SHISHI && !KRB5 */

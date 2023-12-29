@@ -1318,7 +1318,7 @@ dataconn (const char *name, off_t size, const char *mode)
 
    NB: Form isn't handled.  */
 static void
-send_data (FILE * instr, FILE * outstr, off_t blksize)
+send_data (FILE *instr, FILE *outstr, off_t blksize)
 {
   int c, cnt, filefd, netfd;
   char *buf = MAP_FAILED, *bp;
@@ -1483,7 +1483,7 @@ file_err:
 
    N.B.: Form isn't handled.  */
 static int
-receive_data (FILE * instr, FILE * outstr, off_t blksize)
+receive_data (FILE *instr, FILE *outstr, off_t blksize)
 {
   int c;
   int cnt, bare_lfs = 0;

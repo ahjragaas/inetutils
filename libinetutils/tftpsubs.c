@@ -130,7 +130,7 @@ rw_init (int x)
 /* if true, convert to ascii */
 /* file opened for read */
 int
-readit (FILE * file, struct tftphdr **dpp, int convert)
+readit (FILE *file, struct tftphdr **dpp, int convert)
 {
   struct bf *b;
 
@@ -152,7 +152,7 @@ readit (FILE * file, struct tftphdr **dpp, int convert)
 /*	FILE *file;  file opened for read */
 /*	int convert;  if true, convert to ascii */
 void
-read_ahead (FILE * file, int convert)
+read_ahead (FILE *file, int convert)
 {
   register int i;
   register char *p;
@@ -206,7 +206,7 @@ read_ahead (FILE * file, int convert)
    available.
  */
 int
-writeit (FILE * file, struct tftphdr **dpp, int ct, int convert)
+writeit (FILE *file, struct tftphdr **dpp, int ct, int convert)
 {
   bfs[current].counter = ct;	/* set size of data to write */
   current = !current;		/* switch to other buffer */
@@ -224,7 +224,7 @@ writeit (FILE * file, struct tftphdr **dpp, int ct, int convert)
  * CR followed by anything else.  In this case we leave it alone.
  */
 int
-write_behind (FILE * file, int convert)
+write_behind (FILE *file, int convert)
 {
   char *buf;
   int count;

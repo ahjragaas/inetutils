@@ -45,7 +45,7 @@ static int useless_ident = 0;	/* Relevant at least for Linux.  */
 static size_t _ping_packetsize (PING * p);
 
 size_t
-_ping_packetsize (PING * p)
+_ping_packetsize (PING *p)
 {
   if (p->ping_type == ICMP_TIMESTAMP || p->ping_type == ICMP_TIMESTAMPREPLY)
     return ICMP_TSLEN;
@@ -124,7 +124,7 @@ ping_init (int type, int ident)
 }
 
 void
-ping_reset (PING * p)
+ping_reset (PING *p)
 {
   p->ping_num_xmit = 0;
   p->ping_num_recv = 0;
@@ -132,13 +132,13 @@ ping_reset (PING * p)
 }
 
 void
-ping_set_type (PING * p, int type)
+ping_set_type (PING *p, int type)
 {
   p->ping_type = type;
 }
 
 int
-ping_xmit (PING * p)
+ping_xmit (PING *p)
 {
   int i, buflen;
 
@@ -190,7 +190,7 @@ ping_xmit (PING * p)
 }
 
 static int
-my_echo_reply (PING * p, icmphdr_t * icmp)
+my_echo_reply (PING *p, icmphdr_t *icmp)
 {
   struct ip *orig_ip = &icmp->icmp_ip;
   icmphdr_t *orig_icmp = (icmphdr_t *) (orig_ip + 1);
@@ -202,7 +202,7 @@ my_echo_reply (PING * p, icmphdr_t * icmp)
 }
 
 int
-ping_recv (PING * p)
+ping_recv (PING *p)
 {
   socklen_t fromlen = sizeof (p->ping_from.ping_sockaddr);
   int n, rc;
@@ -278,20 +278,20 @@ ping_recv (PING * p)
 }
 
 void
-ping_set_event_handler (PING * ping, ping_efp pf, void *closure)
+ping_set_event_handler (PING *ping, ping_efp pf, void *closure)
 {
   ping->ping_event.handler = pf;
   ping->ping_closure = closure;
 }
 
 void
-ping_set_packetsize (PING * ping, size_t size)
+ping_set_packetsize (PING *ping, size_t size)
 {
   ping->ping_datalen = size;
 }
 
 int
-ping_set_dest (PING * ping, const char *host)
+ping_set_dest (PING *ping, const char *host)
 {
 #if HAVE_DECL_GETADDRINFO
   int rc;

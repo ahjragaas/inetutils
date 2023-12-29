@@ -1490,7 +1490,7 @@ susystem (char *s, int userid)
 }
 
 BUF *
-allocbuf (BUF * bp, int fd, int blksize)
+allocbuf (BUF *bp, int fd, int blksize)
 {
   struct stat stb;
   size_t size;

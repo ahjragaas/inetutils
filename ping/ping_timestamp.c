@@ -73,7 +73,7 @@ ping_timestamp (char *hostname)
 int
 recv_timestamp (int code, void *closure,
 		struct sockaddr_in *dest, struct sockaddr_in *from,
-		struct ip *ip, icmphdr_t * icmp, int datalen)
+		struct ip *ip, icmphdr_t *icmp, int datalen)
 {
   switch (code)
     {
@@ -93,7 +93,7 @@ void
 print_timestamp (int dupflag, void *closure MAYBE_UNUSED,
 		 struct sockaddr_in *dest MAYBE_UNUSED,
 		 struct sockaddr_in *from,
-		 struct ip *ip MAYBE_UNUSED, icmphdr_t * icmp, int datalen)
+		 struct ip *ip MAYBE_UNUSED, icmphdr_t *icmp, int datalen)
 {
   char timestr[16];
 

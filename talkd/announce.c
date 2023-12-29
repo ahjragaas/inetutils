@@ -39,13 +39,13 @@ typedef struct
 } LINE;
 
 static void
-init_line (LINE * lp)
+init_line (LINE *lp)
 {
   memset (lp, 0, sizeof *lp);
 }
 
 static void
-format_line (LINE * lp, const char *fmt, ...)
+format_line (LINE *lp, const char *fmt, ...)
 {
   va_list ap;
   int i = lp->ind;
@@ -60,7 +60,7 @@ format_line (LINE * lp, const char *fmt, ...)
 }
 
 static char *
-finish_line (LINE * lp)
+finish_line (LINE *lp)
 {
   int i;
   char *p;
@@ -86,7 +86,7 @@ finish_line (LINE * lp)
 }
 
 static int
-print_mesg (char *tty, CTL_MSG * request, char *remote_machine)
+print_mesg (char *tty, CTL_MSG *request, char *remote_machine)
 {
   time_t t;
   LINE ln;
@@ -123,7 +123,7 @@ print_mesg (char *tty, CTL_MSG * request, char *remote_machine)
 /* See if the user is accepting messages. If so, announce that
    a talk is requested. */
 int
-announce (CTL_MSG * request, char *remote_machine)
+announce (CTL_MSG *request, char *remote_machine)
 {
   char *ttypath;
   int len;
