@@ -20,7 +20,7 @@ manual_title = GNU Networking Utilities
 
 bootstrap-tools = gnulib,autoconf,automake,bison,m4,makeinfo,help2man,make,gzip,tar
 
-old_NEWS_hash = 2e6a0029828559073b5c5e911327123d
+old_NEWS_hash = 4b404c7ddcbeee5604dd8d296ba37426
 
 translation_project_ =
 
