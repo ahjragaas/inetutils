@@ -14,6 +14,9 @@ Reported by Jeffrey Bencteux in
 Tiny patch contributed by Enrik Berkhan <Enrik.Berkhan@inka.de> in
 <https://lists.gnu.org/archive/html/bug-inetutils/2023-01/msg00000.html>
 
+** Various bugs fixes, internal improvements and clean ups.
+The code is now indented using GNU indent 2.2.13.
+
 * Noteworthy changes in release 2.4 (2022-10-25) [stable]
 
 ** ifconfig
