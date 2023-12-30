@@ -278,7 +278,6 @@ void logerror (const char *);
 void logmsg (int, const char *, const char *, int);
 void printline (const char *, const char *);
 void printsys (const char *);
-char *ttymsg (struct iovec *, int, char *, int);
 void wallmsg (struct filed *, struct iovec *);
 char **crunch_list (char **oldlist, char *list);
 char *textpri (int pri);
@@ -1653,7 +1652,7 @@ wallmsg (struct filed *f, struct iovec *iov)
 	  /* Note we're using our own version of ttymsg
 	     which does a double fork () to not have
 	     zombies.  No need to waitpid().  */
-	  p = ttymsg (iov, IOVCNT, line, TTYMSGTIME);
+	  p = inetutils_ttymsg (iov, IOVCNT, line, TTYMSGTIME);
 	  if (p != NULL)
 	    {
 	      errno = 0;	/* Already in message. */
@@ -1666,7 +1665,7 @@ wallmsg (struct filed *f, struct iovec *iov)
 	if (!strncmp (f->f_un.f_user.f_unames[i], UT_USER (utp),
 		      sizeof (UT_USER (utp))))
 	  {
-	    p = ttymsg (iov, IOVCNT, line, TTYMSGTIME);
+	    p = inetutils_ttymsg (iov, IOVCNT, line, TTYMSGTIME);
 	    if (p != NULL)
 	      {
 		errno = 0;	/* Already in message. */

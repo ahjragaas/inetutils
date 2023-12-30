@@ -71,7 +71,7 @@ static char *normalize_path (char *path, const char *delim);
  * ignored (exclusive-use, lack of permission, etc.).
  */
 char *
-ttymsg (struct iovec *iov, int iovcnt, char *line, int tmout)
+inetutils_ttymsg (struct iovec *iov, int iovcnt, char *line, int tmout)
 {
   static char errbuf[MAX_ERRBUF];
   char *device;

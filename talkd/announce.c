@@ -27,7 +27,7 @@
 #define N_LINES 5
 #define N_CHARS 256
 
-extern char *ttymsg (struct iovec *iov, int iovcnt, char *line, int tmout);
+#include <libinetutils.h>
 
 typedef struct
 {
@@ -112,7 +112,7 @@ print_mesg (char *tty, CTL_MSG *request, char *remote_machine)
   iovec.iov_base = buf;
   iovec.iov_len = strlen (buf);
 
-  if ((cp = ttymsg (&iovec, 1, tty, RING_WAIT - 5)) != NULL)
+  if ((cp = inetutils_ttymsg (&iovec, 1, tty, RING_WAIT - 5)) != NULL)
     {
       syslog (LOG_ERR, "%s", cp);
       return FAILED;

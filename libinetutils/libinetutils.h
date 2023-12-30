@@ -22,6 +22,7 @@
 
 #include "argp-version-etc.h"
 #include <signal.h>
+#include <sys/uio.h>
 
 sighandler_t setsig (int sig, sighandler_t handler);
 void utmp_init (char *line, char *user, char *id, char *host);
@@ -31,6 +32,7 @@ char *localhost (void);
 void logwtmp (const char *, const char *, const char *);
 void cleanup_session (char *tty, int pty_fd);
 void logwtmp_keep_open (char *line, char *name, char *host);
+char *inetutils_ttymsg (struct iovec *, int, char *, int);
 
 #ifndef HAVE_STRUCT_IF_NAMEINDEX
 struct if_nameindex

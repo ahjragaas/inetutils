@@ -2,6 +2,9 @@ GNU inetutils NEWS -- history of user-visible changes.
 
 * Noteworthy changes in release ?.? (????-??-??) [?]
 
+** syslogd: Build fixes for macOS.
+Thanks to Rui Chen and Caleb Xu, see
+<https://savannah.gnu.org/bugs/?65093>.
 
 * Noteworthy changes in release 2.5 (2023-12-29) [stable]
 
