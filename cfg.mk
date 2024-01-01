@@ -40,7 +40,6 @@ local-checks-to-skip = \
 	sc_assignment_in_if \
 	sc_bindtextdomain \
 	sc_cast_of_x_alloc_return_value \
-	sc_copyright_check \
 	sc_error_message_period \
 	sc_error_message_uppercase \
 	sc_m4_quote_check \
