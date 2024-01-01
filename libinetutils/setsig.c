@@ -1,5 +1,5 @@
 /* setsig.c - Set a signal handler, trying to turning on the SA_RESTART bit
-  Copyright (C) 1997-2023 Free Software Foundation, Inc.
+  Copyright (C) 1997-2024 Free Software Foundation, Inc.
 
   This file is part of GNU Inetutils.
 

@@ -1,5 +1,5 @@
 /* linux.c -- Linux specific code for ifconfig
-  Copyright (C) 2001-2023 Free Software Foundation, Inc.
+  Copyright (C) 2001-2024 Free Software Foundation, Inc.
 
   This file is part of GNU Inetutils.
 
