@@ -29,6 +29,8 @@ identify_LDADD = $(top_builddir)/lib/libgnu.a $(LIBUTIL) $(PTY_LIB)
 
 check_PROGRAMS = localhost readutmp runtime-ipv6 test-snprintf waitdaemon
 
+readutmp_LDADD = $(iu_LIBRARIES) $(READUTMP_LIB)
+
 dist_check_SCRIPTS = utmp.sh
 
 if ENABLE_inetd

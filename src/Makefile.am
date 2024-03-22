@@ -104,6 +104,7 @@ EXTRA_PROGRAMS += rshd
 
 inetdaemon_PROGRAMS += $(syslogd_BUILD)
 syslogd_SOURCES = syslogd.c
+syslogd_LDADD = $(LDADD) $(READUTMP_LIB)
 EXTRA_PROGRAMS += syslogd
 
 inetdaemon_PROGRAMS += $(tftpd_BUILD)
