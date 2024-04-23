@@ -535,10 +535,10 @@ parse_opt (int key, char *arg, struct argp_state *state)
 	    *netlen++ = 0;
 
 	    n = strtol (netlen, &end, 10);
-	    if (end == netlen)
+	    if (!(*netlen && !*end) || n < 0 || n > 32)
 	      error (EXIT_FAILURE, 0, "Wrong netmask length %s", netlen);
 
-	    addr.s_addr = htonl (INADDR_BROADCAST << (32 - n));
+	    addr.s_addr = n ? htonl (INADDR_BROADCAST << (32 - n)) : INADDR_ANY;
 	    str = strdup (inet_ntoa (addr));
 	    parse_opt_set_netmask (ifp, str);
 	  }

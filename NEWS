@@ -10,6 +10,9 @@ Thanks to Rui Chen and Caleb Xu, see
 Thanks to Collin Funk:
 https://lists.gnu.org/archive/html/bug-inetutils/2024-03/msg00000.html
 
+** ifconfig: With -A, reject invalid prefix length specifications, and
+correctly handle a prefix length of 0.
+
 * Noteworthy changes in release 2.5 (2023-12-29) [stable]
 
 ** ftpd, rcp, rlogin, rsh, rshd, uucpd

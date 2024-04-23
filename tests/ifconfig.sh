@@ -142,6 +142,18 @@ else
 EOT
 fi
 
+# Check that unusable prefix length values are rejected when using -A
+#
+for preflen in p 33 -1 1212237832782387238723823782 -1238912x1298129 3k \
+               1.2 2e3 '' ' ';
+do
+    $IFCONFIG -i $LO -A 192.0.2.1/"$preflen" 2>&1 | \
+        $GREP 'Wrong netmask length' >/dev/null 2>&1 ||
+            { errno=1;
+              echo >&2 "Failed to reject invalid prefix length '$preflen'."
+            }
+done
+
 test $errno -ne 0 || $silence echo "Successful testing".
 
 exit $errno
