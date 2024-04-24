@@ -50,7 +50,6 @@ local-checks-to-skip = \
 	sc_prohibit_doubled_word \
 	sc_prohibit_error_without_use \
 	sc_prohibit_gnu_make_extensions \
-	sc_prohibit_have_config_h \
 	sc_prohibit_magic_number_exit \
 	sc_prohibit_stat_st_blocks \
 	sc_prohibit_strcmp \
@@ -58,9 +57,6 @@ local-checks-to-skip = \
 	sc_prohibit_undesirable_word_seq \
 	sc_prohibit_xalloc_without_use \
 	sc_unmarked_diagnostics \
-
-exclude_file_name_regexp--sc_prohibit_have_config_h = \
-	^libinetutils/libinetutils.h$$
 
 exclude_file_name_regexp--sc_obsolete_symbols = \
 	^tests/identify.c$$

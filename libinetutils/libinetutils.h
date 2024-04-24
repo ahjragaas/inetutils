@@ -16,10 +16,6 @@
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see `http://www.gnu.org/licenses/'. */
 
-#ifndef HAVE_CONFIG_H
-# error "<config.h> has not been included; please included it"
-#endif
-
 #include "argp-version-etc.h"
 #include <signal.h>
 #include <sys/uio.h>
