@@ -216,7 +216,6 @@ char *envinit[] = { homedir, shell, path, username,
   logname, remotehost, NULL
 };
 #endif
-extern char **environ;
 
 char *getstr (const char *);
 

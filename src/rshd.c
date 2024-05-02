@@ -417,7 +417,6 @@ char rhost[128 + sizeof ("RHOST=")] = "RHOST=";
 #ifndef WITH_PAM
 char *envinit[] = { homedir, shell, path, logname, username, rhost, NULL };
 #endif
-extern char **environ;
 
 void
 doit (int sockfd, struct sockaddr *fromp, socklen_t fromlen)

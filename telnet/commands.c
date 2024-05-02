@@ -58,6 +58,7 @@
 #include <netinet/in.h>
 
 #include <fcntl.h>
+#include <unistd.h>
 
 #include <signal.h>
 #include <netdb.h>
@@ -1886,7 +1887,6 @@ env_find (const char *var)
 void
 env_init (void)
 {
-  extern char **environ;
   register char **epp, *cp;
   register struct env_lst *ep;
 #ifndef strchr

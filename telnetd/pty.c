@@ -83,7 +83,6 @@ startslave (char *host, int autologin, char *autoname)
   return master;
 }
 
-extern char **environ;
 /*
  * scrub_env()
  *

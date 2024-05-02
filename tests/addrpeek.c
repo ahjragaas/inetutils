@@ -56,13 +56,6 @@
 # define SEPARATOR "\n"
 #endif
 
-/* TODO Develop some reliable test for the existence of ENVIRON.
- * It is detectable using HAVE_DECL_ENVIRON for GNU/Linux and
- * GNU/kFreeBSD. It is present, but not detectable for OpenBSD
- * and FreeBSD.
- */
-extern char **environ;
-
 static void
 write_address (int fd)
 {

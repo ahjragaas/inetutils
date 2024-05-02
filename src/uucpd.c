@@ -103,8 +103,6 @@ char *nenv[] = {
   NULL,
 };
 
-extern char **environ;
-
 static struct argp_option argp_options[] = {
 #define GRP 10
   {"uucico", 'u', "LOCATION", 0,
