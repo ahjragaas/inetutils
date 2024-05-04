@@ -203,7 +203,7 @@ void copytochild (int);
 void doit (sigset_t *);
 void done (int);
 void echo (char);
-u_int getescape (char *);
+unsigned int getescape (char *);
 void lostpeer (int);
 void mode (int);
 void oob (int);
@@ -1455,7 +1455,7 @@ get_window_size (int fd, struct winsize *wp)
 }
 #endif
 
-u_int
+unsigned int
 getescape (register char *p)
 {
   long val;
@@ -1463,7 +1463,7 @@ getescape (register char *p)
 
   len = strlen (p);
   if (len == 1)			/* use any single char, including '\'.  */
-    return ((u_int) * p);
+    return ((unsigned int) *p);
 
   /* otherwise, \nnn */
   if (*p == '\\' && len >= 2 && len <= 4)
@@ -1472,7 +1472,7 @@ getescape (register char *p)
       for (;;)
 	{
 	  if (!*++p)
-	    return ((u_int) val);
+	    return ((unsigned int) val);
 	  if (*p < '0' || *p > '8')
 	    break;
 	}

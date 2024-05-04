@@ -89,7 +89,7 @@
 static int printaname (FTSENT *, unsigned long, unsigned long);
 static void printlink (FTSENT *);
 static void printtime (time_t);
-static int printtype (u_int);
+static int printtype (unsigned int);
 static int compute_columns (DISPLAY *, int *);
 
 #define IS_NOPRINT(p)	((p)->fts_number == NO_PRINT)
@@ -356,7 +356,7 @@ printstream (DISPLAY *dp)
 }
 
 static int
-printtype (u_int mode)
+printtype (unsigned int mode)
 {
   switch (mode & S_IFMT)
     {

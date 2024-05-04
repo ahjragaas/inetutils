@@ -1441,14 +1441,14 @@ send_data (FILE *instr, FILE *outstr, off_t blksize)
 	    syslog (LOG_DEBUG, "Starting at position %jd.", curpos);
 	}
 
-      buf = malloc ((u_int) blksize);
+      buf = malloc ((unsigned int) blksize);
       if (buf == NULL)
 	{
 	  transflag = 0;
 	  perror_reply (451, "Local resource failure: malloc");
 	  return;
 	}
-      while ((cnt = read (filefd, buf, (u_int) blksize)) > 0 &&
+      while ((cnt = read (filefd, buf, (unsigned int) blksize)) > 0 &&
 	     write (netfd, buf, cnt) == cnt)
 	byte_count += cnt;
 
@@ -1499,7 +1499,7 @@ receive_data (FILE *instr, FILE *outstr, off_t blksize)
     {
     case TYPE_I:
     case TYPE_L:
-      buf = malloc ((u_int) blksize);
+      buf = malloc ((unsigned int) blksize);
       if (buf == NULL)
 	{
 	  transflag = 0;

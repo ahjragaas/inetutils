@@ -56,7 +56,7 @@ int revstatcmp (const FTSENT *, const FTSENT *);
 int sizecmp (const FTSENT *, const FTSENT *);
 int revsizecmp (const FTSENT *, const FTSENT *);
 
-char *flags_to_string (u_int, char *);
+char *flags_to_string (unsigned int, char *);
 int putname (char *);
 void printcol (DISPLAY *);
 void printacol (DISPLAY *);

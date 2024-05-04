@@ -180,7 +180,7 @@ inetutils_ttymsg (struct iovec *iov, int iovcnt, char *line, int tmout)
 #else
 	  sigsetmask (0);
 #endif
-	  alarm ((u_int) tmout);
+	  alarm ((unsigned int) tmout);
 	  fcntl (fd, O_NONBLOCK, &off);
 	  continue;
 	}

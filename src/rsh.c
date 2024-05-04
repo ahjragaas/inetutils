@@ -830,7 +830,7 @@ copyargs (char **argv)
   cc = 0;
   for (ap = argv; *ap; ++ap)
     cc += strlen (*ap) + 1;
-  args = malloc ((u_int) cc);
+  args = malloc ((unsigned int) cc);
   if (!args)
     error (EXIT_FAILURE, errno, "copyargs");
   for (p = args, ap = argv; *ap; ++ap)
