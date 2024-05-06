@@ -70,6 +70,11 @@ exclude_file_name_regexp--sc_prohibit_empty_lines_at_EOF = \
 exclude_file_name_regexp--sc_unportable_grep_q = \
 	^gl/top/README-release.diff$$
 
+sc_bsd_caddr:
+	@prohibit=caddr''_t \
+	halt='don'\''t use caddr''_t; instead use a standard pointer' \
+	  $(_sc_search_regexp)
+
 sc_assignment_in_if:
 	prohibit='\<if *\(.* = ' halt="don't use assignments in if statements"	\
 	  $(_sc_search_regexp)
