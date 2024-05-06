@@ -2820,8 +2820,7 @@ tn (int argc, char *argv[])
 	      errno = oerrno;
 	      perror ((char *) 0);
 	      host->h_addr_list++;
-	      memmove ((caddr_t) & sin.sin_addr,
-		       host->h_addr_list[0], host->h_length);
+	      memmove (&sin.sin_addr, host->h_addr_list[0], host->h_length);
 	      close (net);
 	      continue;
 	    }

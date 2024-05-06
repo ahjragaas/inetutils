@@ -125,7 +125,7 @@ if_nameindex (void)
 
   i = 0;
   ifr = (struct ifreq *) ifc.ifc_req;
-  end = (struct ifreq *) ((caddr_t) ifr + ifc.ifc_len);
+  end = (struct ifreq *) (ifr + ifc.ifc_len);
   while (ifr < end)
     {
       cur = ifr;

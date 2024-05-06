@@ -219,7 +219,7 @@ hookup (char *host, int port)
 			 sizeof (timeout));
 
       ctladdrlen = ai->ai_addrlen;
-      memmove ((caddr_t) & hisctladdr, ai->ai_addr, ai->ai_addrlen);
+      memmove (&hisctladdr, ai->ai_addr, ai->ai_addrlen);
       break;
     }				/* for (ai = ai->ai_next) */
 

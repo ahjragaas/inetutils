@@ -994,13 +994,13 @@ getconfigent (FILE *fconfig, const char *file, size_t *line)
   if (serv_node)
     return next_node_sep (sep);
 
-  memset ((caddr_t) sep, 0, sizeof *sep);
+  memset (sep, 0, sizeof *sep);
 
   while (1)
     {
       argcv_free (argc, argv);
       freeconfig (sep);
-      memset ((caddr_t) sep, 0, sizeof *sep);
+      memset (sep, 0, sizeof *sep);
 
       do
 	{
