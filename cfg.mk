@@ -70,26 +70,6 @@ exclude_file_name_regexp--sc_prohibit_empty_lines_at_EOF = \
 exclude_file_name_regexp--sc_unportable_grep_q = \
 	^gl/top/README-release.diff$$
 
-sc_unsigned_char:
-	@prohibit=u''_char \
-	halt='don'\''t use u''_char; instead use unsigned char'	\
-	  $(_sc_search_regexp)
-
-sc_unsigned_long:
-	@prohibit=u''_long \
-	halt='don'\''t use u''_long; instead use unsigned long'	\
-	  $(_sc_search_regexp)
-
-sc_unsigned_short:
-	@prohibit=u''_short \
-	halt='don'\''t use u''_short; instead use unsigned short' \
-	  $(_sc_search_regexp)
-
-sc_unsigned_int:
-	@prohibit=u''_int \
-	halt='don'\''t use u''_int; instead use unsigned int' \
-	  $(_sc_search_regexp)
-
 sc_assignment_in_if:
 	prohibit='\<if *\(.* = ' halt="don't use assignments in if statements"	\
 	  $(_sc_search_regexp)
