@@ -1133,7 +1133,7 @@ print_interfaceX (format_data_t form, int quiet)
 		  form->format = p;
 		  print_interfaceX (form, 1);
 		  q = form->format;
-                  argv = xrealloc (argv, (argc + 1) * sizeof (char *));
+		  argv = xrealloc (argv, (argc + 1) * sizeof (char *));
 		  argv[argc] = xmalloc (q - p + 1);
 		  memcpy (argv[argc], p, q - p);
 		  argv[argc][q - p] = '\0';
@@ -1144,14 +1144,14 @@ print_interfaceX (format_data_t form, int quiet)
 		}
 
 	      format_handler (id, form, argc, argv);
-              if (argv != NULL)
-                {
-                  /* Clean up.  */
-                  while (--argc >= 0)
-                    free (argv[argc]);
-                  free (argv);
-                }
-              form->format = p;
+	      if (argv != NULL)
+		{
+		  /* Clean up.  */
+		  while (--argc >= 0)
+		    free (argv[argc]);
+		  free (argv);
+		}
+	      form->format = p;
 	    }
 	}
     }
