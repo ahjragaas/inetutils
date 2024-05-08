@@ -20,6 +20,8 @@ ACLOCAL_AMFLAGS = -I am -I m4
 
 EXTRA_DIST = paths ChangeLog.0 ChangeLog.1 summary.sh.in CHECKLIST
 
+EXTRA_DIST += bootstrap bootstrap.conf bootstrap-funclib.sh
+
 SUBDIRS = lib \
 	libinetutils libtelnet libicmp libls \
 	src telnet telnetd ftp ftpd talk talkd whois ping ifconfig \
