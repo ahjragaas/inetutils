@@ -44,10 +44,6 @@
 #endif
 #include <string.h>
 
-#if !HAVE_DECL_ERRNO
-extern int errno;
-#endif
-
 #ifdef HAVE_UTMPX_H
 static void
 _logwtmp (struct utmpx *ut)

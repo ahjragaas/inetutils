@@ -47,6 +47,7 @@
 
 #include <config.h>
 #include <stdlib.h>
+#include <string.h>
 #include <stdio.h>
 #include <arpa/telnet.h>
 
@@ -81,8 +82,6 @@ auth_encrypt_init (char *local, char *remote, char *principal,
 void
 auth_encrypt_user (char *name)
 {
-  extern char *strdup (const char *);
-
   free (UserNameRequested);
   UserNameRequested = name ? strdup (name) : NULL;
 }

@@ -46,6 +46,7 @@
  */
 
 #include <stdio.h>
+#include <unistd.h>
 #include <setjmp.h>
 #include <getopt.h>
 #include <sys/types.h>
@@ -60,9 +61,6 @@ extern void dologout (int);
 extern void fatal (const char *);
 extern int ftpd_pclose (FILE *);
 extern FILE *ftpd_popen (char *, const char *);
-#if !HAVE_DECL_GETUSERSHELL
-extern char *getusershell (void);
-#endif
 extern void lreply (int, const char *, ...);
 extern void lreply_multiline (int n, const char *text);
 extern void makedir (const char *);

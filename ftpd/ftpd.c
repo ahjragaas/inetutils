@@ -115,11 +115,6 @@
 # define MAP_FAILED (void*)-1
 #endif
 
-#if !HAVE_DECL_FCLOSE
-/* Some systems don't declare fclose in <stdio.h>, so do it ourselves.  */
-extern int fclose (FILE *);
-#endif
-
 /* Exported to ftpcmd.h.  */
 struct sockaddr_storage data_dest;	/* Data port.  */
 socklen_t data_dest_len;

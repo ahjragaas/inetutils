@@ -1719,9 +1719,6 @@ shell (int argc, char **argv MAYBE_UNUSED)
 void
 user (int argc, char **argv)
 {
-#if !HAVE_DECL_GETPASS
-  extern char *getpass ();
-#endif
   char acct[80];
   int n, aflag = 0;
 
@@ -2071,9 +2068,6 @@ globulize (char *cp)
 void
 account (int argc, char **argv)
 {
-#if !HAVE_DECL_GETPASS
-  extern char *getpass ();
-#endif
   char acct[50], *ap;
 
   if (argc > 1)

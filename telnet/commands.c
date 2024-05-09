@@ -68,6 +68,7 @@
 #include <errno.h>
 
 #include <stdlib.h>
+#include <string.h>
 #include <limits.h>		/* LLONG_MAX for Solaris. */
 
 #include <arpa/inet.h>
@@ -114,9 +115,7 @@
 # include <netinet/ip.h>
 #endif
 
-char *hostname = 0;
-
-extern char *getenv (const char *);
+char *hostname = NULL;
 
 extern int isprefix (register const char *s1, register const char *s2);
 extern char **genget (const char *, char **, int);
@@ -1605,9 +1604,6 @@ shell (int argc, MAYBE_UNUSED char *argv[])
 	 * Fire up the shell in the child.
 	 */
 	register char *shellp, *shellname;
-# ifndef strrchr
-	extern char *strrchr (const char *, int);
-# endif
 
 	shellp = getenv ("SHELL");
 	if (shellp == NULL)
@@ -1889,9 +1885,6 @@ env_init (void)
 {
   register char **epp, *cp;
   register struct env_lst *ep;
-#ifndef strchr
-  extern char *strchr (const char *, int);
-#endif
 
   for (epp = environ; *epp; epp++)
     {

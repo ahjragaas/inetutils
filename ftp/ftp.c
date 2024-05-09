@@ -90,16 +90,6 @@
 #include "ftp_var.h"
 #include "attribute.h"
 
-#if !HAVE_DECL_FCLOSE
-/* Some systems don't declare fclose in <stdio.h>, so do it ourselves.  */
-extern int fclose (FILE *);
-#endif
-
-#if !HAVE_DECL_PCLOSE
-/* Some systems don't declare pclose in <stdio.h>, so do it ourselves.  */
-extern int pclose (FILE *);
-#endif
-
 int data = -1;
 int abrtflag = 0;
 jmp_buf ptabort;
@@ -295,9 +285,6 @@ bad:
 int
 login (char *host)
 {
-#if !HAVE_DECL_GETPASS
-  extern char *getpass ();
-#endif
   char tmp[80];
   char *user, *pass, *acct, *p;
   int n, aflag = 0;
