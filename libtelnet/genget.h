@@ -16,6 +16,6 @@
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see `http://www.gnu.org/licenses/'. */
 
-int isprefix (register char *s1, register char *s2);
+int isprefix (char *s1, char *s2);
 char **genget (char *name, char **table, int stlen);
 int Ambiguous (char *s);

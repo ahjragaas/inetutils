@@ -422,7 +422,7 @@ flowstat (void)
  * affected.
  */
 void
-clientstat (register int code, register int parm1, register int parm2)
+clientstat (int code, int parm1, int parm2)
 {
   void netflush (void);
 
@@ -505,7 +505,7 @@ clientstat (register int code, register int parm1, register int parm2)
 
     case LM_MODE:
       {
-	register int ack, changed;
+	int ack, changed;
 
 	/*
 	 * Client has sent along a mode mask.  If it agrees with

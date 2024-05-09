@@ -94,7 +94,7 @@ startslave (char *host, int autologin, char *autoname)
 static void
 scrub_env (void)
 {
-  register char **cpp, **cpp2;
+  char **cpp, **cpp2;
 
   for (cpp2 = cpp = environ; *cpp; cpp++)
     {

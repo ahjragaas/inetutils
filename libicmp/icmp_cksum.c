@@ -24,7 +24,7 @@
 unsigned short
 icmp_cksum (unsigned char *addr, int len)
 {
-  register int sum = 0;
+  int sum = 0;
   unsigned short answer = 0;
   unsigned short *wp;
 

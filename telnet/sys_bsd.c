@@ -297,7 +297,7 @@ TerminalSaveState (void)
 }
 
 cc_t *
-tcval (register int func)
+tcval (int func)
 {
   switch (func)
     {
@@ -412,7 +412,7 @@ TerminalDefaultChars (void)
 
 
 void
-TerminalNewMode (register int f)
+TerminalNewMode (int f)
 {
   static int prevmode = 0;
 #ifndef USE_TERMIO
@@ -865,9 +865,9 @@ void
 TerminalSpeeds (long *ispeed, long *ospeed)
 {
 #ifdef	DECODE_BAUD
-  register struct termspeeds *tp;
+  struct termspeeds *tp;
 #endif /* DECODE_BAUD */
-  register long in, out;
+  long in, out;
 
   out = cfgetospeed (&old_tc);
   in = cfgetispeed (&old_tc);
@@ -1070,7 +1070,7 @@ int
 process_rings (int netin, int netout, int netex, int ttyin, int ttyout,
 	       int poll)
 {
-  register int c;
+  int c;
   /* One wants to be a bit careful about setting returnValue
    * to one, since a one implies we did some useful work,
    * and therefore probably won't be called to block next

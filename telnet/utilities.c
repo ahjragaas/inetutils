@@ -81,9 +81,9 @@ int prettydump;
  */
 
 void
-upcase (register char *argument)
+upcase (char *argument)
 {
-  register int c;
+  int c;
 
   while ((c = *argument) != 0)
     {
@@ -215,7 +215,7 @@ printoption (char *direction, int cmd, int option)
     }
   else
     {
-      register char *fmt;
+      char *fmt;
       fmt = (cmd == WILL)
 	? "WILL" : (cmd == WONT)
 	? "WONT" : (cmd == DO) ? "DO" : (cmd == DONT) ? "DONT" : 0;
@@ -247,7 +247,7 @@ printoption (char *direction, int cmd, int option)
 void
 optionstatus (void)
 {
-  register int i;
+  int i;
   extern char will_wont_resp[], do_dont_resp[];
 
   for (i = 0; i < 256; i++)
@@ -340,7 +340,7 @@ optionstatus (void)
 void
 printsub (char direction, unsigned char *pointer, int length)
 {
-  register int i;
+  int i;
   extern int want_status_response;
 
 #if defined AUTHENTICATION || defined ENCRYPTION
@@ -356,7 +356,7 @@ printsub (char direction, unsigned char *pointer, int length)
 		   (direction == '<') ? "RCVD" : "SENT");
 	  if (length >= 3)
 	    {
-	      register int j;
+	      int j;
 
 	      i = pointer[length - 2];
 	      j = pointer[length - 1];
@@ -752,8 +752,8 @@ printsub (char direction, unsigned char *pointer, int length)
 
 	case TELOPT_STATUS:
 	  {
-	    register char *cp;
-	    register int j, k;
+	    char *cp;
+	    int j, k;
 
 	    fprintf (NetTrace, "STATUS");
 

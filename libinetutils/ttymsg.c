@@ -75,7 +75,7 @@ inetutils_ttymsg (struct iovec *iov, int iovcnt, char *line, int tmout)
 {
   static char errbuf[MAX_ERRBUF];
   char *device;
-  register int cnt, fd, left, wret;
+  int cnt, fd, left, wret;
   struct iovec localiov[6];
   int forked = 0;
 

@@ -185,7 +185,7 @@ ofb64_init (int server)
        /* ENCTYPE_DES_OFB64 */
 
 static void
-fb64_init (register struct fb *fbp)
+fb64_init (struct fb *fbp)
 {
   memset ((void *) fbp, 0, sizeof (*fbp));
   fbp->state[0] = fbp->state[1] = FAILED;
@@ -223,7 +223,7 @@ fb64_start (struct fb *fbp, int dir, int server)
 {
   size_t x;
   unsigned char *p;
-  register int state;
+  int state;
 
   switch (dir)
     {
@@ -314,7 +314,7 @@ static int
 fb64_is (unsigned char *data, int cnt, struct fb *fbp)
 {
   unsigned char *p;
-  register int state = fbp->state[DIR_DECRYPT - 1];
+  int state = fbp->state[DIR_DECRYPT - 1];
 
   if (cnt-- < 1)
     goto failure;
@@ -406,7 +406,7 @@ ofb64_reply (unsigned char *data, int cnt)
 static int
 fb64_reply (unsigned char *data, int cnt, struct fb *fbp)
 {
-  register int state = fbp->state[DIR_ENCRYPT - 1];
+  int state = fbp->state[DIR_ENCRYPT - 1];
 
   if (cnt-- < 1)
     goto failure;
@@ -555,7 +555,7 @@ ofb64_keyid (int dir, unsigned char *kp, int *lenp)
 static int
 fb64_keyid (int dir, unsigned char *kp, int *lenp, struct fb *fbp)
 {
-  register int state = fbp->state[dir - 1];
+  int state = fbp->state[dir - 1];
 
   if (*lenp != 1 || (*kp != '\0'))
     {
@@ -578,7 +578,7 @@ fb64_printsub (unsigned char *data, int cnt,
 	       char *buf, int buflen, const char *type)
 {
   char lbuf[32];
-  register int i;
+  int i;
   char *cp;
 
   buf[buflen - 1] = '\0';	/* make sure it's NULL terminated */
@@ -633,7 +633,7 @@ ofb64_printsub (unsigned char *data, int cnt, char *buf, int buflen)
        /* ENCTYPE_DES_OFB64 */
 
 static void
-fb64_stream_iv (Block seed, register struct stinfo *stp)
+fb64_stream_iv (Block seed, struct stinfo *stp)
 {
 
   memmove ((void *) stp->str_iv, (void *) seed, sizeof (Block));
@@ -647,7 +647,7 @@ fb64_stream_iv (Block seed, register struct stinfo *stp)
 }
 
 static void
-fb64_stream_key (Block key, register struct stinfo *stp)
+fb64_stream_key (Block key, struct stinfo *stp)
 {
   memmove ((void *) stp->str_ikey, (void *) key, sizeof (Block));
 #   ifndef SHISHI
@@ -681,10 +681,10 @@ fb64_stream_key (Block key, register struct stinfo *stp)
  */
 
 void
-cfb64_encrypt (register unsigned char *s, int c)
+cfb64_encrypt (unsigned char *s, int c)
 {
-  register struct stinfo *stp = &fb[CFB].streams[DIR_ENCRYPT - 1];
-  register int index;
+  struct stinfo *stp = &fb[CFB].streams[DIR_ENCRYPT - 1];
+  int index;
 
   index = stp->str_index;
   while (c-- > 0)
@@ -713,7 +713,7 @@ cfb64_encrypt (register unsigned char *s, int c)
 int
 cfb64_decrypt (int data)
 {
-  register struct stinfo *stp = &fb[CFB].streams[DIR_DECRYPT - 1];
+  struct stinfo *stp = &fb[CFB].streams[DIR_DECRYPT - 1];
   int index;
 
   if (data == -1)
@@ -770,10 +770,10 @@ cfb64_decrypt (int data)
  */
 #   ifdef ENCTYPE_DES_OFB64
 void
-ofb64_encrypt (register unsigned char *s, int c)
+ofb64_encrypt (unsigned char *s, int c)
 {
-  register struct stinfo *stp = &fb[OFB].streams[DIR_ENCRYPT - 1];
-  register int index;
+  struct stinfo *stp = &fb[OFB].streams[DIR_ENCRYPT - 1];
+  int index;
 
   index = stp->str_index;
   while (c-- > 0)
@@ -799,7 +799,7 @@ ofb64_encrypt (register unsigned char *s, int c)
 int
 ofb64_decrypt (int data)
 {
-  register struct stinfo *stp = &fb[OFB].streams[DIR_DECRYPT - 1];
+  struct stinfo *stp = &fb[OFB].streams[DIR_DECRYPT - 1];
   int index;
 
   if (data == -1)

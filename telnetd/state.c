@@ -191,7 +191,7 @@ send_intr (void)
 void
 telrcv (void)
 {
-  register int c;
+  int c;
   static int state = TS_DATA;
 
   while ((net_input_level () > 0) & !pty_buffer_is_full ())
@@ -1150,7 +1150,7 @@ int env_ovalue = -1;
 void
 suboption (void)
 {
-  register int subchar;
+  int subchar;
 
   DEBUG (debug_options, 1, printsub ('<', subpointer, SB_LEN () + 2));
 
@@ -1159,7 +1159,7 @@ suboption (void)
     {
     case TELOPT_TSPEED:
       {
-	register int xspeed, rspeed;
+	int xspeed, rspeed;
 
 	if (his_state_is_wont (TELOPT_TSPEED))	/* Ignore if option disabled */
 	  break;
@@ -1212,7 +1212,7 @@ suboption (void)
 
     case TELOPT_NAWS:
       {
-	register int xwinsize, ywinsize;
+	int xwinsize, ywinsize;
 
 	if (his_state_is_wont (TELOPT_NAWS))	/* Ignore if option disabled */
 	  break;
@@ -1237,7 +1237,7 @@ suboption (void)
 
     case TELOPT_LINEMODE:
       {
-	register int request;
+	int request;
 
 	/* Ignore if option disabled */
 	if (his_state_is_wont (TELOPT_LINEMODE))
@@ -1324,8 +1324,8 @@ suboption (void)
     case TELOPT_NEW_ENVIRON:
     case TELOPT_OLD_ENVIRON:
       {
-	register int c;
-	register char *cp, *varp, *valp;
+	int c;
+	char *cp, *varp, *valp;
 
 	if (SB_EOF ())
 	  return;
@@ -1359,7 +1359,7 @@ suboption (void)
 	     */
 	    if (env_ovar < 0)
 	      {
-		register int last = -1;	/* invalid value */
+		int last = -1;	/* invalid value */
 		int empty = 0;
 		int got_var = 0, got_value = 0, got_uservar = 0;
 
@@ -1616,8 +1616,8 @@ send_status (void)
 
   unsigned char statusbuf[256];
   unsigned char *ep;
-  register unsigned char *ncp;
-  register unsigned char i;
+  unsigned char *ncp;
+  unsigned char i;
 
   ncp = statusbuf;
   ep = statusbuf + sizeof (statusbuf);

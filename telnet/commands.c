@@ -117,7 +117,7 @@
 
 char *hostname = NULL;
 
-extern int isprefix (register const char *s1, register const char *s2);
+extern int isprefix (const char *s1, const char *s2);
 extern char **genget (const char *, char **, int);
 extern int Ambiguous (void *);
 
@@ -145,8 +145,8 @@ static void slc_help (int);
 static void
 makeargv (void)
 {
-  register char *cp, *cp2, c;
-  register char **argp = margv;
+  char *cp, *cp2, c;
+  char **argp = margv;
 
   margc = 0;
   cp = line;
@@ -159,7 +159,7 @@ makeargv (void)
     }
   while ((c = *cp))
     {
-      register int inquote = 0;
+      int inquote = 0;
       while (isspace (c))
 	c = *++cp;
       if (c == '\0')
@@ -218,9 +218,9 @@ makeargv (void)
  */
 
 static int
-special (register char *s)
+special (char *s)
 {
-  register char c;
+  char c;
   char b;
 
   switch (*s)
@@ -248,7 +248,7 @@ special (register char *s)
  * for a special character.
  */
 static const char *
-control (register cc_t c)
+control (cc_t c)
 {
   static char buf[5];
   /*
@@ -258,7 +258,7 @@ control (register cc_t c)
    * was to assign "c" to an unsigned int variable...
    * Arggg....
    */
-  register unsigned int uic = (unsigned int) c;
+  unsigned int uic = (unsigned int) c;
 
   if (uic == 0x7f)
     return ("^?");
@@ -454,11 +454,11 @@ send_tncmd (void (*func) (int, int), char *cmd, const char *name)
 #if !HAVE_DECL_TELOPTS
   extern char *telopts[];
 #endif
-  register int val = 0;
+  int val = 0;
 
   if (isprefix (name, "help") || isprefix (name, "?"))
     {
-      register int col, len;
+      int col, len;
 
       printf ("Usage: send %s <value|option>\n", cmd);
       printf ("\"value\" must be from 0 to 255\n");
@@ -496,7 +496,7 @@ send_tncmd (void (*func) (int, int), char *cmd, const char *name)
     }
   else
     {
-      register const char *cp = name;
+      const char *cp = name;
 
       while (*cp >= '0' && *cp <= '9')
 	{
@@ -1173,7 +1173,7 @@ unsetcmd (int argc, char *argv[])
 {
   struct setlist *ct;
   struct togglelist *c;
-  register char *name;
+  char *name;
 
   if (argc < 2)
     {
@@ -1516,7 +1516,7 @@ display (int argc, char *argv[])
 static int
 setescape (int argc, char *argv[])
 {
-  register char *arg;
+  char *arg;
   char buf[50];
 
   printf ("Deprecated usage - please use 'set escape%s%s' in the future.\n",
@@ -1603,7 +1603,7 @@ shell (int argc, MAYBE_UNUSED char *argv[])
 	/*
 	 * Fire up the shell in the child.
 	 */
-	register char *shellp, *shellname;
+	char *shellp, *shellname;
 
 	shellp = getenv ("SHELL");
 	if (shellp == NULL)
@@ -1870,7 +1870,7 @@ struct env_lst envlisthead;
 struct env_lst *
 env_find (const char *var)
 {
-  register struct env_lst *ep;
+  struct env_lst *ep;
 
   for (ep = envlisthead.next; ep; ep = ep->next)
     {
@@ -1883,8 +1883,8 @@ env_find (const char *var)
 void
 env_init (void)
 {
-  register char **epp, *cp;
-  register struct env_lst *ep;
+  char **epp, *cp;
+  struct env_lst *ep;
 
   for (epp = environ; *epp; epp++)
     {
@@ -1934,7 +1934,7 @@ env_init (void)
 struct env_lst *
 env_define (const char *var, char *value)
 {
-  register struct env_lst *ep = env_find (var);
+  struct env_lst *ep = env_find (var);
   if (ep)
     {
       free (ep->var);
@@ -1959,7 +1959,7 @@ env_define (const char *var, char *value)
 struct env_lst *
 env_undefine (const char *var, char *d)
 {
-  register struct env_lst *ep = env_find (var);
+  struct env_lst *ep = env_find (var);
   if (ep)
     {
       ep->prev->next = ep->next;
@@ -1975,7 +1975,7 @@ env_undefine (const char *var, char *d)
 struct env_lst *
 env_export (const char *var, char *d)
 {
-  register struct env_lst *ep = env_find (var);
+  struct env_lst *ep = env_find (var);
   if (ep)
     ep->export = 1;
   return NULL;
@@ -1984,7 +1984,7 @@ env_export (const char *var, char *d)
 struct env_lst *
 env_unexport (const char *var, char *d)
 {
-  register struct env_lst *ep = env_find (var);
+  struct env_lst *ep = env_find (var);
   if (ep)
     ep->export = 0;
   return NULL;
@@ -1993,7 +1993,7 @@ env_unexport (const char *var, char *d)
 struct env_lst *
 env_send (const char *var, char *d)
 {
-  register struct env_lst *ep;
+  struct env_lst *ep;
 
   if (my_state_is_wont (TELOPT_NEW_ENVIRON)
 #ifdef	OLD_ENVIRON
@@ -2021,7 +2021,7 @@ env_send (const char *var, char *d)
 struct env_lst *
 env_list (const char *d1, char *d2)
 {
-  register struct env_lst *ep;
+  struct env_lst *ep;
 
   for (ep = envlisthead.next; ep; ep = ep->next)
     {
@@ -2054,7 +2054,7 @@ env_default (int init, int welldefined)
 unsigned char *
 env_getvalue (const char *var)
 {
-  register struct env_lst *ep = env_find (var);
+  struct env_lst *ep = env_find (var);
   if (ep)
     return (ep->value);
   return (NULL);
@@ -2981,7 +2981,7 @@ getcmd (char *name)
 void
 command (int top, char *tbuf, int cnt)
 {
-  register Command *c;
+  Command *c;
 
   setcommandmode ();
   if (!top)
@@ -3001,7 +3001,7 @@ command (int top, char *tbuf, int cnt)
 	printf ("%s> ", prompt);
       if (tbuf)
 	{
-	  register char *cp;
+	  char *cp;
 	  cp = line;
 	  while (cnt > 0 && (*cp++ = *tbuf++) != '\n')
 	    cnt--;
@@ -3078,7 +3078,7 @@ command (int top, char *tbuf, int cnt)
 static int
 help (int argc, char *argv[])
 {
-  register Command *c;
+  Command *c;
 
   if (argc == 1)
     {
@@ -3092,7 +3092,7 @@ help (int argc, char *argv[])
     }
   while (--argc > 0)
     {
-      register char *arg;
+      char *arg;
       arg = *++argv;
       c = getcmd (arg);
       if (Ambiguous (c))
@@ -3110,7 +3110,7 @@ static char *rcname = 0;
 static void
 cmdrc (char *m1, char *m2)
 {
-  register Command *c;
+  Command *c;
   FILE *rcfile;
   int gotmachine = 0;
   int l1 = strlen (m1);

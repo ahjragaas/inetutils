@@ -207,7 +207,7 @@ int
 main (int argc, char *argv[])
 {
   int index;
-  register struct tftphdr *tp;
+  struct tftphdr *tp;
   int on, n;
   struct sockaddr_storage sin;
 
@@ -434,9 +434,9 @@ struct formats
 void
 tftp (struct tftphdr *tp, int size)
 {
-  register char *cp;
+  char *cp;
   int first = 1, ecode;
-  register struct formats *pf;
+  struct formats *pf;
   char *filename, *mode;
 
 #if HAVE_STRUCT_TFTPHDR_TH_U
@@ -646,8 +646,8 @@ void
 tftpd_sendfile (struct formats *pf)
 {
   struct tftphdr *dp, *r_init (void);
-  register struct tftphdr *ap;	/* ack packet */
-  register int size, n;
+  struct tftphdr *ap;		/* ack packet */
+  int size, n;
   volatile int block;
 
   signal (SIGALRM, timer);
@@ -724,8 +724,8 @@ void
 recvfile (struct formats *pf)
 {
   struct tftphdr *dp, *w_init (void);
-  register struct tftphdr *ap;	/* ack buffer */
-  register int n, size;
+  struct tftphdr *ap;		/* ack buffer */
+  int n, size;
   volatile int block;
 
   signal (SIGALRM, timer);
@@ -826,7 +826,7 @@ static const char *
 errtomsg (int error)
 {
   static char buf[20];
-  register struct errmsg *pe;
+  struct errmsg *pe;
   if (error == 0)
     return "success";
   for (pe = errmsgs; pe->e_code >= 0; pe++)
@@ -845,9 +845,9 @@ errtomsg (int error)
 static void
 nak (int error)
 {
-  register struct tftphdr *tp;
+  struct tftphdr *tp;
   int length;
-  register struct errmsg *pe;
+  struct errmsg *pe;
 
   tp = (struct tftphdr *) buf;
   tp->th_opcode = htons ((unsigned short) ERROR);

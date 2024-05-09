@@ -286,7 +286,7 @@ auth_disable_name (char *name)
 int
 getauthmask (char *type, int *maskp)
 {
-  register int x;
+  int x;
 
   if (AUTHTYPE_NAME (0) && !strcasecmp (type, AUTHTYPE_NAME (0)))
     {
@@ -631,8 +631,8 @@ auth_sendname (char *name, int len)
 {
   static unsigned char str_request[256 + 6]
     = { IAC, SB, TELOPT_AUTHENTICATION, TELQUAL_NAME, };
-  register unsigned char *e = str_request + 4;
-  register unsigned char *ee = &str_request[sizeof (str_request) - 2];
+  unsigned char *e = str_request + 4;
+  unsigned char *ee = &str_request[sizeof (str_request) - 2];
   unsigned char *cp = (unsigned char *) name;
 
   while (--len >= 0)
@@ -709,7 +709,7 @@ auth_debug (int mode)
 static void
 auth_gen_printsub (unsigned char *data, int cnt, char *buf, int buflen)
 {
-  register char *cp;
+  char *cp;
   char tbuf[16];
 
   cnt -= 3;

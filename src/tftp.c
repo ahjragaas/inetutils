@@ -193,7 +193,7 @@ struct cmd cmdtab[] = {
   {NULL, NULL, NULL}
 };
 
-struct cmd *getcmd (register char *name);
+struct cmd *getcmd (char *name);
 char *tail (char *filename);
 
 
@@ -481,7 +481,7 @@ struct modes
 void
 modecmd (int argc, char *argv[])
 {
-  register struct modes *p;
+  struct modes *p;
   char *sep;
 
   if (argc < 2)
@@ -542,8 +542,8 @@ void
 put (int argc, char *argv[])
 {
   int fd;
-  register int n;
-  register char *cp, *targ;
+  int n;
+  char *cp, *targ;
 
   if (argc < 2)
     get_args ("send", "(file) ", &argc, &argv);
@@ -655,8 +655,8 @@ void
 get (int argc, char *argv[])
 {
   int fd;
-  register int n;
-  register char *cp;
+  int n;
+  char *cp;
   char *src;
 
   if (argc < 2)
@@ -815,7 +815,7 @@ intr (int signo MAYBE_UNUSED)
 char *
 tail (char *filename)
 {
-  register char *s;
+  char *s;
 
   while (*filename)
     {
@@ -835,7 +835,7 @@ tail (char *filename)
 static void
 command (void)
 {
-  register struct cmd *c;
+  struct cmd *c;
 
   for (;;)
     {
@@ -869,11 +869,11 @@ command (void)
 }
 
 struct cmd *
-getcmd (register char *name)
+getcmd (char *name)
 {
-  register char *p, *q;
-  register struct cmd *c, *found;
-  register int nmatches, longest;
+  char *p, *q;
+  struct cmd *c, *found;
+  int nmatches, longest;
 
   longest = 0;
   nmatches = 0;
@@ -907,8 +907,8 @@ getcmd (register char *name)
 static void
 makeargv (void)
 {
-  register char *cp;
-  register char **argp = margv;
+  char *cp;
+  char **argp = margv;
 
   margc = 0;
   for (cp = line; *cp;)
@@ -945,7 +945,7 @@ quit (int argc MAYBE_UNUSED, MAYBE_UNUSED char *argv[])
 void
 help (int argc, char *argv[])
 {
-  register struct cmd *c;
+  struct cmd *c;
 
   if (argc == 1)
     {
@@ -957,7 +957,7 @@ help (int argc, char *argv[])
 
   while (--argc > 0)
     {
-      register char *arg;
+      char *arg;
 
       arg = *++argv;
       c = getcmd (arg);
@@ -990,9 +990,9 @@ setverbose (int argc MAYBE_UNUSED, MAYBE_UNUSED char *argv[])
 void
 tftp_sendfile (int fd, char *name, char *mode)
 {
-  register struct tftphdr *ap;	/* data and ack packets */
+  struct tftphdr *ap;		/* data and ack packets */
   struct tftphdr *r_init (void), *dp;
-  register int n;
+  int n;
   volatile int block, size, convert;
   volatile unsigned long amount;
   struct sockaddr_storage from;
@@ -1103,9 +1103,9 @@ abort:
 void
 recvfile (int fd, char *name, char *mode)
 {
-  register struct tftphdr *ap;
+  struct tftphdr *ap;
   struct tftphdr *dp, *w_init (void);
-  register int n;
+  int n;
   volatile int block, size, firsttrip;
   volatile unsigned long amount;
   struct sockaddr_storage from;
@@ -1224,7 +1224,7 @@ static int
 makerequest (int request, const char *name, struct tftphdr *tp,
 	     const char *mode)
 {
-  register char *cp;
+  char *cp;
   size_t arglen, len;
 
   tp->th_opcode = htons ((unsigned short) request);
@@ -1287,8 +1287,8 @@ struct errmsg
 static void
 nak (int error)
 {
-  register struct errmsg *pe;
-  register struct tftphdr *tp;
+  struct errmsg *pe;
+  struct tftphdr *tp;
   int length;
 
   tp = (struct tftphdr *) ackbuf;
@@ -1316,7 +1316,7 @@ static void
 tpacket (const char *s, struct tftphdr *tp, int n)
 {
   static char *opcodes[] = { "#0", "RRQ", "WRQ", "DATA", "ACK", "ERROR" };
-  register char *cp, *file;
+  char *cp, *file;
   unsigned short op = ntohs (tp->th_opcode);
 
   if (op < RRQ || op > ERROR)

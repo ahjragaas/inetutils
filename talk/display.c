@@ -79,7 +79,7 @@ static int
 readwin (WINDOW *win, int line, int col)
 {
   int oldline, oldcol;
-  register int c;
+  int c;
 
   getyx (win, oldline, oldcol);
   wmove (win, line, col);
@@ -93,7 +93,7 @@ readwin (WINDOW *win, int line, int col)
  * so that the current position is obvious
  */
 static void
-xscroll (register xwin_t *win, int flag)
+xscroll (xwin_t *win, int flag)
 {
   if (flag == -1)
     {
@@ -116,9 +116,9 @@ xscroll (register xwin_t *win, int flag)
  * characters while we are at it.
  */
 int
-display (register xwin_t *win, register char *text, int size)
+display (xwin_t *win, char *text, int size)
 {
-  register int i;
+  int i;
   unsigned char cch;
 
   for (i = 0; i < size; i++)

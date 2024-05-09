@@ -87,7 +87,7 @@ int
 check_local (void)
 {
   CTL_RESPONSE response;
-  register CTL_RESPONSE *rp = &response;
+  CTL_RESPONSE *rp = &response;
 
   /* the rest of msg was set up in get_names */
   msg.ctl_addr.sa_family = htons (ctl_addr.sin_family);

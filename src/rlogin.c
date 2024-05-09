@@ -980,7 +980,7 @@ catch_child (int signo MAYBE_UNUSED)
 void
 writer (void)
 {
-  register int bol, local, n;
+  int bol, local, n;
   char c;
 
   bol = 1;			/* beginning of line */
@@ -1083,9 +1083,9 @@ writer (void)
 }
 
 void
-echo (register char c)
+echo (char c)
 {
-  register char *p;
+  char *p;
   char buf[8];
 
   p = buf;
@@ -1456,7 +1456,7 @@ get_window_size (int fd, struct winsize *wp)
 #endif
 
 unsigned int
-getescape (register char *p)
+getescape (char *p)
 {
   long val;
   int len;

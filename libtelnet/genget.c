@@ -57,10 +57,10 @@
  * the length of *s1 is returned.
  */
 int
-isprefix (register const char *s1, register const char *s2)
+isprefix (const char *s1, const char *s2)
 {
   const char *os1;
-  register char c1, c2;
+  char c1, c2;
 
   if (*s1 == '\0')
     return (-1);
@@ -84,8 +84,8 @@ static char *ambiguous;		/* special return value for command routines */
 char **
 genget (const char *name, char **table, int stlen)
 {
-  register char **c, **found;
-  register int n;
+  char **c, **found;
+  int n;
 
   if (name == 0)
     return 0;

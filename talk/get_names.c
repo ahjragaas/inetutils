@@ -73,7 +73,7 @@ get_names (int argc, char *argv[])
   char *his_name, *my_name;
   char *my_machine_name, *his_machine_name;
   char *his_tty;
-  register char *cp;
+  char *cp;
 
   if ((my_name = getlogin ()) == NULL)
     {

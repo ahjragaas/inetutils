@@ -618,7 +618,7 @@ telnetd_run (void)
   for (;;)
     {
       fd_set ibits, obits, xbits;
-      register int c;
+      int c;
 
       if (net_input_level () < 0 && pty_input_level () < 0)
 	break;

@@ -93,7 +93,7 @@ des_clear_key ()
 int
 des_read (fd, buf, len)
      int fd;
-     register char *buf;
+     char *buf;
      int len;
 {
   int nreturned = 0;

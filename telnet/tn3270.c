@@ -117,13 +117,13 @@ init_3270 (void)
  * only client needs for us to do that.
  */
 
-/*register char *buffer; where the data is */
-/* register int  count;	 how much to send */
+/*char *buffer; where the data is */
+/* int  count;	 how much to send */
 /* int		  done;	 is this the last of a logical block */
 int
-DataToNetwork (register char *buffer, register int count, int done)
+DataToNetwork (char *buffer, int count, int done)
 {
-  register int loop, c;
+  int loop, c;
   int origCount;
 
   origCount = count;
@@ -210,12 +210,12 @@ outputPurge ()
  * *all* the data at one time (thus the select).
  */
 
-/* register char *buffer;where the data is */
-/* register int	count;	 how much to send */
+/* char *buffer;where the data is */
+/* int	count;	 how much to send */
 int
-DataToTerminal (register char *buffer, register int count)
+DataToTerminal (char *buffer, int count)
 {
-  register int c;
+  int c;
   int origCount;
 
   origCount = count;

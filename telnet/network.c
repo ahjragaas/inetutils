@@ -149,7 +149,7 @@ setneturg (void)
 int
 netflush (void)
 {
-  register int n, n1;
+  int n, n1;
 
 #ifdef	ENCRYPTION
   if (encrypt_output)

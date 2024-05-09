@@ -254,7 +254,7 @@ kerberos4_send (ap)
    */
   if ((ap->way & AUTH_HOW_MASK) == AUTH_HOW_MUTUAL)
     {
-      register int i;
+      int i;
 
       des_key_sched (cred.session, sched);
       des_init_random_number_generator (cred.session);
@@ -267,7 +267,7 @@ kerberos4_send (ap)
        */
       for (i = 7; i >= 0; --i)
 	{
-	  register int x;
+	  int x;
 	  x = (unsigned int) challenge[i] + 1;
 	  challenge[i] = x;	/* ignore overflow */
 	  if (x < 256)		/* if no overflow, all done */
@@ -383,7 +383,7 @@ kerberos4_is (ap, data, cnt)
       des_ecb_encrypt (datablock, challenge, sched, 0);
       for (r = 7; r >= 0; r--)
 	{
-	  register int t;
+	  int t;
 	  t = (unsigned int) challenge[r] + 1;
 	  challenge[r] = t;	/* ignore overflow */
 	  if (t < 256)		/* if no overflow, all done */
@@ -503,7 +503,7 @@ kerberos4_printsub (data, cnt, buf, buflen)
      int cnt, buflen;
 {
   char lbuf[32];
-  register int i;
+  int i;
 
   buf[buflen - 1] = '\0';	/* make sure its NULL terminated */
   buflen -= 1;

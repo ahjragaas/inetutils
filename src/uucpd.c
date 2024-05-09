@@ -166,7 +166,7 @@ main (int argc, char **argv)
 }
 
 static int
-readline (register char *p, register int n)
+readline (char *p, int n)
 {
   char c;
 

@@ -1012,7 +1012,7 @@ prevent_routing (int fd, struct auth_data *ap)
 void
 setup_tty (int fd, struct auth_data *ap)
 {
-  register char *cp = strchr (ap->term + ENVSIZE, '/');
+  char *cp = strchr (ap->term + ENVSIZE, '/');
   char *speed;
   struct termios tt;
 
@@ -1878,7 +1878,7 @@ protocol (int f, int p, struct auth_data *ap)
 	    fcc = 0;
 	  else
 	    {
-	      register char *cp;
+	      char *cp;
 	      int left;
 
 	      if (fcc <= 0)

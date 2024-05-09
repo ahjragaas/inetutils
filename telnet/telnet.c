@@ -219,7 +219,7 @@ init_telnet (void)
  */
 
 void
-send_do (register int c, register int init)
+send_do (int c, int init)
 {
   if (init)
     {
@@ -235,7 +235,7 @@ send_do (register int c, register int init)
 }
 
 void
-send_dont (register int c, register int init)
+send_dont (int c, int init)
 {
   if (init)
     {
@@ -251,7 +251,7 @@ send_dont (register int c, register int init)
 }
 
 void
-send_will (register int c, register int init)
+send_will (int c, int init)
 {
   if (init)
     {
@@ -267,7 +267,7 @@ send_will (register int c, register int init)
 }
 
 void
-send_wont (register int c, register int init)
+send_wont (int c, int init)
 {
   if (init)
     {
@@ -590,10 +590,10 @@ dontoption (int option)
 }
 
 int
-is_unique (register char *name, register char **as, register char **ae)
+is_unique (char *name, char **as, char **ae)
 {
-  register char **ap;
-  register int n;
+  char **ap;
+  int n;
 
   n = strlen (name) + 1;
   for (ap = as; ap < ae; ap++)
@@ -615,8 +615,8 @@ static char *unknown[] = { 0, 0 };
 char **
 mklist (char *buf, char *name)
 {
-  register int n;
-  register char c, *cp, **argvp, *cp2, **argv, **avt;
+  int n;
+  char c, *cp, **argvp, *cp2, **argv, **avt;
 
   if (name)
     {
@@ -1274,7 +1274,7 @@ static int slc_mode = SLC_EXPORT;
 void
 slc_init (void)
 {
-  register struct spc *spcp;
+  struct spc *spcp;
 
   localchars = 1;
   for (spcp = spc_data; spcp < &spc_data[NSLC + 1]; spcp++)
@@ -1392,7 +1392,7 @@ slc_import (int def)
 void
 slc_export (void)
 {
-  register struct spc *spcp;
+  struct spc *spcp;
 
   TerminalDefaultChars ();
 
@@ -1416,10 +1416,10 @@ slc_export (void)
 }
 
 void
-slc (register unsigned char *cp, int len)
+slc (unsigned char *cp, int len)
 {
-  register struct spc *spcp;
-  register int func, level;
+  struct spc *spcp;
+  int func, level;
 
   slc_start_reply ();
 
@@ -1494,7 +1494,7 @@ slc (register unsigned char *cp, int len)
 void
 slc_check (void)
 {
-  register struct spc *spcp;
+  struct spc *spcp;
 
   slc_start_reply ();
   for (spcp = &spc_data[1]; spcp < &spc_data[NSLC + 1]; spcp++)
@@ -1541,7 +1541,7 @@ slc_add_reply (unsigned int func, unsigned int flags, cc_t value)
 void
 slc_end_reply (void)
 {
-  register int len;
+  int len;
 
   *slc_replyp++ = IAC;
   *slc_replyp++ = SE;
@@ -1561,7 +1561,7 @@ slc_end_reply (void)
 int
 slc_update (void)
 {
-  register struct spc *spcp;
+  struct spc *spcp;
   int need_update = 0;
 
   for (spcp = &spc_data[1]; spcp < &spc_data[NSLC + 1]; spcp++)
@@ -1599,10 +1599,10 @@ int old_env_value = OLD_ENV_VALUE;
 #endif
 
 void
-env_opt (register unsigned char *buf, register int len)
+env_opt (unsigned char *buf, int len)
 {
-  register unsigned char *ep = 0, *epc = 0;
-  register int i;
+  unsigned char *ep = 0, *epc = 0;
+  int i;
 
   switch (buf[0] & 0xff)
     {
@@ -1708,9 +1708,9 @@ env_opt_start_info (void)
 }
 
 void
-env_opt_add (register unsigned char *ep)
+env_opt_add (unsigned char *ep)
 {
-  register unsigned char *vp, c;
+  unsigned char *vp, c;
 
   if (opt_reply == NULL)
      /*XXX*/ return;
@@ -1731,7 +1731,7 @@ env_opt_add (register unsigned char *ep)
   if (opt_replyp + (vp ? strlen ((char *) vp) : 0) +
       strlen ((char *) ep) + 6 > opt_replyend)
     {
-      register int len;
+      int len;
       opt_replyend += OPT_REPLY_SIZE;
       len = opt_replyend - opt_reply;
       opt_reply = (unsigned char *) realloc (opt_reply, len);
@@ -1803,9 +1803,9 @@ opt_welldefined (char *ep)
 }
 
 void
-env_opt_end (register int emptyok)
+env_opt_end (int emptyok)
 {
-  register int len;
+  int len;
 
   if (opt_replyp + 2 > opt_replyend)
     return;
@@ -1835,9 +1835,9 @@ env_opt_end (register int emptyok)
 int
 telrcv (void)
 {
-  register int c;
-  register int scc;
-  register unsigned char *sbp;
+  int c;
+  int scc;
+  unsigned char *sbp;
   int count;
   int returnValue = 0;
 
@@ -2181,8 +2181,8 @@ telsnd (void)
   count = 0;
   while (NETROOM () > 2)
     {
-      register int sc;
-      register int c;
+      int sc;
+      int c;
 
       if (tcc == 0)
 	{
@@ -2594,7 +2594,7 @@ nextitem (char *current)
       return current + 3;
     case SB:			/* loop forever looking for the SE */
       {
-	register char *look = current + 2;
+	char *look = current + 2;
 
 	for (;;)
 	  {
@@ -2634,7 +2634,7 @@ static void
 netclear (void)
 {
 #if 0				/* XXX */
-  register char *thisitem, *next;
+  char *thisitem, *next;
   char *good;
 # define wewant(p)	((nfrontp > p) && ((*p&0xff) == IAC) && \
 				((*(p+1)&0xff) != EC) && ((*(p+1)&0xff) != EL))
@@ -2736,7 +2736,7 @@ int
 get_status (const char *s)
 {
   unsigned char tmp[16];
-  register unsigned char *cp;
+  unsigned char *cp;
 
   if (my_want_state_is_dont (TELOPT_STATUS))
     {
@@ -2847,7 +2847,7 @@ sendnaws (void)
 {
   long rows, cols;
   unsigned char tmp[16];
-  register unsigned char *cp;
+  unsigned char *cp;
 
   if (my_state_is_wont (TELOPT_NAWS))
     return;
