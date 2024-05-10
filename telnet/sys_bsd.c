@@ -70,8 +70,8 @@
 #include "types.h"
 
 #ifdef	SIGINFO
-extern void ayt_status ();
-extern void sendayt ();
+extern void ayt_status (void);
+extern void sendayt (void);
 #endif
 
 int tout,			/* Output file descriptor */
@@ -729,7 +729,7 @@ TerminalNewMode (int f)
   else
     {
 #ifdef	SIGINFO
-      void ayt_status ();
+      void ayt_status (void);
 
       signal (SIGINFO, ayt_status);
 #endif

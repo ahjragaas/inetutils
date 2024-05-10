@@ -27,5 +27,5 @@ static int ping_set_dest (PING * ping, const char *host);
 static int ping_recv (PING * p);
 static int ping_xmit (PING * p);
 
-static int ping_run (PING * ping, int (*finish) ());
+static int ping_run (PING * ping, int (*finish) (void));
 static int ping_finish (void);

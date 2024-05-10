@@ -647,13 +647,13 @@ clientstat (int code, int parm1, int parm2)
 
 #if defined CRAY2 && defined UNICOS5
 void
-termstat ()
+termstat (void)
 {
   needtermstat = 1;
 }
 
 void
-_termstat ()
+_termstat (void)
 {
   needtermstat = 0;
   init_termbuf ();

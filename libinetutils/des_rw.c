@@ -83,7 +83,7 @@ int krb_net_read (int, char *, int);
  */
 
 void
-des_clear_key ()
+des_clear_key (void)
 {
   memset (key, 0, sizeof (C_Block));
   memset (key_schedule, 0, sizeof (Key_schedule));
@@ -91,10 +91,7 @@ des_clear_key ()
 
 
 int
-des_read (fd, buf, len)
-     int fd;
-     char *buf;
-     int len;
+des_read (int fd, char *buf, int len)
 {
   int nreturned = 0;
   long net_len, rd_len;
@@ -171,10 +168,7 @@ des_read (fd, buf, len)
 static unsigned char des_outbuf[10240];	/* > longest write */
 
 int
-des_write (fd, buf, len)
-     int fd;
-     char *buf;
-     int len;
+des_write (int fd, char *buf, int len)
 {
   static int seeded = 0;
   static char garbage_buf[8];

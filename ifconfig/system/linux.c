@@ -399,7 +399,7 @@ pnd_version (char *buf)
 }
 
 static void
-pnd_read ()
+pnd_read (void)
 {
   FILE *fp;
   char *buf = NULL;

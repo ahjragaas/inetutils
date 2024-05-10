@@ -40,19 +40,19 @@ _term_setattr (int fd, TERMDESC *tp)
 }
 
 void
-term_send_eof ()
+term_send_eof (void)
 {
   /*nothing */
 }
 
 int
-term_change_eof ()
+term_change_eof (void)
 {
   return 0;
 }
 
 int
-tty_linemode ()
+tty_linemode (void)
 {
   return termbuf.state & TS_EXTPROC;
 }
@@ -75,19 +75,19 @@ tty_setlinemode (int on)
 }
 
 int
-tty_isecho ()
+tty_isecho (void)
 {
   return termbuf.sg.sg_flags & ECHO;
 }
 
 int
-tty_flowmode ()
+tty_flowmode (void)
 {
   return ((termbuf.tc.t_startc) > 0 && (termbuf.tc.t_stopc) > 0) ? 1 : 0;
 }
 
 int
-tty_restartany ()
+tty_restartany (void)
 {
 # ifdef	DECCTQ
   return (termbuf.lflags & DECCTQ) ? 0 : 1;
@@ -106,7 +106,7 @@ tty_setecho (int on)
 }
 
 int
-tty_israw ()
+tty_israw (void)
 {
   return termbuf.sg.sg_flags & RAW;
 }
@@ -141,25 +141,25 @@ tty_binaryout (int on)
 }
 
 int
-tty_isbinaryin ()
+tty_isbinaryin (void)
 {
   return termbuf.lflags & LPASS8;
 }
 
 int
-tty_isbinaryout ()
+tty_isbinaryout (void)
 {
   return termbuf.lflags & LLITOUT;
 }
 
 int
-tty_isediting ()
+tty_isediting (void)
 {
   return !(termbuf.sg.sg_flags & (CBREAK | RAW));
 }
 
 int
-tty_istrapsig ()
+tty_istrapsig (void)
 {
   return !(termbuf.sg.sg_flags & RAW);
 }
@@ -179,7 +179,7 @@ tty_setsig (int on)
 }
 
 int
-tty_issofttab ()
+tty_issofttab (void)
 {
   return termbuf.sg.sg_flags & XTABS;
 }
@@ -194,7 +194,7 @@ tty_setsofttab (int on)
 }
 
 int
-tty_islitecho ()
+tty_islitecho (void)
 {
   return !(termbuf.lflags & LCTLECH);
 }
@@ -209,7 +209,7 @@ tty_setlitecho (int on)
 }
 
 int
-tty_iscrnl ()
+tty_iscrnl (void)
 {
   return termbuf.sg.sg_flags & CRMOD;
 }
@@ -534,7 +534,7 @@ init_termbuf (void)
 /*FIXME: Hardly needed?
  * Built by OpenSolaris and BSD, though.  */
 void
-copy_termbuf ()
+copy_termbuf (void)
 {
   size_t len = 0;
   char *cp = (char *) &termbuf;

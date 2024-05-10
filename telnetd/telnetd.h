@@ -275,7 +275,7 @@ void netflush (void);
 int pty_buffer_is_full (void);
 void pty_output_byte (int c);
 void pty_output_datalen (const void *data, size_t len);
-int pty_buffer_level ();
+int pty_buffer_level (void);
 
 /* Debugging functions */
 extern void printoption (char *, int);
@@ -325,7 +325,7 @@ extern void change_slc (char func, char flag, cc_t val);
 
 extern void cleanup (int);
 extern void clientstat (int, int, int);
-extern void copy_termbuf ();
+extern void copy_termbuf (void);
 extern void deferslc (void);
 extern void defer_terminit (void);
 extern void do_opt_slc (unsigned char *, int);

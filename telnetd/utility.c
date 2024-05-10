@@ -1640,7 +1640,7 @@ net_write (unsigned char *str, int len)
 }
 
 void
-net_encrypt ()
+net_encrypt (void)
 {
 # ifdef	ENCRYPTION
   char *s = (nclearto > nbackp) ? nclearto : nbackp;
@@ -1651,7 +1651,7 @@ net_encrypt ()
 }
 
 int
-telnet_spin ()
+telnet_spin (void)
 {
   io_drain ();
   return 0;

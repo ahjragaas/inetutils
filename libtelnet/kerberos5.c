@@ -127,7 +127,7 @@ kerberos5_init (TN_Authenticator *ap MAYBE_UNUSED, int server)
 }
 
 void
-kerberos5_cleanup ()
+kerberos5_cleanup (void)
 {
   krb5_ccache ccache;
   char *ccname;

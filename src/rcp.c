@@ -124,7 +124,7 @@ int doencrypt = 0;
 # ifdef KERBEROS
 CREDENTIALS cred;
 Key_schedule schedule;
-extern char *krb_realmofhost ();
+extern char *krb_realmofhost (const char *);
 
 # elif defined SHISHI		/* !KERBEROS  */
 Shishi *h;

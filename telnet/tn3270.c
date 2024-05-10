@@ -192,7 +192,7 @@ inputAvailable (int signo)
 # endif/* unix || __unix || __unix__ */
 
 void
-outputPurge ()
+outputPurge (void)
 {
   ttyflush (1);
 }
@@ -258,7 +258,7 @@ DataToTerminal (char *buffer, int count)
  */
 
 int
-Push3270 ()
+Push3270 (void)
 {
   int save = ring_full_count (&netiring);
 
@@ -288,7 +288,7 @@ Push3270 ()
  */
 
 void
-Finish3270 ()
+Finish3270 (void)
 {
   while (Push3270 () || !DoTerminalOutput ())
     {
@@ -343,7 +343,7 @@ _putchar (char c)
 # endif/* ((!defined(NOT43)) || defined(PUTCHAR)) */
 
 void
-SetIn3270 ()
+SetIn3270 (void)
 {
   if (Sent3270TerminalType && my_want_state_is_will (TELOPT_BINARY)
       && my_want_state_is_do (TELOPT_BINARY) && !donebinarytoggle)
@@ -378,7 +378,7 @@ SetIn3270 ()
  */
 
 int
-tn3270_ttype ()
+tn3270_ttype (void)
 {
   /*
    * Try to send a 3270 type terminal name.  Decide which one based

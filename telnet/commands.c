@@ -1023,7 +1023,7 @@ static struct setlist Setlist[] = {
 #if defined CRAY && !defined __STDC__
 /* Work around compiler bug in pcc 4.1.5 */
 void
-_setlist_init ()
+_setlist_init (void)
 {
 # ifndef KLUDGELINEMODE
 #  define N 5
@@ -2136,7 +2136,7 @@ struct authlist AuthList[] = {
 };
 
 static int
-auth_help ()
+auth_help (void)
 {
   struct authlist *c;
 
@@ -2245,7 +2245,7 @@ struct encryptlist EncryptList[] = {
 };
 
 static int
-EncryptHelp ()
+EncryptHelp (void)
 {
   struct encryptlist *c;
 
@@ -2441,7 +2441,7 @@ status (int argc, char *argv[])
  * Function that gets called when SIGINFO is received.
  */
 int
-ayt_status ()
+ayt_status (void)
 {
   call (status, "status", "notmuch", 0);
   return 1;			/* not used */

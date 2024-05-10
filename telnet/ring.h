@@ -92,7 +92,8 @@ ring_full_count (Ring * ring), ring_full_consecutive (Ring * ring);
 
 #ifdef	ENCRYPTION
 extern void
-ring_encrypt (Ring * ring, void (*func) ()), ring_clearto (Ring * ring);
+ring_encrypt (Ring * ring, void (*encryptor) (unsigned char *, int)),
+ring_clearto (Ring * ring);
 #endif /* ENCRYPTION */
 
 extern void ring_clear_mark (Ring *);

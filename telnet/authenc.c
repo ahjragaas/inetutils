@@ -74,7 +74,7 @@ net_write (unsigned char *str, int len)
 }
 
 void
-net_encrypt ()
+net_encrypt (void)
 {
 # ifdef	ENCRYPTION
   if (encrypt_output)
@@ -85,7 +85,7 @@ net_encrypt ()
 }
 
 int
-telnet_spin ()
+telnet_spin (void)
 {
   return (-1);
 }

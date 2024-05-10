@@ -325,7 +325,7 @@ sig_int (int signal MAYBE_UNUSED)
 }
 
 static int
-ping_run (PING *ping, int (*finish) ())
+ping_run (PING *ping, int (*finish) (void))
 {
   fd_set fdset;
   int fdmax;

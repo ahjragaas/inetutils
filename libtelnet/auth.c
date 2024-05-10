@@ -366,7 +366,7 @@ auth_togdebug (int on)
 }
 
 int
-auth_status ()
+auth_status (void)
 {
   TN_Authenticator *ap;
   int i, mask;
@@ -395,7 +395,7 @@ auth_status ()
  * negotiation.
  */
 void
-auth_request ()
+auth_request (void)
 {
   static unsigned char str_request[64] = { IAC, SB,
     TELOPT_AUTHENTICATION,
@@ -549,7 +549,7 @@ auth_send (unsigned char *data, int cnt)
 }
 
 void
-auth_send_retry ()
+auth_send_retry (void)
 {
   /*
    * if auth_send_cnt <= 0 then auth_send will end up rejecting
