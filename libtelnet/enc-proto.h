@@ -66,6 +66,8 @@
  */
 
 #ifdef	ENCRYPTION
+Encryptions *findencryption (int);
+Encryptions *finddecryption (int);
 int EncryptStart (char *);
 int EncryptStartInput (void);
 int EncryptStartOutput (void);
