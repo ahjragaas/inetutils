@@ -316,32 +316,32 @@ static int send_wontcmd (const char *);
 static int send_help (const char *);
 
 static struct sendlist Sendlist[] = {
-  {"ao", "Send Telnet Abort output", 1, 0, 0, 2, AO},
-  {"ayt", "Send Telnet 'Are You There'", 1, 0, 0, 2, AYT},
-  {"brk", "Send Telnet Break", 1, 0, 0, 2, BREAK},
-  {"break", 0, 1, 0, 0, 2, BREAK},
-  {"ec", "Send Telnet Erase Character", 1, 0, 0, 2, EC},
-  {"el", "Send Telnet Erase Line", 1, 0, 0, 2, EL},
+  {"ao", "Send Telnet Abort output", 1, 0, NULL, 2, AO},
+  {"ayt", "Send Telnet 'Are You There'", 1, 0, NULL, 2, AYT},
+  {"brk", "Send Telnet Break", 1, 0, NULL, 2, BREAK},
+  {"break", NULL, 1, 0, NULL, 2, BREAK},
+  {"ec", "Send Telnet Erase Character", 1, 0, NULL, 2, EC},
+  {"el", "Send Telnet Erase Line", 1, 0, NULL, 2, EL},
   {"escape", "Send current escape character", 1, 0, send_esc, 1, 0},
-  {"ga", "Send Telnet 'Go Ahead' sequence", 1, 0, 0, 2, GA},
-  {"ip", "Send Telnet Interrupt Process", 1, 0, 0, 2, IP},
-  {"intp", 0, 1, 0, 0, 2, IP},
-  {"interrupt", 0, 1, 0, 0, 2, IP},
-  {"intr", 0, 1, 0, 0, 2, IP},
-  {"nop", "Send Telnet 'No operation'", 1, 0, 0, 2, NOP},
-  {"eor", "Send Telnet 'End of Record'", 1, 0, 0, 2, EOR},
-  {"abort", "Send Telnet 'Abort Process'", 1, 0, 0, 2, ABORT},
-  {"susp", "Send Telnet 'Suspend Process'", 1, 0, 0, 2, SUSP},
-  {"eof", "Send Telnet End of File Character", 1, 0, 0, 2, xEOF},
+  {"ga", "Send Telnet 'Go Ahead' sequence", 1, 0, NULL, 2, GA},
+  {"ip", "Send Telnet Interrupt Process", 1, 0, NULL, 2, IP},
+  {"intp", NULL, 1, 0, NULL, 2, IP},
+  {"interrupt", NULL, 1, 0, NULL, 2, IP},
+  {"intr", NULL, 1, 0, 0, 2, IP},
+  {"nop", "Send Telnet 'No operation'", 1, 0, NULL, 2, NOP},
+  {"eor", "Send Telnet 'End of Record'", 1, 0, NULL, 2, EOR},
+  {"abort", "Send Telnet 'Abort Process'", 1, 0, NULL, 2, ABORT},
+  {"susp", "Send Telnet 'Suspend Process'", 1, 0, NULL, 2, SUSP},
+  {"eof", "Send Telnet End of File Character", 1, 0, NULL, 2, xEOF},
   {"synch", "Perform Telnet 'Synch operation'", 1, 0, dosynch, 2, 0},
   {"getstatus", "Send request for STATUS", 1, 0, get_status, 6, 0},
   {"?", "Display send options", 0, 0, send_help, 0, 0},
-  {"help", 0, 0, 0, send_help, 0, 0},
-  {"do", 0, 0, 1, send_docmd, 3, 0},
-  {"dont", 0, 0, 1, send_dontcmd, 3, 0},
-  {"will", 0, 0, 1, send_willcmd, 3, 0},
-  {"wont", 0, 0, 1, send_wontcmd, 3, 0},
-  {NULL, 0, 0, 0, NULL, 0, 0}
+  {"help", NULL, 0, 0, send_help, 0, 0},
+  {"do", NULL, 0, 1, send_docmd, 3, 0},
+  {"dont", NULL, 0, 1, send_dontcmd, 3, 0},
+  {"will", NULL, 0, 1, send_willcmd, 3, 0},
+  {"wont", NULL, 0, 1, send_wontcmd, 3, 0},
+  {NULL, NULL, 0, 0, NULL, 0, 0}
 };
 
 #define GETSEND(name) ((struct sendlist *) genget(name, (char **) Sendlist, \
@@ -758,76 +758,76 @@ struct togglelist
 static struct togglelist Togglelist[] = {
   {"autoflush",
    "flushing of output when sending interrupt characters",
-   0,
+   NULL,
    &autoflush,
    "flush output when sending interrupt characters"},
   {"autosynch",
    "automatic sending of interrupt characters in urgent mode",
-   0,
+   NULL,
    &autosynch,
    "send interrupt characters in urgent mode"},
 #if defined AUTHENTICATION
   {"autologin",
    "automatic sending of login and/or authentication info",
-   0,
+   NULL,
    &autologin,
    "send login name and/or authentication information"},
   {"authdebug",
    "Toggle authentication debugging",
    auth_togdebug,
-   0,
+   NULL,
    "print authentication debugging information"},
 #endif
 #ifdef	ENCRYPTION
   {"autoencrypt",
    "automatic encryption of data stream",
    EncryptAutoEnc,
-   0,
+   NULL,
    "automatically encrypt output"},
   {"autodecrypt",
    "automatic decryption of data stream",
    EncryptAutoDec,
-   0,
+   NULL,
    "automatically decrypt input"},
   {"verbose_encrypt",
    "Toggle verbose encryption output",
    EncryptVerbose,
-   0,
+   NULL,
    "print verbose encryption output"},
   {"encdebug",
    "Toggle encryption debugging",
    EncryptDebug,
-   0,
+   NULL,
    "print encryption debugging information"},
 #endif /* ENCRYPTION */
   {"skiprc",
    "don't read ~/.telnetrc file",
-   0,
+   NULL,
    &skiprc,
    "skip reading of ~/.telnetrc file"},
   {"binary",
    "sending and receiving of binary data",
    togbinary,
-   0,
-   0},
+   NULL,
+   NULL},
   {"inbinary",
    "receiving of binary data",
    togrbinary,
-   0,
-   0},
+   NULL,
+   NULL},
   {"outbinary",
    "sending of binary data",
    togxbinary,
-   0,
-   0},
+   NULL,
+   NULL},
   {"crlf",
    "sending carriage returns as telnet <CR><LF>",
    togcrlf,
    &crlf,
-   0},
+   NULL},
   {"crmod",
    "mapping of received carriage returns",
-   0,
+   NULL,
    &crmod,
    "map carriage return on output"},
   {"localchars",
@@ -835,16 +835,16 @@ static struct togglelist Togglelist[] = {
    lclchars,
    &localchars,
    "recognize certain control characters"},
-  {" ", "", 0, NULL, NULL},	/* empty line */
+  {" ", "", NULL, NULL, NULL},	/* empty line */
 #if (defined unix || defined __unix || defined __unix__) && defined TN3270
   {"apitrace",
    "(debugging) toggle tracing of API transactions",
-   0,
+   NULL,
    &apitrace,
    "trace API transactions"},
   {"cursesdata",
    "(debugging) toggle printing of hexadecimal curses data",
-   0,
+   NULL,
    &cursesdata,
    "print hexadecimal representation of curses data"},
 #endif /* (unix || __unix || __unix__)) && TN3270 */
@@ -855,31 +855,31 @@ static struct togglelist Togglelist[] = {
    "turn on socket level debugging"},
   {"netdata",
    "printing of hexadecimal network data (debugging)",
-   0,
+   NULL,
    &netdata,
    "print hexadecimal representation of network traffic"},
   {"prettydump",
    "output of \"netdata\" to user readable format (debugging)",
-   0,
+   NULL,
    &prettydump,
    "print user readable output for \"netdata\""},
   {"options",
    "viewing of options processing (debugging)",
-   0,
+   NULL,
    &showoptions,
    "show option processing"},
   {"termdata",
    "(debugging) toggle printing of hexadecimal terminal data",
-   0,
+   NULL,
    &termdata,
    "print hexadecimal representation of terminal traffic"},
   {"?",
-   0,
+   NULL,
    togglehelp, NULL, NULL},
   {"help",
-   0,
+   NULL,
    togglehelp, NULL, NULL},
-  {NULL, NULL, 0, NULL, NULL}
+  {NULL, NULL, NULL, NULL, NULL}
 };
 
 static int
@@ -992,32 +992,34 @@ struct setlist
 
 static struct setlist Setlist[] = {
 #ifdef	KLUDGELINEMODE
-  {"echo", "character to toggle local echoing on/off", 0, &echoc},
+  {"echo", "character to toggle local echoing on/off", NULL, &echoc},
 #endif
-  {"escape", "character to escape back to telnet command mode", 0, &escape},
-  {"rlogin", "rlogin escape character", 0, &rlogin},
+  {"escape", "character to escape back to telnet command mode", NULL,
+   &escape},
+  {"rlogin", "rlogin escape character", NULL, &rlogin},
   {"tracefile", "file to write trace information to", SetNetTrace,
    (cc_t *) NetTraceFile},
-  {" ", "", 0, NULL},
-  {" ", "The following need 'localchars' to be toggled true", 0, 0},
-  {"flushoutput", "character to cause an Abort Output", 0, termFlushCharp},
-  {"interrupt", "character to cause an Interrupt Process", 0, termIntCharp},
-  {"quit", "character to cause an Abort process", 0, termQuitCharp},
-  {"eof", "character to cause an EOF ", 0, termEofCharp},
-  {" ", "", 0, NULL},
-  {" ", "The following are for local editing in linemode", 0, 0},
-  {"erase", "character to use to erase a character", 0, termEraseCharp},
-  {"kill", "character to use to erase a line", 0, termKillCharp},
-  {"lnext", "character to use for literal next", 0, termLiteralNextCharp},
-  {"susp", "character to cause a Suspend Process", 0, termSuspCharp},
-  {"reprint", "character to use for line reprint", 0, termRprntCharp},
-  {"worderase", "character to use to erase a word", 0, termWerasCharp},
-  {"start", "character to use for XON", 0, termStartCharp},
-  {"stop", "character to use for XOFF", 0, termStopCharp},
-  {"forw1", "alternate end of line character", 0, termForw1Charp},
-  {"forw2", "alternate end of line character", 0, termForw2Charp},
-  {"ayt", "alternate AYT character", 0, termAytCharp},
-  {NULL, NULL, 0, NULL}
+  {" ", "", NULL, NULL},
+  {" ", "The following need 'localchars' to be toggled true", NULL, NULL},
+  {"flushoutput", "character to cause an Abort Output", NULL, termFlushCharp},
+  {"interrupt", "character to cause an Interrupt Process", NULL,
+   termIntCharp},
+  {"quit", "character to cause an Abort process", NULL, termQuitCharp},
+  {"eof", "character to cause an EOF ", NULL, termEofCharp},
+  {" ", "", NULL, NULL},
+  {" ", "The following are for local editing in linemode", NULL, NULL},
+  {"erase", "character to use to erase a character", NULL, termEraseCharp},
+  {"kill", "character to use to erase a line", NULL, termKillCharp},
+  {"lnext", "character to use for literal next", NULL, termLiteralNextCharp},
+  {"susp", "character to cause a Suspend Process", NULL, termSuspCharp},
+  {"reprint", "character to use for line reprint", NULL, termRprntCharp},
+  {"worderase", "character to use to erase a word", NULL, termWerasCharp},
+  {"start", "character to use for XON", NULL, termStartCharp},
+  {"stop", "character to use for XOFF", NULL, termStopCharp},
+  {"forw1", "alternate end of line character", NULL, termForw1Charp},
+  {"forw2", "alternate end of line character", NULL, termForw2Charp},
+  {"ayt", "alternate AYT character", NULL, termAytCharp},
+  {NULL, NULL, NULL, NULL}
 };
 
 #if defined CRAY && !defined __STDC__
@@ -1352,21 +1354,21 @@ static struct modelist ModeList[] = {
   {"", "", NULL, 0, 0},
   {"", "These require the LINEMODE option to be enabled", NULL, 0, 0},
   {"isig", "Enable signal trapping", set_mode, 1, MODE_TRAPSIG},
-  {"+isig", 0, set_mode, 1, MODE_TRAPSIG},
+  {"+isig", NULL, set_mode, 1, MODE_TRAPSIG},
   {"-isig", "Disable signal trapping", clear_mode, 1, MODE_TRAPSIG},
   {"edit", "Enable character editing", set_mode, 1, MODE_EDIT},
-  {"+edit", 0, set_mode, 1, MODE_EDIT},
+  {"+edit", NULL, set_mode, 1, MODE_EDIT},
   {"-edit", "Disable character editing", clear_mode, 1, MODE_EDIT},
   {"softtabs", "Enable tab expansion", set_mode, 1, MODE_SOFT_TAB},
-  {"+softtabs", 0, set_mode, 1, MODE_SOFT_TAB},
+  {"+softtabs", NULL, set_mode, 1, MODE_SOFT_TAB},
   {"-softtabs", "Disable character editing", clear_mode, 1, MODE_SOFT_TAB},
   {"litecho", "Enable literal character echo", set_mode, 1, MODE_LIT_ECHO},
-  {"+litecho", 0, set_mode, 1, MODE_LIT_ECHO},
+  {"+litecho", NULL, set_mode, 1, MODE_LIT_ECHO},
   {"-litecho", "Disable literal character echo", clear_mode, 1,
    MODE_LIT_ECHO},
-  {"help", 0, modehelp, 0, 0},
+  {"help", NULL, modehelp, 0, 0},
 #ifdef	KLUDGELINEMODE
-  {"kludgeline", 0, dokludgemode, 1, 0},
+  {"kludgeline", NULL, dokludgemode, 1, 0},
 #endif
   {"", "", NULL, 0, 0},
   {"?", "Print help information", modehelp, 0, 0},
@@ -1703,7 +1705,7 @@ struct slclist SlcList[] = {
    slc_mode_import, 1},
   {"check", "Verify remote special character definitions",
    slc_mode_import, 0},
-  {"help", 0, slc_help, 0},
+  {"help", NULL, slc_help, 0},
   {"?", "Print help information", slc_help, 0},
   {NULL, NULL, NULL, 0},
 };
@@ -1789,7 +1791,7 @@ struct envlist EnvList[] = {
   {"varval", "Reverse VAR and VALUE (auto, right, wrong, status)",
    env_varval, 1},
 #endif
-  {"help", 0, env_help, 0},
+  {"help", NULL, env_help, 0},
   {"?", "Print help information", env_help, 0},
   {NULL, NULL, NULL, 0},
 };
@@ -2116,7 +2118,7 @@ struct authlist
 {
   const char *name;
   char *help;
-  int (*handler) ();
+  int (*handler) (char *);
   int narg;
 };
 
@@ -2125,13 +2127,13 @@ static int auth_help (void);
 
 struct authlist AuthList[] = {
   {"status", "Display current status of authentication information",
-   auth_status, 0},
+   (int (*)(char *)) auth_status, 0},
   {"disable", "Disable an authentication type ('auth disable ?' for more)",
    auth_disable, 1},
   {"enable", "Enable an authentication type ('auth enable ?' for more)",
    auth_enable, 1},
-  {"help", 0, auth_help, 0},
-  {"?", "Print help information", auth_help, 0},
+  {"help", NULL, (int (*)(char *)) auth_help, 0},
+  {"?", "Print help information", (int (*)(char *)) auth_help, 0},
   {NULL, NULL, NULL, 0},
 };
 
@@ -2167,7 +2169,7 @@ auth_cmd (int argc, char *argv[])
 
   c = (struct authlist *)
     genget (argv[1], (char **) AuthList, sizeof (struct authlist));
-  if (c == 0)
+  if (c == NULL)
     {
       fprintf (stderr, "'%s': unknown argument ('auth ?' for help).\n",
 	       argv[1]);
@@ -2187,7 +2189,7 @@ auth_cmd (int argc, char *argv[])
 	       c->narg, c->narg == 1 ? "" : "s", c->name);
       return 0;
     }
-  return ((*c->handler) (argv[2], argv[3]));
+  return (*c->handler) (argv[2]);
 }
 #endif
 
@@ -2200,7 +2202,7 @@ struct encryptlist
 {
   const char *name;
   const char *help;
-  int (*handler) ();
+  int (*handler) (char *, char *);
   int needconnect;
   int minarg;
   int maxarg;
@@ -2225,22 +2227,23 @@ struct encryptlist EncryptList[] = {
   {"type", "Set encryption type. ('encrypt type ?' for more)",
    EncryptType, 0, 1, 1},
   {"start", "Start encryption. ('encrypt start ?' for more)",
-   EncryptStart, 1, 0, 1},
+   (int (*)(char *, char *)) EncryptStart, 1, 0, 1},
   {"stop", "Stop encryption. ('encrypt stop ?' for more)",
-   EncryptStop, 1, 0, 1},
+   (int (*)(char *, char *)) EncryptStop, 1, 0, 1},
   {"input", "Start encrypting the input stream",
-   EncryptStartInput, 1, 0, 0},
+   (int (*)(char *, char *)) EncryptStartInput, 1, 0, 0},
   {"-input", "Stop encrypting the input stream",
-   EncryptStopInput, 1, 0, 0},
+   (int (*)(char *, char *)) EncryptStopInput, 1, 0, 0},
   {"output", "Start encrypting the output stream",
-   EncryptStartOutput, 1, 0, 0},
+   (int (*)(char *, char *)) EncryptStartOutput, 1, 0, 0},
   {"-output", "Stop encrypting the output stream",
-   EncryptStopOutput, 1, 0, 0},
+   (int (*)(char *, char *)) EncryptStopOutput, 1, 0, 0},
 
   {"status", "Display current status of authentication information",
-   EncryptStatus, 0, 0, 0},
-  {"help", 0, EncryptHelp, 0, 0, 0},
-  {"?", "Print help information", EncryptHelp, 0, 0, 0},
+   (int (*)(char *, char *)) EncryptStatus, 0, 0, 0},
+  {"help", 0, (int (*)(char *, char *)) EncryptHelp, 0, 0, 0},
+  {"?", "Print help information", (int (*)(char *, char *)) EncryptHelp, 0, 0,
+   0},
   {NULL, NULL, NULL, 0, 0, 0},
 };
 
@@ -2276,7 +2279,7 @@ encrypt_cmd (int argc, char *argv[])
 
   c = (struct encryptlist *)
     genget (argv[1], (char **) EncryptList, sizeof (struct encryptlist));
-  if (c == 0)
+  if (c == NULL)
     {
       fprintf (stderr, "'%s': unknown argument ('encrypt ?' for help).\n",
 	       argv[1]);
@@ -2314,8 +2317,7 @@ encrypt_cmd (int argc, char *argv[])
 	  return 0;
 	}
     }
-  return ((*c->handler) (argc > 0 ? argv[2] : 0,
-			 argc > 1 ? argv[3] : 0, argc > 2 ? argv[4] : 0));
+  return (*c->handler) (argc > 0 ? argv[2] : NULL, argc > 1 ? argv[3] : NULL);
 }
 #endif /* ENCRYPTION */
 

@@ -17,6 +17,9 @@ correctly handle a prefix length of 0.
 when using the --format or --short option. More details in
 <https://lists.gnu.org/archive/html/bug-inetutils/2024-05/msg00020.html>.
 
+** Inetutils can now be built with C23 compilers.
+Except for when configured to support Kerberos 4.
+
 * Noteworthy changes in release 2.5 (2023-12-29) [stable]
 
 ** ftpd, rcp, rlogin, rsh, rshd, uucpd
