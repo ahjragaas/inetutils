@@ -112,7 +112,7 @@ static struct argp_option argp_options[] = {
   {"debug", 'D', "LEVEL", OPTION_ARG_OPTIONAL,
    "set debugging level", GRID},
   {"exec-login", 'E', "STRING", 0,
-   "set program to be executed instead of " PATH_LOGIN, GRID},
+   "set program to be executed instead of standard login(1)", GRID},
   {"no-hostinfo", 'h', NULL, 0,
    "do not print host information before login has been completed", GRID},
   {"linemode", 'l', "MODE", OPTION_ARG_OPTIONAL,
