@@ -2,6 +2,11 @@ GNU inetutils NEWS -- history of user-visible changes.
 
 * Noteworthy changes in release ?.? (????-??-??) [?]
 
+** The release tarball is now reproducible.
+The following pairs are tested continously: Trisquel 11 and Ubuntu
+22.04, PureOS 10 and Debian 11, AlmaLinux 8 and RockyLinux 8,
+AlmaLinux 9 and RockyLinux 9.
+
 ** syslogd: Build fixes for macOS.
 Thanks to Rui Chen and Caleb Xu, see
 <https://savannah.gnu.org/bugs/?65093>.
