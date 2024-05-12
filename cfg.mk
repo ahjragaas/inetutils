@@ -32,6 +32,8 @@ update-copyright-env = \
   UPDATE_COPYRIGHT_USE_INTERVALS=2 \
   UPDATE_COPYRIGHT_MAX_LINE_LENGTH=79
 
+TAR_OPTIONS += --mode=go+u,go-w --mtime=$(srcdir)/NEWS
+
 # maint.mk's public-submodule-commit breaks on shallow gnulib
 submodule-checks =
 gl_public_submodule_commit =
