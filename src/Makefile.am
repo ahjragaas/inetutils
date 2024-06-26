@@ -80,7 +80,8 @@ EXTRA_PROGRAMS += tftp
 
 bin_PROGRAMS += $(traceroute_BUILD)
 traceroute_SOURCES = traceroute.c
-traceroute_LDADD = $(top_builddir)/libicmp/libicmp.a $(LDADD) $(LIBIDN)
+traceroute_LDADD = $(top_builddir)/libicmp/libicmp.a $(LDADD) $(LIBIDN) \
+	$(CLOCK_TIME_LIB) $(PTHREAD_SIGMASK_LIB) $(SELECT_LIB)
 EXTRA_PROGRAMS += traceroute
 
 inetdaemon_PROGRAMS += $(inetd_BUILD)

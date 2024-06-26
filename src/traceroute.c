@@ -49,6 +49,7 @@
 #include <assert.h>
 #include <argp.h>
 #include <attribute.h>
+#include <timespec.h>
 #include <icmp.h>
 #ifdef HAVE_LOCALE_H
 # include <locale.h>
@@ -79,7 +80,7 @@ typedef struct trace
   int no_ident;
   struct sockaddr_in to, from;
   int ttl;
-  struct timeval tsent;
+  struct timespec tsent;
 } trace_t;
 
 void trace_init (trace_t * t, const struct sockaddr_in to,
@@ -358,7 +359,7 @@ do_try (trace_t *trace, const int hop,
 {
   fd_set readset;
   int ret, tries, readonly = 0;
-  struct timeval now, time;
+  struct timespec timeout, diff;
   double triptime = 0.0;
   uint32_t prev_addr = 0;
 
@@ -372,26 +373,18 @@ do_try (trace_t *trace, const int hop,
       FD_ZERO (&readset);
       FD_SET (fd, &readset);
 
-      memset (&time, 0, sizeof (time));	/* 64-bit issue.  */
-      time.tv_sec = opt_wait;
-      time.tv_usec = 0;
+      /* *INDENT-OFF* */
+      timeout = (struct timespec) { .tv_sec = opt_wait, .tv_nsec = 0 };
+      /* *INDENT-ON* */
 
       if (!readonly)
 	trace_write (trace);
 
       errno = 0;
-      ret = select (fd + 1, &readset, NULL, NULL, &time);
+      ret = pselect (fd + 1, &readset, NULL, NULL, &timeout, NULL);
       save_errno = errno;
 
-      gettimeofday (&now, NULL);
-
-      now.tv_usec -= trace->tsent.tv_usec;
-      now.tv_sec -= trace->tsent.tv_sec;
-      if (now.tv_usec < 0)
-	{
-	  --now.tv_sec;
-	  now.tv_usec += 1000000;
-	}
+      diff = timespec_sub (current_timespec (), trace->tsent);
 
       if (ret < 0)
 	{
@@ -417,8 +410,7 @@ do_try (trace_t *trace, const int hop,
 	    {
 	      int rc, type, code;
 
-	      triptime = ((double) now.tv_sec) * 1000.0 +
-		((double) now.tv_usec) / 1000.0;
+	      triptime = timespectod (diff) * 1000.0;
 
 	      rc = trace_read (trace, &type, &code);
 
@@ -692,8 +684,7 @@ trace_write (trace_t *t)
 	      }
 	  }
 
-	if (gettimeofday (&t->tsent, NULL) < 0)
-	  error (EXIT_FAILURE, errno, "gettimeofday");
+	t->tsent = current_timespec ();
       }
       break;
 
@@ -730,8 +721,7 @@ trace_write (trace_t *t)
 	      }
 	  }
 
-	if (gettimeofday (&t->tsent, NULL) < 0)
-	  error (EXIT_FAILURE, errno, "gettimeofday");
+	t->tsent = current_timespec ();
       }
       break;
 
