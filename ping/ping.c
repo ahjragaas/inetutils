@@ -47,6 +47,7 @@
 
 #include <argp.h>
 #include <attribute.h>
+#include <timespec.h>
 #include <ping.h>
 #include "ping_impl.h"
 #include "libinetutils.h"
@@ -386,9 +387,9 @@ ping_run (PING *ping, int (*finish) (void))
 {
   fd_set fdset;
   int fdmax;
-  struct timeval resp_time;
-  struct timeval last, intvl, now;
-  struct timeval *t = NULL;
+  struct timespec resp_time;
+  struct timespec last, intvl, now;
+  struct timespec *t = NULL;
   int finishing = 0;
   size_t nresp = 0;
   size_t i;
@@ -397,26 +398,18 @@ ping_run (PING *ping, int (*finish) (void))
 
   fdmax = ping->ping_fd + 1;
 
-  /* Some systems use `struct timeval' of size 16.  As these are
-   * not initialising `timeval' properly by assignment alone, let
-   * us play safely here.  gettimeofday() is always sufficient.
-   */
-  memset (&resp_time, 0, sizeof (resp_time));
-  memset (&intvl, 0, sizeof (intvl));
-  memset (&now, 0, sizeof (now));
-
   for (i = 0; i < preload; i++)
     send_echo (ping);
 
   if (options & OPT_FLOOD)
     {
       intvl.tv_sec = 0;
-      intvl.tv_usec = 10000;
+      intvl.tv_nsec = 1e7;
     }
   else
     PING_SET_INTERVAL (intvl, ping->ping_interval);
 
-  gettimeofday (&last, NULL);
+  last = current_timespec ();
   send_echo (ping);
 
   while (!stop)
@@ -425,29 +418,14 @@ ping_run (PING *ping, int (*finish) (void))
 
       FD_ZERO (&fdset);
       FD_SET (ping->ping_fd, &fdset);
-      gettimeofday (&now, NULL);
-      resp_time.tv_sec = last.tv_sec + intvl.tv_sec - now.tv_sec;
-      resp_time.tv_usec = last.tv_usec + intvl.tv_usec - now.tv_usec;
+      now = current_timespec ();
+      resp_time = timespec_sub (timespec_add (last, intvl), now);
 
-      while (resp_time.tv_usec < 0)
-	{
-	  resp_time.tv_usec += 1000000;
-	  resp_time.tv_sec--;
-	}
-      while (resp_time.tv_usec >= 1000000)
-	{
-	  resp_time.tv_usec -= 1000000;
-	  resp_time.tv_sec++;
-	}
-
-      if (resp_time.tv_sec < 0)
-	resp_time.tv_sec = resp_time.tv_usec = 0;
-
-      n = select (fdmax, &fdset, NULL, NULL, &resp_time);
+      n = pselect (fdmax, &fdset, NULL, NULL, &resp_time, NULL);
       if (n < 0)
 	{
 	  if (errno != EINTR)
-	    error (EXIT_FAILURE, errno, "select failed");
+	    error (EXIT_FAILURE, errno, "pselect failed");
 	  continue;
 	}
       else if (n == 1)
@@ -456,7 +434,7 @@ ping_run (PING *ping, int (*finish) (void))
 	    nresp++;
 	  if (t == 0)
 	    {
-	      gettimeofday (&now, NULL);
+	      now = current_timespec ();
 	      t = &now;
 	    }
 
@@ -485,7 +463,7 @@ ping_run (PING *ping, int (*finish) (void))
 
 	      intvl.tv_sec = linger;
 	    }
-	  gettimeofday (&last, NULL);
+	  last = current_timespec ();
 	}
     }
 
@@ -504,8 +482,11 @@ send_echo (PING *ping)
 
   if (PING_TIMING (data_length))
     {
-      struct timeval tv;
-      gettimeofday (&tv, NULL);
+      struct timespec now = current_timespec ();
+      /* *INDENT-OFF* */
+      struct timeval tv = { .tv_sec = now.tv_sec,
+                            .tv_usec = now.tv_nsec / 1000 };
+      /* *INDENT-ON* */
       ping_set_data (ping, &tv, 0, sizeof (tv), USE_IPV6);
       off += sizeof (tv);
     }

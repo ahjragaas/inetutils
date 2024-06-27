@@ -40,6 +40,7 @@
 #include <errno.h>
 #include <limits.h>
 #include <attribute.h>
+#include <timespec.h>
 
 #include <ping.h>
 #include "ping_impl.h"
@@ -177,11 +178,8 @@ print_echo (int dupflag, struct ping_stat *ping_stat,
 	    struct ip *ip, icmphdr_t *icmp, int datalen)
 {
   int hlen;
-  struct timeval tv;
-  int timing = 0;
+  bool timing = false;
   double triptime = 0.0;
-
-  gettimeofday (&tv, NULL);
 
   /* Length of IP header */
   hlen = ip->ip_hl << 2;
@@ -192,17 +190,20 @@ print_echo (int dupflag, struct ping_stat *ping_stat,
   /* Do timing */
   if (PING_TIMING (datalen - PING_HEADER_LEN))
     {
-      struct timeval tv1, *tp;
+      struct timeval tv;
+      struct timespec ts;
 
-      timing++;
-      tp = (struct timeval *) icmp->icmp_data;
+      timing = true;
 
-      /* Avoid unaligned data: */
-      memcpy (&tv1, tp, sizeof (tv1));
-      tvsub (&tv, &tv1);
+      /* Avoid unaligned data.  */
+      memcpy (&tv, icmp->icmp_data, sizeof (tv));
+      /* *INDENT-OFF* */
+      ts = timespec_sub (current_timespec (),
+                         (struct timespec) { .tv_sec = tv.tv_sec,
+                                             .tv_nsec = tv.tv_usec * 1000 });
+      /* *INDENT-ON* */
 
-      triptime = ((double) tv.tv_sec) * 1000.0 +
-	((double) tv.tv_usec) / 1000.0;
+      triptime = timespectod (ts) * 1000.0;
       ping_stat->tsum += triptime;
       ping_stat->tsumsq += triptime * triptime;
       if (triptime < ping_stat->tmin)

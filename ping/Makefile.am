@@ -23,7 +23,10 @@ AM_CPPFLAGS = \
 
 LDADD = \
 	$(iu_LIBRARIES) \
-	$(LIBIDN)
+	$(LIBIDN) \
+	$(CLOCK_TIME_LIB) \
+	$(PTHREAD_SIGMASK_LIB) \
+	$(SELECT_LIB)
 
 bin_PROGRAMS = $(ping_BUILD) $(ping6_BUILD)
 

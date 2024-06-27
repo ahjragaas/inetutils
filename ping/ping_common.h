@@ -70,7 +70,7 @@ struct ping_stat
 
 #define PING_SET_INTERVAL(t,i) do {\
   (t).tv_sec = (i)/PING_PRECISION;\
-  (t).tv_usec = ((i)%PING_PRECISION)*(1000000/PING_PRECISION) ;\
+  (t).tv_nsec = ((i)%PING_PRECISION)*(1e9/PING_PRECISION) ;\
 } while (0)
 
 
@@ -109,7 +109,7 @@ struct ping_data
   int ping_fd;			/* Raw socket descriptor */
   int ping_type;		/* Type of packets to send */
   size_t ping_count;		/* Number of packets to send */
-  struct timeval ping_start_time;	/* Start time */
+  struct timespec ping_start_time;	/* Start time */
   size_t ping_interval;		/* Number of seconds to wait between sending pkts */
   union ping_address ping_dest;	/* whom to ping */
   char *ping_hostname;		/* Printable hostname */
@@ -153,7 +153,6 @@ struct ping_data
   (_C_BIT (p, _C_IND (p,bit)) & _C_MASK  (_C_IND (p,bit)))
 
 
-void tvsub (struct timeval *out, struct timeval *in);
 double nabs (double a);
 double nsqrt (double a, double prec);
 
@@ -172,7 +171,7 @@ void ping_set_count (PING * ping, size_t count);
 void ping_set_sockopt (PING * ping, int opt, void *val, int valsize);
 void ping_set_interval (PING * ping, size_t interval);
 void ping_unset_data (PING * p);
-int ping_timeout_p (struct timeval *start_time, int timeout);
+bool ping_timeout_p (struct timespec *start_time, int timeout);
 
 char *ipaddr2str (struct sockaddr *from, socklen_t fromlen);
 char *sinaddr2str (struct in_addr ina);

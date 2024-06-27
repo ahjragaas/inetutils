@@ -30,6 +30,7 @@
 #include <netdb.h>
 #include <xalloc.h>
 #include <attribute.h>
+#include <timespec.h>
 
 #include "ping_common.h"
 
@@ -100,23 +101,6 @@ decode_pattern (const char *text, int *pattern_len,
       pattern_data[i] = c;
     }
   *pattern_len = i;
-}
-
-
-/*
- * tvsub --
- *	Subtract 2 timeval structs:  out = out - in.  Out is assumed to
- * be >= in.
- */
-void
-tvsub (struct timeval *out, struct timeval *in)
-{
-  if ((out->tv_usec -= in->tv_usec) < 0)
-    {
-      --out->tv_sec;
-      out->tv_usec += 1000000;
-    }
-  out->tv_sec -= in->tv_sec;
 }
 
 double
@@ -241,18 +225,12 @@ ping_unset_data (PING *p)
   _ping_freebuf (p);
 }
 
-int
-ping_timeout_p (struct timeval *start_time, int timeout)
+bool
+ping_timeout_p (struct timespec *start_time, int timeout)
 {
-  struct timeval now;
-  gettimeofday (&now, NULL);
-  if (timeout != -1)
-    {
-      tvsub (&now, start_time);
-      if (now.tv_sec >= timeout)
-	return 1;
-    }
-  return 0;
+  if (timeout == -1)
+    return false;
+  return timespec_sub (current_timespec (), *start_time).tv_sec >= timeout;
 }
 
 char *

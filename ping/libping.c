@@ -38,6 +38,8 @@
 # include <idna.h>
 #endif
 
+#include <timespec.h>
+
 #include "ping.h"
 
 static int useless_ident = 0;	/* Relevant at least for Linux.  */
@@ -119,7 +121,7 @@ ping_init (int type, int ident)
   /* Make sure we use only 16 bits in this field, id for icmp is a unsigned short.  */
   p->ping_ident = ident & 0xFFFF;
   p->ping_cktab_size = PING_CKTABSIZE;
-  gettimeofday (&p->ping_start_time, NULL);
+  p->ping_start_time = current_timespec ();
   return p;
 }
 
