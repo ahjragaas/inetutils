@@ -385,7 +385,7 @@ Deactivate the selected interface.
 @opindex -F
 @opindex --flags
 Change those interface flags mentioned in @var{list}.
-The argument is a comma separated list of one ore more
+The argument is a comma separated list of one or more
 flag names to be set, or in case the name is prepended
 with @samp{no}, the corresponding flag is cleared.
 The output of @command{ifconfig} with the option @option{--help}
@@ -553,7 +553,7 @@ Use IPv6 as transport when logging to a host.  The option is present
 also on systems without support for IPv6, but will then issue a warning
 and then fall back to IPv4 when delivering the message.
 
-Both options are most influencial when the target host is named using
+Both options are most influential when the target host is named using
 a symbolic name, but numerical addresses for host or source must also
 match if either of @option{--ipv4} or @option{--ipv6} is stated.
 
@@ -2116,7 +2116,7 @@ Delete a directory on the remote machine.
 
 @item runique
 Toggle the storing of files on the local system with unique filenames.
-If a file already exists with a name equal to the inteded local file
+If a file already exists with a name equal to the intended local file
 name for a @code{get} or @code{mget} command,
 then a string @samp{.1} is appended to the name.
 If the resulting name matches another existing file,
@@ -3352,7 +3352,7 @@ accepted by inetd, and the server is given only the newly-accepted
 socket connected to a client of the service.  Most stream-based
 services and all TCPMUX services operate in this manner.  For such
 services, the number of running instances of the server can be
-limitied by specifying optional @samp{max} suffix (a decimal number),
+limited by specifying optional @samp{max} suffix (a decimal number),
 e.g.: @samp{nowait.15}.
 
 Stream-based servers that use @samp{wait} are started with the
@@ -5107,7 +5107,7 @@ environment not provide a value.
 
 In addition, a conditional construct is able to take one action
 in case a variable has an assigned value, and optionally to take
-another action in the opposite case.  The contruct is
+another action in the opposite case.  The construct is
 
 @example
 %?<var>@{true-stmt@}[@{false-stmt@}]
@@ -5175,7 +5175,7 @@ Enable logging.
 @itemx --nonexistent
 @opindex -n
 @opindex --nonexistent
-Supress negative acknowledgement of requests for nonexistent relative
+Suppress negative acknowledgement of requests for nonexistent relative
 filenames.
 
 @item -s @var{dir}
@@ -5270,8 +5270,8 @@ get /etc/motd
 
 @noindent
 given that @file{/tftpboot/kernel} and @file{/altboot/kernel.alt} exist.
-Observe that also @file{/etc/motd} is accessible, inspite there being
-no explicit mention of standard file locations.
+Observe that also @file{/etc/motd} is accessible, in spite of there
+being no explicit mention of standard file locations.
 
 A stronger mode of running a TFTP server is to use the `secure mode',
 meaning that the serving process is running in a chrooted mode.

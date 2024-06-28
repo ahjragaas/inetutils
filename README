@@ -109,7 +109,7 @@ Notes on hard-coded file locations:
    detected value.  It should point to the intended location of `rsh',
    particularly when built with Kerberos support.
 
- - Similarily, `rsh' needs PATH_RLOGIN to locate `rlogin' for correct
+ - Similarly, `rsh' needs PATH_RLOGIN to locate `rlogin' for correct
    delegation.  The switch `--with-path-rlogin=VALUE' may come handy
    to ensure that `rsh' as well as `rlogin' offer identical Kerberos
    support.
