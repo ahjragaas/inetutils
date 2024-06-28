@@ -26,7 +26,8 @@ AM_CPPFLAGS = \
 LDADD = \
 	$(iu_LIBRARIES) \
 	$(LIBREADLINE) $(LIBHISTORY) \
-	$(LIBIDN)
+	$(LIBIDN) \
+	$(CLOCK_TIME_LIB)
 
 bin_PROGRAMS = $(ftp_BUILD)
 

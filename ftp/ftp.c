@@ -70,6 +70,7 @@
 #include <error.h>
 #include <errno.h>
 #include <fcntl.h>
+#include <float.h>
 #include <netdb.h>
 #include <pwd.h>
 #include <signal.h>
@@ -86,6 +87,8 @@
 #elif defined HAVE_IDNA_H
 # include <idna.h>
 #endif
+
+#include <timespec.h>
 
 #include "ftp_var.h"
 #include "attribute.h"
@@ -595,7 +598,7 @@ void
 sendrequest (char *cmd, char *local, char *remote, int printnames)
 {
   struct stat st;
-  struct timeval start, stop;
+  struct timespec start, stop;
   int c, d;
   FILE *fin, *dout = 0, *popen (const char *, const char *);
   int (*closefunc) (FILE *);
@@ -766,7 +769,7 @@ sendrequest (char *cmd, char *local, char *remote, int printnames)
       bufsize = blksize;
     }
 
-  gettimeofday (&start, (struct timezone *) 0);
+  start = current_timespec ();
   oldintp = signal (SIGPIPE, SIG_IGN);
   switch (curtype)
     {
@@ -850,7 +853,7 @@ sendrequest (char *cmd, char *local, char *remote, int printnames)
   if (closefunc != NULL)
     (*closefunc) (fin);
   fclose (dout);
-  gettimeofday (&stop, (struct timezone *) 0);
+  stop = current_timespec ();
   getreply (0);
   signal (SIGINT, oldintr);
   if (oldintp)
@@ -878,7 +881,7 @@ abort:
   code = -1;
   if (closefunc != NULL && fin != NULL)
     (*closefunc) (fin);
-  gettimeofday (&stop, (struct timezone *) 0);
+  stop = current_timespec ();
   if (bytes > 0)
     ptransfer ("sent", bytes, &start, &stop);
 }
@@ -908,7 +911,7 @@ recvrequest (char *cmd, char *local, char *remote, char *lmode,
   static int bufsize = 0;
   static char *buf;
   long long bytes = 0, local_hashbytes = hashbytes;
-  struct timeval start, stop;
+  struct timespec start, stop;
 
   is_retr = strcmp (cmd, "RETR") == 0;
   if (is_retr && verbose && printnames)
@@ -1031,7 +1034,7 @@ recvrequest (char *cmd, char *local, char *remote, char *lmode,
       bufsize = blksize;
     }
 
-  gettimeofday (&start, (struct timezone *) 0);
+  start = current_timespec ();
   switch (curtype)
     {
 
@@ -1181,7 +1184,7 @@ recvrequest (char *cmd, char *local, char *remote, char *lmode,
   if (oldintp)
     signal (SIGPIPE, oldintp);
   fclose (din);
-  gettimeofday (&stop, (struct timezone *) 0);
+  stop = current_timespec ();
   getreply (0);
   if (bytes > 0 && is_retr)
     ptransfer ("received", bytes, &start, &stop);
@@ -1211,7 +1214,7 @@ abort:
     (*closefunc) (fout);
   if (din)
     fclose (din);
-  gettimeofday (&stop, (struct timezone *) 0);
+  stop = current_timespec ();
   if (bytes > 0)
     ptransfer ("received", bytes, &start, &stop);
   signal (SIGINT, oldintr);
@@ -1617,51 +1620,32 @@ dataconn (char *lmode)
 }
 
 void
-ptransfer (char *direction, long long int bytes,
-	   struct timeval *t0, struct timeval *t1)
+ptransfer (char *direction, long long int bytes, struct timespec *t0,
+	   struct timespec *t1)
 {
-  struct timeval td;
-  float s, bs;
+  double s, bs;
 
   if (verbose)
     {
-      tvsub (&td, t1, t0);
-      s = td.tv_sec + (td.tv_usec / 1000000.);
-#define nz(x)	((x) == 0 ? 1 : (x))
-      bs = bytes / nz (s);
+      struct timespec ts = timespec_sub (*t1, *t0);
+      double seconds = timespectod (ts);
+      double bytes_per_second;
 
-      printf ("%lld bytes %s in %.3g seconds", bytes, direction, s);
+      /* Don't divide by zero.  Can this happen?  */
+      if (seconds == 0.0)
+	seconds = DBL_MIN;
 
-      if (bs > 1048576.0)
-	printf (" (%.3g Mbytes/s)\n", bs / 1048576.0);
-      else if (bs > 1024.0)
-	printf (" (%.3g kbytes/s)\n", bs / 1024.0);
+      bytes_per_second = bytes / seconds;
+
+      printf ("%lld bytes %s in %.4f seconds", bytes, direction, seconds);
+
+      if (bytes_per_second > 1048576.0)
+	printf (" (%.4f Mbytes/s)\n", bytes_per_second / 1048576.0);
+      else if (bytes_per_second > 1024.0)
+	printf (" (%.4f kbytes/s)\n", bytes_per_second / 1024.0);
       else
-	printf (" (%.3g bytes/s)\n", bs);
+	printf (" (%.4f bytes/s)\n", bytes_per_second);
     }
-}
-
-/*
-void
-tvadd(tsum, t0)
-	struct timeval *tsum, *t0;
-{
-
-	tsum->tv_sec += t0->tv_sec;
-	tsum->tv_usec += t0->tv_usec;
-	if (tsum->tv_usec > 1000000)
-		tsum->tv_sec++, tsum->tv_usec -= 1000000;
-}
-*/
-
-void
-tvsub (struct timeval *tdiff, struct timeval *t1, struct timeval *t0)
-{
-
-  tdiff->tv_sec = t1->tv_sec - t0->tv_sec;
-  tdiff->tv_usec = t1->tv_usec - t0->tv_usec;
-  if (tdiff->tv_usec < 0)
-    tdiff->tv_sec--, tdiff->tv_usec += 1000000;
 }
 
 void
