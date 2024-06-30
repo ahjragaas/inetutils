@@ -421,6 +421,9 @@ ping_run (PING *ping, int (*finish) (void))
       now = current_timespec ();
       resp_time = timespec_sub (timespec_add (last, intvl), now);
 
+      if (timespec_sign (resp_time) == -1)
+	resp_time.tv_sec = resp_time.tv_nsec = 0;
+
       n = pselect (fdmax, &fdset, NULL, NULL, &resp_time, NULL);
       if (n < 0)
 	{
