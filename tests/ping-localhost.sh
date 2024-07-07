@@ -21,7 +21,7 @@
 #
 #  * Shell: SVR3 Bourne shell, or newer.
 #
-#  * id(1).
+#  * cut(1), id(1), uname(1).
 
 . ./tools.sh
 
@@ -56,10 +56,39 @@ if test "$TEST_IPV4" = "no" && test "$TEST_IPV6" = "no"; then
     exit 77
 fi
 
-if test `func_id_uid` != 0; then
-    echo "ping needs to run as root"
+have_privs='no'
+test "`func_id_uid`" = 0 && have_privs='yes'
+
+# some systems allow ping without root privileges
+need_privs='yes'
+
+# the kernel Linux requires specific configuration for unprivileged ping
+PING_GROUP_RANGE=/proc/sys/net/ipv4/ping_group_range
+if test "`uname -s`" = 'Linux' && test -f "$PING_GROUP_RANGE"
+then
+    low=`cut -f1 "$PING_GROUP_RANGE"`
+    high=`cut -f2 "$PING_GROUP_RANGE"`
+    for grp_id in `id -G`; do
+        test "$low" -le "$grp_id" && test "$high" -ge "$grp_id" &&
+            need_privs='no' && break
+    done
+fi
+
+# macOS generally allows unprivileged ping
+test "`uname -s`" = 'Darwin' && need_privs='no'
+
+if test "$need_privs" = 'yes' && test "$have_privs" = 'no'; then
+    echo >&2 "ping needs to run as root"
     exit 77
 fi
+
+# the ping6 program still requires privileges
+test "$need_privs" = 'no' && test "$have_privs" = 'no' &&
+    test "$TEST_IPV6" != 'no' && TEST_IPV6='no' &&
+    echo >&2 'ping6 needs to run as root, disabling IPv6 test' &&
+    test "$TEST_IPV4" = 'no' &&
+    echo >&2 'Testing of IPv4 and IPv6 is disabled.  Skipping test.' &&
+    exit 77
 
 errno=0
 errno2=0
