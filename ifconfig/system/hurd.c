@@ -48,6 +48,7 @@ check_driving (const char *name)
 
   char *argz = 0, *new_argz = 0;
   size_t argz_len = 0;
+  mach_msg_type_number_t argz_len_for_fs_get_options = 0;
   char *entry = 0;
   const char *socket = _SERVERS_SOCKET "/2";
 
@@ -64,7 +65,14 @@ check_driving (const char *name)
       return 0;
     }
 
-  file_get_fs_options (node, &argz, &argz_len);
+  err = file_get_fs_options (node, &argz, &argz_len_for_fs_get_options);
+  if (err)
+    {
+      error (0, err, "Could not get fs options of %s", socket);
+      return 0;
+    }
+
+  argz_len = argz_len_for_fs_get_options;
 
   for (entry = argz; entry; entry = argz_next (argz, argz_len, entry))
     {
