@@ -74,6 +74,9 @@ extern void ayt_status (void);
 extern void sendayt (void);
 #endif
 
+void susp (int sig);
+void ayt (int sig);
+
 int tout,			/* Output file descriptor */
   tin,				/* Input file descriptor */
   net;
@@ -673,13 +676,6 @@ TerminalNewMode (int f)
 
   if (f != -1)
     {
-#ifdef	SIGTSTP
-      void susp (int sig);
-#endif /* SIGTSTP */
-#ifdef	SIGINFO
-      void ayt ();
-#endif
-
 #ifdef	SIGTSTP
       signal (SIGTSTP, susp);
 #endif /* SIGTSTP */
