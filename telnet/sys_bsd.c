@@ -729,9 +729,7 @@ TerminalNewMode (int f)
   else
     {
 #ifdef	SIGINFO
-      void ayt_status (void);
-
-      signal (SIGINFO, ayt_status);
+      signal (SIGINFO, (void (*)(int)) ayt_status);
 #endif
 #ifdef	SIGTSTP
       signal (SIGTSTP, SIG_DFL);
