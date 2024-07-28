@@ -1381,11 +1381,12 @@ run_err (const char *fmt, ...)
   static FILE *fp;
   va_list ap;
 
-  va_start (ap, fmt);
-
   ++errs;
   if (fp == NULL && !(fp = fdopen (rem, "w")))
     return;
+
+  va_start (ap, fmt);
+
   fprintf (fp, "%c", 0x01);
   fprintf (fp, "rcp: ");
   vfprintf (fp, fmt, ap);
