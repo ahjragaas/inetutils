@@ -53,6 +53,9 @@
 #include <setjmp.h>
 #include <progname.h>
 
+/* For in_port_t.  */
+#include <netinet/in.h>
+
 #ifndef FTP_EXTERN
 # define FTP_EXTERN extern
 #endif

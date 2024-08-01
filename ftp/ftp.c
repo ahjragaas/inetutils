@@ -88,6 +88,7 @@
 # include <idna.h>
 #endif
 
+#include <intprops.h>
 #include <timespec.h>
 
 #include "ftp_var.h"
@@ -107,7 +108,7 @@ socklen_t ctladdrlen;		/* Applies to all addresses.  */
 
 /* For temporary resolving: hookup() and initconn()/noport.  */
 static char ia[INET6_ADDRSTRLEN];
-static char portstr[10];
+static char portstr[INT_STRLEN_BOUND (in_port_t) + 1];
 
 FILE *cin, *cout;
 
@@ -116,7 +117,7 @@ FILE *cin, *cout;
 #endif
 
 char *
-hookup (char *host, int port)
+hookup (char *host, in_port_t port)
 {
   struct addrinfo hints, *ai = NULL, *res = NULL;
   struct timeval timeout;
@@ -142,7 +143,8 @@ hookup (char *host, int port)
   rhost = strdup (host);
 #endif
 
-  snprintf (portstr, sizeof (portstr) - 1, "%u", port);
+
+  snprintf (portstr, sizeof portstr, "%u", port);
   memset (&hisctladdr, 0, sizeof (hisctladdr));
   memset (&hints, 0, sizeof (hints));
 

@@ -80,7 +80,7 @@ int getreply (int);
 char *globulize (char *);
 char *gunique (char *);
 void help (int, char **);
-char *hookup (char *, int);
+char *hookup (char *, in_port_t);
 void site_idle (int, char **);
 int initconn (void);
 void intr (int sig);
