@@ -92,6 +92,7 @@
 #include "types.h"
 
 #include "xalloc.h"
+#include "xstrtol.h"
 #include "xvasprintf.h"
 #include "xalloc.h"
 
@@ -454,7 +455,7 @@ send_tncmd (void (*func) (int, int), char *cmd, const char *name)
 #if !HAVE_DECL_TELOPTS
   extern char *telopts[];
 #endif
-  int val = 0;
+  intmax_t value = 0;
 
   if (isprefix (name, "help") || isprefix (name, "?"))
     {
@@ -489,30 +490,25 @@ send_tncmd (void (*func) (int, int), char *cmd, const char *name)
   if (cpp)
     {
 #if HAVE_DECL_TELOPTS
-      val = cpp - (char **) telopts;
+      value = cpp - (char **) telopts;
 #else /* !HAVE_DECL_TELOPTS */
-      val = cpp - telopts;
+      value = cpp - telopts;
 #endif
     }
   else
     {
       const char *cp = name;
+      enum strtol_error err = xstrtoimax (cp, NULL, 10, &value, "");
 
-      while (*cp >= '0' && *cp <= '9')
+      if (err == LONGINT_OVERFLOW || value < 0 || value > 255)
 	{
-	  val *= 10;
-	  val += *cp - '0';
-	  cp++;
-	}
-      if (*cp != 0)
-	{
-	  fprintf (stderr, "'%s': unknown argument ('send %s ?' for help).\n",
+	  fprintf (stderr, "'%s': bad value ('send %s ?' for help).\n",
 		   name, cmd);
 	  return 0;
 	}
-      else if (val < 0 || val > 255)
+      else if (err != LONGINT_OK)
 	{
-	  fprintf (stderr, "'%s': bad value ('send %s ?' for help).\n",
+	  fprintf (stderr, "'%s': unknown argument ('send %s ?' for help).\n",
 		   name, cmd);
 	  return 0;
 	}
@@ -522,7 +518,7 @@ send_tncmd (void (*func) (int, int), char *cmd, const char *name)
       printf ("?Need to be connected first.\n");
       return 0;
     }
-  (*func) (val, 1);
+  (*func) (value, 1);
   return 1;
 }
 
