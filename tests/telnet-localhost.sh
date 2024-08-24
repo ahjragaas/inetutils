@@ -105,7 +105,7 @@ fi
 
 # Check regression of crash reported here:
 # https://lists.gnu.org/archive/html/bug-inetutils/2022-02/msg00014.html
-echo 'help z ! ? z ! ? z ! ? z ! ? z ! ? z ! ? z !' | $TELNET > /dev/null
+echo 'help z ! ? z ! ? z ! ? z ! ? z ! ? z ! ? z !' | $TELNET > /dev/null 2>&1
 if test $? -ne 0; then
     echo "Regression of telnet crash bug." >&2
     exit 1
@@ -113,7 +113,7 @@ fi
 
 # Check regression of crash reported here:
 # https://lists.gnu.org/archive/html/bug-inetutils/2022-02/msg00009.html
-echo 'help help' | $TELNET > /dev/null
+echo 'help help' | $TELNET > /dev/null 2>&1
 if test $? -ne 0; then
     echo "Regression of telnet second crash bug." >&2
     exit 1
@@ -121,7 +121,7 @@ fi
 
 # Check regression of crash reported here:
 # https://lists.gnu.org/archive/html/bug-inetutils/2022-02/msg00007.html
-echo "unset ' '" | $TELNET > /dev/null
+echo "unset ' '" | $TELNET > /dev/null 2>&1
 if test $? -ne 0; then
     echo "Regression of telnet third crash bug." >&2
     exit 1
@@ -129,7 +129,7 @@ fi
 
 # Check regression of crash reported here:
 # https://lists.gnu.org/archive/html/bug-inetutils/2022-02/msg00010.html
-echo "set ' ' foo" | $TELNET > /dev/null
+echo "set ' ' foo" | $TELNET > /dev/null 2>&1
 if test $? -ne 0; then
     echo "Regression of telnet fourth crash bug." >&2
     exit 1
