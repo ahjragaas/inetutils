@@ -135,6 +135,27 @@ if test $? -ne 0; then
     exit 1
 fi
 
+errno=0
+
+# In non-verbose mode the variables `display' and `display_err'
+# redirect output streams to `/dev/null'.
+
+test -n "${VERBOSE+yes}" || display='>/dev/null'
+test -n "${VERBOSE+yes}" || display_err='2>/dev/null'
+
+# Check regression of integer overflow check reported in:
+# https://lists.gnu.org/archive/html/bug-inetutils/2024-08/msg00007.html
+for value in -2147483649 -1 256 2147483648 9223372036854775808; do
+    for cmd in "do" "dont" "will" "wont"; do
+        output=`echo "send $cmd $value" | $TELNET 2>&1`
+        echo "$output" | eval "$GREP ': bad value ' $display"
+        if test $? -ne 0; then
+            errno=1
+            echo "Failed to catch bad value '$value'." >&2
+        fi
+    done
+done
+
 # Portability fix for SVR4
 PWD="${PWD:-`pwd`}"
 
@@ -191,13 +212,6 @@ fi
 
 # Must use '-d' consistently to prevent daemonizing, but we
 # would like to suppress the verbose output.
-#
-# In non-verbose mode the variables `display' and `display_err'
-# redirect output streams to `/dev/null'.
-
-test -n "${VERBOSE+yes}" || display='>/dev/null'
-test -n "${VERBOSE+yes}" || display_err='2>/dev/null'
-
 
 eval "$INETD -d -p'$INETD_PID' '$INETD_CONF' $display_err &"
 
@@ -220,8 +234,6 @@ inetd_pid="`cat $INETD_PID 2>/dev/null`" ||
 test -z "$VERBOSE" || echo "Launched Inetd as process $inetd_pid." >&2
 
 telnet_opts="--no-rc --no-escape --no-login"
-
-errno=0
 
 if test "$TEST_IPV4" != "no" && test -n "$TARGET"; then
     output=`$TELNET $telnet_opts $TARGET $PORT 2>/dev/null`
