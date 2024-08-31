@@ -25,6 +25,12 @@ when using the --format or --short option. More details in
 ** Inetutils can now be built with C23 compilers.
 Except for when configured to support Kerberos 4.
 
+** telnet: Fix signed integer overflow handling when using any of the
+commands 'send do', 'send dont', 'send will', or 'send wont' with a
+numerical argument.  On some systems a signed integer overflow using
+one of these commands could have lead to an out-of-bounds array access
+usually resulting in a crash.
+
 * Noteworthy changes in release 2.5 (2023-12-29) [stable]
 
 ** ftpd, rcp, rlogin, rsh, rshd, uucpd
