@@ -87,6 +87,10 @@
 #include <error.h>
 #include <xalloc.h>
 
+#include "intprops.h"
+#include "stat-time.h"
+#include "timespec.h"
+
 typedef struct
 {
   int cnt;
@@ -693,29 +697,17 @@ tolocal (int argc, char *argv[])
 }
 
 static int
-write_stat_time (int fd, struct stat *stat)
+write_stat_time (int fd, struct stat *st)
 {
-  char buf[4 * sizeof (long) * 3 + 2];
-  time_t a_sec, m_sec;
-  long a_usec = 0, m_usec = 0;
-
-  a_sec = stat->st_atime;
-#ifdef HAVE_STRUCT_STAT_ST_ATIM_TV_NSEC
-  a_usec = stat->st_atim.tv_nsec / 1000;
-#elif defined HAVE_STRUCT_STAT_ST_ATIM_TV_USEC
-  a_usec = stat->st_atim.tv_usec;
-#endif
-
-  m_sec = stat->st_mtime;
-#ifdef HAVE_STRUCT_STAT_ST_MTIM_TV_NSEC
-  m_usec = stat->st_mtim.tv_nsec / 1000;
-#elif defined HAVE_STRUCT_STAT_ST_MTIM_TV_USEC
-  m_usec = stat->st_mtim.tv_usec;
-#endif
-
-  snprintf (buf, sizeof (buf), "T%ld %ld %ld %ld\n",
-	    m_sec, m_usec, a_sec, a_usec);
-  return write (fd, buf, strlen (buf));
+  /* 'T' + 4 integers + 3 spaces + '\n' + '\0'.  */
+  char buffer[4 * INT_STRLEN_BOUND (intmax_t) + 1 + 3 + 2];
+  struct timespec atime = get_stat_atime (st);
+  struct timespec mtime = get_stat_mtime (st);
+  int len = sprintf (buffer, "T%jd %jd %jd %jd\n", (intmax_t) mtime.tv_sec,
+		     (intmax_t) (mtime.tv_nsec / 1000),
+		     (intmax_t) atime.tv_sec,
+		     (intmax_t) (mtime.tv_nsec / 1000));
+  return write (fd, buffer, len);
 }
 
 void

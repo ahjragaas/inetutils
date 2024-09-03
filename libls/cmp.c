@@ -58,6 +58,9 @@
 #include "ls.h"
 #include "extern.h"
 
+#include "stat-time.h"
+#include "timespec.h"
+
 int
 namecmp (const FTSENT *a, const FTSENT *b)
 {
@@ -73,32 +76,9 @@ revnamecmp (const FTSENT *a, const FTSENT *b)
 int
 modcmp (const FTSENT *a, const FTSENT *b)
 {
-  if (b->fts_statp->st_mtime > a->fts_statp->st_mtime ||
-#ifdef HAVE_STRUCT_STAT_ST_MTIM_TV_NSEC
-      (b->fts_statp->st_mtime == a->fts_statp->st_mtime
-       && b->fts_statp->st_mtim.tv_nsec > a->fts_statp->st_mtim.tv_nsec)
-#elif defined HAVE_STRUCT_STAT_ST_MTIM_TV_USEC
-      (b->fts_statp->st_mtime == a->fts_statp->st_mtime
-       && b->fts_statp->st_mtim.tv_usec > a->fts_statp->st_mtim.tv_usec)
-#else
-      0
-#endif
-    )
-    return (1);
-  else if (b->fts_statp->st_mtime < a->fts_statp->st_mtime ||
-#ifdef HAVE_STRUCT_STAT_ST_MTIM_TV_NSEC
-	   (b->fts_statp->st_mtime == a->fts_statp->st_mtime
-	    && b->fts_statp->st_mtim.tv_nsec < a->fts_statp->st_mtim.tv_nsec)
-#elif defined HAVE_STRUCT_STAT_ST_MTIM_TV_USEC
-	   (b->fts_statp->st_mtime == a->fts_statp->st_mtime
-	    && b->fts_statp->st_mtim.tv_usec < a->fts_statp->st_mtim.tv_usec)
-#else
-	   0
-#endif
-    )
-    return (-1);
-  else
-    return (namecmp (a, b));
+  int diff = timespec_cmp (get_stat_mtime (b->fts_statp),
+			   get_stat_mtime (a->fts_statp));
+  return diff ? diff : namecmp (a, b);
 }
 
 int
@@ -110,32 +90,9 @@ revmodcmp (const FTSENT *a, const FTSENT *b)
 int
 acccmp (const FTSENT *a, const FTSENT *b)
 {
-  if (b->fts_statp->st_atime > a->fts_statp->st_atime ||
-#ifdef HAVE_STRUCT_STAT_ST_ATIM_TV_NSEC
-      (b->fts_statp->st_atime == a->fts_statp->st_atime
-       && b->fts_statp->st_atim.tv_nsec > a->fts_statp->st_atim.tv_nsec)
-#elif defined HAVE_STRUCT_STAT_ST_ATIM_TV_USEC
-      (b->fts_statp->st_atime == a->fts_statp->st_atime
-       && b->fts_statp->st_atim.tv_usec > a->fts_statp->st_atim.tv_usec)
-#else
-      0
-#endif
-    )
-    return (1);
-  else if (b->fts_statp->st_atime < a->fts_statp->st_atime ||
-#ifdef HAVE_STRUCT_STAT_ST_ATIM_TV_NSEC
-	   (b->fts_statp->st_atime == a->fts_statp->st_atime
-	    && b->fts_statp->st_atim.tv_nsec < a->fts_statp->st_atim.tv_nsec)
-#elif defined HAVE_STRUCT_STAT_ST_ATIM_TV_USEC
-	   (b->fts_statp->st_atime == a->fts_statp->st_atime
-	    && b->fts_statp->st_atim.tv_usec < a->fts_statp->st_atim.tv_usec)
-#else
-	   0
-#endif
-    )
-    return (-1);
-  else
-    return (namecmp (a, b));
+  int diff = timespec_cmp (get_stat_atime (b->fts_statp),
+			   get_stat_atime (a->fts_statp));
+  return diff ? diff : namecmp (a, b);
 }
 
 int
@@ -147,32 +104,9 @@ revacccmp (const FTSENT *a, const FTSENT *b)
 int
 statcmp (const FTSENT *a, const FTSENT *b)
 {
-  if (b->fts_statp->st_ctime > a->fts_statp->st_ctime ||
-#ifdef HAVE_STRUCT_STAT_ST_CTIM_TV_NSEC
-      (b->fts_statp->st_ctime == a->fts_statp->st_ctime
-       && b->fts_statp->st_ctim.tv_nsec > a->fts_statp->st_ctim.tv_nsec)
-#elif defined HAVE_STRUCT_STAT_ST_CTIM_TV_USEC
-      (b->fts_statp->st_ctime == a->fts_statp->st_ctime
-       && b->fts_statp->st_ctim.tv_usec > a->fts_statp->st_ctim.tv_usec)
-#else
-      0
-#endif
-    )
-    return (1);
-  else if (b->fts_statp->st_ctime < a->fts_statp->st_ctime ||
-#ifdef HAVE_STRUCT_STAT_ST_CTIM_TV_NSEC
-	   (b->fts_statp->st_ctime == a->fts_statp->st_ctime
-	    && b->fts_statp->st_ctim.tv_nsec < a->fts_statp->st_ctim.tv_nsec)
-#elif defined HAVE_STRUCT_STAT_ST_CTIM_TV_USEC
-	   (b->fts_statp->st_ctime == a->fts_statp->st_ctime
-	    && b->fts_statp->st_ctim.tv_usec < a->fts_statp->st_ctim.tv_usec)
-#else
-	   0
-#endif
-    )
-    return (-1);
-  else
-    return (namecmp (a, b));
+  int diff = timespec_cmp (get_stat_ctime (b->fts_statp),
+			   get_stat_ctime (a->fts_statp));
+  return diff ? diff : namecmp (a, b);
 }
 
 int
@@ -181,15 +115,17 @@ revstatcmp (const FTSENT *a, const FTSENT *b)
   return (-statcmp (a, b));
 }
 
+static int
+off_cmp (off_t a, off_t b)
+{
+  return (a > b) - (a < b);
+}
+
 int
 sizecmp (const FTSENT *a, const FTSENT *b)
 {
-  if (b->fts_statp->st_size > a->fts_statp->st_size)
-    return (1);
-  if (b->fts_statp->st_size < a->fts_statp->st_size)
-    return (-1);
-  else
-    return (namecmp (a, b));
+  int diff = off_cmp (b->fts_statp->st_size, a->fts_statp->st_size);
+  return diff ? diff : namecmp (a, b);
 }
 
 int
