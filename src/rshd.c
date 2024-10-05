@@ -411,7 +411,7 @@ char username[32 + sizeof ("USER=")] = "USER=";
 char logname[32 + sizeof ("LOGNAME=")] = "LOGNAME=";
 char homedir[256 + sizeof ("HOME=")] = "HOME=";
 char shell[64 + sizeof ("SHELL=")] = "SHELL=";
-char path[sizeof (PATH_DEFPATH) + sizeof ("PATH=")] = "PATH=";
+char path[sizeof (PATH_DEFPATH) + sizeof ("PATH=") + 1] = "PATH=";
 char rhost[128 + sizeof ("RHOST=")] = "RHOST=";
 
 #ifndef WITH_PAM
