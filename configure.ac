@@ -760,6 +760,18 @@ LIBS="$LIBCRYPT $LIBS"
 AC_CHECK_FUNCS(crypt)
 LIBS="$_SAVE_LIBS"
 
+# Disable programs which needs crypt.
+if test "$ac_cv_lib_pam_pam_authenticate" != yes \
+   && test "$ac_cv_func_crypt" != yes; then
+  AC_MSG_WARN([Disabling rexecd since no PAM or crypt.])
+  IU_DISABLE_TARGET(rexecd)
+fi
+if test "$ac_cv_func_crypt" != yes; then
+  AC_MSG_WARN([Disabling ftpd/uucpd since no crypt.])
+  IU_DISABLE_TARGET(uucpd)
+  IU_DISABLE_TARGET(ftpd)
+fi
+
 AC_CHECK_FUNC(_obstack_free)
 
 # Use (posix) `setpgid' if it's around, otherwise assume a BSD setpgrp
