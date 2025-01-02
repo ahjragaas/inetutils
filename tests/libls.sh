@@ -120,6 +120,8 @@ test x"$REPLY_C" != x"$REPLY_m" ||
   { errno=1; echo >&2 'Failed to distinguish "-C" from "-m".'; }
 
 test x"$REPLY_l" != x"$REPLY_n" ||
+  # Don't fail if the cause was missing /etc/passwd
+  { id -u && ! id -u -n ;} ||
   { errno=1; echo >&2 'Failed to distinguish "-l" from "-n".'; }
 
 test x"$REPLY_Ccts" != x"$REPLY_Cuts" ||
