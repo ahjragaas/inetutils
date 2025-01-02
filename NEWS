@@ -31,6 +31,11 @@ numerical argument.  On some systems a signed integer overflow using
 one of these commands could have lead to an out-of-bounds array access
 usually resulting in a crash.
 
+** tests/libls.sh: Work better in container environments (pipelines).
+Systems with incomplete /etc/passwd (for uid to username mapping) and
+builds where srcdir/builddir is not useful as a test directory due to
+spurious unrelated files.
+
 * Noteworthy changes in release 2.5 (2023-12-29) [stable]
 
 ** ftpd, rcp, rlogin, rsh, rshd, uucpd
