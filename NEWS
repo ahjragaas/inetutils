@@ -36,6 +36,13 @@ Systems with incomplete /etc/passwd (for uid to username mapping) and
 builds where srcdir/builddir is not useful as a test directory due to
 spurious unrelated files.
 
+** ChangeLog entries for recent releases are now in ChangeLog.2.
+The ChangeLog file contains entries since the last release only;
+earlier entries are found in ChangeLog.0, ChangeLog.1 or ChangeLog.2
+depending on age.  This allows the ChangeLog file to be dynamically
+generated even from a shallow git clone that only contain commits
+since the last release.
+
 * Noteworthy changes in release 2.5 (2023-12-29) [stable]
 
 ** ftpd, rcp, rlogin, rsh, rshd, uucpd
