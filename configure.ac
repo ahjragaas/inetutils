@@ -27,7 +27,7 @@ AC_CONFIG_AUX_DIR([build-aux])
 AC_CONFIG_HEADERS([config.h:config.hin])
 AC_CANONICAL_HOST
 
-AM_INIT_AUTOMAKE([1.11.1 dist-xz -Wall -Werror])
+AM_INIT_AUTOMAKE([1.11.1 dist-xz tar-ustar -Wall -Werror])
 
 # For now, we always use libexecdir; later we may want to vary where
 # the daemons go.

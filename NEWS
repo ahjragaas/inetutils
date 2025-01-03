@@ -36,6 +36,25 @@ Systems with incomplete /etc/passwd (for uid to username mapping) and
 builds where srcdir/builddir is not useful as a test directory due to
 spurious unrelated files.
 
+** The release tarball uses tar --format=ustar.
+Some other flags are added too, to follow these recommendations:
+https://www.gnu.org/software/tar/manual/html_node/Reproducibility.html
+For reference, the GNUMakefile file from gnulib add to TAR_OPTIONS:
+
+--owner=0 --group=0 numeric-owner --sort=name
+
+The cfg.mk file further add:
+
+--mode=go+u,go-w --mtime=$(abs_top_srcdir)/NEWS
+
+The modification time of NEWS is always set to last git commit time
+before release, see mtime-NEWS-to-git-HEAD in Makefile.am.
+
+We hope that the tarball produced this way is usable on all host but
+please let us know if you run into troubles like unpacking the tarball
+or that some generated file is rebuilt needlessly requiring some
+maintainer tool that shouldn't normally be needed.
+
 ** ChangeLog entries for recent releases are now in ChangeLog.2.
 The ChangeLog file contains entries since the last release only;
 earlier entries are found in ChangeLog.0, ChangeLog.1 or ChangeLog.2
