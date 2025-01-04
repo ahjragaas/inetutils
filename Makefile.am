@@ -83,3 +83,18 @@ dist-hook: texi-stamps-to-mtime-NEWS
 .PHONY: texi-stamps-to-mtime-NEWS
 texi-stamps-to-mtime-NEWS: mtime-NEWS-to-git-HEAD
 	$(AM_V_GEN)touch -m -r $(srcdir)/NEWS $(srcdir)/doc/$(PACKAGE).texi
+
+dist-hook: srcdist
+.PHONY: srcdist
+srcdist:
+	$(AM_V_GEN)if test -e $(srcdir)/.git \
+			&& command -v git > /dev/null; then \
+	 cd $(srcdir) && \
+	   git archive --prefix=$(PACKAGE)-v$(VERSION)/ \
+	       -o $(abs_builddir)/$(PACKAGE)-v$(VERSION)-src.tar.gz HEAD; \
+	fi
+
+distclean-local: distclean-local-srcdist
+.PHONY: distclean-local-srcdist
+distclean-local-srcdist:
+	-rm -f $(builddir)/$(PACKAGE)-*-src.tar.gz
