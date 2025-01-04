@@ -70,11 +70,11 @@ $(srcdir)/ChangeLog.2:
 	      fi; }							\
 	fi
 
+GIT_NEWS_MTIME_CMD = git log -1 --format=%cd --date=format-local:%Y%m%d%H%M.%S
 dist-hook: mtime-NEWS-to-git-HEAD
-
 .PHONY: mtime-NEWS-to-git-HEAD
 mtime-NEWS-to-git-HEAD:
 	$(AM_V_GEN)if test -e $(srcdir)/.git \
 			&& command -v git > /dev/null; then \
-		touch -m -d @"$$(git log -1 --format=%ct)" $(srcdir)/NEWS; \
+		touch -m -t "$$($(GIT_NEWS_MTIME_CMD))" $(srcdir)/NEWS; \
 	fi
