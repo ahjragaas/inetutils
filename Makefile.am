@@ -78,3 +78,8 @@ mtime-NEWS-to-git-HEAD:
 			&& command -v git > /dev/null; then \
 		touch -m -t "$$($(GIT_NEWS_MTIME_CMD))" $(srcdir)/NEWS; \
 	fi
+
+dist-hook: texi-stamps-to-mtime-NEWS
+.PHONY: texi-stamps-to-mtime-NEWS
+texi-stamps-to-mtime-NEWS: mtime-NEWS-to-git-HEAD
+	$(AM_V_GEN)touch -m -r $(srcdir)/NEWS $(srcdir)/doc/$(PACKAGE).texi
