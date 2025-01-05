@@ -22,6 +22,7 @@ AC_INIT([GNU inetutils],
  m4_esyscmd([build-aux/git-version-gen .tarball-version]),
  [bug-inetutils@gnu.org])
 
+AC_CONFIG_MACRO_DIRS([m4 am])
 AC_CONFIG_SRCDIR([src/inetd.c])
 AC_CONFIG_AUX_DIR([build-aux])
 AC_CONFIG_HEADERS([config.h:config.hin])
