@@ -28,6 +28,10 @@ translation_project_ =
 _makefile_at_at_check_exceptions = ' && !/PATHDEFS_MAKE/'
 
 announce_gen_args = --cksum-checksums
+DIST_ARCHIVES += $(shell \
+	if test -e $(srcdir)/.git && command -v git > /dev/null; then \
+		echo $(PACKAGE)-v$(VERSION)-src.tar.gz; \
+	fi)
 
 VC_LIST_ALWAYS_EXCLUDE_REGEX = ^doc/fdl-1.3.texi$$
 update-copyright-env = \
