@@ -3719,7 +3719,7 @@ The facility as well as the level are case insensitive.
 
 The facility describes the part of the system generating the message,
 and is one of the following keywords: @samp{auth}, @samp{authpriv},
-@samp{cron}, @samp{daemon}, @samp{kern}, @samp{lpr}, @samp{mail},
+@samp{cron}, @samp{daemon}, @samp{ftp}, @samp{kern}, @samp{lpr}, @samp{mail},
 @samp{mark}, @samp{news}, @samp{syslog}, @samp{user}, @samp{uucp} and
 @samp{local0} through @samp{local7}.  These keywords (with the
 exception of @samp{mark}) correspond to the similar @samp{LOG_} values
@@ -3729,8 +3729,8 @@ details.
 
 The level describes the severity of the message, and is a keyword from
 the following ordered list (higher to lower): @samp{emerg},
-@samp{alert}, @samp{crit}, @samp{err, warning}, @samp{notice} and
-@samp{debug}.  These keywords correspond to the similar @samp{LOG_}
+@samp{alert}, @samp{crit}, @samp{err, warning}, @samp{notice}, @samp{info}
+and @samp{debug}.  These keywords correspond to the similar @samp{LOG_}
 values specified to the syslog library routine.
 
 @xref{syslog; vsyslog, , syslog and vsyslog, libc, The GNU C Library
