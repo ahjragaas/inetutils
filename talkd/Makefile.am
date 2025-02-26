@@ -39,3 +39,5 @@ talkd_SOURCES = \
  table.c\
  talkd.c\
  intalkd.h
+
+talkd_LDADD = $(LDADD) $(HOSTENT_LIB)

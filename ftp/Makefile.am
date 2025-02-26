@@ -34,5 +34,6 @@ bin_PROGRAMS = $(ftp_BUILD)
 EXTRA_PROGRAMS = ftp
 
 ftp_SOURCES = cmds.c cmdtab.c domacro.c ftp.c main.c ruserpass.c
+ftp_LDADD = $(LDADD) $(LIBSOCKET) $(LIBINTL) $(GETADDRINFO_LIB)
 
 noinst_HEADERS = extern.h ftp_var.h

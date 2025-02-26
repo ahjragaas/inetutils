@@ -36,5 +36,7 @@ EXTRA_PROGRAMS = telnet
 
 telnet_SOURCES = authenc.c commands.c main.c network.c ring.c sys_bsd.c \
 	telnet.c terminal.c tn3270.c utilities.c
+telnet_LDADD = $(LDADD) $(LIBSOCKET) $(HOSTENT_LIB) $(LIBINTL) \
+	$(GETADDRINFO_LIB)
 
 noinst_HEADERS = defines.h externs.h general.h ring.h types.h

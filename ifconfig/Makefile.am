@@ -32,5 +32,7 @@ bin_PROGRAMS = $(ifconfig_BUILD)
 EXTRA_PROGRAMS = ifconfig
 
 ifconfig_SOURCES = ifconfig.c flags.c changeif.c options.c printif.c system.c
+ifconfig_LDADD = $(LDADD) $(LIBSOCKET) $(HOSTENT_LIB) $(LIBINTL) \
+	$(GETADDRINFO_LIB) $(LIBRESOLV)
 
 noinst_HEADERS = ifconfig.h flags.h options.h printif.h system.h

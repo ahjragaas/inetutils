@@ -40,5 +40,7 @@ inetdaemon_PROGRAMS = $(telnetd_BUILD)
 EXTRA_PROGRAMS = telnetd
 
 telnetd_SOURCES = telnetd.c pty.c term.c utility.c state.c termstat.c slc.c
+telnetd_LDADD = $(LDADD) $(HOSTENT_LIB) $(LIBINTL) $(GETADDRINFO_LIB) \
+  $(LIBRESOLV)
 
 noinst_HEADERS = telnetd.h

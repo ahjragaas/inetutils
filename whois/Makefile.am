@@ -25,6 +25,8 @@ bin_PROGRAMS = $(whois_BUILD)
 EXTRA_PROGRAMS = whois
 
 whois_SOURCES = whois.c
+whois_LDADD = $(LDADD) $(LIBSOCKET) $(HOSTENT_LIB) $(LIBINTL) \
+  $(GETADDRINFO_LIB)
 
 EXTRA_DIST = as_del_list ip_del_list ip6_del_list tld_serv_list \
   make_as_del.pl  make_ip_del.pl make_ip6_del.pl make_tld_serv.pl \

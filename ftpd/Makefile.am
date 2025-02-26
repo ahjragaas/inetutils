@@ -37,6 +37,7 @@ EXTRA_PROGRAMS = ftpd
 
 ftpd_SOURCES = ftpcmd.y ftpd.c popen.c pam.c auth.c \
                conf.c server_mode.c
+ftpd_LDADD = $(LDADD) $(LIBSOCKET) $(LIBINTL) $(GETADDRINFO_LIB)
 
 noinst_HEADERS = extern.h
 

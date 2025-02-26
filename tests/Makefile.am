@@ -29,12 +29,16 @@ identify_LDADD = $(top_builddir)/lib/libgnu.a $(LIBUTIL) $(PTY_LIB)
 
 check_PROGRAMS = localhost readutmp runtime-ipv6 test-snprintf waitdaemon
 
+localhost_LDADD = $(LDADD) $(LIBSOCKET) $(LIBINTL) $(GETADDRINFO_LIB)
 readutmp_LDADD = $(iu_LIBRARIES) $(READUTMP_LIB)
+runtime_ipv6_LDADD = $(LDADD) $(LIBSOCKET) $(LIBINTL) $(GETADDRINFO_LIB)
 
 dist_check_SCRIPTS = utmp.sh
 
 if ENABLE_inetd
 check_PROGRAMS += addrpeek tcpget
+addrpeek_LDADD = $(LDADD) $(LIBSOCKET) $(LIBINTL) $(GETADDRINFO_LIB)
+tcpget_LDADD = $(LDADD) $(LIBSOCKET) $(LIBINTL) $(GETADDRINFO_LIB)
 endif
 
 if ENABLE_libls
