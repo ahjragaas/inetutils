@@ -127,7 +127,7 @@ if ENABLE_whois
 dist_man_MANS += whois.1
 endif
 
-EXTRA_DIST = $(all) $(all:.1=.h2m) $(all:.8=.h2m)
+EXTRA_DIST = $(all) $(all:.1=.h2m) $(all:.8=.h2m) help2man
 
 MAINTAINERCLEANFILES = $(all)
 
