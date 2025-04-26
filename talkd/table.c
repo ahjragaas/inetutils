@@ -62,8 +62,10 @@ lookup_request (CTL_MSG *request,
   if (debug)
     print_request ("lookup_request", request);
 
-  for (ptr = table; ptr; ptr = ptr->next)
+  for (ptr = table; ptr; )
     {
+      table_t *next = ptr->next;
+
       if (debug)
 	print_request ("comparing against: ", &ptr->request);
 
@@ -83,6 +85,8 @@ lookup_request (CTL_MSG *request,
 	      return &ptr->request;
 	    }
 	}
+
+      ptr = next;
     }
   if (debug)
     syslog (LOG_DEBUG, "not found");
