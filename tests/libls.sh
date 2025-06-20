@@ -91,7 +91,6 @@ REPLY_a1=`$LS -a1 $LSDIR`
 REPLY_A1=`$LS -A1 $LSDIR`
 
 REPLY_C=`$LS -C $LSDIR`
-REPLY_Cf=`$LS -Cf $LSDIR`
 REPLY_Cr=`$LS -Cr $LSDIR`
 REPLY_Ct=`$LS -Ct $LSDIR`
 REPLY_x=`$LS -x $LSDIR`
@@ -129,9 +128,6 @@ test `echo "$diff" | $GREP -c -v '^[.]\{1,2\}$'` -eq 0 ||
 	EOT
     fi
   }
-
-test x"$REPLY_C" != x"$REPLY_Cf" ||
-  { errno=1; echo >&2 'Failed to disable sorting with "-f".'; }
 
 test x"$REPLY_C" != x"$REPLY_Cr" ||
   { errno=1; echo >&2 'Failed to reverse sorting with "-r".'; }

@@ -16,6 +16,9 @@ Disable with --enable-gcc-warnings=no.  Based on the Gnulib
 manywarnings module, see
 <https://www.gnu.org/software/gnulib/manual/html_node/manywarnings.html>.
 
+** tests: Improve libls test that doesn't work reliably accross file systems.
+See <https://codeberg.org/inetutils/inetutils/pulls/9>.
+
 ** Older ChangeLog.? files not included in release tarball.
 They are still available in the git history.  Saves around 0.7MB
 uncompressed in the release tarball.  Compare GNU CoreUtils
