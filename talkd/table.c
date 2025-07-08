@@ -62,7 +62,7 @@ lookup_request (CTL_MSG *request,
   if (debug)
     print_request ("lookup_request", request);
 
-  for (ptr = table; ptr; )
+  for (ptr = table; ptr;)
     {
       table_t *next = ptr->next;
 
