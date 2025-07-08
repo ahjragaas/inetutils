@@ -2,6 +2,7 @@ GNU inetutils NEWS -- history of user-visible changes.
 
 * Noteworthy changes in release ?.? (????-??-??) [?]
 
+** Fix link errors on Solaris 11 OmniOS.
 
 * Noteworthy changes in release 2.6 (2025-02-21) [stable]
 
