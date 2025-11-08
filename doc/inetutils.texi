@@ -4078,7 +4078,11 @@ provided by the client before any file operations can be performed.
 The login name must not appear in the file @file{/etc/ftpusers}.
 
 @item
-The user must have a standard shell.
+The user must have a standard shell.  If the file @file{/etc/shells}
+exists and is readable, only programs listed there are considered standard
+shells.  @command{ftpd} uses the C library function @code{getusershell}
+to enumerate standard shells.  Standard shells are also known as valid
+login shells, valid user shells, or permitted user shells.
 
 @item
 If the user name is @samp{anonymous} or @samp{ftp}, an anonymous ftp
