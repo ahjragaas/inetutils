@@ -1066,7 +1066,7 @@ printline (const char *hname, const char *msg)
 {
   int c, pri;
   const char *p;
-  char *q, line[MAXLINE + 1];
+  char *q, line[MAXLINE + 1 + 1];
 
   /* test for special codes */
   pri = DEFUPRI;
@@ -1093,7 +1093,7 @@ printline (const char *hname, const char *msg)
     pri = LOG_MAKEPRI (LOG_USER, LOG_PRI (pri));
 
   q = line;
-  while ((c = *p++) != '\0' && q < &line[sizeof (line) - 1])
+  while ((c = *p++) != '\0' && q < &line[sizeof (line) - 1 - 1])
     if (iscntrl (c))
       if (c == '\n')
 	*q++ = ' ';

@@ -10,6 +10,8 @@ GNU inetutils NEWS -- history of user-visible changes.
 Thanks to Benjamin Cathelineau, see
 <https://lists.gnu.org/archive/html/bug-inetutils/2025-10/msg00000.html>.
 
+** syslogd: Fix a stack-based buffer overflow (CWE-121).
+
 * Noteworthy changes in release 2.6 (2025-02-21) [stable]
 
 ** The release tarball is now reproducible.
