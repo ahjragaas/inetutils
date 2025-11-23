@@ -74,7 +74,8 @@ main (int argc, char *argv[])
   found = (getutxuser (name) != 0);
   endutxent ();
 #else /* !HAVE_GETUTXUSER */
-  if (read_utmp (UTMP_FILE, &count, &utmpp, READ_UTMP_USER_PROCESS))
+  if (read_utmp (UTMP_FILE, &count, &utmpp,
+		 READ_UTMP_USER_PROCESS | READ_UTMP_CHECK_PIDS))
     {
       perror ("read_utmp");
       return EXIT_FAILURE;
