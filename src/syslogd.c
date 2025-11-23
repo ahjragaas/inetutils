@@ -1099,7 +1099,7 @@ printline (const char *hname, const char *msg)
 	*q++ = ' ';
       else if (c == '\t')
 	*q++ = '\t';
-      else if (c >= 0177)
+      else if (c > 0177)
 	*q++ = c;
       else
 	{
