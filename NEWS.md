@@ -1,6 +1,6 @@
 GNU inetutils NEWS -- history of user-visible changes.
 
-* Noteworthy changes in release ?.? (????-??-??) [?]
+# Noteworthy changes in release ?.? (????-??-??) [?]
 
 ** Systems without asprintf are now supported through the use of gnulib.
 
@@ -14,7 +14,7 @@ Thanks to Benjamin Cathelineau, see
 
 ** syslogd: Log 'DEL' control characters as '^?'.
 
-* Noteworthy changes in release 2.6 (2025-02-21) [stable]
+# Noteworthy changes in release 2.6 (2025-02-21) [stable]
 
 ** The release tarball is now reproducible.
 The following pairs are tested continously: Trisquel 11 and Ubuntu
@@ -76,7 +76,7 @@ depending on age.  This allows the ChangeLog file to be dynamically
 generated even from a shallow git clone that only contain commits
 since the last release.
 
-* Noteworthy changes in release 2.5 (2023-12-29) [stable]
+# Noteworthy changes in release 2.5 (2023-12-29) [stable]
 
 ** ftpd, rcp, rlogin, rsh, rshd, uucpd
 
@@ -93,7 +93,7 @@ Tiny patch contributed by Enrik Berkhan <Enrik.Berkhan@inka.de> in
 ** Various bugs fixes, internal improvements and clean ups.
 The code is now indented using GNU indent 2.2.13.
 
-* Noteworthy changes in release 2.4 (2022-10-25) [stable]
+# Noteworthy changes in release 2.4 (2022-10-25) [stable]
 
 ** ifconfig
 
@@ -137,7 +137,7 @@ Reported by AiDai in
 ** Various bugs fixes, internal improvements and clean ups.
 Update of gnulib and build fixes for C23.
 
-* Noteworthy changes in release 2.3 (2022-07-08) [stable]
+# Noteworthy changes in release 2.3 (2022-07-08) [stable]
 
 ** telnet
 
@@ -165,7 +165,7 @@ AiDai in <https://savannah.gnu.org/bugs/?61725> and
 Further cleanup of configure.ac, updates to modern autoconf releases,
 and improved gnulib usage.
 
-* Noteworthy changes in release 2.2 (2021-09-01) [stable]
+# Noteworthy changes in release 2.2 (2021-09-01) [stable]
 
 ** ftp
 
@@ -192,7 +192,7 @@ since we rely on gnulib for portability.
 The tests/ftp-localhost.sh self-test no longer fails on platforms
 where sysctl is missing.
 
-* Noteworthy changes in release 2.1 (2021-07-24) [stable]
+# Noteworthy changes in release 2.1 (2021-07-24) [stable]
 
 ** ftp
 
@@ -220,7 +220,7 @@ Updated whois servers for .ORG and .IN.
 ChangeLog is now automatically generated from version controlled logs.
 Historical information is preserved as ChangeLog.0 and ChangeLog.1.
 
-* Noteworthy changes in release 2.0 (2021-02-05) [stable]
+# Noteworthy changes in release 2.0 (2021-02-05) [stable]
 
 * ping
 
@@ -392,15 +392,14 @@ Old host name no longer exists.  Reported by Neil Mayhem:
 http://lists.gnu.org/archive/html/bug-inetutils/2017-01/msg00000.html
 
 * Improved documentation, self-tests and build environment.
-
-* Noteworthy changes in release 1.9.4 (2015-06-09) [stable]
+
+# Noteworthy changes in release 1.9.4 (2015-06-09) [stable]
 
 This is a minor bug release that fixes a regression in `ifconfig'.
 The issue was reported by Juergen Daubert in
 http://lists.gnu.org/archive/html/bug-inetutils/2015-05/msg00002.html
-
-May 12, 2015
-Version 1.9.3:
+
+# Noteworthy changes in release 1.9.3 (2015-05-12) [stable]
 
 * ftp
 
@@ -460,9 +459,8 @@ protocol data.  The issue should now be resolved.
 
 Improved cooperation with servers like `whois.arin.net', `whois.eu',
 and `whois.ripe.net'.
-
-December 23, 2013
-Version 1.9.2:
+
+# Noteworthy changes in release 1.9.2 (2013-12-23) [stable]
 
 An advisory file CHECKLIST containing testing and verification advice
 has been added, pointing administrators to important properties and
@@ -599,14 +597,12 @@ New switches `-g/--group', `-s/--secure-dir', and `-u/--user'.
 * uucpd
 
 New switch `-u/--uucico'.
-
-January 6, 2012
-Version 1.9.1:
+
+# Noteworthy changes in release 1.9.1 (2012-01-06) [stable]
 
 * Don't install git-merge-changelog.
-
-December 31, 2011
-Version 1.9:
+
+# Noteworthy changes in release 1.9 (2011-12-31) [stable]
 
 * Security fixes
 
@@ -651,9 +647,8 @@ Now supports -W parameter to specify number of seconds to wait for
 response.
 
 * Various bugs fixes, internal improvements and clean ups.
-
-May 15, 2010
-Version 1.8:
+
+# Noteworthy changes in release 1.8 (2010-05-15) [stable]
 
 * ftp
 
@@ -693,9 +688,8 @@ format definitions.
 * Man pages for the daemons are now in section 8 instead of 1.
 
 * There is now a man page for ping6 too.
-
-December 16, 2009
-Version 1.7:
+
+# Noteworthy changes in release 1.7 (2009-12-16) [stable]
 
 * ping
 
@@ -723,9 +717,7 @@ Command line parsing now uses argp.
 
 * Man pages for all tools are generated using help2man.
 
-
-December 27, 2008
-Version 1.6:
+# Noteworthy changes in release 1.6 (2008-12-27) [stable]
 
 * Various bugs fixes and clean ups.
 
@@ -749,9 +741,8 @@ globally (affecting several services).
 
 It is possible to limit the number of service instances for `nowait'
 services.
-
-October 21, 2006
-Version 1.5:
+
+# Noteworthy changes in release 1.5 (2006-10-21) [stable]
 
 * Various bugs fixes and clean ups.
 
@@ -780,9 +771,8 @@ them via environment.
 
 * telnet not subject to certain DNS spoofing techniques that could
   possibly foil Kerberos authentication.
-
-December 22, 2002
-Version 1.4.2:
+
+# Noteworthy changes in release 1.4.2 (2002-12-22) [stable]
 
 * Fix endianess problem in ftpd.
 
@@ -791,9 +781,8 @@ Version 1.4.2:
 * Security fix for rexecd/rshd.
 
 * Fix processing accumulated messages in syslogd
-
-September 02, 2002
-Version 1.4.1:
+
+# Noteworthy changes in release 1.4.1 (2002-09-02) [stable]
 
 * Fixes a build problem on Solaris
 
@@ -807,9 +796,8 @@ Version 1.4.1:
 * The syntax of syslog.conf file has been extended. The new
   wildcard facility specification, **, catches all messages with
   a facility not specified explicitely in the configuration file.
-
-July 31, 2002
-Version 1.4.0:
+
+# Noteworthy changes in release 1.4.0 (2002-07-31) [stable]
 
 * It is now possible to specify whether to compile individual
   utilities using arguments to configure.
@@ -836,54 +824,54 @@ Version 1.4.0:
   line.
 
 * Inetutils should generally compile on most platforms now.
-
-March, 13, 1998
-Version 1.3.2:
 
- This release attempts to get the encryption/authentication options to
- compile correctly; they appear to work on systems with the appropriate
- libraries, but have not been well tested.
-
-September, 11, 1997
-Version 1.3.1:
+# Noteworthy changes in release 1.3.2 (1998-03-13) [stable]
 
- This release fixes various small problems.
+This release attempts to get the encryption/authentication options to
+compile correctly; they appear to work on systems with the appropriate
+libraries, but have not been well tested.
 
- Telnet now won't force the stripping of 8-bit characters when not in binary
- mode (it will leave the terminal in whatever state it was originally).
-
-February, 25, 1997
-Version 1.3:
+# Noteworthy changes in release 1.3.1 (1997-09-11) [stable]
 
- More portable again than 1.2.  It is still very BSD-specific, but now
- works on many popular systems, such as linux and sunos/solaris.
+This release fixes various small problems.
 
- The talk program finally seems to work.
+Telnet now won't force the stripping of 8-bit characters when not in binary
+mode (it will leave the terminal in whatever state it was originally).
 
- ftp now supports a --prompt option to force it to print a prompt, even
- when not on a tty (this makes it possible to use ange-ftp with pipes).
+# Noteworthy changes in release 1.3 (1997-02-25) [stable]
 
- rsh now supports long options.
+More portable again than 1.2.  It is still very BSD-specific, but now
+works on many popular systems, such as linux and sunos/solaris.
 
- Many security fixes have been made, so this release should be more secure
- than previous ones.
-
-August, 21, 1996
-Version 1.2:
+The talk program finally seems to work.
 
- An attempt to be somewhat more portable, and reorganize the code to make
- porting a bit easier; it is still very BSD-specific.
+ftp now supports a --prompt option to force it to print a prompt, even
+when not on a tty (this makes it possible to use ange-ftp with pipes).
 
- A major bug in ftpd bug that prevents most logins from succeeding is
- fixed, as well as other, more minor, bugs.
-
-Version 1.1:
+rsh now supports long options.
 
- A minor release intended only for the GNU hurd.
+Many security fixes have been made, so this release should be more secure
+than previous ones.
 
- This release adds checking for crypt at both compile and runtime (on
- systems where weak refs are supported).
-
+# Noteworthy changes in release 1.2 (1996-08-21) [stable]
+
+An attempt to be somewhat more portable, and reorganize the code to make
+porting a bit easier; it is still very BSD-specific.
+
+A major bug in ftpd bug that prevents most logins from succeeding is
+fixed, as well as other, more minor, bugs.
+
+# Noteworthy changes in release 1.1 (1996-06-30) [stable]
+
+A minor release intended only for the GNU hurd.
+
+This release adds checking for crypt at both compile and runtime (on
+systems where weak refs are supported).
+
+# Noteworthy changes in release 1.0 (1996-06-09) [stable]
+
+Never released, corresponds to first use of GNU inetutils 1.0 in CVS.
+
 ----------------------------------------------------------------------
 Copyright (C) 1997-2025 Free Software Foundation, Inc.
 
@@ -895,8 +883,3 @@ the recipient permission to redistribute in turn.
 Permission is granted to distribute modified versions of this
 document, or of portions of it, under the above conditions, provided
 also that they carry prominent notices stating who last changed them.
-
-Local variables:
-mode: outline
-paragraph-separate: "[	 ]*$"
-end:
