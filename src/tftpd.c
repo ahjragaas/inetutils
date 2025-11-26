@@ -143,7 +143,7 @@ static struct argp_option options[] = {
   {"logging", 'l', NULL, 0,
    "enable logging", GRP + 1},
   {"nonexistent", 'n', NULL, 0,
-   "supress negative acknowledgement of requests for "
+   "suppress negative acknowledgement of requests for "
    "nonexistent relative filenames", GRP + 1},
 #undef GRP
 #define GRP 10

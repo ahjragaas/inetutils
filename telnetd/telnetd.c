@@ -118,7 +118,7 @@ static struct argp_option argp_options[] = {
   {"linemode", 'l', "MODE", OPTION_ARG_OPTIONAL,
    "set line mode", GRID},
   {"no-keepalive", 'n', NULL, 0,
-   "disable TCP keep-alives", GRID},
+   "disable TCP keep-alive", GRID},
   {"reverse-lookup", 'U', NULL, 0,
    "refuse connections from addresses that "
    "cannot be mapped back into a symbolic name", GRID},

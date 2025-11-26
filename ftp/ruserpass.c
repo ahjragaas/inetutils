@@ -66,7 +66,7 @@
 static int token (void);
 static FILE *cfile;
 
-/* protect agains os headers */
+/* protect against os headers */
 #undef	DEFAULT
 #define DEFAULT	1
 #undef	LOGIN

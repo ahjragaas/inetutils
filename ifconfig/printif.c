@@ -836,7 +836,7 @@ fh_mtu (format_data_t form, int argc, char *argv[])
 }
 
 /* The portable behaviour is to display strictly positive
- * metrics, but to supress the default value naught.
+ * metrics, but to suppress the default value naught.
  */
 void
 fh_metric_query (format_data_t form, int argc, char *argv[])
@@ -1090,7 +1090,7 @@ print_interfaceX (format_data_t form, int quiet)
       q = strchr (p, '}');
       if (!q)
 	{
-	  /* Without a following '}', no substitution at all can occure,
+	  /* Without a following '}', no substitution at all can occur,
 	     so just dump the string that is missing.  */
 	  p -= 2;
 	  put_string (form, p);

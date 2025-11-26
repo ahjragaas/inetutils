@@ -375,7 +375,7 @@ pty_input_putback (const char *str, size_t len)
 /* pty_read()
  *
  * Read errors EWOULDBLOCK, EAGAIN, and EIO are
- * tweeked into reporting zero bytes input.
+ * tweaked into reporting zero bytes input.
  * In particular, EIO is known to appear when
  * reading off the master side, before having
  * an active slave side.
@@ -725,7 +725,7 @@ getterminaltype (char *uname, size_t len)
    * Distinguish the available modes by level:
    *
    *   off:                     Authentication is forbidden.
-   *   none:                    Volontary authentication.
+   *   none:                    Voluntary authentication.
    *   user, valid, other:      Mandatory authentication only.
    */
   if (auth_level < 0)

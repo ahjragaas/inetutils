@@ -473,7 +473,7 @@ cmd
 			    free ($4);
 			  }
 		}
-	/* Changable behaviour is yet to be implemented,
+	/* Changeable behaviour is yet to be implemented,
 	 * so OPTS is a no-op for the time being.  It is
 	 * mandatory by RFC 2389, since FEAT now exists.
 	 */

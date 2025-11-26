@@ -29,7 +29,7 @@
 #		   form `$(NAME)' and a corresponding shell-variable $NAME
 #		   exists at configure time, the value of $NAME is substituted
 #		   for the $(NAME) for testing (but not substitution) purposes.
-#	test:T	-- Use `test -T' to test for file existance.
+#	test:T	-- Use `test -T' to test for file existence.
 #	x	-- The same as test:x
 #	d       -- The same as test:d
 #	c	-- The same as test:c

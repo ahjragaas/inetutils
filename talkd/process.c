@@ -40,7 +40,7 @@ process_request (CTL_MSG *msg, struct sockaddr_in *sa_in, CTL_RESPONSE *rp)
       return 0;
     }
 
-  /* Convert the machine independent represention
+  /* Convert the machine independent representation
    * of the talk protocol to the present architecture.
    * In particular, `msg->addr.sa_family' will be
    * valid for socket initialization.

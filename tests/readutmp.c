@@ -19,7 +19,7 @@
 /* Written by Mats Erik Andersson.  */
 
 /* Readutmp reads the system's standard UTMP or UTMPX file
- * and verifies that a spcific user is logged in.
+ * and verifies that a specific user is logged in.
  *
  * Invocation:
  *

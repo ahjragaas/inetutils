@@ -696,7 +696,7 @@ get (int argc, char *argv[])
 	      cp = strchr (argv[n], ']');
 	      if (cp)
 		{
-		  /* Calculate host string and sorce file name.  */
+		  /* Calculate host string and source file name.  */
 		  src = cp + 1;
 		  *cp = 0;
 		  if (*src == ':')

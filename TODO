@@ -25,7 +25,7 @@ supdup: A telnet client/daemon like program for the SUPDUP protocol;
   running.  And I don't think there is an actual daemon program for
   GNU systems at all (ITS has one though :-).
 
-Add framework for tests.  How can tests needing root priviliges
+Add framework for tests.  How can tests needing root privileges
 be maintained, automated, or rewritten?
 
 Function for parsing [USER@]HOSTNAME[:PORT], that returns each value
@@ -42,7 +42,7 @@ generated files do not exist.
 
 Go through code and check what is clean, needs cleaning, etc.
 
-Document libraries, and their exported fucntions.
+Document libraries, and their exported functions.
 
 Document code; in the end this should be as nice as coreutils!
 

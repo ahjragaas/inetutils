@@ -248,7 +248,7 @@ fi
 
 # NetBSD offers orcmd() and orcmd_af() for getting
 # exactly the functionality that rcmd() and rcmd_af()
-# offer on all other targetted systems.
+# offer on all other targeted systems.
 AC_CHECK_FUNC(rcmd_af, , , [#include <netdb.h>])
 if test "$ac_cv_func_rcmd_af" = yes; then
   AC_DEFINE([WITH_RCMD_AF], 1, [Define to one if you can use rcmd_af.])

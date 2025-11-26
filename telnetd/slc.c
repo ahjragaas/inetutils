@@ -206,7 +206,7 @@ end_slc (unsigned char **bufp)
   void netflush (void);
 
   /*
-   * If a change has occured, store the new terminal control
+   * If a change has occurred, store the new terminal control
    * structures back to the terminal driver.
    */
   if (slcchange)
@@ -336,7 +336,7 @@ change_slc (char func_c, char flag, cc_t val)
   /*
    * If client is setting a function to NOSUPPORT
    * or DEFAULT, then we can easily and directly
-   * accomodate the request.
+   * accommodate the request.
    */
   if (hislevel == SLC_NOSUPPORT)
     {

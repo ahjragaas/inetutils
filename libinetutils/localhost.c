@@ -36,7 +36,7 @@
    If something goes wrong, 0 is returned, and errno is set.
  */
 /* We no longer use static buffers, as it is too dangerous and
-   it causes subtile bugs.  */
+   it causes subtle bugs.  */
 char *
 localhost (void)
 {

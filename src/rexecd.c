@@ -445,7 +445,7 @@ doit (int f, struct sockaddr *fromp, socklen_t fromlen)
 
   /* Step down from superuser personality.
    *
-   * The changing of group membership will seldomly
+   * The changing of group membership will seldom
    * fail, but a relevant message is passed just in
    * case.  These messages are non-standard.
    */

@@ -20,7 +20,7 @@ dnl Written by Miles Bader.
 
 dnl IU_CHECK_MACRO -- Check for cpp defines
 dnl   $1 - NAME   -- printed in message
-dnl   $2 - INCLS  -- C program text to inculde necessary files for testing
+dnl   $2 - INCLS  -- C program text to include necessary files for testing
 dnl   $3 - MACROS -- a space-separated list of macros that all must be defined
 dnl		     defaults to NAME
 dnl   $4 - TRUE	  -- what to do if all macros are defined; defaults to

@@ -64,7 +64,7 @@ TARGET=${TARGET:-127.0.0.1}
 TARGET6=${TARGET6:-::1}
 TARGET46=${TARGET46:-::ffff:$TARGET}
 
-# Step into `tests/', should the invokation
+# Step into `tests/', should the invocation
 # have been made outside of it.
 #
 test -d src && test -f tests/telnet-localhost.sh && cd tests/
@@ -225,7 +225,7 @@ inetd_pid="`cat $INETD_PID 2>/dev/null`" ||
     {
 	cat <<-EOT >&2
 		Inetd did not create a PID-file.  Aborting test,
-		but loosing control whether an Inetd process is
+		but losing control whether an Inetd process is
 		still around.
 	EOT
 	exit 1

@@ -711,7 +711,7 @@ close_sep (struct servtab *sep)
     }
   sep->se_count = 0;
   /*
-   * Don't keep the pid of this running deamon: when reapchild()
+   * Don't keep the pid of this running daemon: when reapchild()
    * reaps this pid, it would erroneously increment nsock.
    */
   if (sep->se_wait > 1)

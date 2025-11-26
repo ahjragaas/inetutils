@@ -86,7 +86,7 @@
   we inherited from our parent process. We have no way of knowing where
   these fds might have been redirected to. Note that many daemons use
   sysconf() to determine the limit _SC_OPEN_MAX. _SC_OPEN_MAX tells you the
-  maximun open files/process. Then in a loop, the daemon can close all
+  maximum open files/process. Then in a loop, the daemon can close all
   possible file descriptors. You have to decide if you need to do this or not.
   If you think that there might be file-descriptors open you should close
   them, since there's a limit on number of concurrent file descriptors.

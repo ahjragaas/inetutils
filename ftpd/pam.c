@@ -132,7 +132,7 @@ PAM_conv (int num_msg, const struct pam_message **msg,
       if (savemsg)
 	{
 	  /* FIXME:  This is a serious problem.  If the PAM message
-	     is multilines, the reply _must_ be formated correctly.
+	     is multilines, the reply _must_ be formatted correctly.
 	     The way to do this would be to consider \n as a boundary then
 	     in the ftpd.c:user() or ftpd.c:pass() check for it and send
 	     a lreply().  But I'm not sure the RFCs allow mutilines replies

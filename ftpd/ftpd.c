@@ -952,7 +952,7 @@ pass (const char *passwd)
 	  cred.message = NULL;
 	}
     }
-  cred.logged_in = 1;		/* Everything seems to be allright.  */
+  cred.logged_in = 1;		/* Everything seems to be all right.  */
   complete_login (&cred);
   if (cred.logged_in)
     login_attempts = 0;		/* This time successful.  */
@@ -1308,7 +1308,7 @@ dataconn (const char *name, off_t size, const char *mode)
 
 #define IU_MMAP_SIZE 0x800000	/* 8 MByte */
 
-/* Tranfer the contents of "instr" to "outstr" peer using the appropriate
+/* Transfer the contents of "instr" to "outstr" peer using the appropriate
    encapsulation of the data subject * to Mode, Structure, and Type.
 
    NB: Form isn't handled.  */

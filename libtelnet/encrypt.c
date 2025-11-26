@@ -469,7 +469,7 @@ encrypt_send_support (void)
     {
       /*
        * If the user has requested that decryption start
-       * immediatly, then send a "REQUEST START" before
+       * immediately, then send a "REQUEST START" before
        * we negotiate the type.
        */
       if (!Server && autodecrypt)

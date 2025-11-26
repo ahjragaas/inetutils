@@ -180,7 +180,7 @@
 # define DAY (24 * 60 * 60)
 #endif
 
-int keepalive = 1;		/* flag for SO_KEEPALIVE scoket option */
+int keepalive = 1;		/* flag for SO_KEEPALIVE socket option */
 int check_all;
 int log_success;		/* If TRUE, log all successful accesses */
 int reverse_required = 0;	/* Demand IP to host name resolution.  */
@@ -524,7 +524,7 @@ doit (int sockfd, struct sockaddr *fromp, socklen_t fromlen)
   snprintf (portstr, sizeof (portstr), "%u", inport);
 #endif
 
-  /* Verify that the client's address is an Internet adress. */
+  /* Verify that the client's address is an Internet address. */
 #ifdef KERBEROS
   if (fromp->sa_family != AF_INET)
     {

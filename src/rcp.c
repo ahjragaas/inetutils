@@ -531,7 +531,7 @@ toremote (char *targ, int argc, char *argv[])
 		{
 		  /* rcmd() provides its own error messages,
 		   * but we add a vital addition, caused by
-		   * insufficient capabilites.
+		   * insufficient capabilities.
 		   */
 		  if (errno == EACCES)
 		    error (EXIT_FAILURE, 0, "No access to privileged ports.");

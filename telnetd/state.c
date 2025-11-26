@@ -59,7 +59,7 @@
 # define NTELOPTS	(1+TELOPT_NEW_ENVIRON)
 #endif
 
-/* Format lines for corresponing commands */
+/* Format lines for corresponding commands */
 char doopt[] = { IAC, DO, '%', 'c', 0 };
 char dont[] = { IAC, DONT, '%', 'c', 0 };
 char will[] = { IAC, WILL, '%', 'c', 0 };
@@ -510,14 +510,14 @@ telrcv (void)
  * Finally, there is one catch.  If we send a negative response to a
  * positive request, my_state will be the positive while want_state will
  * remain negative.  my_state will revert to negative when the negative
- * acknowlegment arrives from the peer.  Thus, my_state generally tells
+ * acknowledgment arrives from the peer.  Thus, my_state generally tells
  * us not only the last negotiated state, but also tells us what the peer
  * wants to be doing as well.  It is important to understand this difference
  * as we may wish to be processing data streams based on our desired state
  * (want_state) or based on what the peer thinks the state is (my_state).
  *
  * This all works fine because if the peer sends a positive request, the data
- * that we receive prior to negative acknowlegment will probably be affected
+ * that we receive prior to negative acknowledgment will probably be affected
  * by the positive state, and we can process it as such (if we can; if we
  * can't then it really doesn't matter).  If it is that important, then the
  * peer probably should be buffering until this option state negotiation
@@ -708,12 +708,12 @@ willoption (int option)
 	      /*
 	       * "WILL ECHO".  Kludge upon kludge!
 	       * A 4.2 client is now echoing user input at
-	       * the tty.  This is probably undesireable and
+	       * the tty.  This is probably undesirable and
 	       * it should be stopped.  The client will
 	       * respond WONT TM to the DO TM that we send to
 	       * check for kludge linemode.  When the WONT TM
 	       * arrives, linemode will be turned off and a
-	       * change propogated to the pty.  This change
+	       * change propagated to the pty.  This change
 	       * will cause us to process the new pty state
 	       * in localstat(), which will notice that
 	       * linemode is off and send a WILL ECHO
@@ -813,8 +813,8 @@ wontoption (int option)
 	      /*
 	       * If we get a WONT TM, and had sent a DO TM,
 	       * don't respond with a DONT TM, just leave it
-	       * as is.  Short circut the state machine to
-	       * achive this.
+	       * as is.  Short circuit the state machine to
+	       * achieve this.
 	       */
 	      set_his_want_state_wont (TELOPT_TM);
 	      return;
@@ -1253,7 +1253,7 @@ suboption (void)
 	  break;		/* another garbage check */
 
 	if (request == LM_SLC)
-	  {			/* SLC is not preceeded by WILL or WONT */
+	  {			/* SLC is not preceded by WILL or WONT */
 	    /*
 	     * Process suboption buffer of slc's
 	     */

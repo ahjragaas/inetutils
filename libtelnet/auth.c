@@ -124,7 +124,7 @@ static unsigned char *auth_send_data;
 static int auth_send_cnt = 0;
 
 /*
- * Authentication types supported.  Plese note that these are stored
+ * Authentication types supported.  Please note that these are stored
  * in priority order, i.e. try the first one first.
  */
 TN_Authenticator authenticators[] = {

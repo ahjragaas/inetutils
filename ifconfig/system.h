@@ -45,7 +45,7 @@ extern int system_parse_opt (struct ifconfig **ifp, char option,
 
 /* Parse remaining ARGC arguments ARGV on the command line. IFP has
    the same meaning as in system_parse_opt.  (There is some
-   post-processing, so you are not reliefed from setting IPF is
+   post-processing, so you are not relieved from setting IPF is
    appropriate.)
    Return 0 if all options were not recognized, otherwise 1.  */
 extern int system_parse_opt_rest (struct ifconfig **ifp, int argc,

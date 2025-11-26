@@ -383,7 +383,7 @@ whichwhois (const char *s)
       return "whois.arin.net";
     }
 
-  /* has dot and hypen and it's not in tld_serv[], WTF is it? */
+  /* has dot and hyphen and it's not in tld_serv[], WTF is it? */
   if (verb)
     puts (_("I guess it's a domain but I don't know where to look it"
 	    " up."));

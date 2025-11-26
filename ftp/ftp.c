@@ -1235,7 +1235,7 @@ initconn (void)
   socklen_t len;
   int on = 1;
   uint32_t a0, a1, a2, a3, p0, p1, port;
-  uint32_t af, hal, h[16], pal;	/* RFC 1639: LPSV resonse.  */
+  uint32_t af, hal, h[16], pal;	/* RFC 1639: LPSV response.  */
   struct sockaddr_in *data_addr_sa4 = (struct sockaddr_in *) &data_addr;
   struct sockaddr_in6 *data_addr_sa6 = (struct sockaddr_in6 *) &data_addr;
 

@@ -416,7 +416,7 @@ do_try (trace_t *trace, const int hop,
 
 	      if (rc < 0)
 		{
-		  /* FIXME: printf ("Some error ocurred\n"); */
+		  /* FIXME: printf ("Some error occurred\n"); */
 		  tries--;
 		  readonly = 1;
 		  continue;

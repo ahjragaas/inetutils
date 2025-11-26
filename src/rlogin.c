@@ -619,7 +619,7 @@ try_connect:
       puts ("");		/* Glibc does not close all error strings in rcmd().  */
       /* rcmd() provides its own error messages,
        * but we add a vital addition, caused by
-       * insufficient capabilites.
+       * insufficient capabilities.
        */
       if (errno == EACCES)
 	error (EXIT_FAILURE, 0, "No access to privileged ports.");
@@ -840,7 +840,7 @@ doit (sigset_t *osmask)
    * signals to the child. We can now unblock SIGURG and SIGUSR1
    * that were set above.
    */
-  /* Reenable SIGURG and SIGUSR1.  */
+  /* Re-enable SIGURG and SIGUSR1.  */
   sigprocmask (SIG_SETMASK, osmask, (sigset_t *) 0);
 
   sa.sa_handler = catch_child;

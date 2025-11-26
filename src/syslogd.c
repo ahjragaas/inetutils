@@ -1263,7 +1263,7 @@ logmsg (int pri, const char *msg, const char *from, int flags)
 
       if (f->f_progname)
 	{
-	  /* The usual, and desirable, formattings are:
+	  /* The usual, and desirable, formatting are:
 	   *
 	   *   prg: message text
 	   *   prg[PIDNO]: message text
@@ -1984,7 +1984,7 @@ load_conffile (const char *filename, struct filed **nextp)
 	      char *sep;
 
 	      /* BSD systems allow multiple selectors
-	       * separated by commata.  Strip away any
+	       * separated by commas.  Strip away any
 	       * additional names since at this time
 	       * we only support a single name.
 	       */
@@ -2520,7 +2520,7 @@ dbg_printf (const char *fmt, ...)
   fflush (stdout);
 }
 
-/* The following function is resposible for handling a SIGHUP signal.
+/* The following function is responsible for handling a SIGHUP signal.
    Since we are now doing mallocs/free as part of init we had better
    not being doing this during a signal handler.  Instead we simply
    set a flag variable which will tell the main loop to go through a

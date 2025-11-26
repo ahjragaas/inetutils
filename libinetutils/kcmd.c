@@ -203,7 +203,7 @@ kcmd (Shishi **h, int *sock, char **ahost, unsigned short rport,
 
       /* Extract prefix from `*ahost', excluding slash,
        * and concatenate the host's canonical name, but
-       * preceeded by a slash.
+       * preceded by a slash.
        */
       sprintf (p, "%.*s/%s", (int) (host - *ahost - 1), *ahost, host_save);
       *ahost = p;

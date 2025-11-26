@@ -735,7 +735,7 @@ Selection of packet type is handled by these first options:
 @item --address
 @opindex --address
 Send ICMP_ADDRESS packets, thus requesting the address netmask
-in use by the targetted host.
+in use by the targeted host.
 
 @item --echo
 @opindex --echo
@@ -749,7 +749,7 @@ Identical to @option{--address}.
 @item --timestamp
 @opindex --timestamp
 Send ICMP_TIMESTAMP packets, thereby requesting a timed response
-from the targetted host.
+from the targeted host.
 
 In successful cases three time values are returned.
 All are expected to state the number of milliseconds since
@@ -1251,7 +1251,7 @@ at some routing distance is the outcome.
 @opindex --gateways
 Set intermediary hosts used in loose source routing.
 The argument @var{gates} is a list of gateways,
-using spaces, commata, or semicola as separators.
+using space, comma, or semicolon as separators.
 These hosts must be traversed in the given order
 before the intended host receives any datagram.
 At most eight host names or addresses may be specified.
@@ -3511,7 +3511,7 @@ several reasons:
 @end enumerate
 
 Use the @option{-R} option, as described above, to change the rate
-limit.  Once the limit is reached, the service will be reenabled
+limit.  Once the limit is reached, the service will be re-enabled
 automatically in 10 minutes.
 
 @item service/protocol: No such user 'user', service ignored
@@ -5005,7 +5005,7 @@ The only recognised value is otherwise @samp{nokludge}.
 @itemx --no-keepalive
 @opindex -n
 @opindex --no-keepalive
-Disable TCP keep-alives.
+Disable TCP keep-alive.
 
 @item -S @var{principal}
 @itemx --server-principal=@var{principal}

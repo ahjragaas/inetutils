@@ -532,7 +532,7 @@ try_connect:
     {
       /* rcmd() provides its own error messages,
        * but we add a vital addition, caused by
-       * insufficient capabilites.
+       * insufficient capabilities.
        */
       if (errno == EACCES)
 	error (EXIT_FAILURE, 0, "No access to privileged ports.");
@@ -697,7 +697,7 @@ talk (int null_input_option, sigset_t *osigs, pid_t pid, int rem)
   sigsetmask (*osigs);
 #endif
 
-  /* The access to SIGPIPE is neeeded to kill the child process
+  /* The access to SIGPIPE is needed to kill the child process
    * in an orderly fashion, for example when a command line
    * pipe fails.  Otherwise the child lives on eternally.
    */

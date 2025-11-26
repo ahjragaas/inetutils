@@ -55,7 +55,7 @@
 #define USE_TERMIO
 
 /*
- * ucb stdio.h defines BSD as something wierd
+ * ucb stdio.h defines BSD as something weird
  */
 #if defined sun && defined __svr4__
 # define BSD 43
@@ -197,7 +197,7 @@ extern int (*decrypt_input) (int);
 #define set_my_want_state_wont(opt)	{options[opt] &= ~MY_WANT_STATE_WILL;}
 
 /*
- * Make everything symetrical
+ * Make everything symmetrical
  */
 
 #define HIS_STATE_WILL			MY_STATE_DO

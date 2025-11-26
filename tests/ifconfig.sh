@@ -42,7 +42,7 @@ HERE
     exit 0
 fi
 
-# Step into `tests/', should the invokation
+# Step into `tests/', should the invocation
 # have been made outside of it.
 #
 [ -d src ] && [ -f tests/syslogd.sh ] && cd tests/

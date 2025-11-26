@@ -14,10 +14,12 @@ Thanks to Benjamin Cathelineau, see
 
 ** syslogd: Log 'DEL' control characters as '^?'.
 
+** Fix codespell typos.
+
 # Noteworthy changes in release 2.6 (2025-02-21) [stable]
 
 ** The release tarball is now reproducible.
-The following pairs are tested continously: Trisquel 11 and Ubuntu
+The following pairs are tested continuously: Trisquel 11 and Ubuntu
 22.04, PureOS 10 and Debian 11, AlmaLinux 8 and RockyLinux 8,
 AlmaLinux 9 and RockyLinux 9.
 
@@ -40,7 +42,7 @@ when using the --format or --short option. More details in
 Except for when configured to support Kerberos 4.
 
 ** telnet: Fix signed integer overflow handling when using any of the
-commands 'send do', 'send dont', 'send will', or 'send wont' with a
+commands `send do`, `send dont`, `send will`, or `send wont` with a
 numerical argument.  On some systems a signed integer overflow using
 one of these commands could have lead to an out-of-bounds array access
 usually resulting in a crash.
@@ -639,7 +641,7 @@ http://www.citi.umich.edu/u/provos/papers/secnet-spoof.txt
 Now under GNU/Linux "ifconfig -a" shows also interfaces without an
 address.
 
-Adjusted output formating for "unix".
+Adjusted output formatting for "unix".
 
 * ping
 
@@ -774,7 +776,7 @@ them via environment.
 
 # Noteworthy changes in release 1.4.2 (2002-12-22) [stable]
 
-* Fix endianess problem in ftpd.
+* Fix endianness problem in ftpd.
 
 * Various portability updates.
 
@@ -795,7 +797,7 @@ them via environment.
 
 * The syntax of syslog.conf file has been extended. The new
   wildcard facility specification, **, catches all messages with
-  a facility not specified explicitely in the configuration file.
+  a facility not specified explicitly in the configuration file.
 
 # Noteworthy changes in release 1.4.0 (2002-07-31) [stable]
 

@@ -93,7 +93,7 @@ AC_DEFUN([IU_LIB_TERMCAP], [
     LIBTERMCAP="$LIBNCURSES"
   else
     dnl Must check declaration in different settings,
-    dnl so caching in AC_CHECK_DECL is too distructive.
+    dnl so caching in AC_CHECK_DECL is too destructive.
     dnl
     _IU_SAVE_LIBS=$LIBS
     AC_CHECK_LIB(termcap, tgetent, LIBTERMCAP=-ltermcap)

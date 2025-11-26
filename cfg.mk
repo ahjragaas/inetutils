@@ -21,7 +21,7 @@ manual_title = GNU Networking Utilities
 guix = $(shell command -v guix > /dev/null && echo ,guix)
 bootstrap-tools = gnulib,autoconf,automake,bison,m4,makeinfo,help2man,make,gzip,tar$(guix)
 
-old_NEWS_hash = fb5a7faf5fabacf1a0dc1d78ba7659cb
+old_NEWS_hash = 978e04ad0582adfe385211503529970e
 
 translation_project_ =
 
@@ -66,6 +66,8 @@ local-checks-to-skip = \
 	sc_prohibit_undesirable_word_seq \
 	sc_prohibit_xalloc_without_use \
 	sc_unmarked_diagnostics \
+
+codespell_ignore_words_list = dont,wont,allo,servent,ointer,te,dout,merchantibility,rsource,nott,synching,fo,ans,inport,siz,flushin,nd
 
 exclude_file_name_regexp--sc_obsolete_symbols = \
 	^tests/identify.c$$

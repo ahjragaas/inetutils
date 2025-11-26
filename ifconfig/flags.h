@@ -60,7 +60,7 @@ int if_nameztoflag (const char *name, int *prev);
 /* Print the flags in FLAGS, using AVOID as in if_flagtoname, and
    SEPARATOR between individual flags.  Returns the number of
    characters printed.  */
-int print_if_flags (int flags, const char *avoid, char seperator);
+int print_if_flags (int flags, const char *avoid, char separator);
 
 char *if_list_flags (const char *prefix);
 

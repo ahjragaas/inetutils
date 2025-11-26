@@ -69,7 +69,7 @@ struct icmp_header
     struct id_ts		/* ICMP_TIMESTAMP, ICMP_TIMESTAMPREPLY */
     {
       n_time its_otime;		/* Originate timestamp */
-      n_time its_rtime;		/* Recieve timestamp */
+      n_time its_rtime;		/* Receive timestamp */
       n_time its_ttime;		/* Transmit timestamp */
     } id_ts;
     struct id_ip		/* Original IP header */
