@@ -109,6 +109,17 @@ inetutils_ttymsg (struct iovec *iov, int iovcnt, char *line, int tmout)
     {
       if (errno == EBUSY || errno == EACCES)
 	return (NULL);
+#ifdef READUTMP_USE_SYSTEMD
+      /*
+       * GNU/Linux systems without utmp file but with utmp emulation
+       * provided via Gnulib's read_utmp() function regularly return
+       * non-existing TTYs for some active user sessions.  This is a
+       * limitation of the utmp emulation.  Thus ignore this error on
+       * such systems, but not others.
+       */
+      if (errno == ENOENT)
+	return (NULL);
+#endif
       snprintf (errbuf, sizeof (errbuf), "%s: %s", device, strerror (errno));
       free (device);
       return errbuf;

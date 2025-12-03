@@ -16,6 +16,12 @@ Thanks to Benjamin Cathelineau, see
 
 ** Fix codespell typos.
 
+** syslogd, talkd: Better compatibility with utmp-less GNU/Linux systems
+when configuring with --enable-systemd.
+Thanks to Valentin Haudiquet for reporting the issue and testing possible
+solutions.  For more info, see the thread starting at
+<https://lists.gnu.org/archive/html/bug-inetutils/2025-11/msg00000.html>.
+
 # Noteworthy changes in release 2.6 (2025-02-21) [stable]
 
 ** The release tarball is now reproducible.
