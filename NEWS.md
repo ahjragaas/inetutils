@@ -22,6 +22,8 @@ Thanks to Valentin Haudiquet for reporting the issue and testing possible
 solutions.  For more info, see the thread starting at
 <https://lists.gnu.org/archive/html/bug-inetutils/2025-11/msg00000.html>.
 
+** README and NEWS now uses markdown syntax.
+
 # Noteworthy changes in release 2.6 (2025-02-21) [stable]
 
 ** The release tarball is now reproducible.
