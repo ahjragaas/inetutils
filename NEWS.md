@@ -1,6 +1,6 @@
 GNU inetutils NEWS -- history of user-visible changes.
 
-# Noteworthy changes in release ?.? (????-??-??) [?]
+# Noteworthy changes in release 2.7 (2025-12-14) [stable]
 
 ** Systems without asprintf are now supported through the use of gnulib.
 
