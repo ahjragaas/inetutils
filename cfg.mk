@@ -21,7 +21,7 @@ manual_title = GNU Networking Utilities
 guix = $(shell command -v guix > /dev/null && echo ,guix)
 bootstrap-tools = gnulib,autoconf,automake,bison,m4,makeinfo,help2man,make,gzip,tar$(guix)
 
-old_NEWS_hash = 978e04ad0582adfe385211503529970e
+old_NEWS_hash = fee7edf0654ac08ffc242144bbb51975
 
 translation_project_ =
 
