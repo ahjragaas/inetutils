@@ -2,6 +2,10 @@ GNU inetutils NEWS -- history of user-visible changes.
 
 # Noteworthy changes in release ?.? (????-??-??) [?]
 
+** Older ChangeLog.? files not included in release tarball.
+They are still available in the git history.  Saves around 0.7MB
+uncompressed in the release tarball.  Compare GNU CoreUtils
+https://cgit.git.savannah.gnu.org/cgit/coreutils.git/commit/NEWS?id=4e112e90b11b70bd6dc5b441f820803fc2aadd69.
 
 # Noteworthy changes in release 2.7 (2025-12-14) [stable]
 
