@@ -1684,6 +1684,17 @@ static void _expand_cond (struct line_expander *exp);
 static void _skip_block (struct line_expander *exp);
 static void _expand_block (struct line_expander *exp);
 
+static char *
+sanitize (const char *u)
+{
+  /* Ignore values starting with '-' or containing shell metachars, as
+     they can cause trouble.  */
+  if (u && *u != '-' && !u[strcspn (u, "\t\n !\"#$&'()*;<=>?[\\^`{|}~")])
+    return u;
+  else
+    return "";
+}
+
 /* Expand a variable referenced by its short one-symbol name.
    Input: exp->cp points to the variable name.
    FIXME: not implemented */
@@ -1710,13 +1721,13 @@ _var_short_name (struct line_expander *exp)
       return xstrdup (timebuf);
 
     case 'h':
-      return xstrdup (remote_hostname);
+      return xstrdup (sanitize (remote_hostname));
 
     case 'l':
-      return xstrdup (local_hostname);
+      return xstrdup (sanitize (local_hostname));
 
     case 'L':
-      return xstrdup (line);
+      return xstrdup (sanitize (line));
 
     case 't':
       q = strchr (line + 1, '/');
@@ -1724,23 +1735,16 @@ _var_short_name (struct line_expander *exp)
 	q++;
       else
 	q = line;
-      return xstrdup (q);
+      return xstrdup (sanitize (q));
 
     case 'T':
-      return terminaltype ? xstrdup (terminaltype) : NULL;
+      return terminaltype ? xstrdup (sanitize (terminaltype)) : NULL;
 
     case 'u':
-      return user_name ? xstrdup (user_name) : NULL;
+      return user_name ? xstrdup (sanitize (user_name)) : NULL;
 
     case 'U':
-      {
-	/* Ignore user names starting with '-' or containing shell
-	   metachars, as they can cause trouble.  */
-	char const *u = getenv ("USER");
-	return xstrdup ((u && *u != '-'
-			 && !u[strcspn (u, "\t\n !\"#$&'()*;<=>?[\\^`{|}~")])
-			? u : "");
-      }
+      return xstrdup (sanitize (getenv ("USER")));
 
     default:
       exp->state = EXP_STATE_ERROR;
