@@ -67,7 +67,7 @@ local-checks-to-skip = \
 	sc_prohibit_xalloc_without_use \
 	sc_unmarked_diagnostics \
 
-codespell_ignore_words_list = dont,wont,allo,servent,ointer,te,dout,merchantibility,rsource,nott,synching,fo,ans,inport,siz,flushin,nd
+codespell_ignore_words_list = dont,wont,allo,servent,ointer,te,dout,merchantibility,rsource,nott,synching,fo,ans,inport,siz,flushin,nd,indx
 
 exclude_file_name_regexp--sc_obsolete_symbols = \
 	^tests/identify.c$$
