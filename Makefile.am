@@ -51,7 +51,7 @@ gen-ChangeLog:
 	fi
 
 CL2START = f70b506e3746bce45d1b684d5ac5ef513af73df4
-CL2STR = '\n    Copyright (C) 2021-2025 Free Software Foundation, Inc.\n'
+CL2STR = '\n    Copyright (C) 2021-2026 Free Software Foundation, Inc.\n'
 $(srcdir)/ChangeLog.2:
 	$(AM_V_GEN)if test -e $(srcdir)/.git; then			\
 	  LC_ALL=en_US.UTF-8 TZ=UTC0					\
