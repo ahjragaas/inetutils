@@ -1733,7 +1733,14 @@ _var_short_name (struct line_expander *exp)
       return user_name ? xstrdup (user_name) : NULL;
 
     case 'U':
-      return getenv ("USER") ? xstrdup (getenv ("USER")) : xstrdup ("");
+      {
+	/* Ignore user names starting with '-' or containing shell
+	   metachars, as they can cause trouble.  */
+	char const *u = getenv ("USER");
+	return xstrdup ((u && *u != '-'
+			 && !u[strcspn (u, "\t\n !\"#$&'()*;<=>?[\\^`{|}~")])
+			? u : "");
+      }
 
     default:
       exp->state = EXP_STATE_ERROR;
