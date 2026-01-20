@@ -2,6 +2,10 @@ GNU inetutils NEWS -- history of user-visible changes.
 
 # Noteworthy changes in release ?.? (????-??-??) [?]
 
+** Fix telnetd remote authentication by-pass vulnerability
+Reported by Kyu Neushwaistein.  Initial patch by Paul Eggert; further
+improvements and security advisory by Simon Josefsson.
+
 ** Older ChangeLog.? files not included in release tarball.
 They are still available in the git history.  Saves around 0.7MB
 uncompressed in the release tarball.  Compare GNU CoreUtils
