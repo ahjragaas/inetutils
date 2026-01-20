@@ -1,5 +1,5 @@
 /* test-snprintf - Check whether snprintf allows doubly used strings.
-  Copyright (C) 2020-2025 Free Software Foundation, Inc.
+  Copyright (C) 2020-2026 Free Software Foundation, Inc.
 
   This file is part of GNU Inetutils.
 

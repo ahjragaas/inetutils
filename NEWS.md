@@ -886,7 +886,7 @@ systems where weak refs are supported).
 Never released, corresponds to first use of GNU inetutils 1.0 in CVS.
 
 ----------------------------------------------------------------------
-Copyright (C) 1997-2025 Free Software Foundation, Inc.
+Copyright (C) 1997-2026 Free Software Foundation, Inc.
 
 Permission is granted to anyone to make or distribute verbatim copies
 of this document as received, in any medium, provided that the
