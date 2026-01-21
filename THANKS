@@ -9,6 +9,7 @@ In particular:
   NIIBE Yutaka		 (Security fixes & making talk finally work)
   Nathan Neulinger       (tftpd)
   Thomas Bushnell        (sockaddr sin_len field)
+  Kyu Neushwaistein      (reported remote root exploit in telnetd)
 
 Please see version control logs and ChangeLog.? for full credits.
 
