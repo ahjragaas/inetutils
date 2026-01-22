@@ -55,7 +55,7 @@ char *login_invocation =
   /* At least for SunOS 5.8.  */
   PATH_LOGIN " -h %h %?T{%T} %?u{-- %u}{%U}"
 #else /* !SOLARIS */
-  PATH_LOGIN " -p -h %h %?u{-f %u}{%U}"
+  PATH_LOGIN " -p -h %h %?u{-f -- %u}{-- %U}"
 #endif
   ;
 
