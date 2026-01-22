@@ -4154,7 +4154,7 @@ If present, the contents are displayed and all further
 access is refused.
 @end table
 
-@section File format of ftpusers and ftpchroot.
+@section File format of ftpusers and ftpchroot
 @anchor{ftpusers file format}
 
 The files @file{/etc/ftpusers} and @file{/etc/ftpchroot}
@@ -5039,7 +5039,7 @@ is to be disabled.  Standard choices are @samp{null},
 @samp{kerberos_v4}, and @samp{kerberos_v5}.
 @end table
 
-@section Crafting an execution string.
+@section Crafting an execution string
 
 The server @command{telnetd} contains a built-in execution string
 which invokes @command{login} with arguments suitable for the
@@ -5327,7 +5327,7 @@ Replace the hard coded location of @command{uucico} with the
 value specified as @var{location}.
 @end table
 
-@section Authentication steps.
+@section Authentication steps
 
 Invocation is expected to be conducted by a protocol described
 exchange of user name and password; unfortunately in clear text.
