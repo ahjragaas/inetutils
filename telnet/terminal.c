@@ -198,9 +198,6 @@ getconnmode (void)
   extern int kludgelinemode;
 #endif
 
-  if (In3270)
-    return (MODE_FLOW);
-
   if (my_want_state_is_dont (TELOPT_ECHO))
     mode |= MODE_ECHO;
 

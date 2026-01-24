@@ -6,6 +6,11 @@ GNU inetutils NEWS -- history of user-visible changes.
 Reported by Kyu Neushwaistein.  Initial patch by Paul Eggert; further
 improvements and security advisory by Simon Josefsson.
 
+** telnet: Drop everything related to TN3270.
+The code did not build (several missing required header files) and
+even if we could fix it, we have no way to test it. It may contain
+security vulnerabilities.
+
 ** Older ChangeLog.? files not included in release tarball.
 They are still available in the git history.  Saves around 0.7MB
 uncompressed in the release tarball.  Compare GNU CoreUtils

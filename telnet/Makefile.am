@@ -35,7 +35,7 @@ bin_PROGRAMS = $(telnet_BUILD)
 EXTRA_PROGRAMS = telnet
 
 telnet_SOURCES = authenc.c commands.c main.c network.c ring.c sys_bsd.c \
-	telnet.c terminal.c tn3270.c utilities.c
+	telnet.c terminal.c utilities.c
 telnet_LDADD = $(LDADD) $(LIBSOCKET) $(HOSTENT_LIB) $(LIBINTL) \
 	$(GETADDRINFO_LIB)
 

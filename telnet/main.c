@@ -96,9 +96,6 @@ tninit (void)
 
   init_sys ();
 
-#if defined TN3270
-  init_3270 ();
-#endif
 }
 
 int family = 0;
@@ -183,18 +180,6 @@ static struct argp_option argp_options[] = {
 # endif
 # undef GRID
 #endif
-
-#if defined TN3270 && (defined unix || defined __unix || defined __unix__)
-# define GRID 40
-  {NULL, 0, NULL, 0,
-   "TN3270 support:", GRID},
-  /* FIXME: Do we need it? */
-  {"transcom", 't', "ARG", 0, "", GRID + 1},
-  {"noasynch", OPTION_NOASYNCH, NULL, 0, "", GRID + 1},
-  {"noasynctty", OPTION_NOASYNCTTY, NULL, 0, "", GRID + 1},
-  {"noasyncnet", OPTION_NOASYNCNET, NULL, 0, "", GRID + 1},
-# undef GRID
-#endif /* TN3270 && (unix || __unix || __unix__) */
   {NULL, 0, NULL, 0, NULL, 0}
 };
 
@@ -285,26 +270,6 @@ parse_opt (int key, char *arg, struct argp_state *state MAYBE_UNUSED)
     case 'r':
       rlogin = '~';
       break;
-
-#if defined TN3270 && (defined unix || defined __unix || defined __unix__)
-    case 't':
-      /* FIXME: Buffer!!! */
-      transcom = tline;
-      strcpy (transcom, arg);
-      break;
-
-    case OPTION_NOASYNCH:
-      noasynchtty = noasynchtty = 1;
-      break;
-
-    case OPTION_NOASYNCTTY:
-      noasynchtty = 1;
-      break;
-
-    case OPTION_NOASYNCNET:
-      noasynchnet = 1;
-      break;
-#endif /* TN3270 && (unix || __unix || __unix__) */
 
 #ifdef	ENCRYPTION
     case 'x':
@@ -415,13 +380,6 @@ main (int argc, char *argv[])
   /* Built-in parser loop; sub-commands jump to `toplevel' mark.  */
   setjmp (toplevel);
   for (;;)
-    {
-#ifdef TN3270
-      if (shell_active)
-	shell_continue ();
-      else
-#endif
-	command (1, 0, 0);
-    }
+    command (1, 0, 0);
   /* NOT REACHED */
 }

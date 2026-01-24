@@ -832,18 +832,6 @@ static struct togglelist Togglelist[] = {
    &localchars,
    "recognize certain control characters"},
   {" ", "", NULL, NULL, NULL},	/* empty line */
-#if (defined unix || defined __unix || defined __unix__) && defined TN3270
-  {"apitrace",
-   "(debugging) toggle tracing of API transactions",
-   NULL,
-   &apitrace,
-   "trace API transactions"},
-  {"cursesdata",
-   "(debugging) toggle printing of hexadecimal curses data",
-   NULL,
-   &cursesdata,
-   "print hexadecimal representation of curses data"},
-#endif /* (unix || __unix || __unix__)) && TN3270 */
   {"debug",
    "debugging",
    togdebug,
@@ -1533,10 +1521,7 @@ setescape (int argc, char *argv[])
     }
   if (arg[0] != '\0')
     escape = arg[0];
-  if (!In3270)
-    {
-      printf ("Escape character is '%s'.\n", control (escape));
-    }
+  printf ("Escape character is '%s'.\n", control (escape));
   fflush (stdout);
   return 1;
 }
@@ -1581,7 +1566,6 @@ suspend (int argc, char *argv[])
   return 1;
 }
 
-#if !defined TN3270
 int
 shell (int argc, MAYBE_UNUSED char *argv[])
 {
@@ -1630,10 +1614,6 @@ shell (int argc, MAYBE_UNUSED char *argv[])
     }
   return 1;
 }
-#else /* !defined(TN3270) */
-extern int shell ();
-#endif /* !defined(TN3270) */
-
 
 /* int  argc;	 Number of arguments */
 /* char *argv[]; arguments */
@@ -1654,9 +1634,6 @@ bye (int argc, char *argv[])
 #endif /* defined(AUTHENTICATION) || defined(ENCRYPTION) */
       /* reset options */
       tninit ();
-#if defined TN3270
-      SetIn3270 ();		/* Get out of 3270 mode */
-#endif /* defined(TN3270) */
     }
   if ((argc != 2) || (strcmp (argv[1], "fromquit") != 0))
     {
@@ -2317,37 +2294,6 @@ encrypt_cmd (int argc, char *argv[])
 }
 #endif /* ENCRYPTION */
 
-#if (defined unix || defined __unix || defined __unix__) && defined TN3270
-static void
-filestuff (int fd)
-{
-  int res;
-
-# ifdef	F_GETOWN
-  setconnmode (0);
-  res = fcntl (fd, F_GETOWN, 0);
-  setcommandmode ();
-
-  if (res == -1)
-    {
-      perror ("fcntl");
-      return;
-    }
-  printf ("\tOwner is %d.\n", res);
-# endif
-
-  setconnmode (0);
-  res = fcntl (fd, F_GETFL, 0);
-  setcommandmode ();
-
-  if (res == -1)
-    {
-      perror ("fcntl");
-      return;
-    }
-}
-#endif /* (unix || __unix || __unix__) && TN3270 */
-
 /*
  * Print status about the connection.
  */
@@ -2395,42 +2341,8 @@ status (int argc, char *argv[])
     {
       printf ("No connection.\n");
     }
-#if !defined TN3270
   printf ("Escape character is '%s'.\n", control (escape));
   fflush (stdout);
-#else /* !defined(TN3270) */
-  if ((!In3270) && ((argc < 2) || strcmp (argv[1], "notmuch")))
-    {
-      printf ("Escape character is '%s'.\n", control (escape));
-    }
-# if defined unix || defined __unix || defined __unix__
-  if ((argc >= 2) && !strcmp (argv[1], "everything"))
-    {
-      printf ("SIGIO received %d time%s.\n",
-	      sigiocount, (sigiocount == 1) ? "" : "s");
-      if (In3270)
-	{
-	  printf ("Process ID %d, process group %d.\n",
-		  getpid (), getpgrp (getpid ()));
-	  printf ("Terminal input:\n");
-	  filestuff (tin);
-	  printf ("Terminal output:\n");
-	  filestuff (tout);
-	  printf ("Network socket:\n");
-	  filestuff (net);
-	}
-    }
-  if (In3270 && transcom)
-    {
-      printf ("Transparent mode command is '%s'.\n", transcom);
-    }
-# endif/* unix || __unix || __unix__ */
-  fflush (stdout);
-  if (In3270)
-    {
-      return 0;
-    }
-#endif /* defined(TN3270) */
   return 1;
 }
 
@@ -2878,10 +2790,6 @@ static char
   togglestring[] = "toggle operating parameters ('toggle ?' for more)",
   slchelp[] = "change state of special characters ('slc ?' for more)",
   displayhelp[] = "display operating parameters",
-#if defined TN3270 && (defined unix || defined __unix || defined __unix__)
-  transcomhelp[] = "specify Unix command for transparent mode pipe",
-#endif
-  /* TN3270 && (unix || __unix || __unix__) */
 #if defined AUTHENTICATION
   authhelp[] = "turn on (off) authentication ('auth ?' for more)",
 #endif
@@ -2912,9 +2820,6 @@ static Command cmdtab[] = {
   {"status", statushelp, status, 0},
   {"toggle", togglestring, toggle, 0},
   {"slc", slchelp, slccmd, 0},
-#if defined TN3270 && (defined unix || defined __unix || defined __unix__)
-  {"transcom", transcomhelp, settranscom, 0},
-#endif /* TN3270 && (unix || __unix || __unix__) */
 #if defined AUTHENTICATION
   {"auth", authhelp, auth_cmd, 0},
 #endif
@@ -2924,11 +2829,7 @@ static Command cmdtab[] = {
 #if defined unix || defined __unix || defined __unix__
   {"z", zhelp, suspend, 0},
 #endif /* unix || __unix || __unix__ */
-#if defined TN3270
-  {"!", shellhelp, shell, 1},
-#else
   {"!", shellhelp, shell, 0},
-#endif
   {"environ", envhelp, env_cmd, 0},
   {"?", helphelp, help, 0},
   {NULL, NULL, NULL, 0}
@@ -3059,14 +2960,7 @@ command (int top, char *tbuf, int cnt)
 	{
 	  longjmp (toplevel, 1);
 	}
-#if defined TN3270
-      if (shell_active == 0)
-	{
-	  setconnmode (0);
-	}
-#else /* defined(TN3270) */
       setconnmode (0);
-#endif /* defined(TN3270) */
     }
 }
 

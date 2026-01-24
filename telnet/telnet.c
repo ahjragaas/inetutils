@@ -49,14 +49,6 @@
 
 #include <sys/types.h>
 
-#if defined unix || defined __unix || defined __unix__
-# include <signal.h>
-/* By the way, we need to include curses.h before telnet.h since,
- * among other things, telnet.h #defines 'DO', which is a variable
- * declared in curses.h.
- */
-#endif /* unix || __unix || __unix__ */
-
 #include <arpa/telnet.h>
 
 #include <ctype.h>
@@ -110,16 +102,9 @@ char do_dont_resp[256] = { 0 };
 char will_wont_resp[256] = { 0 };
 
 int eight = 0, autologin = 0,	/* Autologin anyone? */
-  skiprc = 0, connected, showoptions, In3270,	/* Are we in 3270 mode? */
-  ISend,			/* trying to send network data in */
+  skiprc = 0, connected, showoptions, ISend,	/* trying to send network data in */
   debug = 0, crmod, netdata,	/* Print out network data flow */
   crlf,				/* Should '\r' be mapped to <CR><LF> (or <CR><NUL>)? */
-#if defined TN3270
-  noasynchtty = 0,		/* User specified "-noasynch" on command line */
-  noasynchnet = 0,		/* User specified "-noasynch" on command line */
-  askedSGA = 0,			/* We have talked about suppress go ahead */
-#endif
-  /* defined(TN3270) */
   telnetport, SYNCHing,		/* we are in TELNET SYNCH mode */
   flushout,			/* flush output */
   autoflush = 0,		/* flush output when interrupting? */
@@ -190,7 +175,7 @@ init_telnet (void)
 
   SB_CLEAR ();
 
-  connected = In3270 = ISend = localflow = donebinarytoggle = 0;
+  connected = ISend = localflow = donebinarytoggle = 0;
 #if defined AUTHENTICATION || defined ENCRYPTION
   auth_encrypt_connect (connected);
 #endif /* defined(AUTHENTICATION) || defined(ENCRYPTION)  */
@@ -302,31 +287,6 @@ willoption (int option)
 	{
 
 	case TELOPT_ECHO:
-#if defined TN3270
-	  /*
-	   * The following is a pain in the rear-end.
-	   * Various IBM servers (some versions of Wiscnet,
-	   * possibly Fibronics/Spartacus, and who knows who
-	   * else) will NOT allow us to send "DO SGA" too early
-	   * in the setup proceedings.  On the other hand,
-	   * 4.2 servers (telnetd) won't set SGA correctly.
-	   * So, we are stuck.  Empirically (but, based on
-	   * a VERY small sample), the IBM servers don't send
-	   * out anything about ECHO, so we postpone our sending
-	   * "DO SGA" until we see "WILL ECHO" (which 4.2 servers
-	   * DO send).
-	   */
-	  {
-	    if (askedSGA == 0)
-	      {
-		askedSGA = 1;
-		if (my_want_state_is_dont (TELOPT_SGA))
-		  send_do (TELOPT_SGA, 1);
-	      }
-	  }
-	  /* Fall through */
-	case TELOPT_EOR:
-#endif /* defined(TN3270) */
 	case TELOPT_BINARY:
 	case TELOPT_SGA:
 	  settimer (modenegotiated);
@@ -459,9 +419,6 @@ dooption (int option)
 	      set_my_state_wont (TELOPT_TM);
 	      return;
 
-#if defined TN3270
-	    case TELOPT_EOR:	/* end of record */
-#endif /* defined(TN3270) */
 	    case TELOPT_BINARY:	/* binary mode */
 	    case TELOPT_NAWS:	/* window size */
 	    case TELOPT_TSPEED:	/* terminal speed */
@@ -851,12 +808,6 @@ suboption (void)
 	  unsigned char temp[50];
 	  int len;
 
-#if defined TN3270
-	  if (tn3270_ttype ())
-	    {
-	      return;
-	    }
-#endif /* defined(TN3270) */
 	  name = gettermname ();
 	  len = strlen (name) + 4 + 2;
 
@@ -1892,35 +1843,13 @@ telrcv (void)
 	      telrcv_state = TS_IAC;
 	      break;
 	    }
-#if defined TN3270
-	  if (In3270)
-	    {
-	      *Ifrontp++ = c;
-	      while (scc > 0)
-		{
-		  c = *sbp++ & 0377, scc--;
-		  count++;
-# ifdef	ENCRYPTION
-		  if (decrypt_input)
-		    c = (*decrypt_input) (c);
-# endif/* ENCRYPTION */
-		  if (c == IAC)
-		    {
-		      telrcv_state = TS_IAC;
-		      break;
-		    }
-		  *Ifrontp++ = c;
-		}
-	    }
-	  else
-#endif /* defined(TN3270) */
-	    /*
-	     * The 'crmod' hack (see following) is needed
-	     * since we can't * set CRMOD on output only.
-	     * Machines like MULTICS like to send \r without
-	     * \n; since we must turn off CRMOD to get proper
-	     * input, the mapping is done here (sigh).
-	     */
+	  /*
+	   * The 'crmod' hack (see following) is needed
+	   * since we can't * set CRMOD on output only.
+	   * Machines like MULTICS like to send \r without
+	   * \n; since we must turn off CRMOD to get proper
+	   * input, the mapping is done here (sigh).
+	   */
 	  if ((c == '\r') && my_want_state_is_dont (TELOPT_BINARY))
 	    {
 	      if (scc > 0)
@@ -2012,38 +1941,8 @@ telrcv (void)
 	      telrcv_state = TS_SB;
 	      continue;
 
-#if defined TN3270
-	    case EOR:
-	      if (In3270)
-		{
-		  if (Ibackp == Ifrontp)
-		    {
-		      Ibackp = Ifrontp = Ibuf;
-		      ISend = 0;	/* should have been! */
-		    }
-		  else
-		    {
-		      Ibackp += DataFromNetwork (Ibackp, Ifrontp - Ibackp, 1);
-		      ISend = 1;
-		    }
-		}
-	      printoption ("RCVD", IAC, EOR);
-	      break;
-#endif /* defined(TN3270) */
-
 	    case IAC:
-#if !defined TN3270
 	      TTYADD (IAC);
-#else /* !defined(TN3270) */
-	      if (In3270)
-		{
-		  *Ifrontp++ = IAC;
-		}
-	      else
-		{
-		  TTYADD (IAC);
-		}
-#endif /* !defined(TN3270) */
 	      break;
 
 	    case NOP:
@@ -2058,21 +1957,18 @@ telrcv (void)
 	case TS_WILL:
 	  printoption ("RCVD", WILL, c);
 	  willoption (c);
-	  SetIn3270 ();
 	  telrcv_state = TS_DATA;
 	  continue;
 
 	case TS_WONT:
 	  printoption ("RCVD", WONT, c);
 	  wontoption (c);
-	  SetIn3270 ();
 	  telrcv_state = TS_DATA;
 	  continue;
 
 	case TS_DO:
 	  printoption ("RCVD", DO, c);
 	  dooption (c);
-	  SetIn3270 ();
 	  if (c == TELOPT_NAWS)
 	    {
 	      sendnaws ();
@@ -2091,7 +1987,6 @@ telrcv (void)
 	  dontoption (c);
 	  flushline = 1;
 	  setconnmode (0);	/* set new tty mode (maybe) */
-	  SetIn3270 ();
 	  telrcv_state = TS_DATA;
 	  continue;
 
@@ -2130,7 +2025,6 @@ telrcv (void)
 
 		  printoption ("In SUBOPTION processing, RCVD", IAC, c);
 		  suboption ();	/* handle sub-option */
-		  SetIn3270 ();
 		  telrcv_state = TS_IAC;
 		  goto process_iac;
 		}
@@ -2144,7 +2038,6 @@ telrcv (void)
 	      subpointer -= 2;
 	      SB_TERM ();
 	      suboption ();	/* handle sub-option */
-	      SetIn3270 ();
 	      telrcv_state = TS_DATA;
 	    }
 	}
@@ -2362,11 +2255,6 @@ telsnd (void)
 int
 Scheduler (int block)
 {
-  /* One wants to be a bit careful about setting returnValue
-   * to one, since a one implies we did some useful work,
-   * and therefore probably won't be called to block next
-   * time (TN3270 mode only).
-   */
   int returnValue;
   int netin, netout, netex, ttyin, ttyout;
 
@@ -2380,28 +2268,11 @@ Scheduler (int block)
      ) || my_want_state_is_will (TELOPT_BINARY));
   ttyout = ring_full_count (&ttyoring);
 
-#if defined TN3270
-  ttyin = ring_empty_count (&ttyiring) && (shell_active == 0);
-#else /* defined(TN3270) */
   ttyin = ring_empty_count (&ttyiring);
-#endif /* defined(TN3270) */
 
-#if defined TN3270
-  netin = ring_empty_count (&netiring);
-#else /* !defined(TN3270) */
   netin = !ISend && ring_empty_count (&netiring);
-#endif /* !defined(TN3270) */
 
   netex = !SYNCHing;
-
-  /* If we have seen a signal recently, reset things */
-#if defined TN3270 && (defined unix || defined __unix || defined __unix__)
-  if (HaveInput)
-    {
-      HaveInput = 0;
-      signal (SIGIO, inputAvailable);
-    }
-#endif /* TN3270 && (unix || __unix || __unix__) */
 
   /* Call to system code to process rings */
 
@@ -2411,35 +2282,12 @@ Scheduler (int block)
 
   if (ring_full_count (&ttyiring))
     {
-#if defined TN3270
-      if (In3270)
-	{
-	  int c;
-
-	  c = DataFromTerminal (ttyiring.consume,
-				ring_full_consecutive (&ttyiring));
-	  if (c)
-	    {
-	      returnValue = 1;
-	      ring_consumed (&ttyiring, c);
-	    }
-	}
-      else
-	{
-#endif /* defined(TN3270) */
-	  returnValue |= telsnd ();
-#if defined TN3270
-	}
-#endif /* defined(TN3270) */
+      returnValue |= telsnd ();
     }
 
   if (ring_full_count (&netiring))
     {
-#if !defined TN3270
       returnValue |= telrcv ();
-#else /* !defined(TN3270) */
-      returnValue = Push3270 ();
-#endif /* !defined(TN3270) */
     }
   return returnValue;
 }
@@ -2465,17 +2313,16 @@ telnet (char *user)
 #else /* !defined(AUTHENTICATION) && !defined(ENCRYPTION)  */
   (void) user;
 #endif
-#if !defined TN3270
   if (telnetport)
     {
-# if defined AUTHENTICATION
+#if defined AUTHENTICATION
       if (autologin)
 	send_will (TELOPT_AUTHENTICATION, 1);
-# endif
-# ifdef	ENCRYPTION
+#endif
+#ifdef	ENCRYPTION
       send_do (TELOPT_ENCRYPT, 1);
       send_will (TELOPT_ENCRYPT, 1);
-# endif/* ENCRYPTION */
+#endif /* ENCRYPTION */
       send_do (TELOPT_SGA, 1);
       send_will (TELOPT_TTYPE, 1);
       send_will (TELOPT_NAWS, 1);
@@ -2489,9 +2336,7 @@ telnet (char *user)
       if (eight)
 	tel_enter_binary (eight);
     }
-#endif /* !defined(TN3270) */
 
-#if !defined TN3270
   for (;;)
     {
       int schedValue;
@@ -2511,59 +2356,6 @@ telnet (char *user)
 	  return;
 	}
     }
-#else /* !defined(TN3270) */
-  for (;;)
-    {
-      int schedValue;
-
-      while (!In3270 && !shell_active)
-	{
-	  if (Scheduler (1) == -1)
-	    {
-	      setcommandmode ();
-	      return;
-	    }
-	}
-
-      while ((schedValue = Scheduler (0)) != 0)
-	{
-	  if (schedValue == -1)
-	    {
-	      setcommandmode ();
-	      return;
-	    }
-	}
-      /* If there is data waiting to go out to terminal, don't
-       * schedule any more data for the terminal.
-       */
-      if (ring_full_count (&ttyoring))
-	{
-	  schedValue = 1;
-	}
-      else
-	{
-	  if (shell_active)
-	    {
-	      if (shell_continue () == 0)
-		{
-		  ConnectScreen ();
-		}
-	    }
-	  else if (In3270)
-	    {
-	      schedValue = DoTerminalOutput ();
-	    }
-	}
-      if (schedValue && (shell_active == 0))
-	{
-	  if (Scheduler (1) == -1)
-	    {
-	      setcommandmode ();
-	      return;
-	    }
-	}
-    }
-#endif /* !defined(TN3270) */
 }
 
 #if 0				/* XXX - this not being in is a bug */

@@ -213,12 +213,6 @@ main (void)
 #endif
   tell_macro ("__sun__", ux);
 
-  a = 0;
-#ifdef TN3270
-  a = 1;
-#endif
-  tell_macro ("TN3270", a);
-
   /*
    * Implementation specific charateristica.
    */

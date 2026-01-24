@@ -759,19 +759,10 @@ TerminalNewMode (int f)
     tcsetattr (tin, TCSANOW, &tmp_tc);
 #endif
 
-#if  !defined TN3270 ||  (!defined NOT43 || defined PUTCHAR)
-# if !defined sysV88
+#if !defined sysV88
   ioctl (tin, FIONBIO, (char *) &onoff);
   ioctl (tout, FIONBIO, (char *) &onoff);
-# endif
-#endif /* (!defined(TN3270)) || ((!defined(NOT43)) || defined(PUTCHAR)) */
-#if defined TN3270
-  if (noasynchtty == 0)
-    {
-      ioctl (tin, FIOASYNC, (char *) &onoff);
-    }
-#endif /* defined(TN3270) */
-
+#endif
 }
 
 /*
@@ -912,23 +903,6 @@ NetNonblockingIO (int fd, int onoff)
 {
   ioctl (fd, FIONBIO, (char *) &onoff);
 }
-
-#if defined TN3270
-void
-NetSigIO (int fd, int onoff)
-{
-  ioctl (fd, FIOASYNC, (char *) &onoff);	/* hear about input */
-}
-
-void
-NetSetPgrp (int fd)
-{
-  int myPid;
-
-  myPid = getpid ();
-  fcntl (fd, F_SETOWN, myPid);
-}
-#endif /*defined(TN3270) */
 
 /*
  * Various signal handling routines.
@@ -1032,14 +1006,6 @@ sys_telnet_init (void)
 
   NetNonblockingIO (net, 1);
 
-#if defined TN3270
-  if (noasynchnet == 0)
-    {				/* DBX can't handle! */
-      NetSigIO (net, 1);
-      NetSetPgrp (net);
-    }
-#endif /* defined(TN3270) */
-
 #if defined SO_OOBINLINE
   if (SetSockOpt (net, SOL_SOCKET, SO_OOBINLINE, 1) == -1)
     {
@@ -1065,11 +1031,6 @@ process_rings (int netin, int netout, int netex, int ttyin, int ttyout,
 	       int poll)
 {
   int c;
-  /* One wants to be a bit careful about setting returnValue
-   * to one, since a one implies we did some useful work,
-   * and therefore probably won't be called to block next
-   * time (TN3270 mode only).
-   */
   int returnValue = 0;
   static struct timeval TimeValue = { 0, 0 };
   int nfds = 0;
@@ -1086,36 +1047,18 @@ process_rings (int netin, int netout, int netex, int ttyin, int ttyout,
       if (tout > nfds)
 	nfds = tout;
     }
-#if defined TN3270
   if (ttyin)
     {
       FD_SET (tin, &ibits);
       if (tin > nfds)
 	nfds = tin;
     }
-#else /* defined(TN3270) */
-  if (ttyin)
-    {
-      FD_SET (tin, &ibits);
-      if (tin > nfds)
-	nfds = tin;
-    }
-#endif /* defined(TN3270) */
-#if defined TN3270
   if (netin)
     {
       FD_SET (net, &ibits);
       if (net > nfds)
 	nfds = net;
     }
-#else /* !defined(TN3270) */
-  if (netin)
-    {
-      FD_SET (net, &ibits);
-      if (net > nfds)
-	nfds = net;
-    }
-#endif /* !defined(TN3270) */
   if (netex)
     {
       FD_SET (net, &xbits);
@@ -1136,24 +1079,6 @@ process_rings (int netin, int netout, int netex, int ttyin, int ttyout,
 	    {
 	      return 0;
 	    }
-#if defined TN3270
-	  /*
-	   * we can get EBADF if we were in transparent
-	   * mode, and the transcom process died.
-	   */
-	  if (errno == EBADF)
-	    {
-	      /*
-	       * zero the bits (even though kernel does it)
-	       * to make sure we are selecting on the right
-	       * ones.
-	       */
-	      FD_ZERO (&ibits);
-	      FD_ZERO (&obits);
-	      FD_ZERO (&xbits);
-	      return 0;
-	    }
-#endif /* defined(TN3270) */
 	  /* I don't like this, does it ever happen? */
 	  printf ("sleep(5) from telnet, after select\r\n");
 	  sleep (5);

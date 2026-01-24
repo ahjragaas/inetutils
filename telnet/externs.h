@@ -123,7 +123,6 @@ extern int autologin,		/* Autologin enabled */
   flushout,			/* flush output */
   connected,			/* Are we connected to the other side? */
   globalmode,			/* Mode tty should be in */
-  In3270,			/* Are we in 3270 mode? */
   telnetport,			/* Are we connected to the telnet port? */
   localflow,			/* Flow control handled locally */
   restartany,			/* If flow control, restart output on any character */
@@ -140,11 +139,6 @@ extern int autologin,		/* Autologin enabled */
   dontlecho,			/* do we suppress local echoing right now? */
   crmod, netdata,		/* Print out network data flow */
   prettydump,			/* Print "netdata" output in user readable format */
-#if defined TN3270
-  cursesdata,			/* Print out curses data flow */
-  apitrace,			/* Trace API transactions */
-#endif
-	/* defined(TN3270) */
   termdata,			/* Print out terminal data flow */
   debug;			/* Debug level */
 
@@ -237,7 +231,6 @@ extern jmp_buf peerdied, toplevel;	/* For error conditions. */
 extern void
 command (int, char *, int),
 Dump (char, unsigned char *, int),
-init_3270 (void),
 printoption (char *, int, int),
 printsub (char, unsigned char *, int),
 sendnaws (void),
@@ -480,22 +473,3 @@ extern cc_t termAytChar;
 /* Ring buffer structures which are shared */
 
 extern Ring netoring, netiring, ttyoring, ttyiring;
-
-/* Tn3270 section */
-#if defined TN3270
-
-extern int HaveInput,		/* Whether an asynchronous I/O indication came in */
-  noasynchtty,			/* Don't do signals on I/O (SIGURG, SIGIO) */
-  noasynchnet,			/* Don't do signals on I/O (SIGURG, SIGIO) */
-  sigiocount,			/* Count of SIGIO receptions */
-  shell_active;			/* Subshell is active */
-
-extern char *Ibackp,		/* Oldest byte of 3270 data */
-  Ibuf[],			/* 3270 buffer */
- *Ifrontp,			/* Where next 3270 byte goes */
-  tline[], *transcom;		/* Transparent command */
-
-extern int settranscom (int, char **);
-
-extern void inputAvailable (int);
-#endif /* defined(TN3270) */
