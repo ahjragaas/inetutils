@@ -248,12 +248,11 @@ set_hwaddr (int sfd, struct ifreq *ifr, char *hwaddr)
   int err;
   struct ether_addr *ether;
   struct sockaddr *sa = (struct sockaddr *) &ifr->ifr_hwaddr;
+  struct ether_addr addr;
 
   ether = ether_aton (hwaddr);
   if (!ether)
     {
-      struct ether_addr addr;
-
       err = ether_hostton (hwaddr, &addr);
       if (err)
 	{
