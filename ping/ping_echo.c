@@ -45,7 +45,6 @@
 #include <ping.h>
 #include "ping_impl.h"
 
-#define NROUTES		9	/* number of record route slots */
 #ifndef MAX_IPOPTLEN
 # define MAX_IPOPTLEN 40
 #endif

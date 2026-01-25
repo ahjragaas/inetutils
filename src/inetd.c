@@ -147,7 +147,10 @@
 #ifndef SIGCHLD
 # define SIGCHLD	SIGCLD
 #endif
-#define SIGBLOCK	(sigmask(SIGCHLD)|sigmask(SIGHUP)|sigmask(SIGALRM))
+
+#ifndef HAVE_SIGACTION
+# define SIGBLOCK	(sigmask(SIGCHLD)|sigmask(SIGHUP)|sigmask(SIGALRM))
+#endif
 
 bool debug = false;
 int nsock, maxsock;
@@ -324,8 +327,6 @@ struct biltin
   {"tcpmux", SOCK_STREAM, 1, 0, tcpmux},
   {NULL, 0, 0, 0, NULL}
 };
-
-#define NUMINT	(sizeof(intab) / sizeof(struct inent))
 
 struct biltin *
 bi_lookup (const struct servtab *sep)

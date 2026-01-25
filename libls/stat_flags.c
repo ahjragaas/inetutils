@@ -52,13 +52,6 @@
 
 #include <string.h>
 
-#define SAPPEND(s) {							\
-	if (prefix != NULL)						\
-		strcat(string, prefix);				\
-	strcat(string, s);					\
-	prefix = ",";							\
-}
-
 /*
  * flags_to_string --
  *	Convert stat flags to a comma-separated string.  If no flags
@@ -73,17 +66,6 @@ flags_to_string (unsigned int flags, char *def)
   string[0] = '\0';
   prefix = NULL;
   return (prefix == NULL && def != NULL ? def : string);
-}
-
-#define TEST(a, b, f) {							\
-	if (!memcmp(a, b, sizeof(b))) {					\
-		if (clear) {						\
-			if (clrp)					\
-				*clrp |= (f);				\
-		} else if (setp)					\
-			*setp |= (f);					\
-		break;							\
-	}								\
 }
 
 /*
