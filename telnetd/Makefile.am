@@ -24,6 +24,8 @@ AM_CPPFLAGS = \
 	$(INCAUTH) $(NCURSES_INCLUDE) \
 	$(PATHDEF_DEV) $(PATHDEF_TTY) $(PATHDEF_TTY_PFX) $(PATHDEF_LOGIN)
 
+AM_CFLAGS = $(WARN_CFLAGS)
+
 LDADD = \
 	$(top_builddir)/libtelnet/libtelnet.a \
 	$(iu_LIBRARIES) \

@@ -20,6 +20,8 @@ AM_CPPFLAGS = \
 	$(INCAUTH) \
 	$(iu_INCLUDES)
 
+AM_CFLAGS = $(WARN_CFLAGS)
+
 noinst_LIBRARIES = libtelnet.a
 
 libtelnet_a_SOURCES = \

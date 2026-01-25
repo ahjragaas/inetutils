@@ -1046,4 +1046,72 @@ ftp_PROPS="${ftp_PROPS:+$ftp_PROPS }$LIBREADLINE"
 
 talk_PROPS="${talk_PROPS:+$talk_PROPS }$LIBCURSES"
 
+AC_ARG_ENABLE([gcc-warnings],
+  [AS_HELP_STRING([[--enable-gcc-warnings[=TYPE]]],
+    [control generation of GCC warnings.  The TYPE 'no' disables
+     warnings; 'yes' (default) generates cheap warnings;
+     'expensive' in addition generates expensive warnings.])])
+
+AS_IF([test "$enable_gcc_warnings" != no],
+  [
+   # Set up the list of unwanted warning options.
+   nw=
+   if test "$enable_gcc_warnings" != expensive; then
+     nw="$nw -fanalyzer"
+   fi
+   nw="$nw -Wbad-function-cast" # Casting a function's result is not more
+                                # dangerous than casting any other value.
+   nw="$nw -Winline"            # It's OK to not inline.
+   nw="$nw -Wsign-compare"      # Too many false alarms.
+   nw="$nw -Wstrict-overflow"   # It's OK to optimize strictly.
+   nw="$nw -Wsystem-headers"    # Don't warn in system headers.
+
+   # Too noisy for now
+   nw="$nw -Wcast-align"
+   nw="$nw -Wclobbered"
+   nw="$nw -Wdiscarded-qualifiers"
+   nw="$nw -Wformat"
+   nw="$nw -Wimplicit-fallthrough"
+   nw="$nw -Wmissing-declarations"
+   nw="$nw -Wmissing-prototypes"
+   nw="$nw -Wmissing-variable-declarations"
+   nw="$nw -Wnested-externs"
+   nw="$nw -Wshadow"
+   nw="$nw -Wstrict-flex-arrays"
+   nw="$nw -Wsuggest-attribute=const"
+   nw="$nw -Wsuggest-attribute=format"
+   nw="$nw -Wsuggest-attribute=malloc"
+   nw="$nw -Wsuggest-attribute=noreturn"
+   nw="$nw -Wsuggest-attribute=pure"
+   nw="$nw -Wunused-parameter"
+   nw="$nw -fstrict-flex-arrays"
+
+   # Setup the list of meaningful warning options for the C compiler.
+   # The list comes from manywarnings.m4. Warning options that are not
+   # generally meaningful have already been filtered out (cf.
+   # build-aux/gcc-warning.spec).
+   gl_MANYWARN_ALL_GCC([possible_warning_options])
+
+   # Compute the list of warning options that are desired.
+   gl_MANYWARN_COMPLEMENT([desired_warning_options],
+                          [$possible_warning_options], [$nw])
+   # Compute the list of remaining undesired warning options.
+   # Namely those, that were not in manywarnings.m4 because they were
+   # already listed in build-aux/gcc-warning.spec; this includes those
+   # that are implied by -Wall.
+   gl_MANYWARN_COMPLEMENT([remaining_undesired_warning_options],
+                          [$nw], [$possible_warning_options])
+
+   # Add the desired warning options to WARN_CFLAGS.
+   for w in $desired_warning_options; do
+     gl_WARN_ADD([$w])
+   done
+
+   # Add the opposites of the remaining undesired warning options to
+   # WARN_CFLAGS.
+   for w in `echo "$remaining_undesired_warning_options" | sed -e 's/-W/-Wno-/g'`; do
+     gl_WARN_ADD([$w])
+   done
+])
+
 AC_OUTPUT

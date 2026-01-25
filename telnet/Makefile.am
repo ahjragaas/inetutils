@@ -25,6 +25,8 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir) \
 	$(NCURSES_INCLUDE) $(INCIDN)
 
+AM_CFLAGS = $(WARN_CFLAGS)
+
 LDADD = \
 	$(top_builddir)/libtelnet/libtelnet.a \
 	$(iu_LIBRARIES) \

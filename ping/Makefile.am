@@ -21,6 +21,8 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/libicmp \
 	$(INCIDN)
 
+AM_CFLAGS = $(WARN_CFLAGS)
+
 LDADD = \
 	$(iu_LIBRARIES) \
 	$(LIBIDN) \

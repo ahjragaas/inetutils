@@ -18,6 +18,8 @@
 
 AM_CPPFLAGS = $(iu_INCLUDES)
 
+AM_CFLAGS = $(WARN_CFLAGS)
+
 LDADD = $(iu_LIBRARIES)
 
 EXTRA_DIST = tools.sh.in ifconfig_modes.sh crash-tftp-msg2021-12_18.bin \

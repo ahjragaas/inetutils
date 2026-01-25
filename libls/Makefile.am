@@ -19,6 +19,8 @@
 AM_CPPFLAGS = \
 	$(iu_INCLUDES)
 
+AM_CFLAGS = $(WARN_CFLAGS)
+
 noinst_LIBRARIES = $(libls_BUILD)
 
 EXTRA_LIBRARIES = libls.a

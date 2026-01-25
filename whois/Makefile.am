@@ -18,6 +18,8 @@
 
 AM_CPPFLAGS = $(iu_INCLUDES)
 
+AM_CFLAGS = $(WARN_CFLAGS)
+
 LDADD = $(iu_LIBRARIES)
 
 bin_PROGRAMS = $(whois_BUILD)

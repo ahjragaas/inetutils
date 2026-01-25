@@ -23,6 +23,8 @@ AM_CPPFLAGS = \
 	$(PATHDEF_WTMPX) $(PATHDEF_TTY_PFX) $(PATHDEF_DEVNULL) \
 	$(PATHDEF_HEQUIV)
 
+AM_CFLAGS = $(WARN_CFLAGS)
+
 noinst_LIBRARIES = libinetutils.a
 
 noinst_HEADERS = argcv.h libinetutils.h tftpsubs.h \

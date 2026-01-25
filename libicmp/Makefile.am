@@ -24,3 +24,5 @@ libicmp_a_SOURCES = icmp_echo.c \
  icmp_cksum.c
 
 noinst_HEADERS = icmp.h
+
+AM_CFLAGS = $(WARN_CFLAGS)
