@@ -1684,7 +1684,7 @@ static void _expand_cond (struct line_expander *exp);
 static void _skip_block (struct line_expander *exp);
 static void _expand_block (struct line_expander *exp);
 
-static char *
+static const char *
 sanitize (const char *u)
 {
   /* Ignore values starting with '-' or containing shell metachars, as
