@@ -1625,8 +1625,6 @@ void
 ptransfer (char *direction, long long int bytes, struct timespec *t0,
 	   struct timespec *t1)
 {
-  double s, bs;
-
   if (verbose)
     {
       struct timespec ts = timespec_sub (*t1, *t0);
