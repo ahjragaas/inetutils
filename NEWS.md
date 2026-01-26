@@ -15,6 +15,11 @@ security vulnerabilities.
 See <https://codeberg.org/inetutils/inetutils/pulls/10>, patch by
 Guillem Jover.
 
+** Paths uses $(runstatedir) instead of $(localstatedir)/run for PID files etc.
+The intention is that this is a no-op for normal installations, and
+the files should end up in the same paths because the default value
+for $(runstatedor) is $(localstatedir)/run.
+
 ** Some compiler warnings are now enabled by default.
 Disable with --enable-gcc-warnings=no.  Based on the Gnulib
 manywarnings module, see
