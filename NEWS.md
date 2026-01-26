@@ -11,6 +11,10 @@ The code did not build (several missing required header files) and
 even if we could fix it, we have no way to test it. It may contain
 security vulnerabilities.
 
+** inetd: Adds new --foreground parameter to avoid forking.
+See <https://codeberg.org/inetutils/inetutils/pulls/10>, patch by
+Guillem Jover.
+
 ** Some compiler warnings are now enabled by default.
 Disable with --enable-gcc-warnings=no.  Based on the Gnulib
 manywarnings module, see

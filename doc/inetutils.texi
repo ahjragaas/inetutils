@@ -3231,6 +3231,11 @@ foreground and prints additional debugging information of stderr.
 Pass local and remote socket information in environment variables.
 @xref{Inetd Environment}.
 
+@item --foreground
+@opindex --foreground
+Run in foreground mode.  Similar to debug mode, but does not enable
+debug messages.
+
 @item -p[@var{file}]
 @itemx --pidfile[=@var{file}]
 @opindex -p
