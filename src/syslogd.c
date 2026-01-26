@@ -1621,7 +1621,7 @@ wallmsg (struct filed *f, struct iovec *iov)
   STRUCT_UTMP *utp;
 #if defined UTMP_NAME_FUNCTION || !defined HAVE_GETUTXENT
   STRUCT_UTMP *utmpbuf;
-  size_t utmp_count;
+  idx_t utmp_count;
 #endif /* UTMP_NAME_FUNCTION || !HAVE_GETUTXENT */
   int i;
   char *p;
