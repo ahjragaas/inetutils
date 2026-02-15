@@ -6,6 +6,11 @@ GNU inetutils NEWS -- history of user-visible changes.
 Reported by Kyu Neushwaistein.  Initial patch by Paul Eggert; further
 improvements and security advisory by Simon Josefsson.
 
+** Prevent privilege escalation via telnetd abusing systemd service
+credentials support added to the login(1) implementation of util-linux
+in release 2.40.  Reported by Ron Ben Yizhak in
+<https://lists.gnu.org/archive/html/bug-inetutils/2026-02/msg00000.html>.
+
 ** telnet: Drop everything related to TN3270.
 The code did not build (several missing required header files) and
 even if we could fix it, we have no way to test it. It may contain

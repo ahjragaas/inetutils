@@ -129,6 +129,14 @@ start_login (char *host, int autologin, char *name)
   if (!cmd)
     fatal (net, "can't expand login command line");
   argcv_get (cmd, "", &argc, &argv);
+
+  /* util-linux's "login" introduced an authentication bypass method
+   * via environment variable "CREDENTIALS_DIRECTORY" in version 2.40.
+   * Clear it from the environment before executing "login" to prevent
+   * abuse via Telnet.
+   */
+  unsetenv ("CREDENTIALS_DIRECTORY");
+
   execv (argv[0], argv);
   syslog (LOG_ERR, "%s: %m\n", cmd);
   fatalperror (net, cmd);
