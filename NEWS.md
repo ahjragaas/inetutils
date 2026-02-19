@@ -8,7 +8,7 @@ improvements and security advisory by Simon Josefsson.
 
 ** Prevent privilege escalation via telnetd abusing systemd service
 credentials support added to the login(1) implementation of util-linux
-in release 2.40.  Reported by Ron Ben Yizhak in
+in release 2.40.  Reported by Ron Ben Yizhak@SafeBreach in
 <https://lists.gnu.org/archive/html/bug-inetutils/2026-02/msg00000.html>.
 
 ** telnet: Drop everything related to TN3270.
