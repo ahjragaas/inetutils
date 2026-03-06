@@ -2,6 +2,10 @@ GNU inetutils NEWS -- history of user-visible changes.
 
 # Noteworthy changes in release ?.? (????-??-??) [?]
 
+** telnetd now ignores all environment options by default.  Environment
+variables passed by the new --accept-env option can bypass this
+restriction.  This avoids many ways of escalating privileges.
+
 ** Fix telnetd remote authentication by-pass vulnerability.  CVE-2026-24061
 Reported by Kyu Neushwaistein.  Initial patch by Paul Eggert; further
 improvements and security advisory by Simon Josefsson.

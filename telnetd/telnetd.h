@@ -57,6 +57,9 @@
 #define obstack_chunk_free free
 #include <obstack.h>
 
+#include "gl_hash_set.h"
+#include "gl_xset.h"
+#include "hashcode-string1.h"
 #include "xalloc.h"
 
 #ifndef HAVE_CC_T
@@ -251,6 +254,7 @@ extern char *user_name;
 extern int pty, net;
 extern int SYNCHing;		/* we are in TELNET SYNCH mode */
 extern struct telnetd_clocks clocks;
+extern gl_set_t accept_env_set;
 extern char line[];
 
 extern char *xstrdup (const char *);

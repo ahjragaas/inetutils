@@ -105,10 +105,32 @@ char *terminaltype;
 
 int SYNCHing;			/* we are in TELNET SYNCH mode */
 struct telnetd_clocks clocks;
-
+
+/* Set of environment variables that we do not remove from clients.  */
+gl_set_t accept_env_set = NULL;
+
+static size_t
+string_hashcode (const void *s)
+{
+  return hash_string (s, strlen (s));
+}
+
+static bool
+string_equals (const void *a, const void *b)
+{
+  return strcmp (a, b) == 0;
+}
+
+/* List of long options without short option counterparts.  */
+enum
+{
+  ACCEPT_ENV_OPTION = UCHAR_MAX + 1
+};
 
 static struct argp_option argp_options[] = {
 #define GRID 10
+  {"accept-env", ACCEPT_ENV_OPTION, "NAME", 0,
+   "accept the environment variable from clients", GRID},
   {"debug", 'D', "LEVEL", OPTION_ARG_OPTIONAL,
    "set debugging level", GRID},
   {"exec-login", 'E', "STRING", 0,
@@ -144,6 +166,14 @@ parse_opt (int key, char *arg, struct argp_state *state MAYBE_UNUSED)
 {
   switch (key)
     {
+
+    case ACCEPT_ENV_OPTION:
+      if (!accept_env_set)
+	accept_env_set = gl_set_create_empty (GL_HASH_SET, string_equals,
+					      string_hashcode, NULL);
+      gl_set_add (accept_env_set, arg);
+      break;
+
 #ifdef  AUTHENTICATION
     case 'a':
       parse_authmode (arg);
@@ -497,13 +527,11 @@ telnetd_setup (int fd)
 
   io_setup ();
 
-  /* Before doing anything related to the identity of the client,
-   * scrub the environment variable USER, since it may be set with
-   * an irrelevant user name at this point.  OpenBSD has been known
-   * to offend at this point with their own inetd.  Any demand for
-   * autologin will get attention in getterminaltype().
-   */
-  unsetenv ("USER");
+  /* Clear the environment of all variables before doing anything.  This avoids
+     many ways of escalating privileges.  Environment variable options sent by
+     the client will be checked against ACCEPT_ENV_SET.  */
+  static char *dummy_environ[] = { NULL };
+  environ = dummy_environ;
 
   /* get terminal type. */
   uname[0] = 0;

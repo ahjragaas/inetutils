@@ -1495,10 +1495,13 @@ suboption (void)
 	      case NEW_ENV_VAR:
 	      case ENV_USERVAR:
 		*cp = '\0';
-		if (valp)
-		  setenv (varp, valp, 1);
-		else
-		  unsetenv (varp);
+		if (accept_env_set && gl_set_search (accept_env_set, varp))
+		  {
+		    if (valp)
+		      setenv (varp, valp, 1);
+		    else
+		      unsetenv (varp);
+		  }
 		cp = varp = (char *) subpointer;
 		valp = 0;
 		break;
@@ -1514,10 +1517,13 @@ suboption (void)
 	      }
 	  }
 	*cp = '\0';
-	if (valp)
-	  setenv (varp, valp, 1);
-	else
-	  unsetenv (varp);
+	if (accept_env_set && gl_set_search (accept_env_set, varp))
+	  {
+	    if (valp)
+	      setenv (varp, valp, 1);
+	    else
+	      unsetenv (varp);
+	  }
 	break;
       }				/* end of case TELOPT_NEW_ENVIRON */
 #if defined AUTHENTICATION

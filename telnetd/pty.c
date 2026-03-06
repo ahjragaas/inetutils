@@ -83,29 +83,6 @@ startslave (char *host, int autologin, char *autoname)
   return master;
 }
 
-/*
- * scrub_env()
- *
- * Remove a few things from the environment that
- * don't need to be there.
- *
- * Security fix included in telnet-95.10.23.NE of David Borman <deb@cray.com>.
- */
-static void
-scrub_env (void)
-{
-  char **cpp, **cpp2;
-
-  for (cpp2 = cpp = environ; *cpp; cpp++)
-    {
-      if (strncmp (*cpp, "LD_", 3)
-	  && strncmp (*cpp, "_RLD_", 5)
-	  && strncmp (*cpp, "LIBPATH=", 8) && strncmp (*cpp, "IFS=", 4))
-	*cpp2++ = *cpp;
-    }
-  *cpp2 = 0;
-}
-
 void
 start_login (char *host, int autologin, char *name)
 {
@@ -117,8 +94,6 @@ start_login (char *host, int autologin, char *name)
   (void) autologin;
   (void) name;
 
-  scrub_env ();
-
   /* Set the environment variable "LINEMODE" to indicate our linemode */
   if (lmodetype == REAL_LINEMODE)
     setenv ("LINEMODE", "real", 1);
@@ -129,13 +104,6 @@ start_login (char *host, int autologin, char *name)
   if (!cmd)
     fatal (net, "can't expand login command line");
   argcv_get (cmd, "", &argc, &argv);
-
-  /* util-linux's "login" introduced an authentication bypass method
-   * via environment variable "CREDENTIALS_DIRECTORY" in version 2.40.
-   * Clear it from the environment before executing "login" to prevent
-   * abuse via Telnet.
-   */
-  unsetenv ("CREDENTIALS_DIRECTORY");
 
   execv (argv[0], argv);
   syslog (LOG_ERR, "%s: %m\n", cmd);
