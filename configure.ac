@@ -590,8 +590,10 @@ if test "$with_wrap" = yes; then
   AC_MSG_CHECKING(hosts_ctl in -lwrap);
   save_LIBS=$LIBS
   LIBS="$save_LIBS -lwrap"
-  AC_LINK_IFELSE([AC_LANG_PROGRAM([[int allow_severity = 1; int deny_severity = 1;]],
-                                  [[hosts_ctl()]])],
+  AC_LINK_IFELSE([AC_LANG_PROGRAM([[#include <stddef.h>
+#include <tcpd.h>
+int allow_severity = 1; int deny_severity = 1;]],
+                                  [[hosts_ctl(NULL, NULL, NULL, NULL)]])],
                  [eval "ac_cv_lib_wrap_hosts_ctl=yes"],
 		 [eval "ac_cv_lib_wrap_hosts_ctl=no"])
   LIBS=$save_LIBS
