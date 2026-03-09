@@ -34,6 +34,10 @@ Disable with --enable-gcc-warnings=no.  Based on the Gnulib
 manywarnings module, see
 <https://www.gnu.org/software/gnulib/manual/html_node/manywarnings.html>.
 
+** configure.ac avoid implicit declaration of tcpd.h hosts_ctl.
+Patch and report by Mike Gilbert <floppym@gentoo.org> in
+<https://lists.gnu.org/archive/html/bug-inetutils/2026-03/msg00026.html>.
+
 ** tests: Improve libls test that doesn't work reliably across file systems.
 See <https://codeberg.org/inetutils/inetutils/pulls/9>.
 
