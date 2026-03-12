@@ -2,6 +2,12 @@ GNU inetutils NEWS -- history of user-visible changes.
 
 # Noteworthy changes in release ?.? (????-??-??) [?]
 
+** telnetd no longer allows clients to write past the end of a stack
+allocated buffer, possibly leading to remote code execution, using an
+SLC suboption with many triplets using function octets greater than 18.
+Reported by Adiel Sol, Arad Inbar, Erez Cohen, Nir Somech, Ben Grinberg,
+Daniel Lubel at DREAM Security Research Team.
+
 ** telnetd now ignores all environment options by default.  Environment
 variables passed by the new --accept-env option can bypass this
 restriction.  This avoids many ways of escalating privileges.
