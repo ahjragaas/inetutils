@@ -155,7 +155,7 @@ address.
    libraries, including `rcp` for non-Shishi Kerberos.
 
  - InetUtils does not build on HP-UX 11.00, Cygwin, Minix, MinGW,
-   MSCV, BeOS, Haiki (and probably other systems as well).  Patches
+   MSCV, BeOS, Haiku (and probably other systems as well).  Patches
    welcome.
 
 ========================================================================
