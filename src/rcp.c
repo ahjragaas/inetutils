@@ -1031,7 +1031,7 @@ sink (int argc, char *argv[])
 		  goto bad;
 		}
 	      if (preserve_option)
-		chmod (np, mode);
+		lchmod (np, mode);
 	    }
 	  else
 	    {
@@ -1058,7 +1058,7 @@ sink (int argc, char *argv[])
 		run_err ("%s: set times: %s", np, strerror (errno));
 	    }
 	  if (mod_flag)
-	    chmod (np, mode);
+	    lchmod (np, mode);
 	  continue;
 	}
       omode = mode;
