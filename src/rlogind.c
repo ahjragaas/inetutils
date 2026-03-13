@@ -2010,16 +2010,16 @@ cleanup (int signo)
   p = line + sizeof (PATH_TTY_PFX) - 1;
 #if !defined HAVE_LOGOUT || !defined HAVE_LOGWTMP
   utmp_logout (p);
-  chmod (line, 0644);
-  chown (line, 0, 0);
+  lchmod (line, 0644);
+  lchown (line, 0, 0);
 #else
   if (logout (p))
     logwtmp (p, "", "");
-  chmod (line, 0666);
-  chown (line, 0, 0);
+  lchmod (line, 0666);
+  lchown (line, 0, 0);
   *p = 'p';
-  chmod (line, 0666);
-  chown (line, 0, 0);
+  lchmod (line, 0666);
+  lchown (line, 0, 0);
 #endif
   shutdown (netf, 2);
   exit (status);
