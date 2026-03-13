@@ -61,8 +61,8 @@ cleanup_session (char *tty, int pty_fd)
   if (logout (line))
     logwtmp (line, "", "");
 
-  chmod (tty, 0666);
-  chown (tty, 0, 0);
+  lchmod (tty, 0666);
+  lchown (tty, 0, 0);
   fchmod (pty_fd, 0666);
   fchown (pty_fd, 0, 0);
 }
