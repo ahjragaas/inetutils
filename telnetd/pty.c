@@ -137,8 +137,8 @@ cleanup (int sig)
 
   p = line + sizeof (PATH_TTY_PFX) - 1;
   utmp_logout (p);
-  chmod (line, 0644);
-  chown (line, 0, 0);
+  lchmod (line, 0644);
+  lchown (line, 0, 0);
   shutdown (net, 2);
   exit (status);
 }
