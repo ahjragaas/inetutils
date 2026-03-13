@@ -909,7 +909,7 @@ create_unix_socket (const char *path)
   strncpy (sunx.sun_path, path, sizeof (sunx.sun_path) - 1);
   fd = socket (AF_UNIX, SOCK_DGRAM, 0);
   if (fd < 0 || bind (fd, (struct sockaddr *) &sunx, SUN_LEN (&sunx)) < 0
-      || chmod (path, 0666) < 0)
+      || lchmod (path, 0666) < 0)
     {
       snprintf (line, sizeof (line), "cannot create %s", path);
       logerror (line);
