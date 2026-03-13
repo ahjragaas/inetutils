@@ -461,7 +461,7 @@ rd_and_store_for_creds (inbuf, ticket, lusername)
       return (retval);
     }
 
-  if (retval = chown (ccname + 5, pwd->pw_uid, -1))
+  if (retval = lchown (ccname + 5, pwd->pw_uid, -1))
     {
       return (retval);
     }
