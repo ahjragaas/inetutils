@@ -5,12 +5,16 @@ GNU inetutils NEWS -- history of user-visible changes.
 ** telnetd no longer allows clients to write past the end of a stack
 allocated buffer, possibly leading to remote code execution, using an
 SLC suboption with many triplets using function octets greater than 18.
+CVE-2026-32746
 Reported by Adiel Sol, Arad Inbar, Erez Cohen, Nir Somech, Ben Grinberg,
-Daniel Lubel at DREAM Security Research Team.
+Daniel Lubel at DREAM Security Research Team in
+<https://lists.gnu.org/r/bug-inetutils/2026-03/msg00031.html>.
 
 ** telnetd now ignores all environment options by default.  Environment
 variables passed by the new --accept-env option can bypass this
-restriction.  This avoids many ways of escalating privileges.
+restriction.  This is necessary to avoid vulnerabilities similar to
+CVE-2026-28372, since many different environment variables can be used
+to escalate privileges.
 
 ** Fix telnetd remote authentication by-pass vulnerability.  CVE-2026-24061
 Reported by Kyu Neushwaistein.  Initial patch by Paul Eggert; further
@@ -18,7 +22,8 @@ improvements and security advisory by Simon Josefsson.
 
 ** Prevent privilege escalation via telnetd abusing systemd service
 credentials support added to the login(1) implementation of util-linux
-in release 2.40.  Reported by Ron Ben Yizhak@SafeBreach in
+in release 2.40.  CVE-2026-28372
+Reported by Ron Ben Yizhak@SafeBreach in
 <https://lists.gnu.org/archive/html/bug-inetutils/2026-02/msg00000.html>.
 
 ** telnet: Drop everything related to TN3270.
