@@ -36,7 +36,6 @@ static void parse_authmode (char *str);
 #endif
 
 static void parse_linemode (char *str);
-static void parse_debug_level (char *str);
 static void telnetd_setup (int fd);
 static int telnetd_run (void);
 static void print_hostinfo (void);
@@ -66,9 +65,6 @@ int alwayslinemode;		/* Always set the linemode (1) */
 int lmodetype;			/* Type of linemode (2) */
 int hostinfo = 1;		/* Print the host-specific information before
 				   login */
-
-int debug_level[debug_max_mode];	/* Debugging levels */
-int debug_tcp = 0;		/* Should the SO_DEBUG be set? */
 
 int pending_sigchld = 0;	/* Needed to drain pty input.  */
 
@@ -131,8 +127,6 @@ static struct argp_option argp_options[] = {
 #define GRID 10
   {"accept-env", ACCEPT_ENV_OPTION, "NAME", 0,
    "accept the environment variable from clients", GRID},
-  {"debug", 'D', "LEVEL", OPTION_ARG_OPTIONAL,
-   "set debugging level", GRID},
   {"exec-login", 'E', "STRING", 0,
    "set program to be executed instead of standard login(1)", GRID},
   {"no-hostinfo", 'h', NULL, 0,
@@ -179,10 +173,6 @@ parse_opt (int key, char *arg, struct argp_state *state MAYBE_UNUSED)
       parse_authmode (arg);
       break;
 #endif
-
-    case 'D':
-      parse_debug_level (arg);
-      break;
 
     case 'E':
       login_invocation = arg;
@@ -281,68 +271,6 @@ parse_authmode (char *str)
     syslog (LOG_NOTICE, "unknown authorization level for -a: %s", str);
 }
 #endif /* AUTHENTICATION */
-
-static struct
-{
-  char *name;
-  int modnum;
-} debug_mode[debug_max_mode] = {
-  {"options", debug_options},
-  {"report", debug_report},
-  {"netdata", debug_net_data},
-  {"ptydata", debug_pty_data},
-  {"auth", debug_auth},
-  {"encr", debug_encr},
-};
-
-void
-parse_debug_level (char *str)
-{
-  int i;
-  char *tok;
-
-  if (!str)
-    {
-      for (i = 0; i < debug_max_mode; i++)
-	debug_level[debug_mode[i].modnum] = MAX_DEBUG_LEVEL;
-      return;
-    }
-
-  for (tok = strtok (str, ","); tok; tok = strtok (NULL, ","))
-    {
-      int length, level;
-      char *p;
-
-      if (strcmp (tok, "tcp") == 0)
-	{
-	  debug_tcp = 1;
-	  continue;
-	}
-
-      p = strchr (tok, '=');
-      if (p)
-	{
-	  length = p - tok;
-	  level = strtoul (p + 1, NULL, 0);
-	}
-      else
-	{
-	  length = strlen (tok);
-	  level = MAX_DEBUG_LEVEL;
-	}
-
-      for (i = 0; i < debug_max_mode; i++)
-	if (strncmp (debug_mode[i].name, tok, length) == 0)
-	  {
-	    debug_level[debug_mode[i].modnum] = level;
-	    break;
-	  }
-
-      if (i == debug_max_mode)
-	syslog (LOG_NOTICE, "unknown debug mode: %s", tok);
-    }
-}
-
 
 typedef unsigned int ip_addr_t;
  /*FIXME*/ void
@@ -513,10 +441,6 @@ telnetd_setup (int fd)
 		     (char *) &on, sizeof (on)) < 0)
     syslog (LOG_WARNING, "setsockopt (SO_KEEPALIVE): %m");
 
-  if (debug_tcp
-      && setsockopt (fd, SOL_SOCKET, SO_DEBUG, (char *) &on, sizeof (on)) < 0)
-    syslog (LOG_WARNING, "setsockopt (SO_DEBUG): %m");
-
   net = fd;
 
   local_hostname = localhost ();
@@ -614,10 +538,7 @@ telnetd_run (void)
      mode, which we do not want. */
 
   if (his_want_state_is_will (TELOPT_ECHO))
-    {
-      DEBUG (debug_options, 1, debug_output_data ("td: simulating recv\r\n"));
-      willoption (TELOPT_ECHO);
-    }
+    willoption (TELOPT_ECHO);
 
   /* Turn on our echo */
   if (my_state_is_wont (TELOPT_ECHO))
@@ -637,9 +558,6 @@ telnetd_run (void)
 
   init_termbuf ();
   localstat ();
-
-  DEBUG (debug_report, 1,
-	 debug_output_data ("td: Entering processing loop\r\n"));
 
   nfd = ((net > pty) ? net : pty) + 1;
 
@@ -718,7 +636,6 @@ telnetd_run (void)
 	      netclear ();	/* clear buffer back */
 	      net_output_datalen (flushdata, sizeof (flushdata));
 	      set_neturg ();
-	      DEBUG (debug_options, 1, printoption ("td: send IAC", DM));
 	    }
 
 	  if (his_state_is_will (TELOPT_LFLOW)
@@ -733,8 +650,6 @@ telnetd_run (void)
 			   IAC, SB, TELOPT_LFLOW,
 			   flowmode ? LFLOW_ON : LFLOW_OFF, IAC, SE);
 		  net_output_datalen (data, sizeof (data));
-		  DEBUG (debug_options, 1,
-			 printsub ('>', data + 2, sizeof (data) - 2));
 		}
 	    }
 
@@ -810,7 +725,6 @@ print_hostinfo (void)
   str = expand_line (im);
   free (im);
 
-  DEBUG (debug_pty_data, 1, debug_output_data ("sending %s", str));
   pty_input_putback (str, strlen (str));
   free (str);
 }

@@ -242,7 +242,6 @@ end_slc (unsigned char **bufp)
 	  len = slcptr - slcbuf;
 	  net_output_datalen (slcbuf, len);
 	  netflush ();		/* force it out immediately */
-	  DEBUG (debug_options, 1, printsub ('>', slcbuf + 2, len - 2));
 	}
     }
   return (0);

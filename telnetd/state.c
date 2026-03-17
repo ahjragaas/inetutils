@@ -269,12 +269,10 @@ telrcv (void)
 	       * interrupt char; depending on the tty mode.
 	       */
 	    case IP:
-	      DEBUG (debug_options, 1, printoption ("td: recv IAC", c));
 	      send_intr ();
 	      break;
 
 	    case BREAK:
-	      DEBUG (debug_options, 1, printoption ("td: recv IAC", c));
 	      send_brk ();
 	      break;
 
@@ -282,7 +280,6 @@ telrcv (void)
 	       * Are You There?
 	       */
 	    case AYT:
-	      DEBUG (debug_options, 1, printoption ("td: recv IAC", c));
 	      recv_ayt ();
 	      break;
 
@@ -291,7 +288,6 @@ telrcv (void)
 	       */
 	    case AO:
 	      {
-		DEBUG (debug_options, 1, printoption ("td: recv IAC", c));
 		ptyflush ();	/* half-hearted */
 		init_termbuf ();
 
@@ -302,7 +298,6 @@ telrcv (void)
 		netclear ();	/* clear buffer back */
 		net_output_data ("%c%c", IAC, DM);
 		set_neturg ();
-		DEBUG (debug_options, 1, printoption ("td: send IAC", DM));
 		break;
 	      }
 
@@ -315,7 +310,6 @@ telrcv (void)
 	      {
 		cc_t ch = (cc_t) (_POSIX_VDISABLE);
 
-		DEBUG (debug_options, 1, printoption ("td: recv IAC", c));
 		ptyflush ();	/* half-hearted */
 		init_termbuf ();
 		if (c == EC)
@@ -337,7 +331,6 @@ telrcv (void)
 	       * Check for urgent data...
 	       */
 	    case DM:
-	      DEBUG (debug_options, 1, printoption ("td: recv IAC", c));
 	      SYNCHing = stilloob (net);
 	      settimer (gotDM);
 	      break;
@@ -544,8 +537,6 @@ send_do (int option, int init)
       do_dont_resp[option]++;
     }
   net_output_data (doopt, option);
-
-  DEBUG (debug_options, 1, printoption ("td: send do", option));
 }
 
 #ifdef	AUTHENTICATION
@@ -565,8 +556,6 @@ willoption (int option)
   /*
    * process input from peer.
    */
-
-  DEBUG (debug_options, 1, printoption ("td: recv will", option));
 
   if (do_dont_resp[option])
     {
@@ -763,8 +752,6 @@ send_dont (int option, int init)
       do_dont_resp[option]++;
     }
   net_output_data (dont, option);
-
-  DEBUG (debug_options, 1, printoption ("td: send dont", option));
 }
 
 void
@@ -773,8 +760,6 @@ wontoption (int option)
   /*
    * Process client input.
    */
-
-  DEBUG (debug_options, 1, printoption ("td: recv wont", option));
 
   if (do_dont_resp[option])
     {
@@ -912,8 +897,6 @@ send_will (int option, int init)
       will_wont_resp[option]++;
     }
   net_output_data (will, option);
-
-  DEBUG (debug_options, 1, printoption ("td: send will", option));
 }
 
 void
@@ -924,8 +907,6 @@ dooption (int option)
   /*
    * Process client input.
    */
-
-  DEBUG (debug_options, 1, printoption ("td: recv do", option));
 
   if (will_wont_resp[option])
     {
@@ -1053,8 +1034,6 @@ send_wont (int option, int init)
       will_wont_resp[option]++;
     }
   net_output_data (wont, option);
-
-  DEBUG (debug_options, 1, printoption ("td: send wont", option));
 }
 
 void
@@ -1063,8 +1042,6 @@ dontoption (int option)
   /*
    * Process client input.
    */
-
-  DEBUG (debug_options, 1, printoption ("td: recv dont", option));
 
   if (will_wont_resp[option])
     {
@@ -1151,8 +1128,6 @@ void
 suboption (void)
 {
   int subchar;
-
-  DEBUG (debug_options, 1, printsub ('<', subpointer, SB_LEN () + 2));
 
   subchar = SB_GET ();
   switch (subchar)
@@ -1452,9 +1427,6 @@ suboption (void)
 		  env_ovar_wrong:
 		    env_ovar = OLD_ENV_VALUE;
 		    env_ovalue = OLD_ENV_VAR;
-		    DEBUG (debug_options, 1,
-			   debug_output_data
-			   ("ENVIRON VALUE and VAR are reversed!\r\n"));
 		  }
 	      }
 	    SB_RESTORE ();
@@ -1707,10 +1679,6 @@ send_status (void)
 
   net_output_datalen (statusbuf, ncp - statusbuf);
   netflush ();			/* Send it on its way */
-
-  /* Step over the initial IAC+SB, into suboption payload.  */
-  DEBUG (debug_options, 1, printsub ('>', statusbuf + 2,
-				     ncp - statusbuf - 2));
   return;
 
 trunc:

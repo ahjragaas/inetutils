@@ -311,8 +311,6 @@ localstat (void)
 	  sprintf (data, "%c%c%c%c%c%c%c",
 		   IAC, SB, TELOPT_LINEMODE, LM_MODE, useeditmode, IAC, SE);
 	  net_output_datalen (data, sizeof (data));
-	  DEBUG (debug_options, 1,
-		 printsub ('>', data + 2, sizeof (data) - 2));
 
 	  editmode = useeditmode;
 	}
@@ -342,8 +340,6 @@ localstat (void)
 	  sprintf (data, "%c%c%c%c%c%c%c",
 		   IAC, SB, TELOPT_LINEMODE, LM_MODE, useeditmode, IAC, SE);
 	  net_output_datalen (data, sizeof (data));
-	  DEBUG (debug_options, 1,
-		 printsub ('>', data + 2, sizeof (data) - 2));
 
 	  editmode = useeditmode;
 	}
@@ -396,8 +392,6 @@ flowstat (void)
 		   IAC, SB, TELOPT_LFLOW,
 		   flowmode ? LFLOW_ON : LFLOW_OFF, IAC, SE);
 	  net_output_datalen (data, sizeof (data));
-	  DEBUG (debug_options, 1,
-		 printsub ('>', data + 2, sizeof (data) - 2));
 	}
       if (tty_restartany () != restartany)
 	{
@@ -407,8 +401,6 @@ flowstat (void)
 		   restartany ? LFLOW_RESTART_ANY : LFLOW_RESTART_XON,
 		   IAC, SE);
 	  net_output_datalen (data, sizeof (data));
-	  DEBUG (debug_options, 1,
-		 printsub ('>', data + 2, sizeof (data) - 2));
 	}
     }
 }
@@ -487,8 +479,6 @@ clientstat (int code, int parm1, int parm2)
 			 IAC, SB, TELOPT_LINEMODE,
 			 LM_MODE, useeditmode, IAC, SE);
 		net_output_datalen (data, sizeof (data));
-		DEBUG (debug_options, 1,
-		       printsub ('>', data + 2, sizeof (data) - 2));
 
 		editmode = useeditmode;
 	      }
@@ -553,8 +543,6 @@ clientstat (int code, int parm1, int parm2)
 			 IAC, SB, TELOPT_LINEMODE,
 			 LM_MODE, useeditmode | MODE_ACK, IAC, SE);
 		net_output_datalen (data, sizeof (data));
-		DEBUG (debug_options, 1,
-		       printsub ('>', data + 2, sizeof (data) - 2));
 	      }
 
 	    editmode = useeditmode;

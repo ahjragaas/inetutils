@@ -66,23 +66,6 @@
 typedef unsigned char cc_t;
 #endif
 
-typedef enum debug_mode
-{
-  debug_options,
-  debug_report,
-  debug_net_data,
-  debug_pty_data,
-  debug_auth,
-  debug_encr,
-  debug_max_mode
-} debug_mode_t;
-
-#define MAX_DEBUG_LEVEL 100
-
-extern int debug_level[];
-
-#define DEBUG(mode,level,c) if (debug_level[mode]>=level) c
-
 struct telnetd_clocks
 {
   int system;			/* what the current time is */
@@ -280,13 +263,6 @@ int pty_buffer_is_full (void);
 void pty_output_byte (int c);
 void pty_output_datalen (const void *data, size_t len);
 int pty_buffer_level (void);
-
-/* Debugging functions */
-extern void printoption (char *, int);
-extern void printdata (char *, char *, int);
-extern void printsub (int, unsigned char *, int);
-extern void debug_output_datalen (const char *data, size_t len);
-extern void debug_output_data (const char *fmt, ...);
 
 /* TTY functions */
 extern void init_termbuf (void);

@@ -2,6 +2,17 @@ GNU inetutils NEWS -- history of user-visible changes.
 
 # Noteworthy changes in release ?.? (????-??-??) [?]
 
+** telnetd no longer supports the --debug (-D) option.  Previously, it
+would open a predictable file name at /tmp/telnet.debug, following it if
+it were a symbolic link.  The data printed to it could also be
+controlled by a client.  These behaviors could be combined to result in
+a local privilege escalation.  Reported by Justin Swartz in
+<https://lists.gnu.org/r/bug-inetutils/2026-03/msg00040.html>.
+Guillem Jover also mentioned that another user can create the file
+before telnetd does, keep the file open, and snoop on sessions which may
+include credentials in
+<https://lists.gnu.org/r/bug-inetutils/2026-03/msg00048.html>.
+
 ** telnet no longer leaks the value of unexported environment variables
 to servers sending the NEW-ENVIRON SEND USERVAR command.
 Reported by Justin Swartz in
