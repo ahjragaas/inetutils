@@ -453,7 +453,7 @@ dooption (int option)
 #endif
 
 	    case TELOPT_XDISPLOC:	/* X Display location */
-	      if (env_getvalue ("DISPLAY"))
+	      if (env_getvalue ("DISPLAY", false))
 		new_state_ok = 1;
 	      break;
 
@@ -750,7 +750,7 @@ gettermname (void)
       resettermname = 0;
       if (tnamep && tnamep != unknown)
 	free (tnamep);
-      if ((tname = (char *) env_getvalue ("TERM")) &&
+      if ((tname = (char *) env_getvalue ("TERM", false)) &&
 	  (init_term (tname, &err) == 0))
 	{
 	  tnamep = mklist (termbuf, tname);
@@ -943,7 +943,7 @@ suboption (void)
 	  unsigned char temp[50], *dp;
 	  int len;
 
-	  if ((dp = env_getvalue ("DISPLAY")) == NULL)
+	  if ((dp = env_getvalue ("DISPLAY", false)) == NULL)
 	    {
 	      /*
 	       * Something happened, we no longer have a DISPLAY
@@ -1678,7 +1678,7 @@ env_opt_add (unsigned char *ep)
 	env_opt_add (ep);
       return;
     }
-  vp = env_getvalue ((char *) ep);
+  vp = env_getvalue ((char *) ep, true);
   if (opt_replyp + (vp ? strlen ((char *) vp) : 0) +
       strlen ((char *) ep) + 6 > opt_replyend)
     {
@@ -2331,7 +2331,7 @@ telnet (char *user)
       send_will (TELOPT_LINEMODE, 1);
       send_will (TELOPT_NEW_ENVIRON, 1);
       send_do (TELOPT_STATUS, 1);
-      if (env_getvalue ("DISPLAY"))
+      if (env_getvalue ("DISPLAY", false))
 	send_will (TELOPT_XDISPLOC, 1);
       if (eight)
 	tel_enter_binary (eight);

@@ -2,6 +2,11 @@ GNU inetutils NEWS -- history of user-visible changes.
 
 # Noteworthy changes in release ?.? (????-??-??) [?]
 
+** telnet no longer leaks the value of unexported environment variables
+to servers sending the NEW-ENVIRON SEND USERVAR command.
+Reported by Justin Swartz in
+<https://www.openwall.com/lists/oss-security/2026/03/13/1>.
+
 ** telnetd no longer allows clients to write past the end of a stack
 allocated buffer, possibly leading to remote code execution, using an
 SLC suboption with many triplets using function octets greater than 18.
