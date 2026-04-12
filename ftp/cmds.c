@@ -309,7 +309,7 @@ setpeer (int argc, char **argv)
       if (autologin)
 	login (host);
 
-#if (defined unix || defined __unix || defined __unix__) && NBBY == 8
+#if (defined unix || defined __unix || defined __unix__)
 /*
  * this ifdef is to keep someone form "porting" this to an incompatible
  * system and not checking this out. This way they have to think about it.
@@ -363,7 +363,7 @@ setpeer (int argc, char **argv)
 	      ("Remember to set tenex mode when transferring binary files from this machine.\n");
 	}
       verbose = overbose;
-#endif /* (unix || __unix || __unix__) && (NBBY == 8) */
+#endif /* (unix || __unix || __unix__) */
     }
 }
 
