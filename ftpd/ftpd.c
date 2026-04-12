@@ -1638,15 +1638,7 @@ statcmd (void)
   if (type == TYPE_A || type == TYPE_E)
     printf (", FORM: %s", formnames[form]);
   if (type == TYPE_L)
-#ifdef CHAR_BIT
     printf (" %d", CHAR_BIT);
-#else
-# if NBBY == 8
-    printf (" %d", NBBY);
-# else
-    printf (" %d", bytesize);	/* need definition! */
-# endif
-#endif
   printf ("; STRUcture: %s; transfer MODE: %s\r\n",
 	  strunames[stru], modenames[stru_mode]);
   if (data != -1)
