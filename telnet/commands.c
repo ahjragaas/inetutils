@@ -2030,7 +2030,7 @@ unsigned char *
 env_getvalue (const char *var, bool exported_only)
 {
   struct env_lst *ep = env_find (var);
-  return ep && (! exported_only || ep->export) ? ep->value : NULL;
+  return ep && (!exported_only || ep->export) ? ep->value : NULL;
 }
 
 #if defined OLD_ENVIRON && defined ENV_HACK
