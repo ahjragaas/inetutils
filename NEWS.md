@@ -1,6 +1,6 @@
 GNU inetutils NEWS -- history of user-visible changes.
 
-# Noteworthy changes in release ?.? (????-??-??) [?]
+# Noteworthy changes in release 2.8 (2026-04-29) [stable]
 
 ** telnetd no longer supports the --debug (-D) option.  Previously, it
 would open a predictable file name at /tmp/telnet.debug, following it if
