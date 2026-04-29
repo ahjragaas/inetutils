@@ -79,9 +79,6 @@ char *dest_realm = NULL;
 
 # define DEBUG(c) if (auth_debug_mode) printf c
 
-/* Callback from consumer.  */
-extern void printsub (char, unsigned char *, int);
-
 static int
 Data (TN_Authenticator *ap, int type, krb5_pointer d, int c)
 {
@@ -111,8 +108,6 @@ Data (TN_Authenticator *ap, int type, krb5_pointer d, int c)
     }
   *p++ = IAC;
   *p++ = SE;
-  if (str_data[3] == TELQUAL_IS)
-    printsub ('>', &str_data[2], p - &str_data[2]);
   return (net_write (str_data, p - str_data));
 }
 

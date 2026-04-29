@@ -94,9 +94,6 @@ char *enctype_names[] =
   "ANY", "DES_CFB64", "DES_OFB64", 0,
 };
 
-/* Callback from consumer.  */
-extern void printsub (char, unsigned char *, int);
-
 /*
  * These functions pointers point to the current routines
  * for encrypting and decrypting data.
@@ -475,7 +472,6 @@ encrypt_send_support (void)
       if (!Server && autodecrypt)
 	encrypt_send_request_start ();
       net_write (str_send, str_suplen);
-      printsub ('>', &str_send[2], str_suplen - 2);
       str_suplen = 0;
     }
 }
@@ -848,7 +844,6 @@ encrypt_send_keyid (int dir, unsigned char *keyid, int keylen, int saveit)
   *strp++ = IAC;
   *strp++ = SE;
   net_write (str_keyid, strp - str_keyid);
-  printsub ('>', &str_keyid[2], strp - str_keyid - 2);
 }
 
 void
@@ -912,7 +907,6 @@ encrypt_start_output (int type)
   *p++ = SE;
   net_write (str_start, p - str_start);
   net_encrypt ();
-  printsub ('>', &str_start[2], p - &str_start[2]);
   /*
    * If we are already encrypting in some mode, then
    * encrypt the ring (which includes our request) in
@@ -938,7 +932,6 @@ encrypt_send_end (void)
   str_end[3] = ENCRYPT_END;
   net_write (str_end, sizeof (str_end));
   net_encrypt ();
-  printsub ('>', &str_end[2], sizeof (str_end) - 2);
   /*
    * Encrypt the output buffer now because it will not be done by
    * netflush...
@@ -966,7 +959,6 @@ encrypt_send_request_start (void)
   *p++ = IAC;
   *p++ = SE;
   net_write (str_start, p - str_start);
-  printsub ('>', &str_start[2], p - &str_start[2]);
   if (encrypt_debug_mode)
     printf (">>>%s: Request input to be encrypted\r\n", Name);
 }
@@ -976,7 +968,6 @@ encrypt_send_request_end (void)
 {
   str_end[3] = ENCRYPT_REQEND;
   net_write (str_end, sizeof (str_end));
-  printsub ('>', &str_end[2], sizeof (str_end) - 2);
 
   if (encrypt_debug_mode)
     printf (">>>%s: Request input to be clear text\r\n", Name);
