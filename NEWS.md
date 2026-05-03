@@ -2,6 +2,9 @@ GNU inetutils NEWS -- history of user-visible changes.
 
 # Noteworthy changes in release ?.? (????-??-??) [?]
 
+** traceroute -g no longer overflows the IP options buffer with many
+gateways.
+Reported privately by Oculytic <oculytic@gmail.com>.
 
 # Noteworthy changes in release 2.8 (2026-04-29) [stable]
 

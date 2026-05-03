@@ -801,8 +801,8 @@ trace_ip_opts (struct sockaddr_in *to)
        * care not to overflow available space.
        */
       while (gateway && *gateway
-	     && optbase[IPOPT_OFFSET]
-	     < (int) (MAX_IPOPTLEN - sizeof (struct in_addr)))
+	     && !(MAX_IPOPTLEN - optbase[IPOPT_OLEN]
+		  < 2 * sizeof (struct in_addr)))
 	{
 	  int rc;
 	  char *p;
