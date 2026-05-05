@@ -6,6 +6,10 @@ GNU inetutils NEWS -- history of user-visible changes.
 gateways.
 Reported privately by Oculytic <oculytic@gmail.com>.
 
+** whois no longer writes past the end of a buffer when a server sends a
+response that does not end in a carriage return and/or newline.
+Reported privately by Oculytic <oculytic@gmail.com>.
+
 # Noteworthy changes in release 2.8 (2026-04-29) [stable]
 
 ** telnetd no longer supports the --debug (-D) option.  Previously, it

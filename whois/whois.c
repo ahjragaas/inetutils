@@ -566,7 +566,8 @@ query_crsnic (const int sock, const char *query)
 	  for (p = buf; *p != ':'; p++);	/* skip until colon */
 	  for (p++; *p == ' '; p++);	/* skip colon and spaces */
 	  ret = xmalloc (strlen (p) + 1);
-	  for (q = ret; *p != '\n' && *p != '\r'; *q++ = *p++);	/*copy data */
+	  for (q = ret; *p != '\0' && *p != '\n' && *p != '\r'; *q++ = *p++)
+	    ;			/*copy data */
 	  *q = '\0';
 	}
       fputs (buf, stdout);
