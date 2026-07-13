@@ -1481,7 +1481,7 @@ slc_start_reply (void)
 void
 slc_add_reply (unsigned int func, unsigned int flags, cc_t value)
 {
-  if ((size_t) (slc_reply + sizeof slc_reply - slc_replyp) < 8)
+  if (slc_reply + sizeof slc_reply - slc_replyp < 8)
     return;
 
   if ((*slc_replyp++ = func) == IAC)
