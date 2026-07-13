@@ -46,7 +46,7 @@ restriction.  This is necessary to avoid vulnerabilities similar to
 CVE-2026-28372, since many different environment variables can be used
 to escalate privileges.
 
-** Fix telnetd remote authentication by-pass vulnerability.  CVE-2026-24061
+** Fix telnetd remote authentication bypass vulnerability.  CVE-2026-24061
 Reported by Kyu Neushwaistein.  Initial patch by Paul Eggert; further
 improvements and security advisory by Simon Josefsson.
 
