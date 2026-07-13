@@ -10,6 +10,10 @@ Reported privately by Oculytic <oculytic@gmail.com>.
 response that does not end in a carriage return and/or newline.
 Reported privately by Oculytic <oculytic@gmail.com>.
 
+** telnet: ignore oversized SLC suboptions
+Fixes ASAN failure with a custom malicious client.  Analysis, writeup
+and patch by Junhyuk IM(S2W) and Seungyun Lee(S2W) <zeroboo@s2w.inc>.
+
 # Noteworthy changes in release 2.8 (2026-04-29) [stable]
 
 ** telnetd no longer supports the --debug (-D) option.  Previously, it
