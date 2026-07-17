@@ -32,6 +32,8 @@
 #include <unistd.h>
 #include <errno.h>
 
+#include "idx.h"
+
 #ifndef INADDR_NONE
 # define INADDR_NONE -1
 #endif
@@ -48,6 +50,7 @@ extern unsigned int timeout;
 extern time_t max_idle_time;
 extern time_t max_request_ttl;
 extern char *hostname;
+extern idx_t hostname_len;
 
 #define os2sin_addr(cp) (((struct sockaddr_in *)&(cp))->sin_addr)
 

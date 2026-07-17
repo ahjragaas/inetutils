@@ -14,6 +14,11 @@ Reported privately by Oculytic <oculytic@gmail.com>.
 Fixes ASAN failure with a custom malicious client.  Analysis, writeup
 and patch by Junhyuk IM(S2W) and Seungyun Lee(S2W) <zeroboo@s2w.inc>.
 
+** talkd no longer overflows a buffer when writing an announcement for a
+client whose IP address has a reverse DNS name longer than around 200
+characters.
+Reported privately by Tristan Madani <tristan@talencesecurity.com>.
+
 # Noteworthy changes in release 2.8 (2026-04-29) [stable]
 
 ** telnetd no longer supports the --debug (-D) option.  Previously, it

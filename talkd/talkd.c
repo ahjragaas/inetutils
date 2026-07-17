@@ -41,6 +41,7 @@ time_t max_request_ttl = MAX_LIFE;
 
 char *acl_file;
 char *hostname;
+idx_t hostname_len;
 
 const char args_doc[] = "";
 const char doc[] = "Talk daemon, using service `ntalk'.";
@@ -131,6 +132,7 @@ talkd_init (void)
       syslog (LOG_ERR, "Cannot determine my hostname: %m");
       exit (EXIT_FAILURE);
     }
+  hostname_len = strlen (hostname);
 }
 
 time_t last_msg_time;
